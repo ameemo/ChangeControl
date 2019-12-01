@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ACER\\source\\SistemaCC\\SistemaCC.csproj": {}
+    "C:\\Users\\ACER\\source\\repos\\AmeDaf\\ControlCambios\\SistemaCC\\SistemaCC.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ACER\\source\\SistemaCC\\SistemaCC.csproj": {
+    "C:\\Users\\ACER\\source\\repos\\AmeDaf\\ControlCambios\\SistemaCC\\SistemaCC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ACER\\source\\SistemaCC\\SistemaCC.csproj",
+        "projectUniqueName": "C:\\Users\\ACER\\source\\repos\\AmeDaf\\ControlCambios\\SistemaCC\\SistemaCC.csproj",
         "projectName": "SistemaCC",
-        "projectPath": "C:\\Users\\ACER\\source\\SistemaCC\\SistemaCC.csproj",
+        "projectPath": "C:\\Users\\ACER\\source\\repos\\AmeDaf\\ControlCambios\\SistemaCC\\SistemaCC.csproj",
         "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ACER\\source\\SistemaCC\\obj\\",
+        "outputPath": "C:\\Users\\ACER\\source\\repos\\AmeDaf\\ControlCambios\\SistemaCC\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
