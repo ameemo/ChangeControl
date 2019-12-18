@@ -8,7 +8,6 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-theme.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/css/footer.css" />
         <link rel="stylesheet" href="~/css/tabla.css" />
     </environment>
@@ -16,58 +15,42 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/footer.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/tabla.css" asp-append-version="true" />
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">SistemaCC</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="col-md-10 nav navbar-nav">
-                    <li class="col-md-3"><a asp-area="" asp-controller="ServApp" asp-action="Index">Servicios y Aplicaciones</a></li>
-                    <li class="col-md-1"><a asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a></li>
-                    <li class="col-md-offset-3 col-md-3"><a asp-area="" asp-controller="Home" asp-action="Privacy">Politica de privacidad</a></li>
-                    <li class="col-md-2"><a class="col-md-12" asp-controller="" asp-action="">Cerrar Sesión</a></li>
-                </ul>
-            </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">SistemaCC</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="ServApp" asp-action="Index">Servicios y aplicaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-md-auto">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="Privacy">Politica de privacidad</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Cerrar sesión</a>
+                </li>
+            </ul>
         </div>
     </nav>
-
     <partial name="_CookieConsentPartial" />
 
-    <div class="container body-content">
+    <div style="padding-left: 5%; padding-right: 5%; padding-top: 3%">
         @RenderBody()
         <hr />
         <footer>
-            <div class="container-h">
-                <div id="pleca">
-                    <div id="logoSEP">
-                        <a href="https://www.gob.mx/sep">
-                            <img src="~/images/pleca-gob.png" alt="Secretaría de Educación Pública">
-                        </a>
-                    </div>
-                    <div id="logoIPN">
-                        <a href="https://www.ipn.mx">
-                            <img src="~/images/logo-ipn.jpg" alt="Instituto Politécnico Nacional">
-                            <p>
-                                Instituto Politécnico Nacional<br>
-                                <span>"La Técnica al Servicio de la Patria"</span>
-                            </p>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <!--Pie de la página-->
         </footer>
     </div>
 
