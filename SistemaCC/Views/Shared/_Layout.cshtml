@@ -8,14 +8,16 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-theme.css" />
-        <link rel="stylesheet" href="~/css/footer.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/icons/style.css" />
         <link rel="stylesheet" href="~/css/tabla.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/footer.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/icons/style.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/tabla.css" asp-append-version="true" />
     </environment>
 </head>
@@ -46,9 +48,8 @@
     </nav>
     <partial name="_CookieConsentPartial" />
 
-    <div style="padding-left: 5%; padding-right: 5%; padding-top: 3%">
+    <div class="body-content">
         @RenderBody()
-        <hr />
         <footer>
             <!--Pie de la página-->
         </footer>

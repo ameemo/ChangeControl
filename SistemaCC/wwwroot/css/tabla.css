@@ -1,4 +1,5 @@
-﻿table tr th {
+﻿/*Estilo para el ordenamiento de las columnas*/
+table tr th {
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -7,7 +8,7 @@
 }
 
 .sorting {
-    background-color: #D4D4D4;
+    background-color: #117a8b !important;
 }
 
 .asc:after {
@@ -16,4 +17,15 @@
 
 .desc:after {
     content: " ↓";
+}
+
+/*Estilo paa el encabezado de la tabla, acorde con Bootstrap*/
+.table .thead-info th {
+    color: white !important;
+    background-color: #17a2b8 !important;
+    border-color: #67b9cc !important;
+}
+td.link > a {
+    color: #3c3c3c !important;
+    font-size: x-large;
 }
