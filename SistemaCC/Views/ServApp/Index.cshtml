@@ -1,13 +1,13 @@
 ﻿
 @{
-    ViewData["Title"] = "ListaServApp";
+    ViewData["Title"] = "ServiciosAplicacioes";
 }
     <div class="row">
         <div class="col-md-10 seccion">
             <h1>Servicios y aplicaciones</h1>
         </div>
         <div class="col-md-2 seccion_boton">
-            <a class="btn btn-success" href="#">Crear</a>
+            <a class="btn btn-success" href="#"><span class="icon-plus-square"></span> Crear</a>
         </div>
 
         <table class="table table-hover">
@@ -15,19 +15,23 @@
                 <tr>
                     <th>Columna 1</th>
                     <th>Columna 2</th>
-                    <th>Columna 3</th>
-                    <th>Columna 4</th>
-                    <th></th>
+                    <th class="link"></th>
+                    <th class="link"></th>
+                    <th class="link"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>Valor 1</td>
                     <td>Valor 2</td>
-                    <td>Valor 3</td>
-                    <td>Valor 4</td>
+                    <td class="link">
+                        <a href="#"><span class="icon-eye"></span></a>
+                    </td>
                     <td class="link">
                         <a href="#"><span class="icon-edit"></span></a>
+                    </td>
+                    <td class="link">
+                        <a href="#"><span class="icon-lock"></span></a>
                     </td>
                 </tr>
                 <tr>

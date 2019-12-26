@@ -6,6 +6,9 @@ table tr th {
     -ms-user-select: none;
     user-select: none;
 }
+th.link{
+    cursor: auto !important;
+}
 
 .sorting {
     background-color: #117a8b !important;
@@ -25,7 +28,15 @@ table tr th {
     background-color: #17a2b8 !important;
     border-color: #67b9cc !important;
 }
+td.link {
+    text-align: center;
+}
 td.link > a {
     color: #3c3c3c !important;
+}
+td.link > a > span {
     font-size: x-large;
+}
+td.link > a:hover > span {
+    text-decoration: none !important
 }

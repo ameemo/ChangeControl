@@ -8,6 +8,7 @@ for details on configuring this project to bundle and minify static web assets. 
     padding-top: 3%
 }
 div.seccion{
+    padding-left: 0px;
     margin-bottom: 20px !important;
     border-bottom: solid 1px #efefef;
 }
@@ -15,4 +16,8 @@ div.seccion_boton{
     padding-left: 0.5% !important;
     padding-right: 0px !important;
     text-align: right;
+}
+div.seccion_boton > a {
+    color: white !important;
+    font-size: larger;
 }
