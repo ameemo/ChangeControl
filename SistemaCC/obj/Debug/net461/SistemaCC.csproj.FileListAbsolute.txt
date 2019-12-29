@@ -363,3 +363,8 @@ C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Sist
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\SistemaCC.csproj.CopyComplete
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\SistemaCC.exe
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\SistemaCC.pdb
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\SistemaCC.csprojAssemblyReference.cache
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\Home\MenuInicio.cshtml.g.cs
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\Home\CambiarContrasena.cshtml.g.cs
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\ServApp\Crear.cshtml.g.cs
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\ServApp\Editar.cshtml.g.cs

@@ -21,16 +21,16 @@ namespace SistemaCC.Controllers
             return View();
         }
 
-        // GET: ServApp/Create
-        public ActionResult Create()
+        // GET: ServApp/Crear
+        public ActionResult Crear()
         {
             return View();
         }
 
-        // POST: ServApp/Create
+        // POST: ServApp/Crear
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Crear(IFormCollection collection)
         {
             try
             {
@@ -44,16 +44,16 @@ namespace SistemaCC.Controllers
             }
         }
 
-        // GET: ServApp/Edit/5
-        public ActionResult Edit(int id)
+        // GET: ServApp/Editar/5
+        public ActionResult Editar(int id)
         {
             return View();
         }
 
-        // POST: ServApp/Edit/5
+        // POST: ServApp/Editar/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Editar(int id, IFormCollection collection)
         {
             try
             {
@@ -67,20 +67,20 @@ namespace SistemaCC.Controllers
             }
         }
 
-        // GET: ServApp/Delete/5
-        public ActionResult Delete(int id)
+        // GET: ServApp/Bloquear/5
+        public ActionResult Bloquear(int id)
         {
             return View();
         }
 
-        // POST: ServApp/Delete/5
+        // POST: ServApp/Bloquear/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Bloquear(int id, IFormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
+                // TODO: Add Bloquear logic here
 
                 return RedirectToAction(nameof(Index));
             }
