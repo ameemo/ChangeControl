@@ -39,5 +39,13 @@ namespace SistemaCC.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        public IActionResult MenuInicio()
+        {
+            return View();
+        }
+        public IActionResult CambiarContrasena()
+        {
+            return View();
+        }
     }
 }
