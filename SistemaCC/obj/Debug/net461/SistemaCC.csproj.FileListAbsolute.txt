@@ -369,3 +369,16 @@ C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razo
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\ServApp\Crear.cshtml.g.cs
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\ServApp\Editar.cshtml.g.cs
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\ServApp\Bloquear.cshtml.g.cs
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\ControlCambio\Cerrar.cshtml.g.cs
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\ControlCambio\Crear.cshtml.g.cs
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\ControlCambio\Editar.cshtml.g.cs
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\ControlCambio\Index.cshtml.g.cs
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\ControlCambio\Ver.cshtml.g.cs
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\ServApp\Ver.cshtml.g.cs
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\Usuarios\Bloquear.cshtml.g.cs
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\Usuarios\Crear.cshtml.g.cs
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\Usuarios\Editar.cshtml.g.cs
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\Usuarios\Ver.cshtml.g.cs
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\ControlCambio\Revisar.cshtml.g.cs
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\ControlCambio\AnadirAdjuntos.cshtml.g.cs
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\ControlCambio\Monitorear.cshtml.g.cs

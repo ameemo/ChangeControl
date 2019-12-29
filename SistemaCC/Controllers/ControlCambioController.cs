@@ -89,5 +89,97 @@ namespace SistemaCC.Controllers
                 return View();
             }
         }
+
+        // GET: ControlCambio/Cerrar/5
+        public ActionResult Revisar(int id)
+        {
+            return View();
+        }
+
+        // POST: ControlCambio/Cerrar/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Revisar(int id, IFormCollection collection)
+        {
+            try
+            {
+                // TODO: Add Cerrar logic here
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: ControlCambio/Cerrar/5
+        public ActionResult AnadirAdjuntos(int id)
+        {
+            return View();
+        }
+
+        // POST: ControlCambio/Cerrar/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AnadirAdjuntos(int id, IFormCollection collection)
+        {
+            try
+            {
+                // TODO: Add Cerrar logic here
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: ControlCambio/Cerrar/5
+        public ActionResult Monitorear(int id)
+        {
+            return View();
+        }
+
+        // POST: ControlCambio/Cerrar/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Monitorear(int id, IFormCollection collection)
+        {
+            try
+            {
+                // TODO: Add Cerrar logic here
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: ControlCambio/Cerrar/5
+        public ActionResult Notificar(int id)
+        {
+            return View();
+        }
+
+        // POST: ControlCambio/Cerrar/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Notificar(int id, IFormCollection collection)
+        {
+            try
+            {
+                // TODO: Add Cerrar logic here
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
     }
 }
