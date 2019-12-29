@@ -368,3 +368,4 @@ C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razo
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\Home\CambiarContrasena.cshtml.g.cs
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\ServApp\Crear.cshtml.g.cs
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\ServApp\Editar.cshtml.g.cs
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\ServApp\Bloquear.cshtml.g.cs

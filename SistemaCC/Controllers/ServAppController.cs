@@ -15,8 +15,8 @@ namespace SistemaCC.Controllers
             return View();
         }
 
-        // GET: ServApp/Details/5
-        public ActionResult Details(int id)
+        // GET: ServApp/Ver/5
+        public ActionResult Ver(int id)
         {
             return View();
         }
