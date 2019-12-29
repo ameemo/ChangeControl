@@ -15,22 +15,22 @@ namespace SistemaCC.Controllers
             return View();
         }
 
-        // GET: ControlCambio/Details/5
-        public ActionResult Details(int id)
+        // GET: ControlCambio/Ver/5
+        public ActionResult Ver(int id)
         {
             return View();
         }
 
-        // GET: ControlCambio/Create
-        public ActionResult Create()
+        // GET: ControlCambio/Crear
+        public ActionResult Crear()
         {
             return View();
         }
 
-        // POST: ControlCambio/Create
+        // POST: ControlCambio/Crear
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Crear(IFormCollection collection)
         {
             try
             {
@@ -44,16 +44,16 @@ namespace SistemaCC.Controllers
             }
         }
 
-        // GET: ControlCambio/Edit/5
-        public ActionResult Edit(int id)
+        // GET: ControlCambio/Editar/5
+        public ActionResult Editar(int id)
         {
             return View();
         }
 
-        // POST: ControlCambio/Edit/5
+        // POST: ControlCambio/Editar/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Editar(int id, IFormCollection collection)
         {
             try
             {
@@ -67,20 +67,20 @@ namespace SistemaCC.Controllers
             }
         }
 
-        // GET: ControlCambio/Delete/5
-        public ActionResult Delete(int id)
+        // GET: ControlCambio/Cerrar/5
+        public ActionResult Cerrar(int id)
         {
             return View();
         }
 
-        // POST: ControlCambio/Delete/5
+        // POST: ControlCambio/Cerrar/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Cerrar(int id, IFormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
+                // TODO: Add Cerrar logic here
 
                 return RedirectToAction(nameof(Index));
             }

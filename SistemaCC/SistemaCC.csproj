@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <Folder Include="js\" />
-    <Folder Include="Views\ControlCambio\" />
   </ItemGroup>
 
 </Project>

@@ -15,22 +15,22 @@ namespace SistemaCC.Controllers
             return View();
         }
 
-        // GET: Usuarios/Details/5
-        public ActionResult Details(int id)
+        // GET: Usuarios/Ver/5
+        public ActionResult Ver(int id)
         {
             return View();
         }
 
-        // GET: Usuarios/Create
-        public ActionResult Create()
+        // GET: Usuarios/Crear
+        public ActionResult Crear()
         {
             return View();
         }
 
-        // POST: Usuarios/Create
+        // POST: Usuarios/Crear
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Crear(IFormCollection collection)
         {
             try
             {
@@ -44,16 +44,16 @@ namespace SistemaCC.Controllers
             }
         }
 
-        // GET: Usuarios/Edit/5
-        public ActionResult Edit(int id)
+        // GET: Usuarios/Editar/5
+        public ActionResult Editar(int id)
         {
             return View();
         }
 
-        // POST: Usuarios/Edit/5
+        // POST: Usuarios/Editar/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Editar(int id, IFormCollection collection)
         {
             try
             {
@@ -67,20 +67,20 @@ namespace SistemaCC.Controllers
             }
         }
 
-        // GET: Usuarios/Delete/5
-        public ActionResult Delete(int id)
+        // GET: Usuarios/Bloquear/5
+        public ActionResult Bloquear(int id)
         {
             return View();
         }
 
-        // POST: Usuarios/Delete/5
+        // POST: Usuarios/Bloquear/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Bloquear(int id, IFormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
+                // TODO: Add Bloquear logic here
 
                 return RedirectToAction(nameof(Index));
             }
