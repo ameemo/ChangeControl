@@ -1,7 +1,48 @@
 ﻿
 @{
     ViewData["Title"] = "Ver";
+    Layout = "./../Shared/_LayoutVacio.cshtml";
 }
 
 <h2>Ver</h2>
+<table class="table table-hover">
+    <thead class="thead-info">
+        <tr>
+            <th>Columna 1</th>
+            <th>Columna 2</th>
+            <th class="link"></th>
+            <th class="link"></th>
+            <th class="link"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Valor 1</td>
+            <td>Valor 2</td>
+            <td class="link">
+                <a class="fancybox fancybox.ajax" asp-controller="ServApp" asp-action="Ver"><span class="icon-eye"></span></a>
+            </td>
+            <td class="link">
+                <a href="#"><span class="icon-edit"></span></a>
+            </td>
+            <td class="link">
+                <a href="#"><span class="icon-lock"></span></a>
+            </td>
+        </tr>
+        <tr>
+            <td>Valor 5</td>
+            <td>Valor 1</td>
+            <td>Valor 8</td>
+            <td>Valor 2</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>Valor 3</td>
+            <td>Valor 4</td>
+            <td>Valor 9</td>
+            <td>Valor 1</td>
+            <td>11</td>
+        </tr>
+    </tbody>
+</table>
 

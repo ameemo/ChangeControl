@@ -383,3 +383,4 @@ C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Sist
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\SistemaCC.csproj.CopyComplete
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\SistemaCC.exe
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\SistemaCC.pdb
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\Shared\_LayoutVacio.cshtml.g.cs

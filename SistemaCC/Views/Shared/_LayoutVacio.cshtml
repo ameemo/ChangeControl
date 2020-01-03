@@ -24,40 +24,6 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" asp-controller="Home" asp-action="Index">SistemaCC</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="ServApp" asp-action="Index">Servicios y aplicaciones</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-md-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="icon-bell"></span>
-                    </a>
-                    <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item link-dark fancybox fancybox.ajax" asp-controller="ControlCambio" asp-action="Notificar">Notificacion</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Home" asp-action="Privacy">Politica de privacidad</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="ServApp" asp-action="Index">Cerrar sesión</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <partial name="_CookieConsentPartial" />
-
     <div class="body-content">
         @RenderBody()
         <footer>
