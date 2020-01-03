@@ -21,3 +21,10 @@ div.seccion_boton > a {
     color: white !important;
     font-size: larger;
 }
+a.link-dark {
+    color: white !important;
+}
+a:hover.link-dark {
+    background: #343a40 !important;
+    text-decoration: underline;
+}

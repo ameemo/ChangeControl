@@ -37,6 +37,6 @@ td.link > a {
 td.link > a > span {
     font-size: x-large;
 }
-td.link > a:hover > span {
-    text-decoration: none !important
+td.link > a:hover {
+    text-decoration: none !important;
 }
