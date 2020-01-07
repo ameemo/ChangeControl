@@ -35,7 +35,10 @@ td.link > a {
     color: #3c3c3c !important;
 }
 td.link > a > span {
-    font-size: x-large;
+    font-size: large;
+}
+td.link.texto > a:hover {
+    text-decoration: underline !important;
 }
 td.link > a:hover {
     text-decoration: none !important;

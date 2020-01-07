@@ -369,6 +369,7 @@ C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razo
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\Shared\_CookieConsentPartial.cshtml.g.cs
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\Shared\_Layout.cshtml.g.cs
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\Shared\_LayoutVacio.cshtml.g.cs
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\Usuarios\Bloquear.cshtml.g.cs
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\Usuarios\Crear.cshtml.g.cs
@@ -383,4 +384,3 @@ C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Sist
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\SistemaCC.csproj.CopyComplete
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\SistemaCC.exe
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\SistemaCC.pdb
-C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Razor\Views\Shared\_LayoutVacio.cshtml.g.cs

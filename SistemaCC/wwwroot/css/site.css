@@ -28,3 +28,9 @@ a:hover.link-dark {
     background: #343a40 !important;
     text-decoration: underline;
 }
+div.pie {
+    text-align: center;
+}
+div.pie > a {
+    color: #afafaf;
+}

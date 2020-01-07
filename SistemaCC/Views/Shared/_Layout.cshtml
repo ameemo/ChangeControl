@@ -48,10 +48,10 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Home" asp-action="Privacy">Politica de privacidad</a>
+                    <a class="nav-link" asp-controller="Home" asp-action="Privacy"><span class="icon-calendar"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="ServApp" asp-action="Index">Cerrar sesión</a>
+                    <a class="nav-link" asp-controller="ServApp" asp-action="Index"><span class="icon-log-out"></span></a>
                 </li>
             </ul>
         </div>
@@ -61,7 +61,10 @@
     <div class="body-content">
         @RenderBody()
         <footer>
-            <!--Pie de la página-->
+            <hr />
+            <div class="pie">
+                <a asp-controller="Home" asp-action="Privacy">Politica de Privacidad</a>
+            </div>
         </footer>
     </div>
 
