@@ -337,7 +337,6 @@ C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\bin\Debug\net461\Syst
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\bin\Debug\net461\System.Xml.XmlSerializer.dll
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\bin\Debug\net461\System.Xml.XPath.dll
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\bin\Debug\net461\System.Xml.XPath.XDocument.dll
-C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\SistemaCC.csprojAssemblyReference.cache
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\SistemaCC.exe.config
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\SistemaCC.RazorAssemblyInfo.cache
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\SistemaCC.RazorAssemblyInfo.cs

@@ -34,3 +34,20 @@ div.pie {
 div.pie > a {
     color: #afafaf;
 }
+.btn-collapse {
+    color: #3c3c3c !important;
+    text-decoration: none;
+    font-size: large;
+}
+.btn-collapse:hover {
+    text-decoration: underline;
+}
+.btn-collapse:focus, .btn-collapse.focus {
+    box-shadow: none;
+}
+div.seccion-active {
+    display: block;
+}
+div.seccion-inactive {
+    display: none;
+}
