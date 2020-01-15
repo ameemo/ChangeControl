@@ -3,13 +3,14 @@
     ViewData["Title"] = "ServiciosAplicacioes";
 }
 <div class="row">
-    <div class="col-md-10 seccion">
-        <h1>Servicios y aplicaciones</h1>
+    <div class="col-md-12 seccion_contenedor">
+        <div class="seccion">
+            <h1>Servicios y aplicaciones</h1>
+        </div>
+        <div class="seccion_boton">
+            <a class="btn btn-success fancybox fancybox.ajax" asp-controller="ServApp" asp-action="Crear"><span class="icon-plus-square"></span> Crear</a>
+        </div>
     </div>
-    <div class="col-md-2 seccion_boton">
-        <a class="btn btn-success fancybox fancybox.ajax" asp-controller="ServApp" asp-action="Crear"><span class="icon-plus-square"></span> Crear</a>
-    </div>
-
     <table class="table table-hover">
         <thead class="thead-info">
             <tr>

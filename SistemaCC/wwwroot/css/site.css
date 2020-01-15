@@ -7,7 +7,8 @@ for details on configuring this project to bundle and minify static web assets. 
     padding-right: 5%;
     padding-top: 3%
 }
-div.seccion{
+/*Seccion es para lo titulos, botones de crear y el div que une a ambos*/
+div.seccion {
     padding-left: 0px;
     margin-bottom: 20px !important;
     border-bottom: solid 1px #efefef;
@@ -21,6 +22,12 @@ div.seccion_boton > a {
     color: white !important;
     font-size: larger;
 }
+div.seccion_contenedor {
+    display: grid;
+    grid-template-columns: 80% 20%;
+    padding: 0px;
+}
+/*Para las notificaciones y la dropdownnlist del sitio*/
 a.link-dark {
     color: white !important;
 }
@@ -28,12 +35,14 @@ a:hover.link-dark {
     background: #343a40 !important;
     text-decoration: underline;
 }
+/*Pie del sitio*/
 div.pie {
     text-align: center;
 }
 div.pie > a {
     color: #afafaf;
 }
+/*Extra estilo para el collapse tenga el color adecuado*/
 .btn-collapse {
     color: #3c3c3c !important;
     text-decoration: none;
@@ -42,12 +51,21 @@ div.pie > a {
 .btn-collapse:hover {
     text-decoration: underline;
 }
+/*Evita que se vea el borde en el btn del collapse*/
 .btn-collapse:focus, .btn-collapse.focus {
     box-shadow: none;
 }
-div.seccion-active {
-    display: block;
+/*Para el uso de las tabs, es necesario ocultar y mostrar los div de agrupamiento*/
+div.seccion-activa {
+    display: block !important;
 }
-div.seccion-inactive {
-    display: none;
+div.seccion-inactiva {
+    display: none !important;
+}
+/*Inactivo es una clase para cambiar el color del link de la lista ul usando como base lo que bootstrap ya tiene*/
+a.inactivo {
+    color: #9972cb !important;
+}
+a:hover.inactivo {
+    text-decoration: underline;
 }

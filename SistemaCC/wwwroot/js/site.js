@@ -4,14 +4,16 @@
 // Write your JavaScript code.
 function tabs(seccion)
 {
-    //div de abajo
+    //Activar o desactivar los div indicados
     var activo = document.getElementsByClassName("seccion-activa")
     $(activo).addClass("seccion-inactiva")
     $(activo).removeClass("seccion-activa")
     $("#Seccion" + seccion).addClass("seccion-activa")
     $("#Seccion" + seccion).removeClass("seccion-inactiva")
-    //tabs
+    //Asignar las clases a los links para dar el efecto y saber en que sección está posicionado
     var link = document.getElementsByClassName("active")
+    $(link).addClass("inactivo")
     $(link).removeClass("active")
     $("#Link" + seccion).addClass("active")
+    $("#Link" + seccion).removeClass("inactivo")
 }

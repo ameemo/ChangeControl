@@ -4,21 +4,23 @@
     <div class="row">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a id="Link1" class="nav-link active" href="" onclick="tabs('1')">Active</a>
+                <a id="Link1" class="nav-link active" href="#" onclick="tabs('1')">Tus CC</a>
             </li>
             <li class="nav-item">
-                <a id="Link2" class="nav-link" href="" onclick="tabs('2')">Link</a>
+                <a id="Link2" class="nav-link inactivo" href="#" onclick="tabs('2')">CC Ejecución</a>
             </li>
             <li class="nav-item">
-                <a id="Link3" class="nav-link" href="" onclick="tabs('3')">Link</a>
+                <a id="Link3" class="nav-link inactivo" href="#" onclick="tabs('3')">CC Revisión</a>
             </li>
         </ul>
-        <div id="Seccion1" class="seccion-activa">
-            <div class="col-md-10 seccion">
-                <h1>Tus controles de cambio</h1>
-            </div>
-            <div class="col-md-2 seccion_boton">
-                <a class="btn btn-success" asp-controller="ControlCambio" asp-action="Crear"><span class="icon-plus-square"></span> Crear</a>
+        <div id="Seccion1" class="col-md-12 seccion-activa">
+            <div class="col-md-12 seccion_contenedor">
+                <div class="seccion">
+                    <h1>Tus controles de cambio</h1>
+                </div>
+                <div class="seccion_boton">
+                    <a class="btn btn-success" asp-controller="ControlCambio" asp-action="Crear"><span class="icon-plus-square"></span> Crear</a>
+                </div>
             </div>
             <table class="table table-hover">
                 <thead class="thead-info">
@@ -49,7 +51,7 @@
                 </tbody>
             </table>
         </div>
-        <div id="Seccion2" class="seccion-inactiva">
+        <div id="Seccion2" class="col-md-12 seccion-inactiva">
             <div class="col-md-12 seccion">
                 <h1>Controles de cambio en ejecución</h1>
             </div>
@@ -82,7 +84,7 @@
                 </tbody>
             </table>
         </div>
-        <div id="Seccion3" class="seccion-inactiva">
+        <div id="Seccion3" class="col-md-12 seccion-inactiva">
             <div class="col-md-12 seccion">
                 <h1>Controles de cambio a revisar</h1>
             </div>
@@ -110,7 +112,7 @@
             </table>
         </div>
     </div>
-        @section Scripts
+@section Scripts
 {
             <script>
                 $(document).ready(function () {
