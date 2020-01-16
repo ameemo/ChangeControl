@@ -69,3 +69,13 @@ a.inactivo {
 a:hover.inactivo {
     text-decoration: underline;
 }
+/*Estilopara crear campos dinamicos*/
+.fila {
+    display: grid;
+    grid-template-columns: 45% 50% 5%;
+}
+.contenedor_agregar {
+    margin-bottom: 1%;
+    padding: 0px;
+    text-align: right;
+}
