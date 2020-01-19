@@ -84,7 +84,7 @@ using SistemaCC.Models;
                     ");
             EndContext();
             BeginContext(877, 125, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0b92e4a3fbf64a0c9bcea5c13faef710", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "38e9869f45964ad79ad88def0596b449", async() => {
                 BeginContext(954, 44, true);
                 WriteLiteral("<span class=\"icon-plus-square\"></span> Crear");
                 EndContext();
@@ -132,7 +132,7 @@ using SistemaCC.Models;
                             ");
             EndContext();
             BeginContext(1874, 85, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b4d3809ec64f43bea8c5f5f3e1cde775", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0b6a4bd184d5400882cc8c8bfd1faffb", async() => {
                 BeginContext(1925, 30, true);
                 WriteLiteral("<span class=\"icon-eye\"></span>");
                 EndContext();
@@ -156,7 +156,7 @@ using SistemaCC.Models;
             WriteLiteral("\r\n                        </td>\r\n                        <td class=\"link\">\r\n                            ");
             EndContext();
             BeginContext(2063, 89, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "fab974bf225c4237a4ec1e85f5d96751", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "bfdcb17efefb4adabdf0d985e8e1af25", async() => {
                 BeginContext(2117, 31, true);
                 WriteLiteral("<span class=\"icon-edit\"></span>");
                 EndContext();
@@ -208,7 +208,7 @@ using SistemaCC.Models;
             WriteLiteral("            ");
             EndContext();
             BeginContext(3188, 95, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d903bfa787b74ee0a37c1356005f5040", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "196d2541fe8f4446907e0f5f5e534126", async() => {
                 BeginContext(3273, 6, true);
                 WriteLiteral("Cerrar");
                 EndContext();
@@ -233,7 +233,7 @@ using SistemaCC.Models;
             WriteLiteral("\r\n                        </td>\r\n                        <td class=\"link\">\r\n                            ");
             EndContext();
             BeginContext(3387, 85, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "47b54fdbdb0c41caa8ad5e87609e7bdc", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "97cf5d9b17804477a8c03bb0d7e81a26", async() => {
                 BeginContext(3438, 30, true);
                 WriteLiteral("<span class=\"icon-eye\"></span>");
                 EndContext();
@@ -257,7 +257,7 @@ using SistemaCC.Models;
             WriteLiteral("\r\n                        </td>\r\n                        <td class=\"link\">\r\n                            ");
             EndContext();
             BeginContext(3576, 89, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3054abca16e14c4eac057620ad4d269b", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4ce19ca2c1c34891af8b0c5ff08c9af1", async() => {
                 BeginContext(3630, 31, true);
                 WriteLiteral("<span class=\"icon-edit\"></span>");
                 EndContext();
@@ -308,7 +308,7 @@ using SistemaCC.Models;
                             ");
             EndContext();
             BeginContext(4683, 85, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b6a76a9d656c4e0b9cd6acb838d8b607", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6c47531fc8884d31be4e076bfd0c208f", async() => {
                 BeginContext(4734, 30, true);
                 WriteLiteral("<span class=\"icon-eye\"></span>");
                 EndContext();

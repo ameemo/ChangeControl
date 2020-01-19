@@ -10,6 +10,7 @@ namespace SistemaCC.Controllers
 {
     public class HomeController : Controller
     {
+        _TT_2019_A071DataSet DB = new _TT_2019_A071DataSet();
         public IActionResult Index()
         {
             return View();
