@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="TT 2019-A071" Class="BDControlCambioDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=tt-a071-controldecambio.database.windows.net;Initial Catalog=&quot;TT 2019-A071&quot;;Persist Security Info=True;User ID=EnriqueHdez" SettingsObjectName="SistemaCC.Properties.Settings" SettingsPropertyName="TT_2019_A071ConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Actividades" Member="Actividades">
+    <Type Name="Actividades">
+      <Column Name="Id_Ac" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Tipo" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="Descripcion" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="FechaRealizacion" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Observaciones" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="Responsable" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

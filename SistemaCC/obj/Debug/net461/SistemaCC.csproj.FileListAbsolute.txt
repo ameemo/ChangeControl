@@ -384,3 +384,5 @@ C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\Sist
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\SistemaCC.csproj.CopyComplete
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\SistemaCC.exe
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\net461\SistemaCC.pdb
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\bin\Debug\net461\EntityFramework.SqlServer.dll
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\bin\Debug\net461\EntityFramework.dll

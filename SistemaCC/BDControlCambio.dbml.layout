@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="BDControlCambio">
+  <DataContextMoniker Name="/BDControlCambioDataContext" />
+  <nestedChildShapes>
+    <classShape Id="8eb65d0b-a406-4444-a95c-b0b7a63dd764" absoluteBounds="0.875, 0.5, 2, 1.9631982421875">
+      <DataClassMoniker Name="/BDControlCambioDataContext/Actividades" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9f7152d5-8fa8-4f7a-9060-67078a9c92ff" absoluteBounds="0.88999999999999968, 0.96, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

@@ -4,11 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlClient;
+using System.Data;
+using System.Linq.Expressions;
 
 namespace SistemaCC.Controllers
 {
     public class ControlCambioController : Controller
     {
+        _TT_2019_A071DataSet DB = new _TT_2019_A071DataSet();
         // GET: ControlCambio
         public ActionResult Index()
         {
@@ -24,19 +28,20 @@ namespace SistemaCC.Controllers
         // GET: ControlCambio/Crear
         public ActionResult Crear()
         {
-            return View();
+            return View(); 
         }
 
         // POST: ControlCambio/Crear
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Crear(IFormCollection collection)
+        public ActionResult Crear(ControlCambio model, IFormCollection collection)
         {
             try
             {
                 // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
+                ControlCambio nuevo = new ControlCambio();
+                nuevo.Titulo = model.Titulo;
+                return View();
             }
             catch
             {

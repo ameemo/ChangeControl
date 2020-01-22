@@ -33,5 +33,16 @@ namespace SistemaCC.Properties {
                 return ((string)(this["TT_2019_A071ConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=tt-a071-controldecambio.database.windows.net;Initial Catalog=\"TT 2019" +
+            "-A071\";Persist Security Info=True;User ID=EnriqueHdez")]
+        public string TT_2019_A071ConnectionString1 {
+            get {
+                return ((string)(this["TT_2019_A071ConnectionString1"]));
+            }
+        }
     }
 }
