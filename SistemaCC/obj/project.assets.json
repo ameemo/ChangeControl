@@ -9836,25 +9836,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\kikis\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
+    "C:\\Users\\ACER\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kikis\\Source\\Repos\\AmeDaf\\ControlCambios\\SistemaCC\\SistemaCC.csproj",
+      "projectUniqueName": "C:\\Users\\ACER\\source\\repos\\AmeDaf\\ControlCambios\\SistemaCC\\SistemaCC.csproj",
       "projectName": "SistemaCC",
-      "projectPath": "C:\\Users\\kikis\\Source\\Repos\\AmeDaf\\ControlCambios\\SistemaCC\\SistemaCC.csproj",
-      "packagesPath": "C:\\Users\\kikis\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kikis\\Source\\Repos\\AmeDaf\\ControlCambios\\SistemaCC\\obj\\",
+      "projectPath": "C:\\Users\\ACER\\source\\repos\\AmeDaf\\ControlCambios\\SistemaCC\\SistemaCC.csproj",
+      "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ACER\\source\\repos\\AmeDaf\\ControlCambios\\SistemaCC\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\"
-      ],
       "configFilePaths": [
-        "C:\\Users\\kikis\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\ACER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net461"

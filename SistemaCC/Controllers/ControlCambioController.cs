@@ -12,7 +12,7 @@ namespace SistemaCC.Controllers
 {
     public class ControlCambioController : Controller
     {
-        _TT_2019_A071DataSet DB = new _TT_2019_A071DataSet();
+        
         // GET: ControlCambio
         public ActionResult Index()
         {
@@ -41,6 +41,7 @@ namespace SistemaCC.Controllers
                 // TODO: Add insert logic here
                 ControlCambio nuevo = new ControlCambio();
                 nuevo.Titulo = model.Titulo;
+                
                 return View();
             }
             catch
