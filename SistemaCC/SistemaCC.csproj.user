@@ -16,9 +16,4 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
-  <ItemGroup>
-    <None Update="_TT_2019_A071DataSet.xsd">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
 </Project>

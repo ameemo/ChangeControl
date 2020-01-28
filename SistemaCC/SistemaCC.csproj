@@ -39,21 +39,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Update="_TT_2019_A071DataSet.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>_TT_2019_A071DataSet.xsd</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <None Update="_TT_2019_A071DataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>_TT_2019_A071DataSet.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
