@@ -3,39 +3,26 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SistemaCC</title>
-
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-theme.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-        <link rel="stylesheet" href="~/css/tabla.css" />
-        <link rel="stylesheet" href="~/css/jquery.fancybox.css" />
-        <link rel="stylesheet" href="~/icons/style.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/tabla.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/jquery.fancybox.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/icons/style.css" asp-append-version="true" />
-    </environment>
+    <link rel="stylesheet" href="~/wwwroot/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/wwwroot/lib/bootstrap/dist/css/bootstrap-theme.css" />
+    <link rel="stylesheet" href="~/wwwroot/css/site.css" />
+    <link rel="stylesheet" href="~/wwwroot/css/tabla.css" />
+    <link rel="stylesheet" href="~/wwwroot/css/jquery.fancybox.css" />
+    <link rel="stylesheet" href="~/wwwroot/icons/style.css" />
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" asp-controller="Home" asp-action="Index">SistemaCC</a>
+        <a class="navbar-brand" href="~/Home/Index">SistemaCC</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
+                    <a class="nav-link" href="~/Usuarios/Index">Usuarios</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="ServApp" asp-action="Index">Servicios y aplicaciones</a>
+                    <a class="nav-link" href="~/ServApp/Index">Servicios y aplicaciones</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-md-auto">
@@ -44,14 +31,14 @@
                         <span class="icon-bell"></span>
                     </a>
                     <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item link-dark fancybox fancybox.ajax" asp-controller="ControlCambio" asp-action="Notificar">Notificacion</a>
+                        <a class="dropdown-item link-dark fancybox fancybox.ajax" href="~/ControlCambio/Notificar?id=0">Notificacion</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Home" asp-action="Privacy"><span class="icon-calendar"></span></a>
+                    <a class="nav-link" href="~/Home/Privacy"><span class="icon-calendar"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="ServApp" asp-action="Index"><span class="icon-log-out"></span></a>
+                    <a class="nav-link" href="~/ControlCambio/Notificar?id=0"><span class="icon-log-out"></span></a>
                 </li>
             </ul>
         </div>
@@ -63,36 +50,15 @@
         <footer>
             <hr />
             <div class="pie">
-                <a asp-controller="Home" asp-action="Privacy">Politica de Privacidad</a>
+                <a href="~/Home/Privacy">Politica de Privacidad</a>
             </div>
         </footer>
     </div>
-
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        <script src="~/js/jquery.fancybox.js" asp-append-version="true"></script>
-        <script src="~/js/tabla.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-        <script src="~/js/jquery.fancybox.js" asp-append-version="true"></script>
-        <script src="~/js/tabla.js" asp-append-version="true"></script>
-    </environment>
-
+    <script src="~/wwwroot/lib/jquery/dist/jquery.js"></script>
+    <script src="~/wwwroot/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/wwwroot/js/site.js"></script>
+    <script src="~/wwwroot/js/jquery.fancybox.js"></script>
+    <script src="~/wwwroot/js/tabla.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

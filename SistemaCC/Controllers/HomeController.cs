@@ -3,48 +3,42 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using System.Web.Mvc;
 using SistemaCC.Models;
 
 namespace SistemaCC.Controllers
 {
     public class HomeController : Controller
     {
-        _TT_2019_A071DataSet DB = new _TT_2019_A071DataSet();
-        public IActionResult Index()
+        public ActionResult Index()
         {
             return View();
         }
 
-        public IActionResult About()
+        public ActionResult About()
         {
             ViewData["Message"] = "Your application description page 90.";
 
             return View();
         }
 
-        public IActionResult Contact()
+        public ActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
 
             return View();
         }
 
-        public IActionResult Privacy()
+        public ActionResult Privacy()
         {
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-        public IActionResult MenuInicio()
+        public ActionResult MenuInicio()
         {
             return View();
         }
-        public IActionResult CambiarContrasena()
+        public ActionResult CambiarContrasena()
         {
             return View();
         }

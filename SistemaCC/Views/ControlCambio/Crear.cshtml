@@ -1,4 +1,4 @@
-﻿@model SistemaCC.ControlCambio
+﻿@model SistemaCC.Models.Roles
 @{
     ViewData["Title"] = "Crear";
 }
@@ -19,8 +19,12 @@
                 <div class="col-md-12 contenedor_agregar">
                     <a id="boton_agregar" class="btn btn-success" href="#" onclick="agregar('0')">Agregar</a>
                 </div>
-                @Html.EditorFor(Model => Model.Titulo)
-                <input type="submit" value="Res" />
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.EditorFor(model => model.Rol)
+                    <input class="btn btn-default" type="submit" value="Respuesta" />
+                }
             </div>
         </div>
     </div>

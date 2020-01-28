@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using System.Web.Mvc;
 
 namespace SistemaCC.Controllers
 {
@@ -30,7 +29,7 @@ namespace SistemaCC.Controllers
         // POST: ServApp/Crear
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Crear(IFormCollection collection)
+        public ActionResult Crear(FormCollection collection)
         {
             try
             {
@@ -53,7 +52,7 @@ namespace SistemaCC.Controllers
         // POST: ServApp/Editar/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar(int id, IFormCollection collection)
+        public ActionResult Editar(int id, FormCollection collection)
         {
             try
             {
@@ -76,7 +75,7 @@ namespace SistemaCC.Controllers
         // POST: ServApp/Bloquear/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Bloquear(int id, IFormCollection collection)
+        public ActionResult Bloquear(int id, FormCollection collection)
         {
             try
             {
