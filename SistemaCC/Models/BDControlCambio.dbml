@@ -2,7 +2,7 @@
   <Connection Mode="WebSettings" ConnectionString="Data Source=tt-a071-controldecambio.database.windows.net;Initial Catalog=&quot;TT 2019-A071&quot;;Persist Security Info=True;User ID=EnriqueHdez" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="TT_2019_A071ConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Actividades" Member="Actividades">
     <Type Name="Actividades">
-      <Column Name="Id_Ac" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id_Ac" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Tipo" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
       <Column Name="Descripcion" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
       <Column Name="FechaRealizacion" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
@@ -14,16 +14,16 @@
   </Table>
   <Table Name="dbo.ActividadesControl" Member="ActividadesControl">
     <Type Name="ActividadesControl">
-      <Column Name="Id_CA" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="fk_Ac" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="fk_CC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Id_CA" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="fk_Ac" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fk_CC" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Actividades_ActividadesControl" Member="Actividades" ThisKey="fk_Ac" OtherKey="Id_Ac" Type="Actividades" IsForeignKey="true" />
       <Association Name="ControlCambio_ActividadesControl" Member="ControlCambio" ThisKey="fk_CC" OtherKey="Id_CC" Type="ControlCambio" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Autorizaciones" Member="Autorizaciones">
     <Type Name="Autorizaciones">
-      <Column Name="Id_Au" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id_Au" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="fk_U" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="fk_CC" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Tipo" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
@@ -35,7 +35,7 @@
   </Table>
   <Table Name="dbo.ControlCambio" Member="ControlCambio">
     <Type Name="ControlCambio">
-      <Column Name="Id_CC" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id_CC" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Titulo" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="FechaEjecucion" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="Introduccion" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
@@ -55,7 +55,7 @@
   </Table>
   <Table Name="dbo.ControlServicio" Member="ControlServicio">
     <Type Name="ControlServicio">
-      <Column Name="Id_CS" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id_CS" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="fk_CC" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="fk_SA" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="FechaInicio" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
@@ -66,7 +66,7 @@
   </Table>
   <Table Name="dbo.Documentos" Member="Documentos">
     <Type Name="Documentos">
-      <Column Name="Id_Do" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id_Do" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="DocPath" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
       <Column Name="fk_CC" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="ControlCambio_Documentos" Member="ControlCambio" ThisKey="fk_CC" OtherKey="Id_CC" Type="ControlCambio" IsForeignKey="true" />
@@ -74,7 +74,7 @@
   </Table>
   <Table Name="dbo.Monitoreo" Member="Monitoreo">
     <Type Name="Monitoreo">
-      <Column Name="Id_At" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id_At" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Cantidad" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Fecha" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="Tipo" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
@@ -84,7 +84,7 @@
   </Table>
   <Table Name="dbo.Notificaciones" Member="Notificaciones">
     <Type Name="Notificaciones">
-      <Column Name="Id_No" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id_No" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Contenido" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
       <Column Name="FechaEnvio" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="fk_U" Type="System.Int32" DbType="Int" CanBeNull="true" />
@@ -95,7 +95,7 @@
   </Table>
   <Table Name="dbo.Revisiones" Member="Revisiones">
     <Type Name="Revisiones">
-      <Column Name="Id_Re" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id_Re" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="InfGeneral" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
       <Column Name="Actividades" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
       <Column Name="Riesgos" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
@@ -106,7 +106,7 @@
   </Table>
   <Table Name="dbo.Riesgos" Member="Riesgos">
     <Type Name="Riesgos">
-      <Column Name="Id_Ri" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id_Ri" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Descripcion" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
       <Column Name="Tipo" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
       <Column Name="fk_CC" Type="System.Int32" DbType="Int" CanBeNull="true" />
@@ -115,14 +115,14 @@
   </Table>
   <Table Name="dbo.Roles" Member="Roles">
     <Type Name="Roles">
-      <Column Name="Id_Rol" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id_Rol" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Rol" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
       <Association Name="Roles_UsuarioRol" Member="UsuarioRol" ThisKey="Id_Rol" OtherKey="fk_Rol" Type="UsuarioRol" />
     </Type>
   </Table>
   <Table Name="dbo.ServiciosAplicaciones" Member="ServiciosAplicaciones">
     <Type Name="ServiciosAplicaciones">
-      <Column Name="Id_SA" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id_SA" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Nombre" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Descripcion" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
       <Column Name="Acronimo" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
@@ -134,7 +134,7 @@
   </Table>
   <Table Name="dbo.Usuario" Member="Usuario">
     <Type Name="Usuario">
-      <Column Name="Id_U" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id_U" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Nombre" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
       <Column Name="ApePaterno" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
       <Column Name="ApeMaterno" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
@@ -153,7 +153,7 @@
   </Table>
   <Table Name="dbo.UsuarioRol" Member="UsuarioRol">
     <Type Name="UsuarioRol">
-      <Column Name="Id_UR" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id_UR" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="fk_Us" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="fk_Rol" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Roles_UsuarioRol" Member="Roles" ThisKey="fk_Rol" OtherKey="Id_Rol" Type="Roles" IsForeignKey="true" />
