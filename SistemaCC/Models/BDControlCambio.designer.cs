@@ -264,7 +264,7 @@ namespace SistemaCC.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Ac", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Ac", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int Id_Ac
 		{
 			get
@@ -476,9 +476,9 @@ namespace SistemaCC.Models
 		
 		private int _Id_CA;
 		
-		private System.Nullable<int> _fk_Ac;
+		private int _fk_Ac;
 		
-		private System.Nullable<int> _fk_CC;
+		private int _fk_CC;
 		
 		private EntityRef<Actividades> _Actividades;
 		
@@ -490,9 +490,9 @@ namespace SistemaCC.Models
     partial void OnCreated();
     partial void OnId_CAChanging(int value);
     partial void OnId_CAChanged();
-    partial void Onfk_AcChanging(System.Nullable<int> value);
+    partial void Onfk_AcChanging(int value);
     partial void Onfk_AcChanged();
-    partial void Onfk_CCChanging(System.Nullable<int> value);
+    partial void Onfk_CCChanging(int value);
     partial void Onfk_CCChanged();
     #endregion
 		
@@ -503,7 +503,7 @@ namespace SistemaCC.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_CA", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_CA", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int Id_CA
 		{
 			get
@@ -523,8 +523,8 @@ namespace SistemaCC.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fk_Ac", DbType="Int")]
-		public System.Nullable<int> fk_Ac
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fk_Ac", DbType="Int NOT NULL")]
+		public int fk_Ac
 		{
 			get
 			{
@@ -547,8 +547,8 @@ namespace SistemaCC.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fk_CC", DbType="Int")]
-		public System.Nullable<int> fk_CC
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fk_CC", DbType="Int NOT NULL")]
+		public int fk_CC
 		{
 			get
 			{
@@ -598,7 +598,7 @@ namespace SistemaCC.Models
 					}
 					else
 					{
-						this._fk_Ac = default(Nullable<int>);
+						this._fk_Ac = default(int);
 					}
 					this.SendPropertyChanged("Actividades");
 				}
@@ -632,7 +632,7 @@ namespace SistemaCC.Models
 					}
 					else
 					{
-						this._fk_CC = default(Nullable<int>);
+						this._fk_CC = default(int);
 					}
 					this.SendPropertyChanged("ControlCambio");
 				}
@@ -707,7 +707,7 @@ namespace SistemaCC.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Au", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Au", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int Id_Au
 		{
 			get
@@ -997,7 +997,7 @@ namespace SistemaCC.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_CC", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_CC", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int Id_CC
 		{
 			get
@@ -1434,7 +1434,7 @@ namespace SistemaCC.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_CS", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_CS", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int Id_CS
 		{
 			get
@@ -1663,7 +1663,7 @@ namespace SistemaCC.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Do", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Do", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int Id_Do
 		{
 			get
@@ -1822,7 +1822,7 @@ namespace SistemaCC.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_At", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_At", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int Id_At
 		{
 			get
@@ -2024,7 +2024,7 @@ namespace SistemaCC.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_No", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_No", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int Id_No
 		{
 			get
@@ -2265,7 +2265,7 @@ namespace SistemaCC.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Re", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Re", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int Id_Re
 		{
 			get
@@ -2480,7 +2480,7 @@ namespace SistemaCC.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Ri", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Ri", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int Id_Ri
 		{
 			get
@@ -2647,7 +2647,7 @@ namespace SistemaCC.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Rol", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_Rol", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int Id_Rol
 		{
 			get
@@ -2780,7 +2780,7 @@ namespace SistemaCC.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_SA", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_SA", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int Id_SA
 		{
 			get
@@ -3054,7 +3054,7 @@ namespace SistemaCC.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_U", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_U", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int Id_U
 		{
 			get
@@ -3445,7 +3445,7 @@ namespace SistemaCC.Models
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_UR", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id_UR", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int Id_UR
 		{
 			get
