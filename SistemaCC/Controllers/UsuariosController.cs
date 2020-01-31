@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using SistemaCC.Models;
 
 namespace SistemaCC.Controllers
 {
     public class UsuariosController : Controller
     {
+        BDControlCambioDataContext BD = new BDControlCambioDataContext();
         // GET: Usuarios
         public ActionResult Index()
         {
@@ -29,11 +31,17 @@ namespace SistemaCC.Controllers
         // POST: Usuarios/Crear
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Crear(FormCollection collection)
+        public ActionResult Crear(Usuario model, FormCollection collection)
         {
             try
             {
                 // TODO: Add insert logic here
+                Usuario row = new Usuario();
+                row.Nombre = model.Nombre;
+                BD.Usuario.InsertOnSubmit(row);
+                BD.SubmitChanges();
+                var rol = collection.Get("rol");
+                UsuarioRol row2 = new UsuarioRol();
 
                 return RedirectToAction(nameof(Index));
             }
