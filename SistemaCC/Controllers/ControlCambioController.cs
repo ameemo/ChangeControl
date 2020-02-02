@@ -16,6 +16,7 @@ namespace SistemaCC.Controllers
         // GET: ControlCambio
         public ActionResult Index()
         {
+
             return View();
         }
 
