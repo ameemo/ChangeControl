@@ -1,60 +1,124 @@
-﻿@model SistemaCC.Models.Roles
+﻿@model SistemaCC.Models.ControlCambio
 @{
     ViewData["Title"] = "Crear";
 }
 <div class="col-md-12 seccion">
     <h1>Nuevo control del cambio</h1>
 </div>
-<div class="accordion" id="accordionFormulario">
-    <div class="card">
-        <div class="card-header" id="Titulo1">
-            <h2 class="mb-0">
-                <button class="btn btn-collapse" type="button" data-toggle="collapse" data-target="#Section1" aria-expanded="true" aria-controls="Section1">
-                    Collapsible Group Item #1
-                </button>
-            </h2>
-        </div>
-        <div id="Section1" class="collapse show" aria-labelledby="Titulo1" data-parent="#accordionFormulario">
-            <div id="max_fila" class="card-body">
-                <div class="col-md-12 contenedor_agregar">
-                    <a id="boton_agregar" class="btn btn-success" href="#" onclick="agregar('0')">Agregar</a>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="accordion" id="accordionFormulario">
+        <div class="card">
+            <div class="card-header" id="Titulo1">
+                <h2 class="mb-0">
+                    <button class="btn btn-collapse" type="button" data-toggle="collapse" data-target="#Section1" aria-expanded="true" aria-controls="Section1">
+                        Información General
+                    </button>
+                </h2>
+            </div>
+            <div id="Section1" class="collapse show" aria-labelledby="Titulo1" data-parent="#accordionFormulario">
+                <div id="max_fila" class="card-body">
+                    <div class="campos campos_dos_kai">
+                        <div class="campos_ultimos">
+                            <label>Titulo:</label>
+                        </div>
+                    </div>
+                    <div class="campos">
+                        <div class="campos_ultimos">
+                            @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control contador", type = "text", placeholder = "Titulo", maxLength = "150", title = "Sólo se admiten 150 caracteres como máximo, de ingresar más, se capturarán los primeros 150", onkeyup = "contar('0')", required = "required" } })
+                        </div>
+                        <div id="conteo-0" class="campos_ultimos conteo">
+                            <div>Caracteres: 0/150</div>
+                        </div>
+                    </div>
+                    <div class="campos campos_dos">
+                        <div class="campos campos_dos_kai">
+                            <div class="campos_ultimos">
+                                <label>Fecha de ejecuión:</label>
+                            </div>
+                            <div class="campos_ultimos">
+                                <input name="fechaEjecucion" class="form-control" type="date" required="required" />
+                            </div>
+                        </div>
+                        <div class="campos campos_dos_kai">
+                            <div class="campos_ultimos">
+                                <label>Tipo:</label>
+                            </div>
+                            <div class="campos_ultimos">
+                                <select name="tipo" class="form-control" required="required">
+                                    <option value="">Seleccione...</option>
+                                    <option value="Programado">Programado</option>
+                                    <option value="Emergente">Emergente</option>
+                                    <option value="Estandar">Estandar</option>
+                                </select>
+                            </div>
+                        </div>
+                     </div>
+                    <div class="campos campos_dos_kai">
+                        <div class="campos_ultimos">
+                            <label>Objetivo(s):</label>
+                        </div>
+                    </div>
+                    <div class="campos">
+                        <div class="campos_ultimos">
+                            @Html.TextAreaFor(model => model.Objetivos, new { @class = "form-control contador", placeholder = "Ejem. 1.- Verbo (ar, er, ir) [complemento]", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500", onkeyup = "contar('1')", required = "required" })
+                        </div>
+                        <div id="conteo-1" class="campos_ultimos conteo">
+                            <div>Caracteres: 0/500</div>
+                        </div>
+                    </div>
+                    <div class="campos campos_dos_kai">
+                        <div class="campos_ultimos">
+                            <label>Introducción:</label>
+                        </div>
+                    </div>
+                    <div class="campos">
+                        <div class="campos_ultimos">
+                            @Html.TextAreaFor(model => model.Introduccion, new { @class = "form-control contador", placeholder = "Redacta aquí...", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturaraán los primeros 500", onkeyup = "contar('2')", required = "required" })
+                        </div>
+                        <div id="conteo-2" class="campos_ultimos conteo">
+                            <div>Caracteres: 0/500</div>
+                        </div>
+                    </div>
                 </div>
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.EditorFor(model => model.Rol)
-                    <input class="btn btn-default" type="submit" value="Respuesta" />
-                }
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="Titulo2">
+                <h2 class="mb-0">
+                    <button class="btn btn-collapse collapsed" type="button" data-toggle="collapse" data-target="#Seccion2" aria-expanded="false" aria-controls="Seccion2">
+                        Actividades y limitantes
+                    </button>
+                </h2>
+            </div>
+            <div id="Seccion2" class="collapse" aria-labelledby="Titulo2" data-parent="#accordionFormulario">
+                <div class="card-body">
+                    <div class="campos campos_dos">
+                        <div class="campos_ultimos">
+                            <label>Actividades del control de cambio</label>
+                        </div>
+                        <div class="campos_ultimos seccion_boton">
+                            <a class="btn btn-success" href="#" onclick="actividades('0')"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="Titulo3">
+                <h2 class="mb-0">
+                    <button class="btn btn-collapse collapsed" type="button" data-toggle="collapse" data-target="#Seccion3" aria-expanded="false" aria-controls="Seccion3">
+                        Collapsible Group Item #3
+                    </button>
+                </h2>
+            </div>
+            <div id="Seccion3" class="collapse" aria-labelledby="Titulo3" data-parent="#accordionFormulario">
+                <div class="card-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </div>
             </div>
         </div>
     </div>
-    <div class="card">
-        <div class="card-header" id="Titulo2">
-            <h2 class="mb-0">
-                <button class="btn btn-collapse collapsed" type="button" data-toggle="collapse" data-target="#Seccion2" aria-expanded="false" aria-controls="Seccion2">
-                    Collapsible Group Item #2
-                </button>
-            </h2>
-        </div>
-        <div id="Seccion2" class="collapse" aria-labelledby="Titulo2" data-parent="#accordionFormulario">
-            <div class="card-body">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="Titulo3">
-            <h2 class="mb-0">
-                <button class="btn btn-collapse collapsed" type="button" data-toggle="collapse" data-target="#Seccion3" aria-expanded="false" aria-controls="Seccion3">
-                    Collapsible Group Item #3
-                </button>
-            </h2>
-        </div>
-        <div id="Seccion3" class="collapse" aria-labelledby="Titulo3" data-parent="#accordionFormulario">
-            <div class="card-body">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-            </div>
-        </div>
-    </div>
-</div>
+}
 

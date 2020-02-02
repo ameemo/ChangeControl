@@ -99,6 +99,9 @@ a:hover.inactivo {
 .campos_dos {
     grid-template-columns: 50% 50%;
 }
+.campos_dos_kai {
+    grid-template-columns: 30% 70%;
+}
 .campos_tres {
     grid-template-columns: 33% 34% 33%;
 }
@@ -166,4 +169,10 @@ a:hover.inactivo {
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+/*Estilo para los conteos*/
+.conteo > div{
+    font-size: small;
+    color: #cbcbcb;
+    text-align: right;
 }

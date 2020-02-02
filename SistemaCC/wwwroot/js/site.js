@@ -17,8 +17,22 @@ function tabs(seccion)
     $("#Link" + seccion).addClass("active")
     $("#Link" + seccion).removeClass("inactivo")
 }
+//Funcion para contador de caracteres
+function contar(posicion)
+{
+    var contadores = document.getElementsByClassName("contador")
+    var conteo = $(contadores[posicion]).val()
+    var div_conteo = document.getElementById("conteo-" + posicion)
+    var texto_viejo = div_conteo.children[0]
+    div_conteo.removeChild(texto_viejo)
+    var algo = contadores[posicion].getAttribute("maxlength")
+    var div = document.createElement("div")
+    var texto_nuevo = document.createTextNode("Caracteres: " + conteo.length + "/" + algo)
+    div.appendChild(texto_nuevo)
+    div_conteo.appendChild(div)
+}
 //Funciones para agregar y quitar campos dinamicos
-function agregar(id)
+function actividades(id)
 {
     //Asigar id a la nueva fila
     var id_ = parseInt(id) + 1
