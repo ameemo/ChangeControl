@@ -23,10 +23,10 @@ namespace SistemaCC.Controllers
         // GET: ControlCambio/Crear
         public ActionResult Crear()
         {
-            //var servapp = (from a in BD.ServiciosAplicaciones select new { a.Id_SA, a.Nombre }).ToList();
-            //ViewBag.servapp = servapp;
-            //var usuarios = (from a in BD.Usuario select new { a.Id_U, a.Nombre }).ToList();
-            //ViewBag.usuarios = usuarios;
+            var servapp = (from a in BD.ServiciosAplicaciones select new { a.Id_SA, a.Nombre }).ToList();
+            ViewBag.servapp = servapp;
+            var usuarios = (from a in BD.Usuario select new { a.Id_U, a.Nombre }).ToList();
+            ViewBag.usuarios = usuarios;
             return View(); 
         }
 
