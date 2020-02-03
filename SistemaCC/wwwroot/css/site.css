@@ -19,8 +19,6 @@ div.seccion-dark {
     border-bottom: solid 1px #cfcfcf;
 }
 div.seccion_boton{
-    padding-left: 0.5% !important;
-    padding-right: 0px !important;
     text-align: right;
 }
 div.seccion_boton > a {
@@ -74,16 +72,8 @@ a.inactivo {
 a:hover.inactivo {
     text-decoration: underline;
 }
-/*Estilopara crear campos dinamicos*/
-.fila {
-    display: grid;
-    grid-template-columns: 45% 50% 5%;
-}
-.contenedor_agregar {
-    margin-bottom: 1%;
-    padding: 0px;
-    text-align: right;
-}
+/*Estilo para crear campos dinamicos*/
+
 /*Clases para formularios y para que la información esté en mayusculas*/
 .mayusculas {
     text-transform:uppercase !important;
@@ -111,6 +101,10 @@ a:hover.inactivo {
 }
 .campos > div.campos_submit {
    text-align: center;
+}
+.campos_ultimos > div.quitar {
+    text-align: right;
+}
 }
 .campos > .campos {
     margin-bottom: 0px !important;
@@ -175,4 +169,9 @@ a:hover.inactivo {
     font-size: small;
     color: #cbcbcb;
     text-align: right;
+}
+.numeracion{
+    font-size: x-large;
+    color: #cbcbcb;
+    text-align: center;
 }
