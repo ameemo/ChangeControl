@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using SistemaCC.Models;
 
 namespace SistemaCC.Controllers
 {
     public class ServAppController : Controller
     {
+        BDControlCambioDataContext BD = new BDControlCambioDataContext();
         // GET: ServApp
         public ActionResult Index()
         {
+            var datos = (from a in BD.ServiciosAplicaciones select a);
+            ViewBag.datos = datos;
             return View();
         }
 
