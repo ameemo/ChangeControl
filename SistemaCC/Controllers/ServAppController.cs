@@ -28,7 +28,7 @@ namespace SistemaCC.Controllers
         public ActionResult Crear()
         {
             var usuarios = (from a in BD.Usuario select a);
-            ViewBag.usuarios = usuarios;
+            ViewData["usuarios"] = new SelectList(usuarios, "Id_U", "Nombre");
             return View();
         }
 
