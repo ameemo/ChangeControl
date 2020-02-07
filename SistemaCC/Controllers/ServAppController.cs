@@ -27,6 +27,8 @@ namespace SistemaCC.Controllers
         // GET: ServApp/Crear
         public ActionResult Crear()
         {
+            var usuarios = (from a in BD.Usuario select a);
+            ViewBag.usuarios = usuarios;
             return View();
         }
 
