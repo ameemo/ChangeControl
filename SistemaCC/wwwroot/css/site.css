@@ -78,13 +78,19 @@ a:hover.inactivo {
 .mayusculas {
     text-transform:uppercase !important;
 }
-.campos_ultimos > label{
-    font-weight: bold;
-    padding-top: 7px;
-}
 .campos {
     display: grid;
     margin-bottom: 15px;
+}
+.campos > div.campos_ultimos {
+    padding-left: 7px;
+    padding-right: 7px;
+}
+.campos > div.campos_submit {
+   text-align: center;
+}
+.campos > .campos {
+    margin-bottom: 0px !important;
 }
 .campos_dos {
     grid-template-columns: 50% 50%;
@@ -95,19 +101,15 @@ a:hover.inactivo {
 .campos_tres {
     grid-template-columns: 33% 34% 33%;
 }
-.campos > div.campos_ultimos {
-    padding-left: 7px;
-    padding-right: 7px;
-}
-.campos > div.campos_submit {
-   text-align: center;
-}
 .campos_ultimos > div.quitar {
     text-align: right;
 }
+.campos_ultimos > label {
+    font-weight: bold;
+    padding-top: 7px;
 }
-.campos > .campos {
-    margin-bottom: 0px !important;
+.campos_ultimos > input{
+    margin-bottom: 1% !important;
 }
 /* clases para los check personalizados*/
 .container {
