@@ -27,9 +27,11 @@ namespace SistemaCC.Controllers
             List<Usuario> usuarios2 = new List<Usuario>();
             foreach (var usuario in usuarios)
             {
-                usuarios2.Add(new Usuario { Id_U = usuario.Id_U, Nombre = usuario.Nombre + usuario.ApePaterno + usuario.ApeMaterno });
+                usuarios2.Add(new Usuario { Id_U = usuario.Id_U, Nombre = usuario.Nombre + " " + usuario.ApePaterno + " " + usuario.ApeMaterno });
             }
-            ViewData["usuarios"] = new SelectList(usuarios2, "Id_U", "Nombre");
+            var servicios = (from a in BD.ServiciosAplicaciones select a).ToList();
+            ViewBag.servicios = servicios;
+            ViewBag.usuarios = usuarios2;
             return View(); 
         }
 

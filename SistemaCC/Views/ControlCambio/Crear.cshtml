@@ -96,16 +96,20 @@
                 <div class="card-body">
                     <div style="display: none">
                         <select id="usuarios2">
-                            <option value="">select...</option>
-                            <option value="0">uno</option>
+                            <option value="">Select...</option>
+                            @foreach (var usuario in ViewBag.usuarios)
+                            {
+                                <option value="@usuario.Id_U">@usuario.Nombre</option>
+                            }
                         </select>
                     </div>
                     <div style="display: none">
                         <select id="servicios">
-                            <option value="">select...</option>
-                            <option value="0">servicio 1</option>
-                            <option value="1">servicio 2</option>
-                            <option value="2">servicio 3</option>
+                            <option value="">Select...</option>
+                            @foreach (var servapp in ViewBag.sevicios)
+                            {
+                                <option value="@servapp.Id_SA">@servapp.Nombre</option>
+                            }
                         </select>
                     </div>
                     <div class="campos campos_dos">
