@@ -26,7 +26,7 @@
                     </div>
                     <div class="campos">
                         <div class="campos_ultimos">
-                            @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control contador", type = "text", placeholder = "Titulo", maxLength = "150", title = "Sólo se admiten 150 caracteres como máximo, de ingresar más, se capturarán los primeros 150", onkeyup = "contar('0')", required = "required" } })
+                            @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control contador", type = "text", placeholder = "Titulo", maxLength = "150", title = "Sólo se admiten 150 caracteres como máximo, de ingresar más, se capturarán los primeros 150", onkeyup = "contar('0','contador', 'conteo-')", required = "required" } })
                         </div>
                         <div id="conteo-0" class="campos_ultimos conteo">
                             <div>Caracteres: 0/150</div>
@@ -54,7 +54,7 @@
                                 </select>
                             </div>
                         </div>
-                     </div>
+                    </div>
                     <div class="campos campos_dos_kai">
                         <div class="campos_ultimos">
                             <label>Objetivo(s):</label>
@@ -100,6 +100,14 @@
                             <option value="0">uno</option>
                         </select>
                     </div>
+                    <div style="display: none">
+                        <select id="servicios">
+                            <option value="">select...</option>
+                            <option value="0">servicio 1</option>
+                            <option value="1">servicio 2</option>
+                            <option value="2">servicio 3</option>
+                        </select>
+                    </div>
                     <div class="campos campos_dos">
                         <div class="campos_ultimos seccion">
                             <label>Actividades previas del control de cambio</label>
@@ -118,6 +126,15 @@
                         </div>
                     </div>
                     <div id="actividades_cc_contenedor" class=""></div>
+                    <div class="campos campos_dos">
+                        <div class="campos_ultimos seccion">
+                            <label>Servicios afectados por el control de cambio</label>
+                        </div>
+                        <div class="campos_ultimos seccion_boton">
+                            <a id="servicio_agregar" class="btn btn-success" onclick="servicio_agregar('0'); return false"><span class="icon-plus-square"></span></a>
+                        </div>
+                    </div>
+                    <div id="servicio_contenedor" class=""></div>
                 </div>
             </div>
         </div>
@@ -125,13 +142,30 @@
             <div class="card-header" id="Titulo3">
                 <h2 class="mb-0">
                     <button class="btn btn-collapse collapsed" type="button" data-toggle="collapse" data-target="#Seccion3" aria-expanded="false" aria-controls="Seccion3">
-                        Collapsible Group Item #3
+                        Riesgos
                     </button>
                 </h2>
             </div>
             <div id="Seccion3" class="collapse" aria-labelledby="Titulo3" data-parent="#accordionFormulario">
                 <div class="card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    <div class="campos campos_dos">
+                        <div class="campos_ultimos seccion">
+                            <label>Riesgos del control de cambio</label>
+                        </div>
+                        <div class="campos_ultimos seccion_boton">
+                            <a id="riesgo_agregar" class="btn btn-success" onclick="riesgo_agregar('0'); return false"><span class="icon-plus-square"></span></a>
+                        </div>
+                    </div>
+                    <div id="riesgos_contenedor" class=""></div>
+                    <div class="campos campos_dos">
+                        <div class="campos_ultimos seccion">
+                            <label>Riesgos de no ejecutar el control de cambio</label>
+                        </div>
+                        <div class="campos_ultimos seccion_boton">
+                            <a id="riesgo_no_agregar" class="btn btn-success" onclick="riesgo_no_agregar('0'); return false"><span class="icon-plus-square"></span></a>
+                        </div>
+                    </div>
+                    <div id="riesgos_no_contenedor" class=""></div>
                 </div>
             </div>
         </div>

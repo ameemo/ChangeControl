@@ -167,7 +167,9 @@ a:hover.inactivo {
     transform: rotate(45deg);
 }
 /*Estilo para los conteos*/
-.conteo > div{
+.conteo, .conteo-riesgo-desc, .conteo-riesgo_no-desc,
+.conteo-act-desc, .conteo-act-obs,
+.conteo-act_cc-desc, .conteo-act_cc-obs > div {
     font-size: small;
     color: #cbcbcb;
     text-align: right;
@@ -176,4 +178,14 @@ a:hover.inactivo {
     font-size: x-large;
     color: #cbcbcb;
     text-align: center;
+}
+/*Estilo extra*/
+a.cerrar {
+    color: #dc3545 !important;
+}
+a:hover.cerrar {
+    color: white !important;
+}
+input{
+    overflow: hidden !important;
 }
