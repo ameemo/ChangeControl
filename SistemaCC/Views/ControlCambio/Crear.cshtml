@@ -106,7 +106,7 @@
                     <div style="display: none">
                         <select id="servicios">
                             <option value="">Select...</option>
-                            @foreach (var servapp in ViewBag.sevicios)
+                            @foreach (var servapp in ViewBag.servicios)
                             {
                                 <option value="@servapp.Id_SA">@servapp.Nombre</option>
                             }
@@ -170,6 +170,33 @@
                         </div>
                     </div>
                     <div id="riesgos_no_contenedor" class=""></div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="Titulo4">
+                <h2 class="mb-0">
+                    <button class="btn btn-collapse collapsed" type="button" data-toggle="collapse" data-target="#Seccion4" aria-expanded="false" aria-controls="Seccion4">
+                        Anexos
+                    </button>
+                </h2>
+            </div>
+            <div id="Seccion4" class="collapse" aria-labelledby="Titulo4" data-parent="#accordionFormulario">
+                <div class="card-body">
+                    <div class="campos campos_dos">
+                        <div class="campos_ultimos seccion">
+                            <label>Adjuntar archivos</label>
+                        </div>
+                        <div class="campos_ultimos seccion_boton">
+                            <a id="adjunto_agregar" class="btn btn-primary" onclick="adjunto_agregar('0'); return false"><span class="icon-file-plus"></span></a>
+                        </div>
+                    </div>
+                    <div id="adjuntos_contenedor" class="">
+                        <div class="custom-file mb-3">
+                            <input type="file" class="custom-file-input" id="customFile" name="filename">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
