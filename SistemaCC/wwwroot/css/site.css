@@ -108,6 +108,10 @@ a:hover.inactivo {
     font-weight: bold;
     padding-top: 7px;
 }
+.campos_ultimos > label.normal {
+    font-weight: normal !important;
+    padding-top: 7px;
+}
 .campos_ultimos > input{
     margin-bottom: 1% !important;
 }
