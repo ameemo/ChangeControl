@@ -23,16 +23,16 @@ namespace SistemaCC.Controllers
         // GET: ControlCambio/Crear
         public ActionResult Crear()
         {
-            var usuarios = (from a in BD.Usuario select a).ToList();
-            List<Usuario> usuarios2 = new List<Usuario>();
-            foreach (var usuario in usuarios)
-            {
-                usuarios2.Add(new Usuario { Id_U = usuario.Id_U, Nombre = usuario.Nombre + " " + usuario.ApePaterno + " " + usuario.ApeMaterno });
-            }
-            var servicios = (from a in BD.ServiciosAplicaciones select a).ToList();
-            ViewBag.servicios = servicios;
-            ViewBag.usuarios = usuarios2;
-            return View(); 
+            //var usuarios = (from a in BD.Usuario select a).ToList();
+            //List<Usuario> usuarios2 = new List<Usuario>();
+            //foreach (var usuario in usuarios)
+            //{
+            //    usuarios2.Add(new Usuario { Id_U = usuario.Id_U, Nombre = usuario.Nombre + " " + usuario.ApePaterno + " " + usuario.ApeMaterno });
+            //}
+            //var servicios = (from a in BD.ServiciosAplicaciones select a).ToList();
+            //ViewBag.servicios = servicios;
+            //ViewBag.usuarios = usuarios2;
+            return View();
         }
 
         // POST: ControlCambio/Crear

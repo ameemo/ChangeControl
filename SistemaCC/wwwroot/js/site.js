@@ -307,6 +307,38 @@ function riesgo_no_agregar(id) {
     aa.removeAttribute("onclick")
     aa.setAttribute("onclick", "riesgo_no_agregar('" + id_ + "')")
 }
+function adjunto_agregar(id) {
+    var id_ = parseInt(id) + 1
+    var campos_tres = crear_elemento("div", [{ att: "id", val: "adjunto" + id_ }], "campos campos_tres")
+    var campos_ultimos_1 = crear_elemento("div",[], "campos campos_ultimos custom-file")
+    var campos_ultimos_2 = crear_elemento("div",[], "campos campos_ultimos")
+    var campos_ultimos_3 = crear_elemento("div", [], "campos campos_ultimos")
+    var quitar = document.createElement("div")
+    var input = crear_elemento("input", [{ att: "type", val: "file" },
+                                         { att: "name", val: "adjuntos" },
+                                         { att: "accept", val: "application/PDF" },
+                                         { att: "onchange", val: "revisar_pdf('" + id_ + "')" }], "custom-file-input")
+    var label = crear_elemento("label", [{ att: "for", val: "customFile" }], "custom-file-label normal")
+    var label_texto = document.createTextNode("Adjuntar archivo tipo PDF")
+    var cerrar = crear_elemento("a", [{ att: "onclick", val: "quitar('adjunto" + id_ + "')" }], "btn btn-outline-danger cerrar")
+    var cerrar_x = document.createTextNode("X")
+    var contenedor = documente.getElementById("adjuntos_contenedor")
+    //Añadir a el contenedor
+    label.appendChild(label_texto)
+    cerrar.appendChild(cerrar_x)
+    quitar.appendChild(cerrar)
+    campos_ultimos_1.appendChild(input)
+    campos_ultimos_1.appendChild(label)
+    campos_ultimos_3.appendChild(quitar)
+    campos_tres.appendChild(campos_ultimos_1)
+    campos_tres.appendChild(campos_ultimos_2)
+    campos_tres.appendChild(campos_ultimos_3)
+    contenedor.appendChild(campos_tres)
+    //cambiar el campo del atributo onclick para mantener la númeración
+    var aa = document.getElementById("adjunto_agregar")
+    aa.removeAttribute("onclick")
+    aa.setAttribute("onclick", "adjunto_agregar('" + id_ + "')")
+}
 function crear_elemento(nombre, atributos, clases) {
     var elemento = document.createElement(nombre)
     for (var i = 0; i < atributos.length; i++) {
