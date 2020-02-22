@@ -1,0 +1,335 @@
+[33mcommit e952be204c79bffb4875d8208e8d8cea886bd4ca[m[33m ([m[1;36mHEAD -> [m[1;32mAme[m[33m)[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sat Feb 22 11:52:51 2020 -0600
+
+    Revisar extension de los archivos adjuntos, ya esta funcionando
+
+[33mcommit a3962d7ebde9e2c804112b73aff2d26467ddd689[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sat Feb 22 09:20:14 2020 -0600
+
+    Añadir dinamicamente adjuntos, textarea no cambian de tamaño
+
+[33mcommit 84f6de5e42cf29e0b5278696df976c92daaf562e[m[33m ([m[1;31morigin/Ame[m[33m)[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Thu Feb 20 08:34:00 2020 -0600
+
+    funcion agregar adjuntos, tiene un error
+
+[33mcommit b21dd465ad41ecbbfa22dca2472610f380d6284d[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Tue Feb 18 23:38:19 2020 -0600
+
+    input tipo file, ya quedo con diseño adecuado, falta funcion para hacerlo dinamico
+
+[33mcommit dec063d58e099f8d4217090097a56bc46cbaf3f0[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Tue Feb 18 22:51:45 2020 -0600
+
+    Archivos adjunto, solo vista
+
+[33mcommit 42453d0d7455b035d4b4f9616f0d582bd4f9c1db[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sun Feb 16 21:24:56 2020 -0600
+
+    select para usuarios y select para sevapp en crear cc listos
+
+[33mcommit dc0768cb59571b9171c5e850ec36dd652adbc844[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sun Feb 16 20:50:37 2020 -0600
+
+    Campos dinamicos completos con contadores
+
+[33mcommit bb5a22a6969e8fde9411f42435fdade6cdf41d44[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sat Feb 15 19:38:17 2020 -0600
+
+    Pre-lista, clona select, funcion paa cear elemento
+
+[33mcommit 8a261caa08b419a8a3160755d9eeb5cb6be98ff2[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Fri Feb 7 00:52:58 2020 -0600
+
+    Vista crear de servapp completa, vista indez con datos completa
+
+[33mcommit dda79384e029839e61b2d68595f01e48ea794ce2[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Thu Feb 6 23:36:27 2020 -0600
+
+    Vista de Index de servapp con el frontend para mostrar la info completa
+
+[33mcommit 1b8a602bf69adc0d4f21c52ac021f9417b088923[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Thu Feb 6 22:00:48 2020 -0600
+
+    Datos para la vista de crear servapp
+
+[33mcommit 42d4d11018dbaf0eda4bdf7aca92b624f20fa80b[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Thu Feb 6 21:56:40 2020 -0600
+
+    Datos para la vista Index de ServApp
+
+[33mcommit d493cc5518baa66fa036691b8d203c9c783242bf[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sun Feb 2 21:33:15 2020 -0600
+
+    Campos dinamicos de ctividades cc y prev
+
+[33mcommit 35c074848b2e69647034388da3feb5e9e0619237[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sat Feb 1 22:17:04 2020 -0600
+
+    Seccion Informacion general completa en vista
+
+[33mcommit 1a8064a6516168119ca67b03ecd60c978e4adbd5[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sat Feb 1 18:00:41 2020 -0600
+
+    ControlCambio (carpeta) no necesita vista Index
+
+[33mcommit da103fe1ad7146ac63cc398039367ab5e3675159[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Thu Jan 30 22:01:54 2020 -0600
+
+    Crear usuario completo
+    bloquear y desbloquear
+    Index usuario completo
+
+[33mcommit 3f0ea8f2c3899da0c613fa621c7b83451d00d717[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Wed Jan 29 08:00:30 2020 -0600
+
+    BD actualizada con los IDs correspondientes
+
+[33mcommit 9ebd75ac6cd64119a8ff073936f6d5f7f210b808[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Wed Jan 29 00:39:19 2020 -0600
+
+    Formulario para crear usuario, falta check
+
+[33mcommit 52bcc8e65439856eb8885288ad151c235690afde[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Mon Jan 27 21:33:35 2020 -0600
+
+    Nuevo incicio
+    
+    Corrección en la estructura del proyecto
+
+[33mcommit 48b1d93406221410fc5da4c1b8bf64fea144d925[m
+Author: ENRIQUE HERNANDEZ FALCON <ehernandezf1503@alumno.ipn.mx>
+Date:   Mon Jan 27 19:10:05 2020 -0600
+
+    Ultimo commit
+
+[33mcommit f0c54e6e8aa0c3158de93b3486915ed4125be3b7[m
+Author: ENRIQUE HERNANDEZ FALCON <ehernandezf1503@alumno.ipn.mx>
+Date:   Mon Jan 27 18:46:06 2020 -0600
+
+    Inicio de los archivos para conexion a BD
+
+[33mcommit 1983ebad95f4f0bee26fb6dcf1f256a674185af5[m
+Merge: 9dd36d1 8e11362
+Author: ENRIQUE HERNANDEZ FALCON <ehernandezf1503@alumno.ipn.mx>
+Date:   Mon Jan 27 18:43:09 2020 -0600
+
+    Commit 2
+
+[33mcommit 9dd36d1ce80bf806221f977ca343fce73cae5ee2[m
+Author: ENRIQUE HERNANDEZ FALCON <ehernandezf1503@alumno.ipn.mx>
+Date:   Mon Jan 27 18:40:09 2020 -0600
+
+    Commit
+
+[33mcommit 8e113621f51d972cb9be1ebf551f0443dc27e06b[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sun Jan 26 22:40:46 2020 -0600
+
+    Commit para solucionar linq to sql
+
+[33mcommit 64fbbf13df36f6f30698674479dbf8a93b394be6[m
+Author: ENRIQUE HERNANDEZ FALCON <ehernandezf1503@alumno.ipn.mx>
+Date:   Wed Jan 22 18:01:53 2020 -0600
+
+    Modificaciones Escuela
+
+[33mcommit 620c08673dae4243c973638ebd309144824f0051[m
+Author: ENRIQUE HERNANDEZ FALCON <ehernandezf1503@alumno.ipn.mx>
+Date:   Wed Jan 22 17:07:23 2020 -0600
+
+    Commit para poder sincronizar
+
+[33mcommit 64c0903379447948f549682b6ef1bd391d207ac0[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Wed Jan 22 14:54:57 2020 -0600
+
+    Listo, para revision de la base de datos
+
+[33mcommit 624fd91ba74dc7da9a5bad87e012217ce45e97f7[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sun Jan 19 15:21:44 2020 -0600
+
+    Conexion a la BD
+
+[33mcommit 5d1ab0231b3013fe8663e454e17b060a91355006[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Thu Jan 16 00:14:05 2020 -0600
+
+    Version 1 para añadir campos dinamicos y eliminar, completo con estilo
+
+[33mcommit 27e38540b16dac95e11b6a775837b84695d08605[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Tue Jan 14 23:42:19 2020 -0600
+
+    abs listas, links color lila claro y un contenedor tipo grip para el titulo y boton de crear
+
+[33mcommit 520e489e2cb26ceafacbccdf8c59d7dbe0e3b17c[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sat Jan 11 19:53:25 2020 -0600
+
+    Collapse completo y en proceso tabs
+
+[33mcommit a1a2da45af6deb1060540897fb3ddd46ee485d3f[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Mon Jan 6 20:25:41 2020 -0600
+
+    Correcciones en el nav, añadí collapse y encabezados de las tablas basados en la base
+
+[33mcommit e6d1307636f767053b18a2eb74b1c990b4ac2010[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Fri Jan 3 04:22:21 2020 -0600
+
+    Layout si nav añadido en las vistas correspondientes para el fancybox
+
+[33mcommit d1b7ca8c21f73c3f2eb963aaca1034bfc185a64b[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Fri Jan 3 02:24:58 2020 -0600
+
+    Fancybox listo para utilizarse
+
+[33mcommit f1cd918e983dc3c52192edf6a9401c260ee88022[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Thu Jan 2 21:50:10 2020 -0600
+
+    Dropdown list completa
+
+[33mcommit c8af984a6e412d87118e1c685ab86fd624e7c2eb[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sat Dec 28 23:50:36 2019 -0600
+
+    Trabajando en el nav
+
+[33mcommit 4e92c0960f3c1092050fc15f868175cda8332aed[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sat Dec 28 23:14:05 2019 -0600
+
+    Antes de recuperar layout
+
+[33mcommit e5d8e83548c21a9fee51f5029b68af82c4c13d59[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sat Dec 28 22:49:07 2019 -0600
+
+    CSS y JS para los fancy box
+
+[33mcommit 075a0c287ee94e82161bd978c6c1eecb3ac71110[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sat Dec 28 22:17:26 2019 -0600
+
+    Vistas complementarias para Control del cambio
+
+[33mcommit 9f4a96b2826fd1d9b0edc2b3a6aa1064ce04d8e6[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sat Dec 28 22:05:21 2019 -0600
+
+    Vistas para Control de cambio y la carpeta de usuarios
+
+[33mcommit 56122457d786df6c5799f20f83eaa070af55c710[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sat Dec 28 22:00:19 2019 -0600
+
+    Vista faltante para Servicios y aplucaciones (Ver)
+
+[33mcommit e2b1fdc6408cb717180d74ad2f616257efbcafce[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sat Dec 28 21:58:04 2019 -0600
+
+    Vistas para el menú de inicio, cambiar contraseña y todas las vistas faltantes en Servicios y aplicaciones (editar, crear, bloquear)
+
+[33mcommit 5e6f18e8c59259649a6a38a8b771240e2d30020c[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Thu Dec 26 04:18:30 2019 -0600
+
+    Sección de notificaciones en proceso
+
+[33mcommit 7d5f0b7dd2d7e20046802f122153fe6e2ef4bbab[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Wed Dec 25 21:36:44 2019 -0600
+
+    Commit para iniciar a trabajar
+
+[33mcommit 2d9db7311f49d12db1d5cbd4d4a7a3e5e7606151[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sat Dec 21 21:08:03 2019 -0600
+
+    Carpeta de icocnos añadida <3
+
+[33mcommit 8b36a6f7785ebe83a82b5e9d258c7456da8e05f8[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Tue Dec 17 22:41:52 2019 -0600
+
+    Proceso color tipo "info" para el encabezado de las tablas
+
+[33mcommit c6b1435e326bc44e6aaa3fb68a26f1aff7173dba[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Tue Dec 17 22:24:57 2019 -0600
+
+    Nav ya está
+    Tablas en proceso de el color
+
+[33mcommit d47191352698f789676849a4da93caec559f25da[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Tue Dec 17 19:30:03 2019 -0600
+
+    Commit antes de empezar a trabajar
+
+[33mcommit b80657667d5b0f40712a1492cace7a251efe4d31[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Wed Dec 11 00:04:16 2019 -0600
+
+    Inicio del front end para las tablas que se usará en todo el sistema
+
+[33mcommit 17e1314a272a2cdca903eda53909933d02280e66[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Mon Dec 9 20:50:22 2019 -0600
+
+    Modificaciones en Layout_
+
+[33mcommit 20bdd12dc5352a89b7a1b5a143c782c63ff6cb73[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sun Dec 1 21:25:23 2019 -0600
+
+    Controladores para:
+    - Usuarios
+    - Servicios y aplicaciones
+    - Controles de cambio
+    Vistas de nombre "Index.cshtml" para cada carpeta
+
+[33mcommit 50fd25623505fbb060c34711eca832b5668bf684[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sun Dec 1 00:24:07 2019 -0600
+
+    Cambio desde VS
+
+[33mcommit 9b74c581d9c73b1d5c68dca277f5857f100222e3[m
+Author: AmeDaf <ame_rainbow@hotmail.com>
+Date:   Sun Dec 1 00:04:14 2019 -0600
+
+    Inicio
+    
+    Información necesaria para la solución de visual studio :heart:
+
+[33mcommit 54f37dbf297ee6c9565bd8f45a5132f43316251c[m
+Author: América Monsalvo <ame_rainbow@hotmail.com>
+Date:   Sat Nov 30 22:22:10 2019 -0600
+
+    Initial commit
