@@ -37,12 +37,12 @@ namespace SistemaCC.Controllers
 
         // POST: ControlCambio/Crear
         [HttpPost]
-        public ActionResult Crear(FormCollection collection)
+        public ActionResult Crear(ControlCambio model, FormCollection collection)
         {
             try
             {
                 //TODO: Add insert logic here
-                return View();
+                return RedirectToAction("./../Home/Index");
             }
             catch
             {

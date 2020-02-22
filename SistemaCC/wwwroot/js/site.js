@@ -318,7 +318,7 @@ function adjunto_agregar(id) {
     var input = crear_elemento("input", [{ att: "type", val: "file" },
                                          { att: "name", val: "adjuntos" },
                                          { att: "accept", val: "application/PDF, image/jpg, image/jpeg, image/png" },
-                                         { att: "onchange", val: "revisar_pdf('" + id_ + "')" },
+                                         { att: "onchange", val: "revisar_extension('" + id_ + "')" },
                                          { att: "required", val: "required"}], "custom-file-input")
     var label = crear_elemento("label", [{ att: "for", val: "customFile" }], "custom-file-label normal")
     var numeracion = document.createTextNode("A" + id_)
@@ -391,7 +391,7 @@ function quitar(id)
         numeracion[i].appendChild(actividad_numeracion)
     }
 }
-function revisar_pdf(id) {
+function revisar_extension(id) {
     var id_ = parseInt(id) - 1
     var extensiones = ["jpg", "jpeg", "png", "pdf"]
     var adjunto = document.getElementsByName("adjuntos")[id_]
