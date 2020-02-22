@@ -73,7 +73,6 @@ a:hover.inactivo {
     text-decoration: underline;
 }
 /*Estilo para crear campos dinamicos*/
-
 /*Clases para formularios y para que la información esté en mayusculas*/
 .mayusculas {
     text-transform:uppercase !important;
@@ -115,7 +114,7 @@ a:hover.inactivo {
 .campos_ultimos > input{
     margin-bottom: 1% !important;
 }
-/* clases para los check personalizados*/
+/* clases para los check personalizado*/
 .container {
     display: block;
     position: relative;
@@ -129,13 +128,13 @@ a:hover.inactivo {
     font-weight: normal !important;
 }
 /* oculta el check del navegador*/
-    .container input {
-        position: absolute;
-        opacity: 0;
-        cursor: pointer;
-        height: 0;
-        width: 0;
-    }
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
 /*El check creado por nosotros */
 .checkmark {
     position: absolute;
@@ -170,6 +169,7 @@ a:hover.inactivo {
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
+
 /*Estilo para los conteos*/
 .conteo, .conteo-riesgo-desc, .conteo-riesgo_no-desc,
 .conteo-act-desc, .conteo-act-obs,
@@ -192,4 +192,13 @@ a:hover.cerrar {
 }
 input{
     overflow: hidden !important;
+}
+input[type=file]{
+    cursor: pointer;
+}
+textarea{
+    resize: none !important;
+}
+label.normal::after{
+    content: "Seleccionar" !important;
 }
