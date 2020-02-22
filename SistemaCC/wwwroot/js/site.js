@@ -317,17 +317,20 @@ function adjunto_agregar(id) {
     var quitar = crear_elemento("div", [], "quitar")
     var input = crear_elemento("input", [{ att: "type", val: "file" },
                                          { att: "name", val: "adjuntos" },
-                                         { att: "accept", val: "application/PDF" },
-                                         { att: "onchange", val: "revisar_pdf('" + id_ + "')" }], "custom-file-input")
+                                         { att: "accept", val: "application/PDF, image/jpg, image/jpeg, image/png" },
+                                         { att: "onchange", val: "revisar_pdf('" + id_ + "')" },
+                                         { att: "required", val: "required"}], "custom-file-input")
     var label = crear_elemento("label", [{ att: "for", val: "customFile" }], "custom-file-label normal")
     var numeracion = document.createTextNode("A" + id_)
+    var p = document.createElement("p")
     var label_texto = document.createTextNode("Adjuntar archivo tipo PDF")
     var cerrar = crear_elemento("a", [{ att: "onclick", val: "quitar('adjunto" + id_ + "')" }], "btn btn-outline-danger cerrar")
     var cerrar_x = document.createTextNode("X")
     var contenedor = document.getElementById("adjuntos_contenedor")
     //Añadir a el contenedor
     adjunto_numeracion.appendChild(numeracion)
-    label.appendChild(label_texto)
+    p.appendChild(label_texto)
+    label.appendChild(p)
     cerrar.appendChild(cerrar_x)
     quitar.appendChild(cerrar)
     campos_ultimos_0.appendChild(adjunto_numeracion)
@@ -387,4 +390,28 @@ function quitar(id)
         numeracion[i].removeChild(remover)
         numeracion[i].appendChild(actividad_numeracion)
     }
+}
+function revisar_pdf(id) {
+    var id_ = parseInt(id) - 1
+    var extensiones = ["jpg", "jpeg", "png", "pdf"]
+    var adjunto = document.getElementsByName("adjuntos")[id_]
+    var archivo_ = $(adjunto).val()
+    var archivo = archivo_.substr(12, archivo_.length - 12)
+    var extension = archivo.substr(-3, 3)
+    var label = document.getElementsByClassName("normal")[id_]
+    var texto_viejo = label.children[0]
+    var p = document.createElement("p")
+    //validar la extension
+    if (!extensiones.includes(extension)) {
+        var texto_nuevo = document.createTextNode("Adjuntar archivo tipo PDF")
+        p.appendChild(texto_nuevo)
+        adjunto.value = ""
+        alert("El archivo no cumple con las especificaciones. Sólo archivos: jpg, jpeg, png y pdf")//Cambio en el texto de la label para mostrarla al cliente
+    }
+    else { 
+        var texto_nuevo = document.createTextNode(archivo)
+        p.appendChild(texto_nuevo)
+    }
+    label.removeChild(texto_viejo)
+    label.appendChild(p)
 }
