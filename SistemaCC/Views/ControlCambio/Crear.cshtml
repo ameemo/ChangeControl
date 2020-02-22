@@ -62,7 +62,7 @@
                     </div>
                     <div class="campos">
                         <div class="campos_ultimos">
-                            @Html.TextAreaFor(model => model.Objetivos, new { @class = "form-control contador", placeholder = "Ejem. 1.- Verbo (ar, er, ir) [complemento]", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500", rows="4" , onkeyup = "contar('1', 'contador', 'conteo-')", required = "required" })
+                            @Html.TextAreaFor(model => model.Objetivos, new { @class = "form-control contador", placeholder = "Ejem. 1.- Verbo (ar, er, ir) [complemento]", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500", rows = "4", onkeyup = "contar('1', 'contador', 'conteo-')", required = "required" })
                         </div>
                         <div id="conteo-1" class="campos_ultimos conteo">
                             <div>Caracteres: 0/500</div>
@@ -75,7 +75,7 @@
                     </div>
                     <div class="campos">
                         <div class="campos_ultimos">
-                            @Html.TextAreaFor(model => model.Introduccion, new { @class = "form-control contador", placeholder = "Redacta aquí...", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturararán los primeros 500", rows="4" , onkeyup = "contar('2', 'contador', 'conteo-')", required = "required" })
+                            @Html.TextAreaFor(model => model.Introduccion, new { @class = "form-control contador", placeholder = "Redacta aquí...", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturararán los primeros 500", rows = "4", onkeyup = "contar('2', 'contador', 'conteo-')", required = "required" })
                         </div>
                         <div id="conteo-2" class="campos_ultimos conteo">
                             <div>Caracteres: 0/500</div>
@@ -97,19 +97,19 @@
                     <div style="display: none">
                         <select id="usuarios2">
                             <option value="">Select...</option>
-                            @*@foreach (var usuario in ViewBag.usuarios)
+                            @foreach (var usuario in ViewBag.usuarios)
                             {
                                 <option value="@usuario.Id_U">@usuario.Nombre</option>
-                            }*@
+                            }
                         </select>
                     </div>
                     <div style="display: none">
                         <select id="servicios">
                             <option value="">Select...</option>
-                            @*@foreach (var servapp in ViewBag.servicios)
+                            @foreach (var servapp in ViewBag.servicios)
                             {
                                 <option value="@servapp.Id_SA">@servapp.Nombre</option>
-                            }*@
+                            }
                         </select>
                     </div>
                     <div class="campos campos_dos">
@@ -188,12 +188,18 @@
                             <label>Adjuntar archivos</label>
                         </div>
                         <div class="campos_ultimos seccion_boton">
-                            <a id="adjunto_agregar" class="btn btn-primary" onclick="adjunto_agregar('0'); return false"><span class="icon-file-plus"></span></a>
+                            <a id="adjunto_agregar" class="btn btn-info" onclick="adjunto_agregar('0'); return false"><span class="icon-file-plus"></span></a>
                         </div>
                     </div>
                     <div id="adjuntos_contenedor" class=""></div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="campos campos_tres">
+        <div class="campos_ultimos"></div>
+        <div class="campos_submit">
+            <input class="btn btn-dark mt-2" type="submit" value="Crear" />
         </div>
     </div>
 }
