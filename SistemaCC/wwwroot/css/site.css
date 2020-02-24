@@ -169,7 +169,11 @@ a:hover.inactivo {
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
-
+/*Estilos para las vistas Ver en especifico un usuario, servapp, control de cambio*/
+div.campo-ver {
+    border: 1px solid #cfcfcf;
+    background-color: white;
+}
 /*Estilo para los conteos*/
 .conteo, .conteo-riesgo-desc, .conteo-riesgo_no-desc,
 .conteo-act-desc, .conteo-act-obs,
@@ -201,4 +205,10 @@ textarea{
 }
 label.normal::after{
     content: "Seleccionar" !important;
+}
+.fancybox-desktop{
+    width: 85% !important;
+}
+.fancybox-inner{
+    width: 100% !important;
 }
