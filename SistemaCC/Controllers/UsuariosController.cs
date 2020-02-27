@@ -13,6 +13,8 @@ namespace SistemaCC.Controllers
         // GET: Usuarios
         public ActionResult Index()
         {
+            var datos = (from a in BD.Usuario select a).ToList();
+            ViewBag.datos = datos;
             return View();
         }
 
@@ -77,24 +79,19 @@ namespace SistemaCC.Controllers
         // GET: Usuarios/Bloquear/5
         public ActionResult Bloquear(int id)
         {
-            return View();
+            var row = (from a in BD.Usuario where a.Id_U == id select a).SingleOrDefault();
+            row.Activo = false;
+            BD.SubmitChanges();
+            return RedirectToAction("Index");
         }
 
-        // POST: Usuarios/Bloquear/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Bloquear(int id, FormCollection collection)
+        // GET: Usuarios/Bloquear/5
+        public ActionResult Desbloquear(int id)
         {
-            try
-            {
-                // TODO: Add Bloquear logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var row = (from a in BD.Usuario where a.Id_U == id select a).SingleOrDefault();
+            row.Activo = true;
+            BD.SubmitChanges();
+            return RedirectToAction("Index");
         }
     }
 }

@@ -9,17 +9,16 @@ for details on configuring this project to bundle and minify static web assets. 
 }
 /*Seccion es para lo titulos, botones de crear y el div que une a ambos*/
 div.seccion {
-    padding-left: 0px;
-    margin-bottom: 20px !important;
+    padding-left: 0;
+    margin-bottom: 3% !important;
     border-bottom: solid 1px #efefef;
-}div.seccion-dark {
-    padding-left: 0px;
-    margin-bottom: 20px !important;
+}
+div.seccion-dark {
+    padding-left: 0;
+    margin-bottom: 3% !important;
     border-bottom: solid 1px #cfcfcf;
 }
 div.seccion_boton{
-    padding-left: 0.5% !important;
-    padding-right: 0px !important;
     text-align: right;
 }
 div.seccion_boton > a {
@@ -29,7 +28,7 @@ div.seccion_boton > a {
 div.seccion_contenedor {
     display: grid;
     grid-template-columns: 80% 20%;
-    padding: 0px;
+    padding: 0;
 }
 /*Para las notificaciones y la dropdownnlist del sitio*/
 a.link-dark {
@@ -73,33 +72,14 @@ a.inactivo {
 a:hover.inactivo {
     text-decoration: underline;
 }
-/*Estilopara crear campos dinamicos*/
-.fila {
-    display: grid;
-    grid-template-columns: 45% 50% 5%;
-}
-.contenedor_agregar {
-    margin-bottom: 1%;
-    padding: 0px;
-    text-align: right;
-}
+/*Estilo para crear campos dinamicos*/
 /*Clases para formularios y para que la información esté en mayusculas*/
 .mayusculas {
     text-transform:uppercase !important;
 }
-.campos_ultimos > label{
-    font-weight: bold;
-    padding-top: 7px;
-}
 .campos {
     display: grid;
-    margin-bottom: 15px;
-}
-.campos_dos {
-    grid-template-columns: 50% 50%;
-}
-.campos_tres {
-    grid-template-columns: 33% 34% 33%;
+    margin-bottom: 2%;
 }
 .campos > div.campos_ultimos {
     padding-left: 7px;
@@ -109,28 +89,52 @@ a:hover.inactivo {
    text-align: center;
 }
 .campos > .campos {
-    margin-bottom: 0px !important;
+    margin-bottom: 0 !important;
 }
-/* clases para los check personalizados*/
+.campos_dos {
+    grid-template-columns: 50% 50%;
+}
+.campos_dos_kai {
+    grid-template-columns: 20% 80%;
+}
+.campos_tres {
+    grid-template-columns: 33% 34% 33%;
+}
+.campos_ultimos > div.quitar {
+    text-align: right;
+}
+.campos_ultimos > label {
+    font-weight: bold;
+    padding-top: 1%;
+}
+.campos_ultimos > label.normal {
+    font-weight: normal !important;
+    padding-top: 1%;
+}
+.campos_ultimos > input{
+    margin-bottom: 1% !important;
+}
+/* clases para los check personalizado*/
 .container {
     display: block;
     position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
+    padding: 0 1% 0 4% !important;
+    margin-bottom: 2%;
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    font-weight: normal !important;
 }
 /* oculta el check del navegador*/
-    .container input {
-        position: absolute;
-        opacity: 0;
-        cursor: pointer;
-        height: 0;
-        width: 0;
-    }
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
 /*El check creado por nosotros */
 .checkmark {
     position: absolute;
@@ -138,7 +142,7 @@ a:hover.inactivo {
     left: 0;
     height: 25px;
     width: 25px;
-    background-color: #eee;
+    background-color: white;
 }
 .container:hover input ~ .checkmark {
     background-color: #ccc;
@@ -155,8 +159,8 @@ a:hover.inactivo {
     display: block;
 }
 .container .checkmark:after {
-    left: 9px;
-    top: 5px;
+    left: 0.5%;
+    top: 0.5%;
     width: 5px;
     height: 10px;
     border: solid white;
@@ -164,4 +168,49 @@ a:hover.inactivo {
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+/*Estilos para las vistas Ver en especifico un usuario, servapp, control de cambio*/
+div.campo-ver {
+    padding: 7px;
+    border: 1px solid #cfcfcf;
+    background-color: white;
+    text-align: justify;
+}
+/*Estilo para los conteos*/
+.conteo, .conteo-riesgo-desc, .conteo-riesgo_no-desc,
+.conteo-act-desc, .conteo-act-obs,
+.conteo-act_cc-desc, .conteo-act_cc-obs > div {
+    font-size: small;
+    color: #cbcbcb;
+    text-align: right;
+}
+.numeracion{
+    font-size: x-large;
+    color: #cbcbcb;
+    text-align: center;
+}
+/*Estilo extra*/
+a.cerrar {
+    color: #dc3545 !important;
+}
+a:hover.cerrar {
+    color: white !important;
+}
+input{
+    overflow: hidden !important;
+}
+input[type=file]{
+    cursor: pointer;
+}
+textarea{
+    resize: none !important;
+}
+label.normal::after{
+    content: "Seleccionar" !important;
+}
+.fancybox-desktop{
+    width: 85% !important;
+}
+.fancybox-inner{
+    width: 100% !important;
 }

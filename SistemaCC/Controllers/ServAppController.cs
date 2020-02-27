@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using SistemaCC.Models;
 
 namespace SistemaCC.Controllers
 {
     public class ServAppController : Controller
     {
+        BDControlCambioDataContext BD = new BDControlCambioDataContext();
         // GET: ServApp
         public ActionResult Index()
         {
+            var datos = (from a in BD.ServiciosAplicaciones select a);
+            ViewBag.datos = datos;
             return View();
         }
 
@@ -23,6 +27,13 @@ namespace SistemaCC.Controllers
         // GET: ServApp/Crear
         public ActionResult Crear()
         {
+            var usuarios = (from a in BD.Usuario select a).ToList();
+            List<Usuario> usuarios2 = new List<Usuario>();
+            foreach (var usuario in usuarios)
+            {
+                usuarios2.Add(new Usuario { Id_U = usuario.Id_U, Nombre = usuario.Nombre + usuario.ApePaterno + usuario.ApeMaterno });
+            }
+            ViewData["usuarios"] = new SelectList(usuarios2, "Id_U", "Nombre");
             return View();
         }
 

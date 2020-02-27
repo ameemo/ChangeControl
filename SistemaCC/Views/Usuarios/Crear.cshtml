@@ -8,41 +8,47 @@
 </div>
 @using (Html.BeginForm())
 {
-    <div class="campos campos_tres">
-        <div class="campos_ultimos">
-            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control mayusculas", type = "text", placeholder = "Nombre", maxLength = "50", required = "required" } })
-        </div>
-        <div class="campos_ultimos">
-            @Html.EditorFor(model => model.ApePaterno, new { htmlAttributes = new { @class = "form-control mayusculas", type = "text", placeholder = "Apellido paterno", maxLength = "50", required = "required" } })
-        </div>
-        <div class="campos_ultimos">
-            @Html.EditorFor(model => model.ApeMaterno, new { htmlAttributes = new { @class = "form-control mayusculas", type = "text", placeholder = "Apellido materno", maxLength = "50", required = "required" } })
-        </div>
-    </div>
-    <div class="campos campos_dos">
-        <div class="campos campos_dos">
+    <div id="principal">
+        <div class="campos campos_tres">
             <div class="campos_ultimos">
-                <label>Extensión:</label>
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control mayusculas", type = "text", placeholder = "Nombre", maxLength = "50", required = "required" } })
             </div>
             <div class="campos_ultimos">
-                @Html.EditorFor(model => model.NoExt, new { htmlAttributes = new { @class = "form-control", type = "text", placeholder = "# # #", maxlength = "3", pattern = "[0-9]{3}" } })
+                @Html.EditorFor(model => model.ApePaterno, new { htmlAttributes = new { @class = "form-control mayusculas", type = "text", placeholder = "Apellido paterno", maxLength = "50", required = "required" } })
+            </div>
+            <div class="campos_ultimos">
+                @Html.EditorFor(model => model.ApeMaterno, new { htmlAttributes = new { @class = "form-control mayusculas", type = "text", placeholder = "Apellido materno", maxLength = "50", required = "required" } })
             </div>
         </div>
-        <div class="campos campos_dos">
-            <div class="campos_ultimos">
+        <div class="campos campos_tres">
+            <div class="campos campos_dos">
+                <div class="campos_ultimos">
+                    <label>Extensión:</label>
+                </div>
+                <div class="campos_ultimos">
+                    @Html.EditorFor(model => model.NoExt, new { htmlAttributes = new { @class = "form-control", type = "text", placeholder = "# # #", maxlength = "3", pattern = "[0-9]{3}", title = "El formato son 3 números, no admite ótros símbolos. Ejem: 158, 298, 092" } })
+                </div>
+            </div>
+            <div class="campos_ultimos" style="text-align: right">
                 <label>Email:</label>
             </div>
             <div class="campos_ultimos">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", placeholder = "nombre.ape@eutelsat.com.mx", required = "required" } })
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", placeholder = "nombre.apellido@eutelsat.com.mx", required = "required" } })
             </div>
         </div>
-    </div>
-    <div class="campos_ultimos">
-        <label>Roles:</label>
-    </div>
-    <div class="campos campos_tres">
-        <div class="campos campos_dos">
-            <div class="campos_ultimos"></div>
+        <div class="campos campos_tres">
+            <div class="campos_ultimos">
+                <label>Roles:</label>
+            </div>
+        </div>
+        <div class="campos campos_tres">
+            <div class="campos_ultimos">
+                <label class="container">
+                    Otro
+                    <input name="rol" type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
             <div class="campos_ultimos">
                 <label class="container">
                     Administrador
@@ -50,13 +56,19 @@
                     <span class="checkmark"></span>
                 </label>
             </div>
+            <div class="campos_ultimos">
+                <label class="container">
+                    Super
+                    <input name="rol" type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+        <div class="campos campos_tres">
+            <div class="campos_ultimos"></div>
+            <div class="campos_submit">
+                <input class="btn btn-dark" type="submit" value="Crear" />
+            </div>
         </div>
     </div>
-    <div class="campos campos_tres">
-        <div class="campos_ultimos"></div>
-        <div class="campos_submit">
-            <input class="btn btn-dark" type="submit" value="Crear" />
-        </div>
-    </div>
-
 }
