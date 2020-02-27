@@ -203,20 +203,4 @@
         </div>
     </div>
 }
-@section scripts
-{
-    <script>
-        $(document).on("submit", "form", function (e) {
-            //Actividades
-            var act_desc = document.getElementsByName("actividades_prev_descripcion")
-            var act_obs = document.getElementsByName("actividades_prev_observaciones")
-            for (var ad in act_desc) {
-                ad.value = $(ad).val + ".,"
-            }
-            for (var ao in act_obs) {
-                ao.value = $(ao).val + ".,"
-            }
-        }
-    </script>
-}
 
