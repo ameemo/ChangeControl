@@ -10,8 +10,10 @@ namespace SistemaCC.Controllers
 {
     public class HomeController : Controller
     {
+        BDControlCambioDataContext BD = new BDControlCambioDataContext();
         public ActionResult Index()
         {
+
             return View();
         }
 

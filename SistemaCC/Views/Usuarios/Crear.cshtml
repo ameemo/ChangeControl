@@ -33,12 +33,21 @@
                 <label>Email:</label>
             </div>
             <div class="campos_ultimos">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", placeholder = "nombre.ape@eutelsat.com.mx", required = "required" } })
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", placeholder = "nombre.apellido@eutelsat.com.mx", required = "required" } })
             </div>
         </div>
         <div class="campos campos_tres">
             <div class="campos_ultimos">
                 <label>Roles:</label>
+            </div>
+        </div>
+        <div class="campos campos_tres">
+            <div class="campos_ultimos">
+                <label class="container">
+                    Otro
+                    <input name="rol" type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
             </div>
             <div class="campos_ultimos">
                 <label class="container">
@@ -50,29 +59,6 @@
             <div class="campos_ultimos">
                 <label class="container">
                     Super
-                    <input name="rol" type="checkbox">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-        </div>
-        <div class="campos campos_tres">
-            <div class="campos_ultimos">
-                <label class="container">
-                    Seguridad
-                    <input name="rol" type="checkbox">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-            <div class="campos_ultimos">
-                <label class="container">
-                    Soporte
-                    <input name="rol" type="checkbox">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-            <div class="campos_ultimos">
-                <label class="container">
-                    Operaciones
                     <input name="rol" type="checkbox">
                     <span class="checkmark"></span>
                 </label>

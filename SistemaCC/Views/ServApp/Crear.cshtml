@@ -3,10 +3,55 @@
     ViewData["Title"] = "Crear";
     Layout = "./../Shared/_LayoutVacio.cshtml";
 }
-<div class="seccion col-md-12">
+<div class="seccion-dark col-md-12">
     <h1>Crear</h1>
 </div>
-@Html.BeginForm()
+@using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
+<div class="campos">
+    <div class="campos_ultimos">
+        <label>Nombre:</label>
+    </div>
+    <div class="campos_ultimos">
+        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control contador", type = "text", placeholder = "Nombre", maxlength = "50", onkeyup = "contar('0', 'contador','conteo-')", required = "required" } })
+    </div>
+    <div id="conteo-0" class="campos_ultimos conteo">
+        <div>Caracteres: 0/50</div>
+    </div>
+</div>
+    <div class="campos campos_dos">
+        <div class="campos_ultimos">
+            <div class="campos_ultimos">
+                <label>Acrónimo:</label>
+            </div>
+            <div class="campos_ultimos">
+                @Html.EditorFor(model => model.Acronimo, new { htmlAttributes = new { @class = "form-control", type = "text", placeholder = "Ejem. ", maxlength = "50", required = "required" } })
+            </div>
+            <div class="campos_ultimos">
+                <label>Dueño:</label>
+            </div>
+            <div class="campos_ultimos">
+                @Html.DropDownListFor(model => model.Dueno, ViewBag.usuarios as SelectList, "Selecciona...", new { @class = "form-control", required = "required" })
+            </div>
+        </div>
+        <div class="campos_ultimos">
+            <div class="campos_ultimos">
+                <label>Descripción:</label>
+            </div>
+            <div class="campos_ultimos">
+                @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control contador",rows = "3", placeholder = "Descripción", maxlength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500", onkeyup = "contar('1', 'contador','conteo-')", required = "required" })
+            </div>
+            <div id="conteo-1" class="campos_ultimos conteo">
+                <div>Caracteres: 0/500</div>
+            </div>
+        </div>
+    </div>
+    <div class="campos campos_tres">
+        <div class="campos_ultimos"></div>
+        <div class="campos_submit">
+            <input class="btn btn-dark" type="submit" value="Crear" />
+        </div>
+    </div> 
 }
 
