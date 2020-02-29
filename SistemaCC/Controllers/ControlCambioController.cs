@@ -25,10 +25,10 @@ namespace SistemaCC.Controllers
         List<Actividades> actividades(string[] act, string tipo)
         {
             List<Actividades> actividades = new List<Actividades>();
-            string[] act_prev_desc = act[0].Split(new Char[] { '/', ',', '.', ':', '\t' });
-            string[] act_prev_obs = act[0].Split(new Char[] { '/', ',', '.', ':', '\t' });
-            string[] act_prev_fecha = act[0].Split(new Char[] { '/', ',', '.', ':', '\t' });
-            string[] act_prev_usuario = act[0].Split(new Char[] { '/', ',', '.', ':', '\t' });
+            string[] act_prev_desc = act[0].Split(new Char[] { '&' });
+            string[] act_prev_obs = act[1].Split(new Char[] { '&' });
+            string[] act_prev_fecha = act[2].Split(new Char[] { ','});
+            string[] act_prev_usuario = act[3].Split(new Char[] { ',' });
             for (var i = 0; i < act_prev_desc.Length; i++)
             {
                 Actividades actividades_ = new Actividades();

@@ -52,6 +52,7 @@ function actividad_agregar(id)
     var textarea1 = crear_elemento("textarea", [{ att: "name", val: "actividades_prev_descripcion" },
                                                 { att: "maxlength", val: "150"},
                                                 { att: "placeholder", val: "Descripción" },
+                                                { att: "pattern", val: "[A-Za-z0-9 ,.;-_/*+´¨]+" },
                                                 { att: "onkeyup", val: "contar('" + id + "', 'contar-act-desc', 'conteo-act-desc-')"},
                                                 { att: "required", val: "required" }], "form-control contar-act-desc")
     var conteo2  = crear_elemento("div", [{ att: "id", val: "conteo-act-obs-" + id }], "campos_ultimos conteo-act-obs")
