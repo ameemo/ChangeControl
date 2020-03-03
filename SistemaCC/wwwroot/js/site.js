@@ -22,12 +22,14 @@ function contar(posicion, clase, conteo_id)
 {
     var contadores = document.getElementsByClassName(clase)
     var conteo = $(contadores[posicion]).val()
+    //modificar &
+    contadores[posicion].value = conteo.replace(/&+/, "y")
     var div_conteo = document.getElementById(conteo_id + posicion)
     var texto_viejo = div_conteo.children[0]
     div_conteo.removeChild(texto_viejo)
-    var algo = contadores[posicion].getAttribute("maxlength")
+    var maxlength = contadores[posicion].getAttribute("maxlength")
     var div = document.createElement("div")
-    var texto_nuevo = document.createTextNode("Caracteres: " + conteo.length + "/" + algo)
+    var texto_nuevo = document.createTextNode("Caracteres: " + conteo.length + "/" + maxlength)
     div.appendChild(texto_nuevo)
     div_conteo.appendChild(div)
 }
@@ -54,6 +56,7 @@ function actividad_agregar(id)
                                                 { att: "placeholder", val: "Descripción" },
                                                 { att: "pattern", val: "[A-Za-z0-9 ,.;-_/*+´¨]+" },
                                                 { att: "onkeyup", val: "contar('" + id + "', 'contar-act-desc', 'conteo-act-desc-')"},
+                                                { att: "oninvalid", val: "error_campos(2)"},
                                                 { att: "required", val: "required" }], "form-control contar-act-desc")
     var conteo2  = crear_elemento("div", [{ att: "id", val: "conteo-act-obs-" + id }], "campos_ultimos conteo-act-obs")
     var div_conteo2 = document.createElement("div")
@@ -62,9 +65,11 @@ function actividad_agregar(id)
                                                 { att: "maxlength", val: "150"},
                                                 { att: "placeholder", val: "Observaciones" },
                                                 { att: "onkeyup", val: "contar('" + id + "', 'contar-act-obs', 'conteo-act-obs-')"},
+                                                { att: "oninvalid", val: "error_campos(2)"},
                                                 { att: "required", val: "required" }], "form-control contar-act-obs")
     var input1 = crear_elemento("input", [{ att: "name", val: "actividades_prev_fecha" },
                                           { att: "type", val: "date" },
+                                          { att: "oninvalid", val: "error_campos(2)"},
                                           { att: "required", val: "required" }], "form-control")
     var select = clonar_select("usuarios2", "actividades_prev_usuarios")
     var cerrar = crear_elemento("a", [{ att: "onclick", val: "quitar('actividad" + id_ + "')" }],"btn btn-outline-danger cerrar")
@@ -120,6 +125,7 @@ function actividad_cc_agregar(id) {
                                                 { att: "maxlength", val: "150" },
                                                 { att: "placeholder", val: "Descripción" },
                                                 { att: "onkeyup", val: "contar('" + id + "', 'contar-act_cc-desc', 'conteo-act_cc-desc-')" },
+                                                { att: "oninvalid", val: "error_campos(2)"},
                                                 { att: "required", val: "required" }], "form-control contar-act_cc-desc")
     var conteo2 = crear_elemento("div", [{ att: "id", val: "conteo-act_cc-obs-" + id }], "campos_ultimos conteo-act_cc-obs")
     var div_conteo2 = document.createElement("div")
@@ -128,9 +134,11 @@ function actividad_cc_agregar(id) {
                                                 { att: "maxlength", val: "150" },
                                                 { att: "placeholder", val: "Observaciones" },
                                                 { att: "onkeyup", val: "contar('" + id + "', 'contar-act_cc-obs', 'conteo-act_cc-obs-')" },
+                                                { att: "oninvalid", val: "error_campos(2)"},
                                                 { att: "required", val: "required" }], "form-control contar-act_cc-obs")
     var input1 = crear_elemento("input", [{ att: "name", val: "actividades_cc_fecha" },
                                           { att: "type", val: "date" },
+                                          { att: "oninvalid", val: "error_campos(2)"},
                                           { att: "required", val: "required" }], "form-control")
     var select = clonar_select("usuarios2","actividades_cc_usuarios")
     var cerrar = crear_elemento("a", [{ att: "onclick", val: "quitar('actividad_cc" + id_ + "')" }], "btn btn-outline-danger cerrar")
@@ -182,9 +190,11 @@ function servicio_agregar(id) {
     var select = clonar_select("servicios","servicio_servicios")
     var input1 = crear_elemento("input", [{ att: "name", val: "servicio_inicio" },
                                           { att: "type", val: "date" },
+                                          { att: "oninvalid", val: "error_campos(2)"},
                                           { att: "required", val: "required" }], "form-control")
     var input2 = crear_elemento("input", [{ att: "name", val: "servicio_temino" },
                                           { att: "type", val: "date" },
+                                          { att: "oninvalid", val: "error_campos(2)"},
                                           { att: "required", val: "required" }], "form-control")
     var cerrar = crear_elemento("a", [{ att: "onclick", val: "quitar('servicio" + id_ + "')" }], "btn btn-outline-danger cerrar")
     var numeracion = document.createTextNode("S" + id_)
@@ -231,6 +241,7 @@ function riesgo_agregar(id) {
                                                 { att: "maxlength", val: "150" },
                                                 { att: "placeholder", val: "Descripción" },
                                                 { att: "onkeyup", val: "contar('" + id + "', 'contar-riesgo-desc', 'conteo-riesgo-desc-')" },
+                                                { att: "oninvalid", val: "error_campos(3)"},
                                                 { att: "required", val: "required" }], "form-control contar-riesgo-desc")
     var quitar = crear_elemento("div", [], "quitar")
     var cerrar = crear_elemento("a", [{ att: "onclick", val: "quitar('riesgo" + id_ + "')" }], "btn btn-outline-danger cerrar")
@@ -279,6 +290,7 @@ function riesgo_no_agregar(id) {
                                                { att: "maxlength", val: "150" },
                                                { att: "placeholder", val: "Descripción" },
                                                { att: "onkeyup", val: "contar('" + id + "', 'contar-riesgo_no-desc', 'conteo-riesgo_no-desc-')" },
+                                               { att: "oninvalid", val: "error_campos(3)"},
                                                { att: "required", val: "required" }], "form-control contar-riesgo_no-desc")
     var quitar = crear_elemento("div", [], "quitar")
     var cerrar = crear_elemento("a", [{ att: "onclick", val: "quitar('riesgo_no" + id_ + "')" }], "btn btn-outline-danger cerrar")
@@ -320,6 +332,7 @@ function adjunto_agregar(id) {
                                          { att: "name", val: "adjuntos" },
                                          { att: "accept", val: "application/PDF, image/jpg, image/jpeg, image/png" },
                                          { att: "onchange", val: "revisar_extension('" + id_ + "')" },
+                                         { att: "oninvalid", val: "error_campos(4)"},
                                          { att: "required", val: "required"}], "custom-file-input")
     var label = crear_elemento("label", [{ att: "for", val: "customFile" }], "custom-file-label normal")
     var numeracion = document.createTextNode("A" + id_)
@@ -355,10 +368,10 @@ function crear_elemento(nombre, atributos, clases) {
     $(elemento).addClass(clases)
     return elemento
 }
-function clonar_select(id,name) {
+function clonar_select(id, name) {
     var select2 = document.getElementById(id)
     var opciones = select2.children
-    var select = crear_elemento("select", [{ att: "name", val: name }, {att: "required", val: "required"}], "form-control")
+    var select = crear_elemento("select", [{ att: "name", val: name }, { att: "required", val: "required" }, { att: "oninvalid", val: "error_campos(2)"}], "form-control")
     for (var i = 0; i < opciones.length; i++) {
         var opcion = crear_elemento("option", [{ att: "value", val: opciones[i].getAttribute("value") }])
         var texto = document.createTextNode(opciones[i].textContent)
@@ -415,4 +428,11 @@ function revisar_extension(id) {
     }
     label.removeChild(texto_viejo)
     label.appendChild(p)
+}
+// funcion para mostrar la sección en la que el campo no está respondido
+function error_campos(seccion) {
+    var collapse = document.getElementsByClassName("collapse")
+    var show = document.getElementsByClassName("show")
+    $(show).removeClass("show")
+    $(collapse[seccion]).addClass("show")
 }
