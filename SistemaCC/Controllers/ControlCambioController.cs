@@ -75,6 +75,91 @@ namespace SistemaCC.Controllers
                 }
             }
         }
+        //Funcion para dar formato a las actividades
+        List<Riesgos> riesgos(string[] ries, string tipo)
+        {
+            List<riesgos> riesgos = new List<riesgos>();
+            string[] ries_prev_desc = ries[0].Split(new Char[] { '&' });
+            string[] ries_prev_obs = ries[1].Split(new Char[] { '&' });
+            string[] ries_prev_fecha = ries[2].Split(new Char[] { ','});
+            string[] ries_prev_usuario = ries[3].Split(new Char[] { ',' });
+            for (var i = 0; i < ries_prev_desc.Length; i++)
+            {
+                riesgos riesgos_ = new riesgos();
+                riesgos_.Descripcion = ries_prev_desc[i];
+                riesgos_.Observaciones = ries_prev_obs[i];
+                riesgos_.FechaRealizacion = fecha(ries_prev_fecha[i]);
+                riesgos_.Responsable = Convert.ToInt32(ries_prev_usuario[i]);
+                riesgos_.Tipo = tipo;
+                riesgos.Add(riesgos_);
+            }
+            return riesgos;
+        }
+        //Funcion para insertar las riesgos
+        void anadir_riesgos(int id_CC, string[] ries, string[] ries_no)
+        {
+            if (!ries_prev.Contains(null))
+            {
+                List<riesgos> ries_prev_ = riesgos(ries_prev, "Previa");
+                foreach (var a in ries_prev_)
+                {
+                    BD.riesgos.InsertOnSubmit(a);
+                    BD.SubmitChanges();
+                    //Se inserta en la tabla intermedia
+                    riesgosControl ac = new riesgosControl();
+                    ac.fk_CC = id_CC;
+                    ac.fk_Ac = a.Id_Ac;
+                    BD.riesgosControl.InsertOnSubmit(ac);
+                    BD.SubmitChanges();
+                }
+            }
+            if (!ries_cc.Contains(null))
+            {
+                List<riesgos> ries_cc_ = riesgos(ries_cc, "ControlCambio");
+                foreach (var a in ries_cc_)
+                {
+                    BD.riesgos.InsertOnSubmit(a);
+                    BD.SubmitChanges();
+                    //Se inserta en la tabla intermedia
+                    riesgosControl ac = new riesgosControl();
+                    ac.fk_CC = id_CC;
+                    ac.fk_Ac = a.Id_Ac;
+                    BD.riesgosControl.InsertOnSubmit(ac);
+                    BD.SubmitChanges();
+                }
+            }
+        }
+        //Funcion para dar formato a los servicios
+        List<ControlServicio> servicios(string[] ser, int id_CC)
+        {
+            List<ControlServicio> servicios = new List<ControlServicio>();
+            string[] id_CS = ser[0].Split(new Char[] { '&', ',' });
+            string[] fecha_inicio = ser[1].Split(new Char[] { '&', ',' });
+            string[] fecha_termino = ser[2].Split(new Char[] { ','});
+            for (var i = 0; i < id_CS.Length; i++)
+            {
+                ControlServicio servicios_ = new ControlServicio();
+                servicios_.fk_CC = id_CC;
+                servicios_.fk_SA = Convert.ToInt32(id_CS[i]);
+                servicios_.FechaInicio = fecha(fecha_inicio[i]);
+                servicios_.FechaFinal = fecha(fecha_termino[i]);
+                servicios.Add(servicios_);
+            }
+            return servicios;
+        }
+        //Funcion para insertar los servicios
+        void anadir_servicios(int id_CC, string[] ser)
+        {
+            if (!ser.Contains(null))
+            {
+                List<ControlServicio> ser_ = servicios(ser, id_CC);
+                foreach (var s in ser_)
+                {
+                    BD.ControlServicio.InsertOnSubmit(s);
+                    BD.SubmitChanges();
+                }
+            }
+        }
         // GET: ControlCambio/Ver/5
         public ActionResult Ver(int id)
         {
@@ -125,6 +210,12 @@ namespace SistemaCC.Controllers
                 act_cc[2] = collection["actividades_cc_fecha"];
                 act_cc[3] = collection["actividades_cc_usuarios"];
                 anadir_actividades(controlCambio.Id_CC, act_prev, act_cc);
+                //Llamar anadir servicios
+                string[] servicios = new string[3];
+                servicios[0] = collection["servicio_servicios"];
+                servicios[1] = collection["servicio_inicio"];
+                servicios[2] = collection["servicio_temino"];
+                anadir_servicios(controlCambio.Id_CC, servicios);
                 return RedirectToAction("./../Home/Index");
             }
             catch (System.Data.SqlClient.SqlException ex)
