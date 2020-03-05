@@ -25,8 +25,8 @@ namespace SistemaCC.Controllers
         List<Actividades> actividades(string[] act, string tipo)
         {
             List<Actividades> actividades = new List<Actividades>();
-            string[] act_prev_desc = act[0].Split(new Char[] { '&' });
-            string[] act_prev_obs = act[1].Split(new Char[] { '&' });
+            string[] act_prev_desc = act[0].Split(new string[] { "&," }, StringSplitOptions.RemoveEmptyEntries);
+            string[] act_prev_obs = act[1].Split(new string[] { "&," }, StringSplitOptions.RemoveEmptyEntries);
             string[] act_prev_fecha = act[2].Split(new Char[] { ','});
             string[] act_prev_usuario = act[3].Split(new Char[] { ',' });
             for (var i = 0; i < act_prev_desc.Length; i++)
@@ -76,55 +76,38 @@ namespace SistemaCC.Controllers
             }
         }
         //Funcion para dar formato a las actividades
-        List<Riesgos> riesgos(string[] ries, string tipo)
+        List<Riesgos> riesgos(string ries, string tipo, int id_CC)
         {
-            List<riesgos> riesgos = new List<riesgos>();
-            string[] ries_prev_desc = ries[0].Split(new Char[] { '&' });
-            string[] ries_prev_obs = ries[1].Split(new Char[] { '&' });
-            string[] ries_prev_fecha = ries[2].Split(new Char[] { ','});
-            string[] ries_prev_usuario = ries[3].Split(new Char[] { ',' });
-            for (var i = 0; i < ries_prev_desc.Length; i++)
+            List<Riesgos> riesgos = new List<Riesgos>();
+            string[] ries_desc = ries.Split(new string[] { "&," }, StringSplitOptions.RemoveEmptyEntries);
+            for (var i = 0; i < ries_desc.Length; i++)
             {
-                riesgos riesgos_ = new riesgos();
-                riesgos_.Descripcion = ries_prev_desc[i];
-                riesgos_.Observaciones = ries_prev_obs[i];
-                riesgos_.FechaRealizacion = fecha(ries_prev_fecha[i]);
-                riesgos_.Responsable = Convert.ToInt32(ries_prev_usuario[i]);
+                Riesgos riesgos_ = new Riesgos();
+                riesgos_.fk_CC = id_CC;
+                riesgos_.Descripcion = ries_desc[i];
                 riesgos_.Tipo = tipo;
                 riesgos.Add(riesgos_);
             }
             return riesgos;
         }
         //Funcion para insertar las riesgos
-        void anadir_riesgos(int id_CC, string[] ries, string[] ries_no)
+        void anadir_riesgos(int id_CC, string ries, string ries_no)
         {
-            if (!ries_prev.Contains(null))
+            if (ries != null)
             {
-                List<riesgos> ries_prev_ = riesgos(ries_prev, "Previa");
-                foreach (var a in ries_prev_)
+                List<Riesgos> ries_ = riesgos(ries, "ControlCambio", id_CC);
+                foreach (var r in ries_)
                 {
-                    BD.riesgos.InsertOnSubmit(a);
-                    BD.SubmitChanges();
-                    //Se inserta en la tabla intermedia
-                    riesgosControl ac = new riesgosControl();
-                    ac.fk_CC = id_CC;
-                    ac.fk_Ac = a.Id_Ac;
-                    BD.riesgosControl.InsertOnSubmit(ac);
+                    BD.Riesgos.InsertOnSubmit(r);
                     BD.SubmitChanges();
                 }
             }
-            if (!ries_cc.Contains(null))
+            if (ries_no != null)
             {
-                List<riesgos> ries_cc_ = riesgos(ries_cc, "ControlCambio");
-                foreach (var a in ries_cc_)
+                List<Riesgos> ries_no_ = riesgos(ries_no, "No", id_CC);
+                foreach (var r in ries_no_)
                 {
-                    BD.riesgos.InsertOnSubmit(a);
-                    BD.SubmitChanges();
-                    //Se inserta en la tabla intermedia
-                    riesgosControl ac = new riesgosControl();
-                    ac.fk_CC = id_CC;
-                    ac.fk_Ac = a.Id_Ac;
-                    BD.riesgosControl.InsertOnSubmit(ac);
+                    BD.Riesgos.InsertOnSubmit(r);
                     BD.SubmitChanges();
                 }
             }
@@ -210,6 +193,10 @@ namespace SistemaCC.Controllers
                 act_cc[2] = collection["actividades_cc_fecha"];
                 act_cc[3] = collection["actividades_cc_usuarios"];
                 anadir_actividades(controlCambio.Id_CC, act_prev, act_cc);
+                //Llamar anadir riesgos
+                string ries = collection["riesgos_descripcion"];
+                string ries_no = collection["riesgos_no_descripcion"];
+                anadir_riesgos(controlCambio.Id_CC, ries, ries_no);
                 //Llamar anadir servicios
                 string[] servicios = new string[3];
                 servicios[0] = collection["servicio_servicios"];
