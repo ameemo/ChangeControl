@@ -2,6 +2,239 @@
 @{
     ViewData["Title"] = "Ver";
 }
-
-<h2>Ver</h2>
+<div class="col-md-12 seccion">
+    <h1>Información Control del cambio</h1>
+</div>
+@using (Html.BeginForm("Crear", "ControlCambio", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="accordion" id="accordionFormulario">
+        <div class="card">
+            <div class="card-header" id="Titulo1">
+                <h2 class="mb-0">
+                    <button class="btn btn-collapse" type="button" data-toggle="collapse" data-target="#Section1" aria-expanded="true" aria-controls="Section1">
+                        Información General
+                    </button>
+                </h2>
+            </div>
+            <div id="Section1" class="collapse show" aria-labelledby="Titulo1" data-parent="#accordionFormulario">
+                <div id="max_fila" class="card-body">
+                    <div class="campos campos_dos_kai">
+                        <div class="campos_ultimos">
+                            <label>Titulo:</label>
+                        </div>
+                        <div class="campos_ultimos">
+                            @ViewBag.Informacion.Titulo
+                        </div>
+                    </div>
+                    <div class="campos campos_dos">
+                        <div class="campos campos_dos">
+                            <div class="campos_ultimos">
+                                <label>Fecha de ejecuión:</label>
+                            </div>
+                            <div class="campos_ultimos">
+                                @ViewBag.Informacion.FechaEjecucion.ToString().Substring(0,10)
+                            </div>
+                        </div>
+                        <div class="campos campos_dos_kai">
+                            <div class="campos_ultimos">
+                                <label>Tipo:</label>
+                            </div>
+                            <div class="campos_ultimos">
+                                @ViewBag.Informacion.Tipo
+                            </div>
+                        </div>
+                    </div>
+                    <div class="campos campos_dos_kai">
+                        <div class="campos_ultimos">
+                            <label>Objetivo(s):</label>
+                        </div>
+                    </div>
+                    <div class="campos">
+                        <div class="campos_ultimos">
+                            @ViewBag.Informacion.Objetivos
+                        </div>
+                    </div>
+                    <div class="campos campos_dos_kai">
+                        <div class="campos_ultimos">
+                            <label>Introducción:</label>
+                        </div>
+                    </div>
+                    <div class="campos">
+                        <div class="campos_ultimos">
+                            @ViewBag.Informacion.Introduccion
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="Titulo2">
+                <h2 class="mb-0">
+                    <button class="btn btn-collapse collapsed" type="button" data-toggle="collapse" data-target="#Seccion2" aria-expanded="false" aria-controls="Seccion2">
+                        Actividades y limitantes
+                    </button>
+                </h2>
+            </div>
+            <div id="Seccion2" class="collapse" aria-labelledby="Titulo2" data-parent="#accordionFormulario">
+                <div class="card-body">
+                    <div class="campos campos_dos">
+                        <div class="campos_ultimos seccion">
+                            <label>Actividades previas del control de cambio</label>
+                        </div>
+                    </div>
+                    <div id="actividades_contenedor">
+                        @foreach(var act in ViewBag.Actividades_Prev as IEnumerable<SistemaCC.Models.Actividades>)
+                        {
+                            <div class="campos campos_dos_kai">
+                                <div class="campos_ultimos numeracion">
+                                    A@(ViewBag.Actividades_Prev.IndexOf(act) + 1)
+                                </div>
+                                <div class="campos_ultimos">
+                                    <div class="campos_ultimos">
+                                        <label>Descripción:</label>
+                                    </div>
+                                    <div class="campos_ultimos campo-ver">
+                                        @act.Descripcion
+                                    </div>
+                                    <div class="campos_ultimos">
+                                        <div class="campos_ultimos">
+                                            <label>Observaciones:</label>
+                                        </div>
+                                        <div class="campos_ultimos campo-ver">
+                                            @act.Observaciones
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="campos campos_dos_kai">
+                                <div class="campos_ultimos"></div>
+                                <div class="campos campos_dos">
+                                    <div class="campos_ultimos">
+                                        <div class="campos_ultimos">
+                                            <label>Fecha:</label>
+                                        </div>
+                                        <div class="campos_ultimos campo-ver">
+                                            @act.FechaRealizacion.ToString().Substring(0, 10)
+                                        </div>
+                                    </div>
+                                    <div class="campos_ultimos">
+                                        <div class="campos_ultimos">
+                                            <label>Responsable</label>
+                                        </div>
+                                        <div class="campos_ultimos campo-ver">
+                                            @act.Usuario.Nombre @act.Usuario.ApePaterno @act.Usuario.ApeMaterno
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        } 
+                    </div>
+                    <div class="campos campos_dos">
+                        <div class="campos_ultimos seccion">
+                            <label>Actividades del control de cambio</label>
+                        </div>
+                    </div>
+                    <div id="actividades_cc_contenedor">
+                        @foreach (var act in ViewBag.Actividades_CC as IEnumerable<SistemaCC.Models.Actividades>)
+                        {
+                            <div class="campos campos_dos_kai">
+                                <div class="campos_ultimos numeracion">
+                                    A@(ViewBag.Actividades_CC.IndexOf(act) + 1)
+                                </div>
+                                <div class="campos_ultimos">
+                                    <div class="campos_ultimos">
+                                        <label>Descripción:</label>
+                                    </div>
+                                    <div class="campos_ultimos campo-ver">
+                                        @act.Descripcion
+                                    </div>
+                                    <div class="campos_ultimos">
+                                        <div class="campos_ultimos">
+                                            <label>Observaciones:</label>
+                                        </div>
+                                        <div class="campos_ultimos campo-ver">
+                                            @act.Observaciones
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="campos campos_dos_kai">
+                                <div class="campos_ultimos"></div>
+                                <div class="campos campos_dos">
+                                    <div class="campos_ultimos">
+                                        <div class="campos_ultimos">
+                                            <label>Fecha:</label>
+                                        </div>
+                                        <div class="campos_ultimos campo-ver">
+                                            @act.FechaRealizacion.ToString().Substring(0, 10)
+                                        </div>
+                                    </div>
+                                    <div class="campos_ultimos">
+                                        <div class="campos_ultimos">
+                                            <label>Responsable</label>
+                                        </div>
+                                        <div class="campos_ultimos campo-ver">
+                                            @act.Usuario.Nombre @act.Usuario.ApePaterno @act.Usuario.ApeMaterno
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="campos campos_dos">
+                        <div class="campos_ultimos seccion">
+                            <label>Servicios afectados por el control de cambio</label>
+                        </div>
+                    </div>
+                    <div id="servicio_contenedor"></div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="Titulo3">
+                <h2 class="mb-0">
+                    <button class="btn btn-collapse collapsed" type="button" data-toggle="collapse" data-target="#Seccion3" aria-expanded="false" aria-controls="Seccion3">
+                        Riesgos
+                    </button>
+                </h2>
+            </div>
+            <div id="Seccion3" class="collapse" aria-labelledby="Titulo3" data-parent="#accordionFormulario">
+                <div class="card-body">
+                    <div class="campos campos_dos">
+                        <div class="campos_ultimos seccion">
+                            <label>Riesgos del control de cambio</label>
+                        </div>
+                    </div>
+                    <div id="riesgos_contenedor"></div>
+                    <div class="campos campos_dos">
+                        <div class="campos_ultimos seccion">
+                            <label>Riesgos de no ejecutar el control de cambio</label>
+                        </div>
+                    </div>
+                    <div id="riesgos_no_contenedor"></div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="Titulo4">
+                <h2 class="mb-0">
+                    <button class="btn btn-collapse collapsed" type="button" data-toggle="collapse" data-target="#Seccion4" aria-expanded="false" aria-controls="Seccion4">
+                        Anexos
+                    </button>
+                </h2>
+            </div>
+            <div id="Seccion4" class="collapse" aria-labelledby="Titulo4" data-parent="#accordionFormulario">
+                <div class="card-body">
+                    <div class="campos campos_dos">
+                        <div class="campos_ultimos seccion">
+                            <label>Adjuntar archivos</label>
+                        </div>
+                    </div>
+                    <div id="adjuntos_contenedor"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
