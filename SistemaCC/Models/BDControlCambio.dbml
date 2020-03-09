@@ -38,8 +38,8 @@
       <Column Name="Id_CC" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Titulo" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="FechaEjecucion" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Introduccion" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
-      <Column Name="Objetivos" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="Introduccion" Type="System.String" DbType="VarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="Objetivos" Type="System.String" DbType="VarChar(500) NOT NULL" CanBeNull="false" />
       <Column Name="Tipo" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
       <Column Name="Estado" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
       <Column Name="Creador" Type="System.Int32" DbType="Int" CanBeNull="true" />

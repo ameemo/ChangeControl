@@ -5,7 +5,7 @@
 <div class="col-md-12 seccion">
     <h1>Nuevo control del cambio</h1>
 </div>
-@using (Html.BeginForm())
+@using (Html.BeginForm("Crear", "ControlCambio", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <div class="accordion" id="accordionFormulario">

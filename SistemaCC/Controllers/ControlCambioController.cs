@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using SistemaCC.Models;
+using System.Web;
 
 namespace SistemaCC.Controllers
 {
@@ -25,10 +26,11 @@ namespace SistemaCC.Controllers
         List<Actividades> actividades(string[] act, string tipo)
         {
             List<Actividades> actividades = new List<Actividades>();
-            string[] act_prev_desc = act[0].Split(new string[] { "&," }, StringSplitOptions.RemoveEmptyEntries);
-            string[] act_prev_obs = act[1].Split(new string[] { "&," }, StringSplitOptions.RemoveEmptyEntries);
+            string[] act_prev_desc = act[0].Split(new string[] { "&,", "&" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] act_prev_obs = act[1].Split(new string[] { "&,", "&" }, StringSplitOptions.RemoveEmptyEntries);
             string[] act_prev_fecha = act[2].Split(new Char[] { ','});
             string[] act_prev_usuario = act[3].Split(new Char[] { ',' });
+            //Remover el último '&'
             for (var i = 0; i < act_prev_desc.Length; i++)
             {
                 Actividades actividades_ = new Actividades();
@@ -79,7 +81,7 @@ namespace SistemaCC.Controllers
         List<Riesgos> riesgos(string ries, string tipo, int id_CC)
         {
             List<Riesgos> riesgos = new List<Riesgos>();
-            string[] ries_desc = ries.Split(new string[] { "&," }, StringSplitOptions.RemoveEmptyEntries);
+            string[] ries_desc = ries.Split(new string[] { "&,", "&" }, StringSplitOptions.RemoveEmptyEntries);
             for (var i = 0; i < ries_desc.Length; i++)
             {
                 Riesgos riesgos_ = new Riesgos();
@@ -143,6 +145,12 @@ namespace SistemaCC.Controllers
                 }
             }
         }
+        //Funcion para insertar los adjuntos
+        void anadir_adjuntos(HttpPostedFileBase[] adjuntos) 
+        {
+            
+        }
+        
         // GET: ControlCambio/Ver/5
         public ActionResult Ver(int id)
         {
@@ -166,7 +174,7 @@ namespace SistemaCC.Controllers
 
         // POST: ControlCambio/Crear
         [HttpPost]
-        public ActionResult Crear(ControlCambio model, FormCollection collection)
+        public ActionResult Crear(ControlCambio model, HttpPostedFileBase[] adjuntos, FormCollection collection)
         {
             try
             {
@@ -203,6 +211,8 @@ namespace SistemaCC.Controllers
                 servicios[1] = collection["servicio_inicio"];
                 servicios[2] = collection["servicio_temino"];
                 anadir_servicios(controlCambio.Id_CC, servicios);
+                //Llamar a adjuntos
+                anadir_adjuntos(adjuntos);
                 return RedirectToAction("./../Home/Index");
             }
             catch (System.Data.SqlClient.SqlException ex)

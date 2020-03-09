@@ -1057,7 +1057,7 @@ namespace SistemaCC.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Introduccion", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Introduccion", DbType="VarChar(500) NOT NULL", CanBeNull=false)]
 		public string Introduccion
 		{
 			get
@@ -1077,7 +1077,7 @@ namespace SistemaCC.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Objetivos", DbType="VarChar(150)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Objetivos", DbType="VarChar(500) NOT NULL", CanBeNull=false)]
 		public string Objetivos
 		{
 			get
