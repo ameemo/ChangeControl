@@ -329,7 +329,7 @@ function adjunto_agregar(id) {
     var adjunto_numeracion = document.createElement("div")
     var quitar = crear_elemento("div", [], "quitar")
     var input = crear_elemento("input", [{ att: "type", val: "file" },
-                                         { att: "name", val: "adjuntos" },
+                                         { att: "name", val: "adjuntos_" },
                                          { att: "accept", val: "application/PDF, image/jpg, image/jpeg, image/png" },
                                          { att: "onchange", val: "revisar_extension('" + id_ + "')" },
                                          { att: "oninvalid", val: "error_campos(4)"},
@@ -408,7 +408,7 @@ function quitar(id)
 function revisar_extension(id) {
     var id_ = parseInt(id) - 1
     var extensiones = ["jpg", "jpeg", "png", "pdf"]
-    var adjunto = document.getElementsByName("adjuntos")[id_]
+    var adjunto = document.getElementsByName("adjuntos_")[id_]
     var archivo_ = $(adjunto).val()
     var archivo = archivo_.substr(12, archivo_.length - 12)
     var extension = archivo.substr(-3, 3)

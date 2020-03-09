@@ -148,19 +148,30 @@ namespace SistemaCC.Controllers
                 }
             }
         }
-        void adjuntos(int id_CC, HttpPostedFileBase[] adjuntos)
+        void adjuntos(int id_CC, HttpPostedFileBase[] adjuntos, string tipo)
         {
             List<Documentos> documentos = new List<Documentos>();
             if (adjuntos != null)
             {
-                foreach (var a in adjuntos)
+                if(tipo == "Adjunto")
                 {
-                    string path = Path.Combine(Server.MapPath("~/Archivos/CC_" + id_CC + "/Adjuntos/"), Path.GetFileName(a.FileName));
-                    Documentos documento = new Documentos();
-                    a.SaveAs(path);
-                    documento.DocPath = path;
-                    documento.fk_CC = id_CC;
-                    documentos.Add(documento);
+                    foreach (var a in adjuntos)
+                    {
+                        string carpetaCC = Path.Combine(Server.MapPath("~/Archivos/"), "CC_" + id_CC);
+                        string carpetaA = Path.Combine(Server.MapPath("~/Archivos/CC_" + id_CC), "Adjuntos");
+                        string path = Path.Combine(Server.MapPath("~/Archivos/CC_" + id_CC + "/Adjuntos/"), Path.GetFileName(a.FileName));
+                        Documentos documento = new Documentos();
+                        Directory.CreateDirectory(carpetaCC);
+                        Directory.CreateDirectory(carpetaA);
+                        a.SaveAs(path);
+                        documento.DocPath = path;
+                        documento.fk_CC = id_CC;
+                        documentos.Add(documento);
+                    }
+                }
+                if(tipo == "Evidencia")
+                {
+
                 }
                 anadir_adjuntos(documentos);
             }
@@ -177,7 +188,6 @@ namespace SistemaCC.Controllers
                 }
             }
         }
-        
         // GET: ControlCambio/Ver/5
         public ActionResult Ver(int id)
         {
@@ -239,7 +249,7 @@ namespace SistemaCC.Controllers
                 servicios_[2] = collection["servicio_temino"];
                 servicios(controlCambio.Id_CC, servicios_);
                 //Llamar a adjuntos
-                adjuntos(controlCambio.Id_CC, adjuntos_);
+                adjuntos(controlCambio.Id_CC, adjuntos_, "Adjunto");
                 return RedirectToAction("./../Home/Index");
             }
             catch (System.Data.SqlClient.SqlException ex)
