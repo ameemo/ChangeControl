@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System.Web.Mvc;
 using SistemaCC.Models;
 using System.Web;
+using System.IO;
 
 namespace SistemaCC.Controllers
 {
@@ -115,40 +116,66 @@ namespace SistemaCC.Controllers
             }
         }
         //Funcion para dar formato a los servicios
-        List<ControlServicio> servicios(string[] ser, int id_CC)
+        void servicios(int id_CC, string[] ser)
         {
             List<ControlServicio> servicios = new List<ControlServicio>();
-            string[] id_CS = ser[0].Split(new Char[] { '&', ',' });
-            string[] fecha_inicio = ser[1].Split(new Char[] { '&', ',' });
-            string[] fecha_termino = ser[2].Split(new Char[] { ','});
-            for (var i = 0; i < id_CS.Length; i++)
+            if(!ser.Contains(null))
             {
-                ControlServicio servicios_ = new ControlServicio();
-                servicios_.fk_CC = id_CC;
-                servicios_.fk_SA = Convert.ToInt32(id_CS[i]);
-                servicios_.FechaInicio = fecha(fecha_inicio[i]);
-                servicios_.FechaFinal = fecha(fecha_termino[i]);
-                servicios.Add(servicios_);
+                string[] id_CS = ser[0].Split(new Char[] { '&', ',' });
+                string[] fecha_inicio = ser[1].Split(new Char[] { '&', ',' });
+                string[] fecha_termino = ser[2].Split(new Char[] { ',' });
+                for (var i = 0; i < id_CS.Length; i++)
+                {
+                    ControlServicio servicios_ = new ControlServicio();
+                    servicios_.fk_CC = id_CC;
+                    servicios_.fk_SA = Convert.ToInt32(id_CS[i]);
+                    servicios_.FechaInicio = fecha(fecha_inicio[i]);
+                    servicios_.FechaFinal = fecha(fecha_termino[i]);
+                    servicios.Add(servicios_);
+                }
+                anadir_servicios(servicios);
             }
-            return servicios;
         }
         //Funcion para insertar los servicios
-        void anadir_servicios(int id_CC, string[] ser)
+        void anadir_servicios(List<ControlServicio> servicios)
         {
-            if (!ser.Contains(null))
+            if (servicios != null)
             {
-                List<ControlServicio> ser_ = servicios(ser, id_CC);
-                foreach (var s in ser_)
+                foreach (var s in servicios)
                 {
                     BD.ControlServicio.InsertOnSubmit(s);
                     BD.SubmitChanges();
                 }
             }
         }
-        //Funcion para insertar los adjuntos
-        void anadir_adjuntos(HttpPostedFileBase[] adjuntos) 
+        void adjuntos(int id_CC, HttpPostedFileBase[] adjuntos)
         {
-            
+            List<Documentos> documentos = new List<Documentos>();
+            if (adjuntos != null)
+            {
+                foreach (var a in adjuntos)
+                {
+                    string path = Path.Combine(Server.MapPath("~/Archivos/CC_" + id_CC + "/Adjuntos/"), Path.GetFileName(a.FileName));
+                    Documentos documento = new Documentos();
+                    a.SaveAs(path);
+                    documento.DocPath = path;
+                    documento.fk_CC = id_CC;
+                    documentos.Add(documento);
+                }
+                anadir_adjuntos(documentos);
+            }
+        }
+        //Funcion para insertar los adjuntos
+        void anadir_adjuntos(List<Documentos> documentos) 
+        {
+            if(documentos != null)
+            {
+                foreach(var d in documentos)
+                {
+                    BD.Documentos.InsertOnSubmit(d);
+                    BD.SubmitChanges();
+                }
+            }
         }
         
         // GET: ControlCambio/Ver/5
@@ -174,7 +201,7 @@ namespace SistemaCC.Controllers
 
         // POST: ControlCambio/Crear
         [HttpPost]
-        public ActionResult Crear(ControlCambio model, HttpPostedFileBase[] adjuntos, FormCollection collection)
+        public ActionResult Crear(ControlCambio model, HttpPostedFileBase[] adjuntos_, FormCollection collection)
         {
             try
             {
@@ -206,13 +233,13 @@ namespace SistemaCC.Controllers
                 string ries_no = collection["riesgos_no_descripcion"];
                 anadir_riesgos(controlCambio.Id_CC, ries, ries_no);
                 //Llamar anadir servicios
-                string[] servicios = new string[3];
-                servicios[0] = collection["servicio_servicios"];
-                servicios[1] = collection["servicio_inicio"];
-                servicios[2] = collection["servicio_temino"];
-                anadir_servicios(controlCambio.Id_CC, servicios);
+                string[] servicios_ = new string[3];
+                servicios_[0] = collection["servicio_servicios"];
+                servicios_[1] = collection["servicio_inicio"];
+                servicios_[2] = collection["servicio_temino"];
+                servicios(controlCambio.Id_CC, servicios_);
                 //Llamar a adjuntos
-                anadir_adjuntos(adjuntos);
+                adjuntos(controlCambio.Id_CC, adjuntos_);
                 return RedirectToAction("./../Home/Index");
             }
             catch (System.Data.SqlClient.SqlException ex)
