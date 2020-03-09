@@ -69,6 +69,7 @@
       <Column Name="Id_Do" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="DocPath" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
       <Column Name="fk_CC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TipoDoc" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
       <Association Name="ControlCambio_Documentos" Member="ControlCambio" ThisKey="fk_CC" OtherKey="Id_CC" Type="ControlCambio" IsForeignKey="true" />
     </Type>
   </Table>

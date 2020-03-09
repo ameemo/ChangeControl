@@ -337,7 +337,7 @@ function adjunto_agregar(id) {
     var label = crear_elemento("label", [{ att: "for", val: "customFile" }], "custom-file-label normal")
     var numeracion = document.createTextNode("A" + id_)
     var p = document.createElement("p")
-    var label_texto = document.createTextNode("Adjuntar archivo tipo PDF")
+    var label_texto = document.createTextNode("Adjuntar archivo tipo PNG, JPG, JPEG, o PDF")
     var cerrar = crear_elemento("a", [{ att: "onclick", val: "quitar('adjunto" + id_ + "')" }], "btn btn-outline-danger cerrar")
     var cerrar_x = document.createTextNode("X")
     var contenedor = document.getElementById("adjuntos_contenedor")

@@ -1643,6 +1643,8 @@ namespace SistemaCC.Models
 		
 		private System.Nullable<int> _fk_CC;
 		
+		private string _TipoDoc;
+		
 		private EntityRef<ControlCambio> _ControlCambio;
 		
     #region Definiciones de métodos de extensibilidad
@@ -1655,6 +1657,8 @@ namespace SistemaCC.Models
     partial void OnDocPathChanged();
     partial void Onfk_CCChanging(System.Nullable<int> value);
     partial void Onfk_CCChanged();
+    partial void OnTipoDocChanging(string value);
+    partial void OnTipoDocChanged();
     #endregion
 		
 		public Documentos()
@@ -1723,6 +1727,26 @@ namespace SistemaCC.Models
 					this._fk_CC = value;
 					this.SendPropertyChanged("fk_CC");
 					this.Onfk_CCChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TipoDoc", DbType="VarChar(10)")]
+		public string TipoDoc
+		{
+			get
+			{
+				return this._TipoDoc;
+			}
+			set
+			{
+				if ((this._TipoDoc != value))
+				{
+					this.OnTipoDocChanging(value);
+					this.SendPropertyChanging();
+					this._TipoDoc = value;
+					this.SendPropertyChanged("TipoDoc");
+					this.OnTipoDocChanged();
 				}
 			}
 		}
