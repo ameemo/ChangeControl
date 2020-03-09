@@ -148,43 +148,34 @@ namespace SistemaCC.Controllers
                 }
             }
         }
-        void adjuntos(int id_CC, HttpPostedFileBase[] adjuntos, string tipo)
+        void anadir_adjuntos(int id_CC, HttpPostedFileBase[] adjuntos, string tipo)
         {
-            List<Documentos> documentos = new List<Documentos>();
             if (adjuntos != null)
             {
                 if(tipo == "Adjunto")
                 {
                     foreach (var a in adjuntos)
                     {
+                        Documentos documento = new Documentos();
+                        documento.DocPath = "";
+                        //documento.Tipo = tipo;
+                        documento.fk_CC = id_CC;
+                        BD.Documentos.InsertOnSubmit(documento);
+                        BD.SubmitChanges();
+                        //Creamos en archivo con el id que le corresponde
                         string carpetaCC = Path.Combine(Server.MapPath("~/Archivos/"), "CC_" + id_CC);
                         string carpetaA = Path.Combine(Server.MapPath("~/Archivos/CC_" + id_CC), "Adjuntos");
-                        string path = Path.Combine(Server.MapPath("~/Archivos/CC_" + id_CC + "/Adjuntos/"), Path.GetFileName(a.FileName));
-                        Documentos documento = new Documentos();
                         Directory.CreateDirectory(carpetaCC);
                         Directory.CreateDirectory(carpetaA);
+                        string path = Path.Combine(Server.MapPath("~/Archivos/CC_" + id_CC + "/Adjuntos/"), documento.Id_Do + "_" + Path.GetFileName(a.FileName));
                         a.SaveAs(path);
                         documento.DocPath = path;
-                        documento.fk_CC = id_CC;
-                        documentos.Add(documento);
+                        BD.SubmitChanges();
                     }
                 }
                 if(tipo == "Evidencia")
                 {
 
-                }
-                anadir_adjuntos(documentos);
-            }
-        }
-        //Funcion para insertar los adjuntos
-        void anadir_adjuntos(List<Documentos> documentos) 
-        {
-            if(documentos != null)
-            {
-                foreach(var d in documentos)
-                {
-                    BD.Documentos.InsertOnSubmit(d);
-                    BD.SubmitChanges();
                 }
             }
         }
@@ -249,7 +240,7 @@ namespace SistemaCC.Controllers
                 servicios_[2] = collection["servicio_temino"];
                 servicios(controlCambio.Id_CC, servicios_);
                 //Llamar a adjuntos
-                adjuntos(controlCambio.Id_CC, adjuntos_, "Adjunto");
+                anadir_adjuntos(controlCambio.Id_CC, adjuntos_, "Adjunto");
                 return RedirectToAction("./../Home/Index");
             }
             catch (System.Data.SqlClient.SqlException ex)
