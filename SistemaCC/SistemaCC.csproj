@@ -149,6 +149,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Archivos\CC_40\Adjuntos\3_fondo_perfil.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -208,6 +209,10 @@
     <Content Include="wwwroot\lib\jquery\dist\jquery.js" />
     <Content Include="wwwroot\lib\jquery\dist\jquery.min.js" />
     <Content Include="wwwroot\lib\jquery\LICENSE.txt" />
+    <Content Include="Archivos\CC_38\Adjuntos\Protocolo_v2.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Archivos\CC_39\Adjuntos\Cronograma.pdf" />
     <None Include="Models\BDControlCambio.dbml.layout">
       <DependentUpon>BDControlCambio.dbml</DependentUpon>
     </None>
@@ -271,7 +276,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Archivos\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

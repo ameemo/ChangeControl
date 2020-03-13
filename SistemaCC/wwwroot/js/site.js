@@ -2,19 +2,19 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-function tabs(seccion)
+function tabs(seccion, sc, sl)
 {
     //Activar o desactivar los div indicados
-    var activo = document.getElementsByClassName("seccion-activa")
+    var activo = document.getElementsByClassName(sc)
     $(activo).addClass("seccion-inactiva")
-    $(activo).removeClass("seccion-activa")
-    $("#Seccion" + seccion).addClass("seccion-activa")
+    $(activo).removeClass("seccion-activa " + sc)
+    $("#Seccion" + seccion).addClass("seccion-activa " + sc)
     $("#Seccion" + seccion).removeClass("seccion-inactiva")
     //Asignar las clases a los links para dar el efecto y saber en que sección está posicionado
-    var link = document.getElementsByClassName("active")
+    var link = document.getElementsByClassName(sl)
     $(link).addClass("inactivo")
-    $(link).removeClass("active")
-    $("#Link" + seccion).addClass("active")
+    $(link).removeClass("active " + sl)
+    $("#Link" + seccion).addClass("active " + sl)
     $("#Link" + seccion).removeClass("inactivo")
 }
 //Funcion para contador de caracteres

@@ -80,16 +80,16 @@
                 <div class="card-body">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a id="Link1" class="nav-link active" href="#" onclick="tabs('1'); return false">Actividades</a>
+                            <a id="Link1" class="nav-link active LActLim" href="#" onclick="tabs('1','SActLim', 'LActLim'); return false">Actividades</a>
                         </li>
                         <li class="nav-item">
-                            <a id="Link2" class="nav-link inactivo" href="#" onclick="tabs('2'); return false">CC Actividades</a>
+                            <a id="Link2" class="nav-link inactivo" href="#" onclick="tabs('2','SActLim', 'LActLim'); return false">CC Actividades</a>
                         </li>
                         <li class="nav-item">
-                            <a id="Link3" class="nav-link inactivo" href="#" onclick="tabs('3'); return false">Limitantes</a>
+                            <a id="Link3" class="nav-link inactivo" href="#" onclick="tabs('3','SActLim', 'LActLim'); return false">Limitantes</a>
                         </li>
                     </ul>
-                    <div id="Seccion1" class="seccion-activa">
+                    <div id="Seccion1" class="seccion-activa SActLim">
                         <div class="campos campos_dos">
                             <div class="campos_ultimos seccion">
                                 <label>Actividades previas del control de cambio</label>
@@ -140,6 +140,12 @@
                                         </div>
                                     </div>
                                 </div>
+                            }
+                            @if (ViewBag.Actividades_Prev.Count == 0)
+                            {
+                                <h6 class="text-center">
+                                    <span class="badge badge-info">No contiene actividades</span>
+                                </h6>
                             }
                         </div>
                     </div>
@@ -195,6 +201,12 @@
                                     </div>
                                 </div>
                             }
+                            @if (ViewBag.Actividades_CC.Count == 0)
+                            {
+                                <h6 class="text-center">
+                                    <span class="badge badge-info">No contiene actividades</span>
+                                </h6>
+                            }
                         </div>
                     </div>
                     <div id="Seccion3" class="seccion-inactiva">
@@ -243,6 +255,12 @@
                                     </div>
                                 </div>
                             }
+                            @if(ViewBag.Servicios.Count == 0)
+                            {
+                            <h6 class="text-center">
+                                <span class="badge badge-info">No contiene limitantes</span>
+                            </h6>
+                            }
                         </div>
                     </div>
                 </div>
@@ -258,18 +276,80 @@
             </div>
             <div id="Section3" class="collapse" aria-labelledby="Titulo3" data-parent="#accordionFormulario">
                 <div class="card-body">
-                    <div class="campos campos_dos">
-                        <div class="campos_ultimos seccion">
-                            <label>Riesgos del control de cambio</label>
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a id="LinkRiesgo1" class="nav-link active LRiesgo" href="#" onclick="tabs('Riesgo1','SRiesgo', 'LRiesgo'); return false">CC Riesgos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="LinkRiesgo2" class="nav-link inactivo" href="#" onclick="tabs('Riesgo2', 'SRiesgo', 'LRiesgo'); return false">Riesgos</a>
+                        </li>
+                    </ul>
+                    <div id="SeccionRiesgo1" class="seccion-activa SRiesgo">
+                        <div class="campos campos_dos">
+                            <div class="campos_ultimos seccion">
+                                <label>Riesgos del control de cambio</label>
+                            </div>
+                        </div>
+                        <div id="riesgos_contenedor">
+                            @foreach (var r in ViewBag.Riesgos_CC)
+                            {
+                                <div class="campos campos_dos_kai">
+                                    <div class="campos_ultimos numeracion">
+                                        R@(ViewBag.Riesgos_CC.IndexOf(r) + 1)
+                                    </div>
+                                    <div class="campos_ultimos">
+                                        <div class="campos_ultimos">
+                                            <div class="campos_ultimos">
+                                                <label>Descripción:</label>
+                                            </div>
+                                            <div class="campos_ultimos campo-ver">
+                                                @r.Descripcion
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            @if (ViewBag.Riesgos_CC.Count == 0)
+                            {
+                                <h6 class="text-center">
+                                    <span class="badge badge-info">No contiene riesgos</span>
+                                </h6>
+                            }
                         </div>
                     </div>
-                    <div id="riesgos_contenedor"></div>
-                    <div class="campos campos_dos">
-                        <div class="campos_ultimos seccion">
-                            <label>Riesgos de no ejecutar el control de cambio</label>
+                    <div id="SeccionRiesgo2" class="seccion-inactiva">
+                        <div class="campos campos_dos">
+                            <div class="campos_ultimos seccion">
+                                <label>Riesgos de no ejecutar el control de cambio</label>
+                            </div>
+                        </div>
+                        <div id="riesgos_no_contenedor">
+                            @foreach (var r in ViewBag.Riesgos_No)
+                            {
+                                <div class="campos campos_dos_kai">
+                                    <div class="campos_ultimos numeracion">
+                                        R@(ViewBag.Riesgos_No.IndexOf(r) + 1)
+                                    </div>
+                                    <div class="campos_ultimos">
+                                        <div class="campos_ultimos">
+                                            <div class="campos_ultimos">
+                                                <label>Descripción:</label>
+                                            </div>
+                                            <div class="campos_ultimos campo-ver">
+                                                @r.Descripcion
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            @if (ViewBag.Riesgos_No.Count == 0)
+                            {
+                                <h6 class="text-center">
+                                    <span class="badge badge-info">No contiene riesgos</span>
+                                </h6>
+                            }
                         </div>
                     </div>
-                    <div id="riesgos_no_contenedor"></div>
                 </div>
             </div>
         </div>
@@ -288,10 +368,36 @@
                             <label>Adjuntar archivos</label>
                         </div>
                     </div>
-                    <div id="adjuntos_contenedor"></div>
+                    <div id="adjuntos_contenedor">
+                        @foreach(var doc in ViewBag.Documentos)
+                        {
+                            <a class="" href="@doc">
+                                @doc
+                            </a>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 }
-
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+	        $(".fancybox-thumb").fancybox({
+		        prevEffect	: 'none',
+		        nextEffect	: 'none',
+		        helpers	: {
+			        title	: {
+				        type: 'outside'
+			        },
+			        thumbs	: {
+				        width	: 50,
+				        height	: 50
+			        }
+		        }
+	        });
+        });
+    </script>
+}
