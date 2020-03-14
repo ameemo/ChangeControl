@@ -188,7 +188,25 @@ namespace SistemaCC.Controllers
             ViewBag.Servicios = (from sc in BD.ControlServicio join s in BD.ServiciosAplicaciones on sc.fk_SA equals s.Id_SA where sc.fk_CC == id select sc).ToList();
             ViewBag.Riesgos_CC = (from r in BD.Riesgos where r.fk_CC == id && r.Tipo == "ControlCambio" select r).ToList();
             ViewBag.Riesgos_No = (from r in BD.Riesgos where r.fk_CC == id && r.Tipo == "No" select r).ToList();
-            ViewBag.Documentos = (from d in BD.Documentos where d.fk_CC == id && d.TipoDoc == "Adjunto" select d.DocPath);
+            var documentos = (from d in BD.Documentos where d.fk_CC == id && d.TipoDoc == "Adjunto" select d);
+            List<Documentos> Documentos_imagenes = new List<Documentos>();
+            List<Documentos> Documentos_pdf = new List<Documentos>();
+            foreach(var doc in documentos)
+            {
+                var nombre_ = doc.DocPath.Split(new char[] { '\\' });
+                var nombre = nombre_[nombre_.Length - 1];
+                doc.DocPath = nombre;
+                if (nombre.Contains(".pdf"))
+                {
+                    Documentos_pdf.Add(doc);
+                }
+                else
+                {
+                    Documentos_imagenes.Add(doc);
+                }
+            }
+            ViewBag.Documentos_imagenes = Documentos_imagenes;
+            ViewBag.Documentos_pdf = Documentos_pdf;
             return View();
         }
 

@@ -175,7 +175,6 @@ div.campo-ver {
     border: 1px solid #cfcfcf;
     background-color: white;
     text-align: justify;
-    /*height: 95%;*/
 }
 /*Estilo para los conteos*/
 .conteo, .conteo-riesgo-desc, .conteo-riesgo_no-desc,
