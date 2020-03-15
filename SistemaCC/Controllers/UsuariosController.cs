@@ -28,7 +28,8 @@ namespace SistemaCC.Controllers
         public ActionResult Crear()
         {
             ViewBag.Roles = (from r in BD.Roles select r).ToList();
-            ViewData["ME"] = "";
+            ViewData["ME1"] = "";
+            ViewData["ME2"] = "";
             return View();
         }
 
@@ -38,10 +39,14 @@ namespace SistemaCC.Controllers
         public ActionResult Crear(Usuario modelo, FormCollection collection)
         {
             ViewBag.Roles = (from r in BD.Roles select r).ToList();
-            ViewData["ME"] = "Error";
-
             try
             {
+                var correo = (from u in BD.Usuario where u.Email == modelo.Email select u).ToList();
+                if(correo.Count != 0)
+                {
+                    ViewData["ME1"] = "El correo ingresado ya ha sido registrado";
+                    return View();
+                }
                 Usuario usuario = new Usuario();
                 usuario.Nombre = modelo.Nombre;
                 usuario.ApePaterno = modelo.ApePaterno;
