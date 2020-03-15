@@ -143,9 +143,9 @@
                             }
                             @if (ViewBag.Actividades_Prev.Count == 0)
                             {
-                                <h6 class="text-center">
-                                    <span class="badge badge-info">No contiene actividades</span>
-                                </h6>
+                                <h5 class="text-center">
+                                    <span class="badge badge-secondary">No contiene actividades</span>
+                                </h5>
                             }
                         </div>
                     </div>
@@ -203,9 +203,9 @@
                             }
                             @if (ViewBag.Actividades_CC.Count == 0)
                             {
-                                <h6 class="text-center">
-                                    <span class="badge badge-info">No contiene actividades</span>
-                                </h6>
+                                <h5 class="text-center">
+                                    <span class="badge badge-secondary">No contiene actividades</span>
+                                </h5>
                             }
                         </div>
                     </div>
@@ -257,9 +257,9 @@
                             }
                             @if(ViewBag.Servicios.Count == 0)
                             {
-                            <h6 class="text-center">
-                                <span class="badge badge-info">No contiene limitantes</span>
-                            </h6>
+                            <h5 class="text-center">
+                                <span class="badge badge-secondary">No contiene limitantes</span>
+                            </h5>
                             }
                         </div>
                     </div>
@@ -311,9 +311,9 @@
                             }
                             @if (ViewBag.Riesgos_CC.Count == 0)
                             {
-                                <h6 class="text-center">
-                                    <span class="badge badge-info">No contiene riesgos</span>
-                                </h6>
+                                <h5 class="text-center">
+                                    <span class="badge badge-secondary">No contiene riesgos</span>
+                                </h5>
                             }
                         </div>
                     </div>
@@ -344,9 +344,9 @@
                             }
                             @if (ViewBag.Riesgos_No.Count == 0)
                             {
-                                <h6 class="text-center">
-                                    <span class="badge badge-info">No contiene riesgos</span>
-                                </h6>
+                                <h5 class="text-center">
+                                    <span class="badge badge-secondary">No contiene riesgos</span>
+                                </h5>
                             }
                         </div>
                     </div>
@@ -378,14 +378,20 @@
                                 {
                                     <div class="campos campos_dos_kai">
                                         <div class="campos_ultimos numeracion">
-                                            IA@( ViewBag.Documentos_imagenes.IndexOf(doc) + 1)
+                                            IA@(ViewBag.Documentos_imagenes.IndexOf(doc) + 1)
                                         </div>
                                         <div class="campos_ultimos">
                                             <a class="fancybox-thumb" rel="fancybox-thumb" href="~/Archivos/CC_@doc.fk_CC/Adjuntos/@doc.DocPath">
-                                                <img src="~/Archivos/CC_@doc.fk_CC/Adjuntos/@doc.DocPath" width="35%"/>
+                                                <img src="~/Archivos/CC_@doc.fk_CC/Adjuntos/@doc.DocPath" width="35%" />
                                             </a>
                                         </div>
                                     </div>
+                                }
+                                @if (ViewBag.Documentos_imagenes.Count == 0)
+                                {
+                                    <h5 class="text-center">
+                                        <span class="badge badge-secondary">No contiene imagenes adjuntas</span>
+                                    </h5>
                                 }
                             </div>
                             <div class=campos_ultimos>
@@ -401,6 +407,12 @@
                                             </a>
                                         </div>
                                     </div>
+                                }
+                                @if (ViewBag.Documentos_pdf.Count == 0)
+                                {
+                                    <h5 class="text-center">
+                                        <span class="badge badge-secondary">No contiene documentos adjuntos</span>
+                                    </h5>
                                 }
                             </div>
                         </dic>

@@ -46,35 +46,11 @@
             @foreach (var rol in ViewBag.Roles)
             {
                 <div class="campos_ultimos">
-                    <label class="container">
-                        @rol.Rol
-                        <input id="@ViewBag.Roles.IndexOf(rol)" name="rol" type="checkbox">
-                        <span class="checkmark"></span>
-                    </label>
+                    <input id="@ViewBag.Roles.IndexOf(rol)" name="rol" type="checkbox">
+                    @rol.Rol
                     <input type="text" class="rol_input" value="@rol.Id_Rol" hidden/>
                 </div>
             }
-            <div class="campos_ultimos">
-                <label class="container">
-                    Otro
-                    <input name="rol" type="checkbox">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-            <div class="campos_ultimos">
-                <label class="container">
-                    Administrador
-                    <input name="rol" type="checkbox">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-            <div class="campos_ultimos">
-                <label class="container">
-                    Super
-                    <input name="rol" type="checkbox">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
         </div>
         <div class="campos campos_tres">
             <div class="campos_ultimos"></div>
@@ -89,8 +65,8 @@
     <script>
         $(document).ready(function () {
             var check = document.getElementsByName("rol")
-            for (var c in check) {
-                c.addEventListener("change", setNombre, false)
+            for (var i = 0; i < check.length; i++) {
+                check[i].addEventListener("change", setNombre, false)
             }
 		});
     </script>

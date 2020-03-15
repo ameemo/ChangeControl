@@ -440,7 +440,7 @@ function error_campos(seccion) {
 function setNombre() {
     var index = this.getAttribute("id")
     var rol_input = document.getElementsByClassName("rol_input")
-    if (index.checked) {
+    if (this.checked) {
         rol_input[index].setAttribute("name", "rol_input")
     }
     else {

@@ -27,7 +27,7 @@ namespace SistemaCC.Controllers
         // GET: Usuarios/Crear
         public ActionResult Crear()
         {
-            ViewBag.Roles = (from r in BD.Roles select r);
+            ViewBag.Roles = (from r in BD.Roles select r).ToList();
             return View();
         }
 
