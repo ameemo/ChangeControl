@@ -42,6 +42,18 @@
             </div>
         </div>
         <div class="campos campos_tres">
+            <div class="campos_ultimos"></div>
+            @foreach (var rol in ViewBag.Roles)
+            {
+                <div class="campos_ultimos">
+                    <label class="container">
+                        @rol.Rol
+                        <input id="@ViewBag.Roles.IndexOf(rol)" name="rol" type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                    <input type="text" class="rol_input" value="@rol.Id_Rol" hidden/>
+                </div>
+            }
             <div class="campos_ultimos">
                 <label class="container">
                     Otro
@@ -71,4 +83,15 @@
             </div>
         </div>
     </div>
+}
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            var check = document.getElementsByName("rol")
+            for (var c in check) {
+                c.addEventListener("change", setNombre, false)
+            }
+		});
+    </script>
 }

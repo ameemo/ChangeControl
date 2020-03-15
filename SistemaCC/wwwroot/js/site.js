@@ -17,7 +17,7 @@ function tabs(seccion, sc, sl)
     $("#Link" + seccion).addClass("active " + sl)
     $("#Link" + seccion).removeClass("inactivo")
 }
-//Funcion para contador de caracteres
+// Funcion para contador de caracteres
 function contar(posicion, clase, conteo_id)
 {
     var contadores = document.getElementsByClassName(clase)
@@ -33,7 +33,7 @@ function contar(posicion, clase, conteo_id)
     div.appendChild(texto_nuevo)
     div_conteo.appendChild(div)
 }
-//Funciones para agregar y quitar campos dinamicos
+// Funciones para agregar y quitar campos dinamicos
 function actividad_agregar(id)
 {
     //Asigar id a la nueva fila
@@ -435,4 +435,15 @@ function error_campos(seccion) {
     var show = document.getElementsByClassName("show")
     $(show).removeClass("show")
     $(collapse[seccion]).addClass("show")
+}
+// funcion para cambiar al nombre del input con el id del rol
+function setNombre() {
+    var index = this.getAttribute("id")
+    var rol_input = document.getElementsByClassName("rol_input")
+    if (index.checked) {
+        rol_input[index].setAttribute("name", "rol_input")
+    }
+    else {
+        rol_input[index].setAttribute("name", "")
+    }
 }
