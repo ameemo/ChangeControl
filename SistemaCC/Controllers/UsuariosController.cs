@@ -10,6 +10,22 @@ namespace SistemaCC.Controllers
     public class UsuariosController : Controller
     {
         BDControlCambioDataContext BD = new BDControlCambioDataContext();
+        //Función para agregar los roles
+        void anadir_roles(int id_U, string roles)
+        {
+            if(roles != null)
+            {
+                string[] rol = roles.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                for(var i = 0; i < rol.Length; i++)
+                {
+                    UsuarioRol ur = new UsuarioRol();
+                    ur.fk_Rol = Convert.ToInt32(rol[i]);
+                    ur.fk_Us = id_U;
+                    BD.UsuarioRol.InsertOnSubmit(ur);
+                    BD.SubmitChanges();
+                }
+            }
+        }
         // GET: Usuarios
         public ActionResult Index()
         {
@@ -38,12 +54,12 @@ namespace SistemaCC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Crear(Usuario modelo, FormCollection collection)
         {
-            ViewBag.Roles = (from r in BD.Roles select r).ToList();
             try
             {
                 var correo = (from u in BD.Usuario where u.Email == modelo.Email select u).ToList();
                 if(correo.Count != 0)
                 {
+                    ViewBag.Roles = (from r in BD.Roles select r).ToList();
                     ViewData["ME1"] = "El correo ingresado ya ha sido registrado";
                     return View();
                 }
@@ -54,8 +70,10 @@ namespace SistemaCC.Controllers
                 usuario.NoExt = modelo.NoExt;
                 usuario.Email = modelo.Email;
                 usuario.Activo = true;
-                return View();
-                //return RedirectToAction(nameof(Index));
+                BD.Usuario.InsertOnSubmit(usuario);
+                BD.SubmitChanges();
+                anadir_roles(usuario.Id_U, collection["rol_input"]);
+                return RedirectToAction("Index");
             }
             catch
             {
