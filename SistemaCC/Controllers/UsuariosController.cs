@@ -28,19 +28,29 @@ namespace SistemaCC.Controllers
         public ActionResult Crear()
         {
             ViewBag.Roles = (from r in BD.Roles select r).ToList();
+            ViewData["ME"] = "";
             return View();
         }
 
         // POST: Usuarios/Crear
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Crear(FormCollection collection)
+        public ActionResult Crear(Usuario modelo, FormCollection collection)
         {
+            ViewBag.Roles = (from r in BD.Roles select r).ToList();
+            ViewData["ME"] = "Error";
+
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
+                Usuario usuario = new Usuario();
+                usuario.Nombre = modelo.Nombre;
+                usuario.ApePaterno = modelo.ApePaterno;
+                usuario.ApeMaterno = modelo.ApeMaterno;
+                usuario.NoExt = modelo.NoExt;
+                usuario.Email = modelo.Email;
+                usuario.Activo = true;
+                return View();
+                //return RedirectToAction(nameof(Index));
             }
             catch
             {

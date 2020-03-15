@@ -1,13 +1,13 @@
 ﻿@model SistemaCC.Models.Usuario
 @{
-    ViewData["Title"] = "Crear";
-    Layout = "./../Shared/_LayoutVacio.cshtml";
+    ViewData["Title"] = "Crear usuario";
 }
-<div class="seccion-dark">
-    <h1>Crear</h1>
+<div class="seccion">
+    <h1>Crear usuario</h1>
 </div>
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     <div id="principal">
         <div class="campos campos_tres">
             <div class="campos_ultimos">
@@ -34,6 +34,7 @@
             </div>
             <div class="campos_ultimos">
                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", placeholder = "nombre.apellido@eutelsat.com.mx", required = "required" } })
+                <span class="text-danger">@ViewData["ME"]</span>
             </div>
         </div>
         <div class="campos campos_tres">
@@ -48,7 +49,7 @@
                 <div class="campos_ultimos">
                     <input id="@ViewBag.Roles.IndexOf(rol)" name="rol" type="checkbox">
                     @rol.Rol
-                    <input type="text" class="rol_input" value="@rol.Id_Rol" hidden/>
+                    <input type="text" class="rol_input" value="@rol.Id_Rol" hidden />
                 </div>
             }
         </div>
@@ -68,6 +69,6 @@
             for (var i = 0; i < check.length; i++) {
                 check[i].addEventListener("change", setNombre, false)
             }
-		});
+        });
     </script>
 }

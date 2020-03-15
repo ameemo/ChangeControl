@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "ServiciosAplicacioes";
+    ViewData["Title"] = "ServiciosAplicaciones";
 }
 <div class="row">
     <div class="col-md-12 seccion_contenedor">
@@ -8,7 +8,7 @@
             <h1>Servicios y aplicaciones</h1>
         </div>
         <div class="seccion_boton">
-            <a class="btn btn-success fancybox fancybox.ajax" href="Crear"><span class="icon-plus-square"></span> Crear</a>
+            <a class="btn btn-success" href="Crear"><span class="icon-plus-square"></span> Crear</a>
         </div>
     </div>
     <table class="table table-hover">
@@ -26,7 +26,7 @@
                 @foreach (var dato in ViewBag.datos as IEnumerable<SistemaCC.Models.ServiciosAplicaciones>)
                 {
                     <td>@dato.Acronimo</td>
-                    <td>@dato.Usuario.Nombre</td>
+                    <td>@dato.Usuario.Nombre @dato.Usuario.ApePaterno @dato.Usuario.ApeMaterno</td>
                     <td class="link">
                         <a class="fancybox fancybox.ajax" href="Ver?id=@dato.Id_SA"><span class="icon-eye"></span></a>
                     </td>
