@@ -98,16 +98,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Valor 1</td>
-                        <td>Valor 2</td>
-                        <td class="link texto">
-                            <a href="#">Revisar</a>
-                        </td>
-                        <td class="link">
-                            <a asp-controller="ControlCambio" asp-action="Ver"><span class="icon-eye"></span></a>
-                        </td>
-                    </tr>
+                    @foreach (var cc in ViewBag.Revision_CC as IEnumerable<SistemaCC.Models.ControlCambio>)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>@cc.Usuario.Nombre @cc.Usuario.ApePaterno</td>
+                            <td class="link texto">
+                                <a href="~/ControlCambio/Revisar?id=@cc.Id_CC">Revisar</a>
+                            </td>
+                            <td class="link">
+                                <a href="~/ControlCambio/Ver?id=@cc.Id_CC"><span class="icon-eye"></span></a>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>

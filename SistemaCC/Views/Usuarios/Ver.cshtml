@@ -12,7 +12,7 @@
         </div>
         <div class="campos_ultimos">
             <div class="campo-ver p-2">
-                @ViewBag.Modelo.Nombre @ViewBag.Modelo.ApPaterno @ViewBag.Modelo.ApMaterno
+                @ViewBag.Modelo.Nombre @ViewBag.Modelo.ApePaterno @ViewBag.Modelo.ApeMaterno
             </div>
         </div>
     </div>
@@ -31,10 +31,11 @@
             <label>Extensión:</label>
         </div>
         <div class="campos_ultimos">
-            <div class="campo-ver p-2">
-                @if(ViewBag.Modelo.Ext != null)
+                @if(ViewBag.Modelo.NoExt != null)
                 {
-                    ViewBag.Modelo.Ext
+                    <div class="campo-ver p-2">
+                        @ViewBag.Modelo.NoExt
+                    </div>
                 }
                 else
                 {
@@ -42,10 +43,9 @@
                         <span class="badge badge-secondary">No Extensión</span>
                     </h5>
                 }
-            </div>
         </div>
     </div>
-    <div class="campos campos_dos">
+    <div class="campos campos_dos_kai">
         <div class="campos_ultimos">
             <label>Roles:</label>
         </div>
@@ -53,6 +53,14 @@
         {
             <div class="campos_ultimos campo-ver">
                 @rol.Roles.Rol
+            </div>
+        }
+        @if (ViewBag.Roles.Count == 0)
+        {
+            <div class="campos_ultimos">
+                <h5>
+                    <span class="badge badge-secondary">No tiene rol asignado</span>
+                </h5>
             </div>
         }
     </div>

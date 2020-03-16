@@ -13,7 +13,7 @@ namespace SistemaCC.Controllers
         BDControlCambioDataContext BD = new BDControlCambioDataContext();
         public ActionResult Index()
         {
-
+            ViewBag.Revision_CC = (from cc in BD.ControlCambio where cc.Estado == "EnEvaluacion" select cc);
             return View();
         }
 

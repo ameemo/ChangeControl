@@ -30,10 +30,10 @@
                 <td>@dato.ApePaterno</td>
                 <td>@dato.Email</td>
                 <td class="link">
-                    <a class="fancybox fancybox.ajax" href="Ver?id=@dato.Id_U"><span class="icon-eye"></span></a>
+                    <a class="fancybox fancybox.ajax" href="~/Usuarios/Ver?id=@dato.Id_U"><span class="icon-eye"></span></a>
                 </td>
                 <td class="link">
-                    <a class="fancybox fancybox.ajax" href="Editar?id=@dato.Id_U"><span class="icon-edit"></span></a>
+                    <a class="fancybox fancybox.ajax" href="~/Usuarios/Editar?id=@dato.Id_U"><span class="icon-edit"></span></a>
                 </td>
                 @if (dato.Activo == true)
                 {
