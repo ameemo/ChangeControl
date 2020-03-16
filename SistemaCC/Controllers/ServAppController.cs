@@ -31,7 +31,7 @@ namespace SistemaCC.Controllers
             List<Usuario> usuarios2 = new List<Usuario>();
             foreach (var usuario in usuarios)
             {
-                usuarios2.Add(new Usuario { Id_U = usuario.Id_U, Nombre = usuario.Nombre + usuario.ApePaterno + usuario.ApeMaterno });
+                usuarios2.Add(new Usuario { Id_U = usuario.Id_U, Nombre = usuario.Nombre + " " + usuario.ApePaterno + " " + usuario.ApeMaterno });
             }
             ViewData["usuarios"] = new SelectList(usuarios2, "Id_U", "Nombre");
             return View();
@@ -40,13 +40,19 @@ namespace SistemaCC.Controllers
         // POST: ServApp/Crear
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Crear(FormCollection collection)
+        public ActionResult Crear(ServiciosAplicaciones modelo, FormCollection collection)
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
+                ServiciosAplicaciones servapp = new ServiciosAplicaciones();
+                servapp.Nombre = modelo.Nombre;
+                servapp.Descripcion = modelo.Descripcion;
+                servapp.Acronimo = modelo.Acronimo;
+                servapp.Activo = true;
+                servapp.Dueno = modelo.Dueno;
+                BD.ServiciosAplicaciones.InsertOnSubmit(servapp);
+                BD.SubmitChanges();
+                return RedirectToAction("Index");
             }
             catch
             {

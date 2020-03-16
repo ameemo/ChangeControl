@@ -39,10 +39,10 @@
                 <label>Descripción:</label>
             </div>
             <div class="campos_ultimos">
-                @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control contador",rows = "3", placeholder = "Descripción", maxlength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500", onkeyup = "contar('1', 'contador','conteo-')", required = "required" })
+                @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control contador",rows = "3", placeholder = "Descripción", maxlength = "150", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 150", onkeyup = "contar('1', 'contador','conteo-')", required = "required" })
             </div>
             <div id="conteo-1" class="campos_ultimos conteo">
-                <div>Caracteres: 0/500</div>
+                <div>Caracteres: 0/150</div>
             </div>
         </div>
     </div>
