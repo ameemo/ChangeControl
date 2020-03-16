@@ -45,7 +45,6 @@ namespace SistemaCC.Controllers
         {
             ViewBag.Roles = (from r in BD.Roles select r).ToList();
             ViewData["ME1"] = "";
-            ViewData["ME2"] = "";
             return View();
         }
 
@@ -64,12 +63,13 @@ namespace SistemaCC.Controllers
                     return View();
                 }
                 Usuario usuario = new Usuario();
-                usuario.Nombre = modelo.Nombre;
-                usuario.ApePaterno = modelo.ApePaterno;
-                usuario.ApeMaterno = modelo.ApeMaterno;
+                usuario.Nombre = modelo.Nombre.ToUpper();
+                usuario.ApePaterno = modelo.ApePaterno.ToUpper();
+                usuario.ApeMaterno = modelo.ApeMaterno.ToUpper();
                 usuario.NoExt = modelo.NoExt;
                 usuario.Email = modelo.Email;
                 usuario.Activo = true;
+                usuario.ClaveUnica = "";
                 BD.Usuario.InsertOnSubmit(usuario);
                 BD.SubmitChanges();
                 anadir_roles(usuario.Id_U, collection["rol_input"]);
