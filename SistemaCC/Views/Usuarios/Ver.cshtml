@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Ver";
     Layout = "./../Shared/_LayoutVacio.cshtml";
 }
@@ -13,7 +12,7 @@
         </div>
         <div class="campos_ultimos">
             <div class="campo-ver p-2">
-                AMERICA BERENICE MONSALVO FUENTES
+                @ViewBag.Modelo.Nombre @ViewBag.Modelo.ApPaterno @ViewBag.Modelo.ApMaterno
             </div>
         </div>
     </div>
@@ -23,7 +22,7 @@
         </div>
         <div class="campos_ultimos">
             <div class="campo-ver p-2">
-                amonsalvof@eutelsat.com
+                @ViewBag.Modelo.Email
             </div>
         </div>
     </div>
@@ -33,31 +32,29 @@
         </div>
         <div class="campos_ultimos">
             <div class="campo-ver p-2">
-                222
+                @if(ViewBag.Modelo.Ext != null)
+                {
+                    ViewBag.Modelo.Ext
+                }
+                else
+                {
+                    <h5>
+                        <span class="badge badge-secondary">No Extensión</span>
+                    </h5>
+                }
             </div>
         </div>
     </div>
-    <div class="campos campos_dos_kai">
+    <div class="campos campos_dos">
         <div class="campos_ultimos">
             <label>Roles:</label>
         </div>
-        <div class="campos campos_dos">
-            <div class="campos_ultimos">
-                <div class="campo-ver p-2">
-                    Admin
-                </div>
+        @foreach (var rol in ViewBag.Roles as IEnumerable<SistemaCC.Models.UsuarioRol>)
+        {
+            <div class="campos_ultimos campo-ver">
+                @rol.Roles.Rol
             </div>
-        </div>
-    </div>
-    <div class="campos campos_dos_kai">
-        <div class="campos_ultimos"></div>
-        <div class="campos campos_dos">
-            <div class="campos_ultimos">
-                <div class="campo-ver p-2">
-                    Super Admin
-                </div>
-            </div>
-        </div>
+        }
     </div>
 </div>
 

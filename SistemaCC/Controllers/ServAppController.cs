@@ -21,6 +21,7 @@ namespace SistemaCC.Controllers
         // GET: ServApp/Ver/5
         public ActionResult Ver(int id)
         {
+            ViewBag.Modelo = (from sa in BD.ServiciosAplicaciones where sa.Id_SA == id select sa).SingleOrDefault();
             return View();
         }
 

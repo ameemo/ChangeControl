@@ -37,6 +37,8 @@ namespace SistemaCC.Controllers
         // GET: Usuarios/Ver/5
         public ActionResult Ver(int id)
         {
+            ViewBag.Modelo = (from u in BD.Usuario where u.Id_U == id select u).SingleOrDefault();
+            ViewBag.Roles = (from ur in BD.UsuarioRol where ur.fk_Us == id select ur).ToList();
             return View();
         }
 
