@@ -447,3 +447,10 @@ function setNombre() {
         rol_input[index].setAttribute("name", "")
     }
 }
+// Funcion para ocultar las notas en revisión
+function ocultar_mostrar_nota(ocultar, mostrar) {
+    var ocultar_ = document.getElementById(ocultar);
+    ocultar_.style.display = "none"
+    var mostrar_ = document.getElementById(mostrar);
+    mostrar_.style.display = "block"
+}

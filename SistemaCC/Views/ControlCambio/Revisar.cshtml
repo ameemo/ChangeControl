@@ -19,8 +19,11 @@
             </div>
             <div id="Section1" class="collapse show" aria-labelledby="Titulo1" data-parent="#accordionFormulario">
                 <div id="max_fila" class="card-body">
-                    <div class="campos_ultimos mb-3" style="border-left: 3px solid #17a2b8; box-shadow: 4px 7px #ebebeb">
-                        @Html.TextAreaFor(model => model.InfGeneral, new { @class = "form-control", rows = "5"})
+                    <div class="campos_ultimos nota mb-1">
+                        @Html.TextAreaFor(model => model.InfGeneral, new { @class = "form-control contador", rows = "5", placeholder = "Observación...", maxlength = "150", onkeyup = "contar('0', 'contador','conteo-')", required = "required" })
+                    </div>
+                    <div id="conteo-0" class="campos_ultimos conteo mb-2">
+                        <div>Caracteres: 0/150</div>
                     </div>
                     <div class="campos campos_dos_kai">
                         <div class="campos_ultimos">
@@ -83,187 +86,207 @@
                 <div class="card-body">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a id="Link1" class="nav-link active LActLim" href="#" onclick="tabs('1','SActLim', 'LActLim'); return false">Actividades</a>
+                            <a id="Link1" class="nav-link active LActLim" href="#" onclick="tabs('1','SActLim', 'LActLim'); ocultar_mostrar_nota('nota_servicios', 'nota_actividades'); return false">Actividades</a>
                         </li>
                         <li class="nav-item">
-                            <a id="Link2" class="nav-link inactivo" href="#" onclick="tabs('2','SActLim', 'LActLim'); return false">CC Actividades</a>
+                            <a id="Link2" class="nav-link inactivo" href="#" onclick="tabs('2','SActLim', 'LActLim'); ocultar_mostrar_nota('nota_servicios', 'nota_actividades'); return false">CC Actividades</a>
                         </li>
                         <li class="nav-item">
-                            <a id="Link3" class="nav-link inactivo" href="#" onclick="tabs('3','SActLim', 'LActLim'); return false">Limitantes</a>
+                            <a id="Link3" class="nav-link inactivo" href="#" onclick="tabs('3', 'SActLim', 'LActLim'); ocultar_mostrar_nota('nota_actividades', 'nota_servicios'); return false">Limitantes</a>
                         </li>
                     </ul>
-                    <div id="Seccion1" class="seccion-activa SActLim">
-                        <div class="campos campos_dos">
-                            <div class="campos_ultimos seccion">
-                                <label>Actividades previas del control de cambio</label>
+                    <div class="campos campos_dos" style="margin-top: 2%">
+                        <div id="Seccion1" class="campos_ultimos seccion-activa SActLim">
+                            <div class="campos campos_dos">
+                                <div class="campos_ultimos seccion">
+                                    <label>Actividades previas del control de cambio</label>
+                                </div>
+                            </div>
+                            <div id="actividades_contenedor">
+                                @foreach (var act in ViewBag.Actividades_Prev as IEnumerable<SistemaCC.Models.Actividades>)
+                                {
+                                    <div class="campos campos_dos_kai">
+                                        <div class="campos_ultimos numeracion">
+                                            A@(ViewBag.Actividades_Prev.IndexOf(act) + 1)
+                                        </div>
+                                        <div class="campos_ultimos">
+                                            <div class="campos_ultimos">
+                                                <label>Descripción:</label>
+                                            </div>
+                                            <div class="campos_ultimos campo-ver">
+                                                @act.Descripcion
+                                            </div>
+                                            <div class="campos_ultimos">
+                                                <div class="campos_ultimos">
+                                                    <label>Observaciones:</label>
+                                                </div>
+                                                <div class="campos_ultimos campo-ver">
+                                                    @act.Observaciones
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="campos campos_dos_kai">
+                                        <div class="campos_ultimos"></div>
+                                        <div class="campos campos_dos">
+                                            <div class="campos_ultimos">
+                                                <div class="campos_ultimos">
+                                                    <label>Fecha:</label>
+                                                </div>
+                                                <div class="campos_ultimos campo-ver">
+                                                    @act.FechaRealizacion.ToString().Substring(0, 10)
+                                                </div>
+                                            </div>
+                                            <div class="campos_ultimos">
+                                                <div class="campos_ultimos">
+                                                    <label>Responsable</label>
+                                                </div>
+                                                <div class="campos_ultimos campo-ver">
+                                                    @act.Usuario.Nombre @act.Usuario.ApePaterno @act.Usuario.ApeMaterno
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                @if (ViewBag.Actividades_Prev.Count == 0)
+                                {
+                                    <h5 class="text-center">
+                                        <span class="badge badge-secondary">No contiene actividades</span>
+                                    </h5>
+                                }
                             </div>
                         </div>
-                        <div id="actividades_contenedor">
-                            @foreach (var act in ViewBag.Actividades_Prev as IEnumerable<SistemaCC.Models.Actividades>)
-                            {
-                                <div class="campos campos_dos_kai">
-                                    <div class="campos_ultimos numeracion">
-                                        A@(ViewBag.Actividades_Prev.IndexOf(act) + 1)
-                                    </div>
-                                    <div class="campos_ultimos">
-                                        <div class="campos_ultimos">
-                                            <label>Descripción:</label>
-                                        </div>
-                                        <div class="campos_ultimos campo-ver">
-                                            @act.Descripcion
-                                        </div>
-                                        <div class="campos_ultimos">
-                                            <div class="campos_ultimos">
-                                                <label>Observaciones:</label>
-                                            </div>
-                                            <div class="campos_ultimos campo-ver">
-                                                @act.Observaciones
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div id="Seccion2" class="campos_ultimos seccion-inactiva">
+                            <div class="campos campos_dos">
+                                <div class="campos_ultimos seccion">
+                                    <label>Actividades del control de cambio</label>
                                 </div>
-                                <div class="campos campos_dos_kai">
-                                    <div class="campos_ultimos"></div>
-                                    <div class="campos campos_dos">
-                                        <div class="campos_ultimos">
-                                            <div class="campos_ultimos">
-                                                <label>Fecha:</label>
-                                            </div>
-                                            <div class="campos_ultimos campo-ver">
-                                                @act.FechaRealizacion.ToString().Substring(0, 10)
-                                            </div>
+                            </div>
+                            <div id="actividades_cc_contenedor">
+                                @foreach (var act in ViewBag.Actividades_CC as IEnumerable<SistemaCC.Models.Actividades>)
+                                {
+                                    <div class="campos campos_dos_kai">
+                                        <div class="campos_ultimos numeracion">
+                                            A@(ViewBag.Actividades_CC.IndexOf(act) + 1)
                                         </div>
                                         <div class="campos_ultimos">
                                             <div class="campos_ultimos">
-                                                <label>Responsable</label>
+                                                <label>Descripción:</label>
                                             </div>
                                             <div class="campos_ultimos campo-ver">
-                                                @act.Usuario.Nombre @act.Usuario.ApePaterno @act.Usuario.ApeMaterno
+                                                @act.Descripcion
+                                            </div>
+                                            <div class="campos_ultimos">
+                                                <div class="campos_ultimos">
+                                                    <label>Observaciones:</label>
+                                                </div>
+                                                <div class="campos_ultimos campo-ver">
+                                                    @act.Observaciones
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            }
-                            @if (ViewBag.Actividades_Prev.Count == 0)
-                            {
-                                <h5 class="text-center">
-                                    <span class="badge badge-secondary">No contiene actividades</span>
-                                </h5>
-                            }
+                                    <div class="campos campos_dos_kai">
+                                        <div class="campos_ultimos"></div>
+                                        <div class="campos campos_dos">
+                                            <div class="campos_ultimos">
+                                                <div class="campos_ultimos">
+                                                    <label>Fecha:</label>
+                                                </div>
+                                                <div class="campos_ultimos campo-ver">
+                                                    @act.FechaRealizacion.ToString().Substring(0, 10)
+                                                </div>
+                                            </div>
+                                            <div class="campos_ultimos">
+                                                <div class="campos_ultimos">
+                                                    <label>Responsable</label>
+                                                </div>
+                                                <div class="campos_ultimos campo-ver">
+                                                    @act.Usuario.Nombre @act.Usuario.ApePaterno @act.Usuario.ApeMaterno
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                @if (ViewBag.Actividades_CC.Count == 0)
+                                {
+                                    <h5 class="text-center">
+                                        <span class="badge badge-secondary">No contiene actividades</span>
+                                    </h5>
+                                }
+                            </div>
+                        </div>
+                        <div id="nota_actividades" class="campos_ultimos">
+                            <div class="nota">
+                                @Html.TextAreaFor(model => model.Actividades, new { @class = "form-control contador", rows = "5", placeholder = "Observaciones de actividades...", maxlength = "150", onkeyup = "contar('1', 'contador','conteo-')" })
+                            </div>
+                            <div id="conteo-1" class="campos_ultimos conteo mb-2">
+                                <div>Caracteres: 0/150</div>
+                            </div>
                         </div>
                     </div>
-                    <div id="Seccion2" class="seccion-inactiva">
-                        <div class="campos campos_dos">
-                            <div class="campos_ultimos seccion">
-                                <label>Actividades del control de cambio</label>
+                    <div class="campos campos_dos">
+                        <div id="Seccion3" class="campos_ultimos seccion-inactiva">
+                            <div class="campos campos_dos">
+                                <div class="campos_ultimos seccion">
+                                    <label>Servicios afectados por el control de cambio</label>
+                                </div>
+                            </div>
+                            <div id="servicio_contenedor">
+                                @foreach (var ser in ViewBag.Servicios as IEnumerable<SistemaCC.Models.ControlServicio>)
+                                {
+                                    <div class="campos campos_dos_kai">
+                                        <div class="campos_ultimos numeracion">
+                                            S@(ViewBag.Servicios.IndexOf(ser) + 1)
+                                        </div>
+                                        <div class="campos_ultimos">
+                                            <div class="campos_ultimos">
+                                                <div class="campos_ultimos">
+                                                    <label>Nombre:</label>
+                                                </div>
+                                                <div class="campos_ultimos campo-ver">
+                                                    @ser.ServiciosAplicaciones.Nombre
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="campos campos_dos_kai">
+                                        <div class="campos_ultimos"></div>
+                                        <div class="campos campos_dos">
+                                            <div class="campos_ultimos">
+                                                <div class="campos_ultimos">
+                                                    <label>Fecha inicio:</label>
+                                                </div>
+                                                <div class="campos_ultimos campo-ver">
+                                                    @ser.FechaInicio.ToString().Substring(0, 10)
+                                                </div>
+                                            </div>
+                                            <div class="campos_ultimos">
+                                                <div class="campos_ultimos">
+                                                    <label>Fecha final:</label>
+                                                </div>
+                                                <div class="campos_ultimos campo-ver">
+                                                    @ser.FechaFinal.ToString().Substring(0, 10)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                @if (ViewBag.Servicios.Count == 0)
+                                {
+                                    <h5 class="text-center">
+                                        <span class="badge badge-secondary">No contiene limitantes</span>
+                                    </h5>
+                                }
                             </div>
                         </div>
-                        <div id="actividades_cc_contenedor">
-                            @foreach (var act in ViewBag.Actividades_CC as IEnumerable<SistemaCC.Models.Actividades>)
-                            {
-                                <div class="campos campos_dos_kai">
-                                    <div class="campos_ultimos numeracion">
-                                        A@(ViewBag.Actividades_CC.IndexOf(act) + 1)
-                                    </div>
-                                    <div class="campos_ultimos">
-                                        <div class="campos_ultimos">
-                                            <label>Descripción:</label>
-                                        </div>
-                                        <div class="campos_ultimos campo-ver">
-                                            @act.Descripcion
-                                        </div>
-                                        <div class="campos_ultimos">
-                                            <div class="campos_ultimos">
-                                                <label>Observaciones:</label>
-                                            </div>
-                                            <div class="campos_ultimos campo-ver">
-                                                @act.Observaciones
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="campos campos_dos_kai">
-                                    <div class="campos_ultimos"></div>
-                                    <div class="campos campos_dos">
-                                        <div class="campos_ultimos">
-                                            <div class="campos_ultimos">
-                                                <label>Fecha:</label>
-                                            </div>
-                                            <div class="campos_ultimos campo-ver">
-                                                @act.FechaRealizacion.ToString().Substring(0, 10)
-                                            </div>
-                                        </div>
-                                        <div class="campos_ultimos">
-                                            <div class="campos_ultimos">
-                                                <label>Responsable</label>
-                                            </div>
-                                            <div class="campos_ultimos campo-ver">
-                                                @act.Usuario.Nombre @act.Usuario.ApePaterno @act.Usuario.ApeMaterno
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                            @if (ViewBag.Actividades_CC.Count == 0)
-                            {
-                                <h5 class="text-center">
-                                    <span class="badge badge-secondary">No contiene actividades</span>
-                                </h5>
-                            }
-                        </div>
-                    </div>
-                    <div id="Seccion3" class="seccion-inactiva">
-                        <div class="campos campos_dos">
-                            <div class="campos_ultimos seccion">
-                                <label>Servicios afectados por el control de cambio</label>
+                        <div id="nota_servicios" class="campos_ultimos" style="display: none">
+                            <div class="nota">
+                                @Html.TextAreaFor(model => model.Servicios, new { @class = "form-control contador", rows = "5", placeholder = "Observaciones de limitantes...", maxlength = "150", onkeyup = "contar('2', 'contador','conteo-')" })
                             </div>
-                        </div>
-                        <div id="servicio_contenedor">
-                            @foreach (var ser in ViewBag.Servicios as IEnumerable<SistemaCC.Models.ControlServicio>)
-                            {
-                                <div class="campos campos_dos_kai">
-                                    <div class="campos_ultimos numeracion">
-                                        S@(ViewBag.Servicios.IndexOf(ser) + 1)
-                                    </div>
-                                    <div class="campos_ultimos">
-                                        <div class="campos_ultimos">
-                                            <div class="campos_ultimos">
-                                                <label>Nombre:</label>
-                                            </div>
-                                            <div class="campos_ultimos campo-ver">
-                                                @ser.ServiciosAplicaciones.Nombre
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="campos campos_dos_kai">
-                                    <div class="campos_ultimos"></div>
-                                    <div class="campos campos_dos">
-                                        <div class="campos_ultimos">
-                                            <div class="campos_ultimos">
-                                                <label>Fecha inicio:</label>
-                                            </div>
-                                            <div class="campos_ultimos campo-ver">
-                                                @ser.FechaInicio.ToString().Substring(0, 10)
-                                            </div>
-                                        </div>
-                                        <div class="campos_ultimos">
-                                            <div class="campos_ultimos">
-                                                <label>Fecha final:</label>
-                                            </div>
-                                            <div class="campos_ultimos campo-ver">
-                                                @ser.FechaFinal.ToString().Substring(0, 10)
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                            @if (ViewBag.Servicios.Count == 0)
-                            {
-                                <h5 class="text-center">
-                                    <span class="badge badge-secondary">No contiene limitantes</span>
-                                </h5>
-                            }
+                            <div id="conteo-2" class="campos_ultimos conteo mb-2">
+                                <div>Caracteres: 0/150</div>
+                            </div>
                         </div>
                     </div>
                 </div>

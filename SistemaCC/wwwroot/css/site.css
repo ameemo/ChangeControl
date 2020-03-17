@@ -95,7 +95,7 @@ a:hover.inactivo {
     grid-template-columns: 50% 50%;
 }
 .campos_dos_kai {
-    grid-template-columns: 20% 80%;
+    grid-template-columns: 25% 75%;
 }
 .campos_tres {
     grid-template-columns: 33% 34% 33%;
@@ -188,6 +188,15 @@ div.campo-ver {
     font-size: x-large;
     color: #cbcbcb;
     text-align: center;
+}
+/*Estilo para las observaciones en revisar*/
+.nota {
+    border-top: 25px solid #17a2b8;
+    border-right: 1px solid #17a2b8;
+    border-bottom: 1px solid #17a2b8;
+    border-left: 1px solid #17a2b8;
+    box-shadow: 4px 4px #ebebeb;
+    border-radius: 0.25rem;
 }
 /*Estilo extra*/
 a.cerrar {
