@@ -454,3 +454,9 @@ function ocultar_mostrar_nota(ocultar, mostrar) {
     var mostrar_ = document.getElementById(mostrar);
     mostrar_.style.display = "block"
 }
+// Funcion para saber que tipo de submit
+function revisarSubmit(tipo) {
+    var submit = document.getElementById("submit")
+    submit.setAttribute("name", tipo)
+    $(submit).trigger('click')
+}

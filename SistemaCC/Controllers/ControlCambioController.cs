@@ -350,19 +350,62 @@ namespace SistemaCC.Controllers
             }
             ViewBag.Documentos_imagenes = Documentos_imagenes;
             ViewBag.Documentos_pdf = Documentos_pdf;
-            return View();
+            // Validacion para saber si ya ha habido una revision anterior
+            var model = (from r in BD.Revisiones where r.fk_CC == id select r).ToList();
+            Revisiones revision = new Revisiones();
+            if(model.Count != 0)
+            {
+                revision = model[0];
+                return View(revision);
+            }
+            else
+            {
+                return View();
+            }
         }
 
         // POST: ControlCambio/Cerrar/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Revisar(int id, FormCollection collection)
+        public ActionResult Revisar(int id, Revisiones model, FormCollection collection)
         {
             try
             {
-                // TODO: Add Cerrar logic here
-
-                return RedirectToAction("~/Home/Index");
+                //Revisamos sino existe una revision anterior
+                var revisiones = (from r in BD.Revisiones where r.fk_CC == id select r).ToList();
+                if (revisiones.Count != 0)
+                {
+                    // Actualizamos la información
+                    revisiones[0].InfGeneral = model.InfGeneral;
+                    revisiones[0].Actividades = model.Actividades;
+                    revisiones[0].Servicios = model.Servicios;
+                    revisiones[0].Riesgos = model.Riesgos;
+                    revisiones[0].fk_CC = id;
+                    BD.SubmitChanges();
+                }
+                else
+                {
+                    // Insertamos la informacion de las notas
+                    Revisiones revisiones_ = new Revisiones();
+                    revisiones_.InfGeneral = model.InfGeneral;
+                    revisiones_.Actividades = model.Actividades;
+                    revisiones_.Servicios = model.Servicios;
+                    revisiones_.Riesgos = model.Riesgos;
+                    revisiones_.fk_CC = id;
+                    BD.Revisiones.InsertOnSubmit(revisiones_);
+                    BD.SubmitChanges();
+                }
+                // Revisar si es aprobación o corrección
+                var controlcambio = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
+                if (collection["aprobar"] != null)
+                {
+                    controlcambio.Estado = "Aprobado";
+                }
+                if (collection["corregir"] != null)
+                {
+                    controlcambio.Estado = "EnCorreccion";
+                }
+                return RedirectToAction("./../Home/Index");
             }
             catch
             {

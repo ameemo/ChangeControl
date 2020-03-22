@@ -190,6 +190,9 @@ div.campo-ver {
     text-align: center;
 }
 /*Estilo para las observaciones en revisar*/
+.nota_general{
+    margin-top: 0 !important;
+}
 .nota {
     border-top: 25px solid #17a2b8;
     border-right: 1px solid #17a2b8;
@@ -197,6 +200,7 @@ div.campo-ver {
     border-left: 1px solid #17a2b8;
     box-shadow: 4px 4px #ebebeb;
     border-radius: 0.25rem;
+    margin-top: 10%;
 }
 /*Estilo extra*/
 a.cerrar {

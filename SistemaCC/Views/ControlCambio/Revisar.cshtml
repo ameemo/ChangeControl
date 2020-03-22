@@ -19,8 +19,8 @@
             </div>
             <div id="Section1" class="collapse show" aria-labelledby="Titulo1" data-parent="#accordionFormulario">
                 <div id="max_fila" class="card-body">
-                    <div class="campos_ultimos nota mb-1">
-                        @Html.TextAreaFor(model => model.InfGeneral, new { @class = "form-control contador", rows = "5", placeholder = "Observación...", maxlength = "150", onkeyup = "contar('0', 'contador','conteo-')", required = "required" })
+                    <div class="campos_ultimos nota nota_general mb-1">
+                        @Html.TextAreaFor(model => model.InfGeneral, new { @class = "form-control contador", rows = "5", placeholder = "Observación...", maxlength = "150", onkeyup = "contar('0', 'contador','conteo-')" })
                     </div>
                     <div id="conteo-0" class="campos_ultimos conteo mb-2">
                         <div>Caracteres: 0/150</div>
@@ -97,10 +97,8 @@
                     </ul>
                     <div class="campos campos_dos" style="margin-top: 2%">
                         <div id="Seccion1" class="campos_ultimos seccion-activa SActLim">
-                            <div class="campos campos_dos">
-                                <div class="campos_ultimos seccion">
-                                    <label>Actividades previas del control de cambio</label>
-                                </div>
+                            <div class="campos_ultimos seccion">
+                                <label>Actividades previas del control de cambio</label>
                             </div>
                             <div id="actividades_contenedor">
                                 @foreach (var act in ViewBag.Actividades_Prev as IEnumerable<SistemaCC.Models.Actividades>)
@@ -157,10 +155,8 @@
                             </div>
                         </div>
                         <div id="Seccion2" class="campos_ultimos seccion-inactiva">
-                            <div class="campos campos_dos">
-                                <div class="campos_ultimos seccion">
-                                    <label>Actividades del control de cambio</label>
-                                </div>
+                            <div class="campos_ultimos seccion">
+                                <label>Actividades del control de cambio</label>
                             </div>
                             <div id="actividades_cc_contenedor">
                                 @foreach (var act in ViewBag.Actividades_CC as IEnumerable<SistemaCC.Models.Actividades>)
@@ -227,10 +223,8 @@
                     </div>
                     <div class="campos campos_dos">
                         <div id="Seccion3" class="campos_ultimos seccion-inactiva">
-                            <div class="campos campos_dos">
-                                <div class="campos_ultimos seccion">
-                                    <label>Servicios afectados por el control de cambio</label>
-                                </div>
+                            <div class="campos_ultimos seccion">
+                                <label>Servicios afectados por el control de cambio</label>
                             </div>
                             <div id="servicio_contenedor">
                                 @foreach (var ser in ViewBag.Servicios as IEnumerable<SistemaCC.Models.ControlServicio>)
@@ -310,70 +304,76 @@
                             <a id="LinkRiesgo2" class="nav-link inactivo" href="#" onclick="tabs('Riesgo2', 'SRiesgo', 'LRiesgo'); return false">Riesgos</a>
                         </li>
                     </ul>
-                    <div id="SeccionRiesgo1" class="seccion-activa SRiesgo">
-                        <div class="campos campos_dos">
-                            <div class="campos_ultimos seccion">
-                                <label>Riesgos del control de cambio</label>
-                            </div>
-                        </div>
-                        <div id="riesgos_contenedor">
-                            @foreach (var r in ViewBag.Riesgos_CC)
-                            {
-                                <div class="campos campos_dos_kai">
-                                    <div class="campos_ultimos numeracion">
-                                        R@(ViewBag.Riesgos_CC.IndexOf(r) + 1)
-                                    </div>
-                                    <div class="campos_ultimos">
+                    <div class="campos campos_dos">
+                        <div id="SeccionRiesgo1" class="seccion-activa SRiesgo">
+                                <div class="campos_ultimos seccion">
+                                    <label>Riesgos del control de cambio</label>
+                                </div>
+                            <div id="riesgos_contenedor">
+                                @foreach (var r in ViewBag.Riesgos_CC)
+                                {
+                                    <div class="campos campos_dos_kai">
+                                        <div class="campos_ultimos numeracion">
+                                            R@(ViewBag.Riesgos_CC.IndexOf(r) + 1)
+                                        </div>
                                         <div class="campos_ultimos">
                                             <div class="campos_ultimos">
-                                                <label>Descripción:</label>
-                                            </div>
-                                            <div class="campos_ultimos campo-ver">
-                                                @r.Descripcion
+                                                <div class="campos_ultimos">
+                                                    <label>Descripción:</label>
+                                                </div>
+                                                <div class="campos_ultimos campo-ver">
+                                                    @r.Descripcion
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            }
-                            @if (ViewBag.Riesgos_CC.Count == 0)
-                            {
-                                <h5 class="text-center">
-                                    <span class="badge badge-secondary">No contiene riesgos</span>
-                                </h5>
-                            }
+                                }
+                                @if (ViewBag.Riesgos_CC.Count == 0)
+                                {
+                                    <h5 class="text-center">
+                                        <span class="badge badge-secondary">No contiene riesgos</span>
+                                    </h5>
+                                }
+                            </div>
                         </div>
-                    </div>
-                    <div id="SeccionRiesgo2" class="seccion-inactiva">
-                        <div class="campos campos_dos">
+                        <div id="SeccionRiesgo2" class="seccion-inactiva">
                             <div class="campos_ultimos seccion">
                                 <label>Riesgos de no ejecutar el control de cambio</label>
                             </div>
-                        </div>
-                        <div id="riesgos_no_contenedor">
-                            @foreach (var r in ViewBag.Riesgos_No)
-                            {
-                                <div class="campos campos_dos_kai">
-                                    <div class="campos_ultimos numeracion">
-                                        R@(ViewBag.Riesgos_No.IndexOf(r) + 1)
-                                    </div>
-                                    <div class="campos_ultimos">
+                            <div id="riesgos_no_contenedor">
+                                @foreach (var r in ViewBag.Riesgos_No)
+                                {
+                                    <div class="campos campos_dos_kai">
+                                        <div class="campos_ultimos numeracion">
+                                            R@(ViewBag.Riesgos_No.IndexOf(r) + 1)
+                                        </div>
                                         <div class="campos_ultimos">
                                             <div class="campos_ultimos">
-                                                <label>Descripción:</label>
-                                            </div>
-                                            <div class="campos_ultimos campo-ver">
-                                                @r.Descripcion
+                                                <div class="campos_ultimos">
+                                                    <label>Descripción:</label>
+                                                </div>
+                                                <div class="campos_ultimos campo-ver">
+                                                    @r.Descripcion
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            }
-                            @if (ViewBag.Riesgos_No.Count == 0)
-                            {
-                                <h5 class="text-center">
-                                    <span class="badge badge-secondary">No contiene riesgos</span>
-                                </h5>
-                            }
+                                }
+                                @if (ViewBag.Riesgos_No.Count == 0)
+                                {
+                                    <h5 class="text-center">
+                                        <span class="badge badge-secondary">No contiene riesgos</span>
+                                    </h5>
+                                }
+                            </div>
+                        </div>
+                        <div id="nota_riesgos" class="campos_ultimos">
+                            <div class="nota">
+                                @Html.TextAreaFor(model => model.Riesgos, new { @class = "form-control contador", rows = "5", placeholder = "Observaciones de riesgos...", maxlength = "150", onkeyup = "contar('3', 'contador','conteo-')" })
+                            </div>
+                            <div id="conteo-3" class="campos_ultimos conteo mb-2">
+                                <div>Caracteres: 0/150</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -447,6 +447,20 @@
             </div>
         </div>
     </div>
+    <div class="campos campos_dos mt-3">
+        <div class="campos campos_dos">
+            <input id="submit" type="submit" hidden/>
+            <div class="campos_ultimos"></div>
+            <div class="campos_submit">
+                <a href="#" class="btn btn-light" onclick="revisarSubmit('corregir')">Corregir</a>
+            </div>
+        </div>
+        <div class="campos campos_dos">
+            <div class="campos_submit">
+                <a href="#" class="btn btn-dark" onclick="revisarSubmit('aprobar')">Aprobar</a>
+            </div>
+        </div>
+    </div> 
 }
 @section Scripts
 {
