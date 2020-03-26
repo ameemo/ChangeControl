@@ -257,12 +257,10 @@
     <Content Include="Views\ControlCambio\Notificar.cshtml" />
     <Content Include="Views\ControlCambio\Revisar.cshtml" />
     <Content Include="Views\ControlCambio\Ver.cshtml" />
-    <Content Include="Views\ServApp\Bloquear.cshtml" />
     <Content Include="Views\ServApp\Crear.cshtml" />
     <Content Include="Views\ServApp\Editar.cshtml" />
     <Content Include="Views\ServApp\Index.cshtml" />
     <Content Include="Views\ServApp\Ver.cshtml" />
-    <Content Include="Views\Usuarios\Bloquear.cshtml" />
     <Content Include="Views\Usuarios\Crear.cshtml" />
     <Content Include="Views\Usuarios\Editar.cshtml" />
     <Content Include="Views\Usuarios\Index.cshtml" />
