@@ -457,18 +457,30 @@ function ocultar_mostrar_nota(ocultar, mostrar) {
 // Funcion para saber que tipo de submit
 function revisarSubmit(tipo) {
     var submit = document.getElementById("submit")
-    var validacion = true;
+    var validacion1 = true;
+    var validacion2 = true;
     if (tipo == "corregir") {
         var textareas = document.getElementsByClassName("contador")
         for (var i = 0; i < textareas.length; i++) {
-                validacion = $(textareas[i]).val().length > 0
+                validacion1 = $(textareas[i]).val().length > 0
         }
     }
-    if (validacion) {
+    if (tipo == "aprobar") {
+        var textareas = document.getElementsByClassName("contador")
+        for (var i = 0; i < textareas.length; i++) {
+                validacion2 = ! $(textareas[i]).val().length > 0
+        }
+    }
+    if (validacion1 && validacion2) {
         submit.setAttribute("name", tipo)
         $(submit).trigger('click')
     }
     else {
-        alert('No se puede enviar a correccion, sin observaciones de las secciones.')
+        if (!validacion1) {
+            alert('No se puede enviar a correccion, sin observaciones en las secciones.')
+        }
+        if (!validacion2) {
+            alert('No se puede enviar a aprobar, con observaciones en las secciones.')
+        }
     }
 }

@@ -447,18 +447,16 @@
             </div>
         </div>
     </div>
-    <div class="campos campos_dos mt-3">
-        <div class="campos campos_dos">
-            <input id="submit" type="submit" hidden/>
-            <div class="campos_ultimos"></div>
-            <div class="campos_submit">
-                <a href="#" class="btn btn-light" onclick="revisarSubmit('corregir')">Corregir</a>
-            </div>
+    <div class="campos campos_tres mt-3">
+        <input id="submit" type="submit" hidden />
+        <div class="campos_ultimos text-right">
+            <a href="~/Home/Index" class="btn btn-light">Cancelar</a>
         </div>
-        <div class="campos campos_dos">
-            <div class="campos_submit">
-                <a href="#" class="btn btn-dark" onclick="revisarSubmit('aprobar')">Aprobar</a>
-            </div>
+        <div class="campos_submit">
+            <a href="#" class="btn btn-secondary" onclick="revisarSubmit('corregir')">Corregir</a>
+        </div>
+        <div class="campos_submit text-left">
+            <a href="#" class="btn btn-dark" onclick="revisarSubmit('aprobar')">Aprobar</a>
         </div>
     </div> 
 }

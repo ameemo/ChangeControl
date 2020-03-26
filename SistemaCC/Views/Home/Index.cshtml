@@ -88,31 +88,40 @@
             <div class="col-md-12 seccion">
                 <h1>Controles de cambio a revisar</h1>
             </div>
-            <table class="table table-hover">
-                <thead class="thead-info">
-                    <tr>
-                        <th scope="col">Clave</th>
-                        <th scope="col">Creador</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var cc in ViewBag.Revision_CC as IEnumerable<SistemaCC.Models.ControlCambio>)
-                    {
+            @if (ViewBag.Revision_CC.Count > 0)
+            {
+                <table class="table table-hover">
+                    <thead class="thead-info">
                         <tr>
-                            <td></td>
-                            <td>@cc.Usuario.Nombre @cc.Usuario.ApePaterno</td>
-                            <td class="link texto">
-                                <a href="~/ControlCambio/Revisar?id=@cc.Id_CC">Revisar</a>
-                            </td>
-                            <td class="link">
-                                <a href="~/ControlCambio/Ver?id=@cc.Id_CC"><span class="icon-eye"></span></a>
-                            </td>
+                            <th scope="col">Clave</th>
+                            <th scope="col">Creador</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var cc in ViewBag.Revision_CC as IEnumerable<SistemaCC.Models.ControlCambio>)
+                        {
+                            <tr>
+                                <td></td>
+                                <td>@cc.Usuario.Nombre @cc.Usuario.ApePaterno</td>
+                                <td class="link texto">
+                                    <a href="~/ControlCambio/Revisar?id=@cc.Id_CC">Revisar</a>
+                                </td>
+                                <td class="link">
+                                    <a href="~/ControlCambio/Ver?id=@cc.Id_CC"><span class="icon-eye"></span></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            @if (ViewBag.Revision_CC.Count == 0)
+            {
+                <h5 class="text-center">
+                    <span class="badge badge-secondary">No hay controles de cambio para revisar</span>
+                </h5>
+            }
         </div>
     </div>
 @section Scripts

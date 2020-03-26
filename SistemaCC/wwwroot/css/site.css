@@ -41,6 +41,8 @@ a:hover.link-dark {
 /*Pie del sitio*/
 div.pie {
     text-align: center;
+    position: fixed;
+    bottom: 0;
 }
 div.pie > a {
     color: #afafaf;

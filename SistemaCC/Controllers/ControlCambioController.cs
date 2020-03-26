@@ -400,10 +400,12 @@ namespace SistemaCC.Controllers
                 if (collection["aprobar"] != null)
                 {
                     controlcambio.Estado = "Aprobado";
+                    BD.SubmitChanges();
                 }
                 if (collection["corregir"] != null)
                 {
                     controlcambio.Estado = "EnCorreccion";
+                    BD.SubmitChanges();
                 }
                 return RedirectToAction("./../Home/Index");
             }
