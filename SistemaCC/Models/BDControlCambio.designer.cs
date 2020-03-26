@@ -2261,7 +2261,7 @@ namespace SistemaCC.Models
 		
 		private string _Servicios;
 		
-		private System.Nullable<int> _fk_CC;
+		private int _fk_CC;
 		
 		private EntityRef<ControlCambio> _ControlCambio;
 		
@@ -2279,7 +2279,7 @@ namespace SistemaCC.Models
     partial void OnRiesgosChanged();
     partial void OnServiciosChanging(string value);
     partial void OnServiciosChanged();
-    partial void Onfk_CCChanging(System.Nullable<int> value);
+    partial void Onfk_CCChanging(int value);
     partial void Onfk_CCChanged();
     #endregion
 		
@@ -2309,7 +2309,7 @@ namespace SistemaCC.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InfGeneral", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InfGeneral", DbType="VarChar(150)")]
 		public string InfGeneral
 		{
 			get
@@ -2329,7 +2329,7 @@ namespace SistemaCC.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Actividades", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Actividades", DbType="VarChar(150)")]
 		public string Actividades
 		{
 			get
@@ -2349,7 +2349,7 @@ namespace SistemaCC.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Riesgos", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Riesgos", DbType="VarChar(150)")]
 		public string Riesgos
 		{
 			get
@@ -2369,7 +2369,7 @@ namespace SistemaCC.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Servicios", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Servicios", DbType="VarChar(150)")]
 		public string Servicios
 		{
 			get
@@ -2389,8 +2389,8 @@ namespace SistemaCC.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fk_CC", DbType="Int")]
-		public System.Nullable<int> fk_CC
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fk_CC", DbType="Int NOT NULL")]
+		public int fk_CC
 		{
 			get
 			{
@@ -2440,7 +2440,7 @@ namespace SistemaCC.Models
 					}
 					else
 					{
-						this._fk_CC = default(Nullable<int>);
+						this._fk_CC = default(int);
 					}
 					this.SendPropertyChanged("ControlCambio");
 				}

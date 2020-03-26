@@ -417,7 +417,7 @@ function revisar_extension(id) {
     var p = document.createElement("p")
     //validar la extension
     if (!extensiones.includes(extension)) {
-        var texto_nuevo = document.createTextNode("Adjuntar archivo tipo PDF")
+        var texto_nuevo = document.createTextNode("Adjuntar archivo tipo PNG, JPG, JPEG, o PDF")
         p.appendChild(texto_nuevo)
         adjunto.value = ""
         alert("El archivo no cumple con las especificaciones. Sólo archivos: jpg, jpeg, png y pdf")//Cambio en el texto de la label para mostrarla al cliente
@@ -457,6 +457,18 @@ function ocultar_mostrar_nota(ocultar, mostrar) {
 // Funcion para saber que tipo de submit
 function revisarSubmit(tipo) {
     var submit = document.getElementById("submit")
-    submit.setAttribute("name", tipo)
-    $(submit).trigger('click')
+    var validacion = true;
+    if (tipo == "corregir") {
+        var textareas = document.getElementsByClassName("contador")
+        for (var i = 0; i < textareas.length; i++) {
+                validacion = $(textareas[i]).val().length > 0
+        }
+    }
+    if (validacion) {
+        submit.setAttribute("name", tipo)
+        $(submit).trigger('click')
+    }
+    else {
+        alert('No se puede enviar a correccion, sin observaciones de las secciones.')
+    }
 }

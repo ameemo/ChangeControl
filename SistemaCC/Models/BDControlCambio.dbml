@@ -97,11 +97,11 @@
   <Table Name="dbo.Revisiones" Member="Revisiones">
     <Type Name="Revisiones">
       <Column Name="Id_Re" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="InfGeneral" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
-      <Column Name="Actividades" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
-      <Column Name="Riesgos" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
-      <Column Name="Servicios" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
-      <Column Name="fk_CC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="InfGeneral" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="Actividades" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="Riesgos" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="Servicios" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="fk_CC" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="ControlCambio_Revisiones" Member="ControlCambio" ThisKey="fk_CC" OtherKey="Id_CC" Type="ControlCambio" IsForeignKey="true" />
     </Type>
   </Table>
