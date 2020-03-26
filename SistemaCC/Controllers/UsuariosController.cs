@@ -10,6 +10,7 @@ namespace SistemaCC.Controllers
     public class UsuariosController : Controller
     {
         BDControlCambioDataContext BD = new BDControlCambioDataContext();
+        Mensajes Mensaje = new Mensajes();
         //Función para agregar los roles
         void anadir_roles(int id_U, string roles)
         {
@@ -46,7 +47,7 @@ namespace SistemaCC.Controllers
         public ActionResult Crear()
         {
             ViewBag.Roles = (from r in BD.Roles select r).ToList();
-            ViewData["ME1"] = "";
+            ViewData["ME1"] = Mensaje.getMError(0);
             return View();
         }
 
@@ -61,7 +62,7 @@ namespace SistemaCC.Controllers
                 if(correo.Count != 0)
                 {
                     ViewBag.Roles = (from r in BD.Roles select r).ToList();
-                    ViewData["ME1"] = "El correo ingresado ya ha sido registrado";
+                    ViewData["ME1"] = Mensaje.getMError(12);
                     return View();
                 }
                 Usuario usuario = new Usuario();

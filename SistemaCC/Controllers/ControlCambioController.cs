@@ -267,12 +267,12 @@ namespace SistemaCC.Controllers
                 servicios(controlCambio.Id_CC, servicios_);
                 //Llamar a adjuntos
                 anadir_adjuntos(controlCambio.Id_CC, adjuntos_, "Adjunto");
-                return RedirectToAction("./../Home/Index");
+                //return RedirectToAction("./../Home/Index?mensaje=C8");
+                return RedirectToAction("./../Home/Index","C8");
             }
             catch (System.Data.SqlClient.SqlException ex)
             {
-                Console.Write(ex);
-                return View();
+                return RedirectToAction("./../Home/Index?mensaje=E1");
             }
         }
 
