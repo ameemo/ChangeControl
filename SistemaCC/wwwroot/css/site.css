@@ -202,6 +202,10 @@ div.campo-ver {
     border-radius: 0.25rem;
     margin-top: 10%;
 }
+/*Estilo para mensajes*/
+.mensaje{
+    width: 100%;
+}
 /*Estilo extra*/
 a.cerrar {
     color: #dc3545 !important;

@@ -12,13 +12,13 @@ namespace SistemaCC.Controllers
     {
         BDControlCambioDataContext BD = new BDControlCambioDataContext();
         Mensajes Mensaje = new Mensajes();
-        public ActionResult Index(string mensaje = "")
+        public ActionResult Index(string mensaje)
         {
             ViewBag.Revision_CC = (from cc in BD.ControlCambio where cc.Estado == "EnEvaluacion" select cc).ToList();
             //Seccion de mensajes para la vista
             string MC = "";
             string ME = "";
-            if (mensaje.Length > 1)
+            if (mensaje != null)
             {
                 int numero = Convert.ToInt32(mensaje.Substring(1, 1));
                 if (mensaje.Substring(0, 1) == "C")

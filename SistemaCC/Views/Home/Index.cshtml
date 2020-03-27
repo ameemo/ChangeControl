@@ -2,9 +2,18 @@
     ViewData["Title"] = "Inicio";
 }
     <div class="row">
-        <div class="alert alert-success" role="alert">
-            @ViewData["MC"]
-        </div>
+        @if (ViewData["MC"] != "")
+        {
+            <div class="alert alert-success mensaje" role="alert">
+                @ViewData["MC"]
+            </div>
+        }
+        @if (ViewData["ME"] != "")
+        {
+            <div class="alert alert-danger mensaje" role="alert">
+                @ViewData["ME"]
+            </div>
+        }
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a id="Link1" class="nav-link active" href="#" onclick="tabs('1','seccion-activa', 'active')">Tus CC</a>

@@ -268,11 +268,13 @@ namespace SistemaCC.Controllers
                 //Llamar a adjuntos
                 anadir_adjuntos(controlCambio.Id_CC, adjuntos_, "Adjunto");
                 //return RedirectToAction("./../Home/Index?mensaje=C8");
-                return RedirectToAction("./../Home/Index","C8");
-            }
+                return RedirectToAction("./../Home/Index", new {
+                    mensaje = "C8" });
+                }
             catch (System.Data.SqlClient.SqlException ex)
             {
-                return RedirectToAction("./../Home/Index?mensaje=E1");
+                return RedirectToAction("./../Home/Index", new {
+                    mensaje = "E1" });
             }
         }
 
