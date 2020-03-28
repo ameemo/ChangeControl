@@ -28,10 +28,27 @@ namespace SistemaCC.Controllers
             }
         }
         // GET: Usuarios
-        public ActionResult Index()
+        public ActionResult Index(string mensaje)
         {
             var datos = (from a in BD.Usuario select a).ToList();
             ViewBag.datos = datos;
+            //Seccion de mensajes para la vista
+            string MC = "";
+            string ME = "";
+            if (mensaje != null)
+            {
+                int numero = Convert.ToInt32(mensaje.Substring(1, 1));
+                if (mensaje.Substring(0, 1) == "C")
+                {
+                    MC = Mensaje.getMConfirmacion(numero);
+                }
+                else
+                {
+                    ME = Mensaje.getMError(numero);
+                }
+            }
+            ViewData["MC"] = MC;
+            ViewData["ME"] = ME;
             return View();
         }
 
@@ -76,11 +93,11 @@ namespace SistemaCC.Controllers
                 BD.Usuario.InsertOnSubmit(usuario);
                 BD.SubmitChanges();
                 anadir_roles(usuario.Id_U, collection["rol_input"]);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { mensaje = "C7" });
             }
             catch
             {
-                return View();
+                return RedirectToAction("Index", new { mensaje = "E1" });
             }
         }
 

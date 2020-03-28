@@ -2,54 +2,66 @@
 @{
     ViewData["Title"] = "ServiciosAplicaciones";
 }
-<div class="row">
-    <div class="col-md-12 seccion_contenedor">
-        <div class="seccion">
-            <h1>Servicios y aplicaciones</h1>
+    <div class="row">
+        @if (ViewData["MC"] != "")
+        {
+            <div class="alert alert-success mensaje" role="alert">
+                @ViewData["MC"]
+            </div>
+        }
+        @if (ViewData["ME"] != "")
+        {
+            <div class="alert alert-danger mensaje" role="alert">
+                @ViewData["ME"]
+            </div>
+        }
+        <div class="col-md-12 seccion_contenedor">
+            <div class="seccion">
+                <h1>Servicios y aplicaciones</h1>
+            </div>
+            <div class="seccion_boton">
+                <a class="btn btn-success" href="~/ServApp/Crear"><span class="icon-plus-square"></span> Crear</a>
+            </div>
         </div>
-        <div class="seccion_boton">
-            <a class="btn btn-success" href="~/ServApp/Crear"><span class="icon-plus-square"></span> Crear</a>
-        </div>
-    </div>
-    <table class="table table-hover">
-        <thead class="thead-info">
-            <tr>
-                <th>Acronimo</th>
-                <th>Responsable</th>
-                <th class="link"></th>
-                <th class="link"></th>
-                <th class="link"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var dato in ViewBag.datos as IEnumerable<SistemaCC.Models.ServiciosAplicaciones>)
-            {
+        <table class="table table-hover">
+            <thead class="thead-info">
                 <tr>
-                    <td>@dato.Acronimo</td>
-                    <td>@dato.Usuario.Nombre @dato.Usuario.ApePaterno @dato.Usuario.ApeMaterno</td>
-                    <td class="link">
-                        <a class="fancybox fancybox.ajax" href="Ver?id=@dato.Id_SA"><span class="icon-eye"></span></a>
-                    </td>
-                    <td class="link">
-                        <a class="fancybox fancybox.ajax" href="Editar?id=@dato.Id_SA"><span class="icon-edit"></span></a>
-                    </td>
-                    @if (dato.Activo == true)
-                    {
-                    <td class="link">
-                        <span class="icon-unlock"></span> @Html.ActionLink("Bloquear", "Bloquear", new { id = dato.Id_SA })
-                    </td>
-                    }
-                    else
-                    {
-                    <td class="link">
-                        <span class="icon-lock"></span> @Html.ActionLink("Desbloquear", "Desbloquear", new { id = dato.Id_SA })
-                    </td>
-                    }
+                    <th>Acronimo</th>
+                    <th>Responsable</th>
+                    <th class="link"></th>
+                    <th class="link"></th>
+                    <th class="link"></th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var dato in ViewBag.datos as IEnumerable<SistemaCC.Models.ServiciosAplicaciones>)
+                {
+                    <tr>
+                        <td>@dato.Acronimo</td>
+                        <td>@dato.Usuario.Nombre @dato.Usuario.ApePaterno @dato.Usuario.ApeMaterno</td>
+                        <td class="link">
+                            <a class="fancybox fancybox.ajax" href="Ver?id=@dato.Id_SA"><span class="icon-eye"></span></a>
+                        </td>
+                        <td class="link">
+                            <a class="fancybox fancybox.ajax" href="Editar?id=@dato.Id_SA"><span class="icon-edit"></span></a>
+                        </td>
+                        @if (dato.Activo == true)
+                        {
+                            <td class="link">
+                                <span class="icon-unlock"></span> @Html.ActionLink("Bloquear", "Bloquear", new { id = dato.Id_SA })
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="link">
+                                <span class="icon-lock"></span> @Html.ActionLink("Desbloquear", "Desbloquear", new { id = dato.Id_SA })
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 @section Scripts
 {
     <script>

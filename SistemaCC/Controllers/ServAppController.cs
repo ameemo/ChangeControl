@@ -10,11 +10,29 @@ namespace SistemaCC.Controllers
     public class ServAppController : Controller
     {
         BDControlCambioDataContext BD = new BDControlCambioDataContext();
+        Mensajes Mensaje = new Mensajes();
         // GET: ServApp
-        public ActionResult Index()
+        public ActionResult Index(string mensaje)
         {
             var datos = (from a in BD.ServiciosAplicaciones select a);
             ViewBag.datos = datos;
+            //Seccion de mensajes para la vista
+            string MC = "";
+            string ME = "";
+            if (mensaje != null)
+            {
+                int numero = Convert.ToInt32(mensaje.Substring(1, 1));
+                if (mensaje.Substring(0, 1) == "C")
+                {
+                    MC = Mensaje.getMConfirmacion(numero);
+                }
+                else
+                {
+                    ME = Mensaje.getMError(numero);
+                }
+            }
+            ViewData["MC"] = MC;
+            ViewData["ME"] = ME;
             return View();
         }
 
@@ -53,11 +71,11 @@ namespace SistemaCC.Controllers
                 servapp.Dueno = modelo.Dueno;
                 BD.ServiciosAplicaciones.InsertOnSubmit(servapp);
                 BD.SubmitChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { mensaje = "C5" });
             }
             catch
             {
-                return View();
+                return RedirectToAction("Index", new { mensaje = "E1" });
             }
         }
 
