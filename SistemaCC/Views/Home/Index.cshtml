@@ -34,22 +34,24 @@
                     <a class="btn btn-success" href="~/ControlCambio/Crear"><span class="icon-plus-square"></span> Crear</a>
                 </div>
             </div>
-            <table class="table table-hover">
+            <table id="example" class="table table-hover">
                 <thead class="thead-info">
                     <tr>
                         <th>Clave</th>
                         <th>Fecha-Ejecución</th>
                         <th>Estado</th>
-                        <th class="link"></th>
-                        <th class="link"></th>
-                        <th class="link"></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach (var cc in ViewBag.Creados_CC)
+                    {
                     <tr>
-                        <td>Valor 1</td>
-                        <td>Valor 2</td>
-                        <td>Valor 2</td>
+                        <td></td>
+                        <td>@cc.FechaEjecucion</td>
+                        <td>@cc.Estado</td>
                         <td class="link texto">
                             <a href="#">Revisar</a>
                         </td>
@@ -60,6 +62,7 @@
                             <a asp-controller="ControlCambio" asp-action="Editar"><span class="icon-edit"></span></a>
                         </td>
                     </tr>
+                    }
                 </tbody>
             </table>
         </div>
@@ -153,11 +156,9 @@
                             }
                         }
                     });
-                    $('.table').DataTable({
-                        "paging": true,
-                        "ordering": true,
-                        "info": true,
-                        "searching": true
+                    $('#example').DataTable({
+                        "pagingType": "numbers" 
                     });
+                });
             </script>
         }
