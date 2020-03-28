@@ -15,6 +15,10 @@ namespace SistemaCC.Controllers
         public ActionResult Index(string mensaje)
         {
             ViewBag.Revision_CC = (from cc in BD.ControlCambio where cc.Estado == "EnEvaluacion" select cc).ToList();
+            ViewBag.Creados_CC = (from cc in BD.ControlCambio where cc.Estado == "Creado" || cc.Estado == "EnEvaluacion" select cc).ToList();
+            ViewBag.Revisados_CC = (from cc in BD.ControlCambio where cc.Estado == "EnCorreccion" || cc.Estado == "Aprobado" select cc).ToList();
+            ViewBag.ParaAut_CC = (from cc in BD.ControlCambio where cc.Estado == "Pausado" || cc.Estado == "Autorizado" select cc).ToList();
+            ViewBag.Ejecucion_CC = (from cc in BD.ControlCambio where cc.Estado == "EnEjecucion" select cc).ToList();
             //Seccion de mensajes para la vista
             string MC = "";
             string ME = "";
