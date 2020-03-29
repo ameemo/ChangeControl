@@ -114,6 +114,7 @@ namespace SistemaCC.Controllers
         public ActionResult Revisar(int id) {
             ControlCambio control = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
             control.Estado = "EnEvaluacion";
+            BD.SubmitChanges();
             return View();
         }
     }
