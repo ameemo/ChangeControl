@@ -446,6 +446,18 @@ function setNombre() {
     else {
         rol_input[index].setAttribute("name", "")
     }
+    showWarning()
+}
+// funcion para el warning acerca del rol y el tipo de usuario
+function showWarning() {
+    var rol = document.getElementsByName("rol_input")
+    var warning = document.getElementById("warning")
+    if (rol.length <= 0) {
+        warning.style.display = "block"
+    }
+    else {
+        warning.style.display = "none"
+    }
 }
 // Funcion para ocultar las notas en revisión
 function ocultar_mostrar_nota(ocultar, mostrar) {

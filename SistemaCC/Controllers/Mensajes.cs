@@ -8,6 +8,7 @@ namespace SistemaCC.Controllers
     public class Mensajes
     {
         public string[] MConfirmacion;
+        public string[] MAdvertencia;
         public string[] MError;
         public Mensajes()
         {
@@ -21,6 +22,10 @@ namespace SistemaCC.Controllers
                                           "Creación de usuario exitoso.",
                                           "Control de cambio creado de manera exitosa.",
                                           "Control de cambio modificado de manera exitosa."
+                                        };
+            MAdvertencia = new string[] {"",
+                                         "MA1.	El archivo puede contener errores si no es compatible o no se cuentan con los permisos asignados por el administrador.",
+                                         "MA2.	Los usuarios sin rol asignado son considerados sólo como AVISO y no pueden acceder al sistema."
                                         };
             MError = new string[] {"",
                                    "No se puede acceder a los datos, contacte al administrador.",
@@ -42,6 +47,10 @@ namespace SistemaCC.Controllers
         public string getMConfirmacion(int numero)
         {
             return this.MConfirmacion[numero];
+        }
+        public string getMAdvertencia(int numero)
+        {
+            return this.MAdvertencia[numero];
         }
         public string getMError(int numero)
         {

@@ -65,6 +65,7 @@ namespace SistemaCC.Controllers
         {
             ViewBag.Roles = (from r in BD.Roles select r).ToList();
             ViewData["ME1"] = Mensaje.getMError(0);
+            ViewData["MA"] = Mensaje.getMAdvertencia(2);
             return View();
         }
 

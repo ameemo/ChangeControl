@@ -23,7 +23,7 @@
                 <a class="btn btn-success" href="~/Usuarios/Crear"><span class="icon-plus-square"></span> Crear</a>
             </div>
         </div>
-        <table class="table table-hover">
+        <table id="datos" class="table table-hover">
             <thead class="thead-info">
                 <tr>
                     <th>Nombre</th>
@@ -81,6 +81,9 @@
                         height: 25
                     }
                 }
+            });
+            $('#datos').DataTable({
+                "pagingType": "numbers"
             });
         });
     </script>
