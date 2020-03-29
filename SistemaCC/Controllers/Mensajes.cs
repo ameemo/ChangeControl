@@ -24,8 +24,8 @@ namespace SistemaCC.Controllers
                                           "Control de cambio modificado de manera exitosa."
                                         };
             MAdvertencia = new string[] {"",
-                                         "MA1.	El archivo puede contener errores si no es compatible o no se cuentan con los permisos asignados por el administrador.",
-                                         "MA2.	Los usuarios sin rol asignado son considerados sólo como AVISO y no pueden acceder al sistema."
+                                         "El archivo puede contener errores si no es compatible o no se cuentan con los permisos asignados por el administrador.",
+                                         "Los usuarios sin rol asignado son considerados sólo como AVISO y no pueden acceder al sistema."
                                         };
             MError = new string[] {"",
                                    "No se puede acceder a los datos, contacte al administrador.",

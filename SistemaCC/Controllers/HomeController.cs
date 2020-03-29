@@ -111,10 +111,18 @@ namespace SistemaCC.Controllers
             return View();
         }
         //Cambia el estado en el control de cambio
-        public ActionResult Revisar(int id) {
+        public ActionResult cambiarEstado(int id) {
             ControlCambio control = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
-            control.Estado = "EnEvaluacion";
-            BD.SubmitChanges();
+            if(control.Estado == "Creado")
+            {
+                control.Estado = "EnEvaluacion";
+                BD.SubmitChanges();
+            }
+            if(control.Estado == "Aprobado")
+            {
+                control.Estado = "Pausado";
+                BD.SubmitChanges();
+            }
             return RedirectToAction("Index");
         }
     }
