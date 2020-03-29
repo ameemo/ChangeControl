@@ -63,14 +63,14 @@
                             else
                             {
                                 <td class="link texto">
-                                    @Html.ActionLink("Enviar a revisar", "Revisar", new { id = @cc.id_CC })
+                                    @Html.ActionLink("Enviar a revisar", "Revisar", new { id = cc.Id_CC })
                                 </td>
                             }
                             <td class="link">
-                                <a href="~/ControlCambio/Ver?id=@cc.id_CC"><span class="icon-eye"></span></a>
+                                <a href="~/ControlCambio/Ver?id=@cc.Id_CC"><span class="icon-eye"></span></a>
                             </td>
                             <td class="link">
-                                <a ahref="~/ControlCambio/Editar?id=@cc.id_CC"><span class="icon-edit"></span></a>
+                                <a ahref="~/ControlCambio/Editar?id=@cc.Id_CC"><span class="icon-edit"></span></a>
                             </td>
                         </tr>
                         }
