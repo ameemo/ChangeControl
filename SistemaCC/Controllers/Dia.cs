@@ -27,7 +27,7 @@ namespace SistemaCC.Controllers
                 Evento e = new Evento();
                 e.id = cc.Id_CC;
                 e.clave = claves[ccs.IndexOf(cc)];
-                ControlCambio.Add(e);
+                Actividad.Add(e);
             }
         }
         public void setServApp(List<ControlCambio> ccs, List<string> claves, List<ServiciosAplicaciones> nombres)
@@ -38,7 +38,7 @@ namespace SistemaCC.Controllers
                 e.id = cc.Id_CC;
                 e.clave = claves[ccs.IndexOf(cc)];
                 e.acronimo = nombres[ccs.IndexOf(cc)].Acronimo;
-                ControlCambio.Add(e);
+                ServApp.Add(e);
             }
         }
     }

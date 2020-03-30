@@ -1,7 +1,36 @@
 ﻿.mes {
     display: grid;
-    grid-template-columns: 12% 13% 13% 13% 13% 13% 12%;
+    grid-template-columns: 14% 15% 15% 15% 15% 15% 14%;
 }
-.mes > .dia{
-    border: 1px black solid;
+.mes > .nombre, .numero-grid > .numero {
+    color: #949494;
+    text-align: center;
+    min-height: initial;
+}
+.mes > .nombre {
+    font-size: medium;
+}
+.numero-grid > .numero, .notacion {
+    font-size: x-small;
+}
+.mes > .dia, .numero-grid > .numero {
+    border: 1px #cfcfcf solid;
+    margin:-1px -1px -1px -1px;
+}
+.dia {
+    max-height: 96px;
+    min-height: 96px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.dia > .numero-grid {
+    display: grid;
+    grid-template-columns: 90% 10%;
+}
+.mes > .ndia {
+    border: 1px #ebebeb solid;
+    border-collapse: collapse;
+}
+.dia > .contenedor{
+    font-size: small !important;
 }

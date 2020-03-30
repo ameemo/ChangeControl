@@ -4,8 +4,15 @@
     Layout = "./../Shared/_LayoutVacio.cshtml";
 }
 
-<h2>Calendario - @ViewData["mes"]</h2>
+<h2 class="text-center">@ViewData["mes"]</h2>
 <div class="mes">
+    <div class="dia nombre">Domingo</div>
+    <div class="dia nombre">Lunes</div>
+    <div class="dia nombre">Martes</div>
+    <div class="dia nombre">Miércoles</div>
+    <div class="dia nombre">Jueves</div>
+    <div class="dia nombre">Viernes</div>
+    <div class="dia nombre">Sábado</div>
     @for (var i = 0; i < 7; i++)
     {
         if (Convert.ToInt32(ViewData["inicio"]) == i)
@@ -21,9 +28,57 @@
     }
     @foreach (var dia in ViewBag.Dias)
     {
-        <div class="dia">
-            @ViewBag.Dias.IndexOf(dia)
+<div class="dia">
+    <div class="numero-grid mb-1">
+        <div></div>
+        <div class="numero">
+            @(ViewBag.Dias.IndexOf(dia) + 1)
         </div>
+    </div>
+    <div class="contenedor">
+        @foreach (var cc in dia.ControlCambio)
+        {
+            <div class="alert-info evento" style="max-width: 100%;">
+                <a class="alert-link" href="~/ControlCambio/Ver?id=@cc.id">@cc.clave</a>
+            </div>
+        }
+        @foreach (var act in dia.Actividad)
+        {
+            <div class="alert-success evento" style="max-width: 100%;">
+                <a class="alert-link" href="~/ControlCambio/Ver?id=@act.id">@act.clave</a>
+            </div>
+        }
+        @foreach (var sa in dia.ServApp)
+        {
+            <div class="alert-dark evento" style="max-width: 100%;">
+                <a class="alert-link" href="~/ControlCambio/Ver?id=@sa.id">@sa.clave : @sa.acronimo</a>
+            </div>
+        }
+    </div>
+</div>
     }
+</div>
+<div class="campos campos_dos">
+    <div class="campos_ultimos"></div>
+    <div class="campos campos_tres notacion mt-3">
+        <div class="campos campos_dos_kai">
+            <div class="campos_ultimos">
+                <div class="alert-info" style="width:50%">&ensp;</div>
+            </div>
+            <div class="campos_ultimos">Controles de cambio</div>
+        </div>
+        <div class="campos campos_dos_kai">
+            <div class="campos_ultimos">
+                <div class="alert-success" style="width:50%">&ensp;</div>
+            </div>
+            <div class="campos_ultimos text-center">Actividades</div>
+        </div>
+        <div class="campos campos_dos_kai">
+            <div class="campos_ultimos">
+                <div class="alert-dark" style="width:50%">&ensp;</div>
+            </div>
+            <div class="campos_ultimos">Servicios y aplicaciones</div>
+        </div>
+    </div>
 </div>
 
