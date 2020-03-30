@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using SistemaCC.Models;
+using SistemaCC.Controllers;
 using System.Web;
 using System.IO;
 
@@ -15,6 +16,7 @@ namespace SistemaCC.Controllers
     public class ControlCambioController : Controller
     {
         BDControlCambioDataContext BD = new BDControlCambioDataContext();
+        HomeController clave = new HomeController();
         DateTime fecha(string fecha)
         {
             int dia, mes, anio;
@@ -484,6 +486,61 @@ namespace SistemaCC.Controllers
             {
                 return View();
             }
+        }
+        public ActionResult Calendario(int id_U)
+        {
+            DateTime hoy = DateTime.Today;
+            DateTime inicio = new DateTime(1, hoy.Month, hoy.Year);
+            string[] meses = new string[] { "", 
+                                            "Enero", 
+                                            "Febrero", 
+                                            "Marzo", 
+                                            "Abril", 
+                                            "Mayo", 
+                                            "Junio", 
+                                            "Julio", 
+                                            "Agosto", 
+                                            "Septiembre", 
+                                            "Octubre", 
+                                            "Noviembre", 
+                                            "Diciembre" 
+                                        };
+            List<Dia> dias = new List<Dia>();
+            List<string> claves = new List<string>();
+            int tamano = DateTime.DaysInMonth(hoy.Year, hoy.Month);
+            for (var i = 1; i <= tamano; i ++)
+            {
+                Dia dia = new Dia();
+                DateTime dia_ = new DateTime(i, hoy.Month, hoy.Year);
+                //Tomar los controles que pertenecen a el usuario
+                List<ControlCambio> ccs = (from cc in BD.ControlCambio where cc.FechaEjecucion == dia_ select cc).ToList();
+                if (ccs.Count > 0)
+                {
+                    claves = clave.generarListaClave(ccs);
+                    dia.setControlCambio(ccs, claves);
+                }
+                //Tomar los controles de cambio donde es responsable de actividades
+                List<ControlCambio> actividades = (from ac in BD.ActividadesControl join a in BD.Actividades on ac.fk_Ac equals a.Id_Ac join cc in BD.ControlCambio on ac.fk_CC equals cc.Id_CC where a.FechaRealizacion == dia_ select cc).ToList();
+                if (actividades.Count > 0)
+                {
+                    claves = clave.generarListaClave(actividades);
+                    dia.setActividad(actividades, claves);
+                }
+                //Tomar los controles donde es afectado algún servicio del usuario
+                List<ControlCambio> servapp = (from sc in BD.ControlServicio join cc in BD.ControlCambio on sc.fk_CC equals cc.Id_CC join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where sc.FechaInicio <= dia_ && sc.FechaFinal >= dia_ select cc).ToList();
+                if (servapp.Count > 0)
+                {
+                    //Tomar los servicios para el nombre
+                    List<ServiciosAplicaciones> servapp_nombres = (from sc in BD.ControlServicio join cc in BD.ControlCambio on sc.fk_CC equals cc.Id_CC join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where sa.Dueno == id_U select sa).ToList();
+                    claves = clave.generarListaClave(servapp);
+                    dia.setServApp(servapp, claves, servapp_nombres);
+                }
+                dias.Add(dia);
+            }
+            ViewData["inicio"] = Convert.ToInt32(inicio.DayOfWeek); 
+            ViewData["mes"] = meses[hoy.Month];
+            ViewBag.Dias = dias;
+            return View();
         }
     }
 }

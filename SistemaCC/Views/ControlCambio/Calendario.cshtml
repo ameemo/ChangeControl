@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Calendario";
+    Layout = "./../Shared/_LayoutVacio.cshtml";
+}
+
+<h2>Calendario - @ViewData["mes"]</h2>
+<div class="mes">
+    @for (var i = 0; i < 7; i++)
+    {
+        if (Convert.ToInt32(ViewData["inicio"]) == i)
+        {
+            break;
+        }
+        else
+        {
+            <div class="ndia">
+                vacio
+            </div>
+        }
+    }
+    @foreach (var dia in ViewBag.Dias)
+    {
+        <div class="dia">
+            @ViewBag.Dias.IndexOf(dia)
+        </div>
+    }
+</div>
+

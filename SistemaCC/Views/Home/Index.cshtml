@@ -108,7 +108,7 @@
                             <td>@ViewBag.Claves_rcc[ViewBag.Revisados_CC.IndexOf(cc)]</td>
                             <td>@cc.FechaEjecucion.ToString().Substring(0, 10)</td>
                             <td>@cc.Estado</td>
-                            @if (cc.Estado == "Aprovado")
+                            @if (cc.Estado == "Aprobado")
                             {
                                 <td class="link texto">
                                     @Html.ActionLink("Enviar a autorizar","cambiarEstado", new { id = cc.Id_CC })
@@ -119,7 +119,6 @@
                                 <td class="link texto">
                                     -
                                 </td>
-                            }
                             }
                             <td class="link">
                                 <a href="~/ControlCambio/Ver?id=@cc.Id_CC"><span class="icon-eye"></span></a>
@@ -159,14 +158,14 @@
                         @foreach (var cc in ViewBag.ParaAut_CC)
                         {
                             <tr>
-                                <td>>@ViewBag.Claves_pacc[ViewBag.ParaAut_CC.IndexOf(cc)]</td>
+                                <td>@ViewBag.Claves_pacc[ViewBag.ParaAut_CC.IndexOf(cc)]</td>
                                 <td>@cc.FechaEjecucion.ToString().Substring(0, 10)</td>
                                 <td>@cc.Estado</td>
                                 <td class="link">
-                                    <a asp-controller="ControlCambio" asp-action="Ver"><span class="icon-eye"></span></a>
+                                    <a href="~/ControlCambio/Ver?id=@cc.Id_CC"><span class="icon-eye"></span></a>
                                 </td>
                                 <td class="link">
-                                    <a asp-controller="ControlCambio" asp-action="Editar"><span class="icon-edit"></span></a>
+                                    <a ahref="~/ControlCambio/Editar?id=@cc.Id_CC"><span class="icon-edit"></span></a>
                                 </td>
                             </tr>
                         }

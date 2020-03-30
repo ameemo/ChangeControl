@@ -134,7 +134,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\Dia.cs" />
     <Compile Include="Controllers\ControlCambioController.cs" />
+    <Compile Include="Controllers\Evento.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Mensajes.cs" />
     <Compile Include="Controllers\ServAppController.cs" />
@@ -159,6 +161,7 @@
       <LastGenOutput>BDControlCambio.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="wwwroot\css\calendario.css" />
     <Content Include="wwwroot\css\fancybox\blank.gif" />
     <Content Include="wwwroot\css\fancybox\fancybox_buttons.png" />
     <Content Include="wwwroot\css\fancybox\fancybox_loading%402x.gif.gif" />
@@ -352,6 +355,7 @@
     <Content Include="Views\Home\Privacy.cshtml" />
     <Content Include="wwwroot\lib\bootstrap\dist\css\datatables.min.css.map" />
     <Content Include="wwwroot\lib\bootstrap\dist\js\datatables.min.js.map" />
+    <Content Include="Views\ControlCambio\Calendario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

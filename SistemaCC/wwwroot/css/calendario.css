@@ -1,0 +1,7 @@
+﻿.mes {
+    display: grid;
+    grid-template-columns: 12% 13% 13% 13% 13% 13% 12%;
+}
+.mes > .dia{
+    border: 1px black solid;
+}
