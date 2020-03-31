@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "./../Shared/_LayoutLogin.cshtml";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div id="login" class="login">
+        <div></div>
+        <div id="card" class="card">
+            <div class="card-body">
+                <div class="campos_login">
+                    <div class="campos_ultimos">
+                        <label>Usuario/Email:</label>
+                    </div>
+                    <div class="campos_ultimos">
+                        <input name="email" class="form-control" type="email" placeholder="email@eutelsat.com" required />
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="campos_ultimos">
+                        <label>Contraseña:</label>
+                    </div>
+                    <div class="campos_ultimos">
+                        <input name="contrasena" class="form-control" type="password" placeholder="Contraseña" required />
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="campos_ultimos text-center">
+                        <input class="btn btn-dark" value="Entrar" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            var login = document.getElementById("login")
+            var card = document.getElementById("card")
+            var padding = (parseInt(login.style.height) - parseInt(card.style.height)) / 2
+            login.style.paddingTop = padding + 'px'
+        });
+    </script>
+}

@@ -206,6 +206,24 @@ div.campo-ver {
 .mensaje{
     width: 100%;
 }
+/*Estilo para el login*/
+.login {
+    background-image: url('/Archivos/CC_41/Adjuntos/5_kagura_bloqueo.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 25% 50% 25%;
+}
+.login > .card {
+    margin-left: 35%;
+    width: 30%;
+}
+.campos_login {
+    display: grid !important;
+    grid-template-rows: 13% 25% 13% 25% 24% !important;
+    height: 100%;
+}
 /*Estilo extra*/
 a.cerrar {
     color: #dc3545 !important;

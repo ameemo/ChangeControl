@@ -153,6 +153,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Archivos\CC_40\Adjuntos\3_fondo_perfil.jpg" />
+    <Content Include="Archivos\CC_41\Adjuntos\4_bane_fondo.jpg" />
+    <Content Include="Archivos\CC_41\Adjuntos\5_kagura_bloqueo.png" />
+    <Content Include="Archivos\CC_42\Adjuntos\7_pasto.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -287,6 +290,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Archivos\CC_39\Adjuntos\Cronograma.pdf" />
+    <Content Include="Archivos\CC_41\Adjuntos\6_Cronograma.pdf" />
     <None Include="Models\BDControlCambio.dbml.layout">
       <DependentUpon>BDControlCambio.dbml</DependentUpon>
     </None>
@@ -343,11 +347,12 @@
     <Content Include="Views\Shared\_LayoutVacio.cshtml" />
     <Content Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
     <Content Include="Views\Home\CambiarContrasena.cshtml" />
-    <Content Include="Views\Home\MenuInicio.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
     <Content Include="wwwroot\lib\bootstrap\dist\css\datatables.min.css.map" />
     <Content Include="wwwroot\lib\bootstrap\dist\js\datatables.min.js.map" />
     <Content Include="Views\ControlCambio\Calendario.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

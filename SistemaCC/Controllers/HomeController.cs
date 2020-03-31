@@ -82,27 +82,23 @@ namespace SistemaCC.Controllers
             ViewData["ME"] = ME;
             return View();
         }
-
         public ActionResult About()
         {
             ViewData["Message"] = "Your application description page 90.";
 
             return View();
         }
-
         public ActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
 
             return View();
         }
-
         public ActionResult Privacy()
         {
             return View();
         }
-
-        public ActionResult MenuInicio()
+        public ActionResult Login()
         {
             return View();
         }
