@@ -206,13 +206,13 @@
                                 </td>
                                 <td>@cc.Estado</td>
                                 <td class="link texto">
-                                    <a class="fancybox fancybox.ajax" asp-controller="ControlCambio" asp-action="Cerrar">Cerrar</a>
+                                    @Html.ActionLink("Enviar a cerrar","~/ControlCambio/Cerrar", new { @class = "fancybox fancybox.ajax" })
                                 </td>
                                 <td class="link">
-                                    <a asp-controller="ControlCambio" asp-action="Ver"><span class="icon-eye"></span></a>
+                                    <a href="~/ControlCambio/Ver?id=cc.Id_CC"><span class="icon-eye"></span></a>
                                 </td>
                                 <td class="link">
-                                    <a asp-controller="ControlCambio" asp-action="Editar"><span class="icon-edit"></span></a>
+                                    <a href="~/ControlCambio/Editar?id=cc.Id_CC"><span class="icon-edit"></span></a>
                                 </td>
                             </tr>
                         }
