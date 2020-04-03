@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using SistemaCC.Models;
@@ -50,6 +51,26 @@ namespace SistemaCC.Controllers
                 claves.Add(generarClave(cc));
             }
             return claves;
+        }
+        public void Email(String to, String subject, String body)
+        {
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("smtp.office365.com", 587);
+            mail.To.Add(to);
+            mail.From = new MailAddress("tt2019a071_notificaciones@hotmail.com");
+            mail.Subject = subject;
+            mail.IsBodyHtml = true;
+            mail.Body = body;
+            SmtpServer.EnableSsl = true;
+            SmtpServer.Credentials = new System.Net.NetworkCredential("tt2019a071_notificaciones@hotmail.com", "tt-2019-a071");
+            try
+            {
+                SmtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
         public ActionResult Index(string mensaje)
         {
