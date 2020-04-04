@@ -224,6 +224,10 @@ div.campo-ver {
     grid-template-rows: 13% 25% 13% 25% 24% !important;
     height: 100%;
 }
+/*Estilo para las notificaciones*/
+span.bold {
+    font-weight: bold;
+}
 /*Estilo extra*/
 a.cerrar {
     color: #dc3545 !important;

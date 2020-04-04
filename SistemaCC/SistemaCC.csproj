@@ -134,11 +134,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\Dia.cs" />
+    <Compile Include="Controllers\Clases\Dia.cs" />
+    <Compile Include="Controllers\Clases\Notificacion.cs" />
     <Compile Include="Controllers\ControlCambioController.cs" />
-    <Compile Include="Controllers\Evento.cs" />
+    <Compile Include="Controllers\Clases\Evento.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\Mensajes.cs" />
+    <Compile Include="Controllers\Clases\Mensajes.cs" />
     <Compile Include="Controllers\ServAppController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">

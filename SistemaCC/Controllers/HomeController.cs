@@ -6,6 +6,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using SistemaCC.Models;
+using SistemaCC.Controllers.Clases;
 
 namespace SistemaCC.Controllers
 {
@@ -67,9 +68,25 @@ namespace SistemaCC.Controllers
             {
                 SmtpServer.Send(mail);
             }
-            catch (Exception ex)
+            catch (Exception ex){ }
+        }
+        public void doNotificacion(ControlCambio cc) 
+        {
+            var actividades = (from ac in BD.ActividadesControl join a in BD.Actividades on ac.fk_Ac equals a.Id_Ac where ac.fk_CC == cc.Id_CC group a by a.Responsable).ToList();
+            var servapp = (from sc in BD.ControlServicio join sa in BD.ServiciosAplicaciones on sc.fk_CC equals sa.Id_SA where sc.fk_CC == cc.Id_CC group sa by sa.Dueno).ToList();
+            foreach(var act in actividades)
             {
-
+                Notificaciones notificaciones = new Notificaciones();
+                Notificacion notificacion = new Notificacion(cc.Id_CC, 1);
+                var creador = (from u in BD.Usuario where u.Id_U == cc.Creador select u).SingleOrDefault();
+                notificacion.fecha_emision = DateTime.Today.ToString().Substring(0, 10);
+                notificacion.fecha_ejecucion_cc = cc.FechaEjecucion.ToString().Substring(0, 10);
+                notificacion.creador_cc = creador.Nombre + " " + creador.ApePaterno;
+                notificacion.clave_cc = generarClave(cc);
+                notificaciones.fk_CC = cc.Id_CC;
+                notificaciones.fk_U = act.Key;
+                notificaciones.FechaEnvio = DateTime.Today;
+                notificaciones.Contenido = notificacion.generateNAut_ejecucion();
             }
         }
         public ActionResult Index(string mensaje)
