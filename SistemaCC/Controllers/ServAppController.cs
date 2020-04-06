@@ -9,11 +9,13 @@ namespace SistemaCC.Controllers
 {
     public class ServAppController : Controller
     {
-        BDControlCambioDataContext BD = new BDControlCambioDataContext();
+        static BDControlCambioDataContext BD = new BDControlCambioDataContext();
         Mensajes Mensaje = new Mensajes();
+        List<Notificaciones> _notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
         // GET: ServApp
         public ActionResult Index(string mensaje)
         {
+            ViewBag.Notificaciones = _notificaciones;
             var datos = (from a in BD.ServiciosAplicaciones select a);
             ViewBag.datos = datos;
             //Seccion de mensajes para la vista
@@ -21,7 +23,7 @@ namespace SistemaCC.Controllers
             string ME = "";
             if (mensaje != null)
             {
-                int numero = Convert.ToInt32(mensaje.Substring(1, 1));
+                int numero = Convert.ToInt32(mensaje.Substring(1, mensaje.Length - 1));
                 if (mensaje.Substring(0, 1) == "C")
                 {
                     MC = Mensaje.getMConfirmacion(numero);
@@ -39,6 +41,7 @@ namespace SistemaCC.Controllers
         // GET: ServApp/Ver/5
         public ActionResult Ver(int id)
         {
+            ViewBag.Notificaciones = _notificaciones;
             ViewBag.Modelo = (from sa in BD.ServiciosAplicaciones where sa.Id_SA == id select sa).SingleOrDefault();
             return View();
         }
@@ -46,6 +49,7 @@ namespace SistemaCC.Controllers
         // GET: ServApp/Crear
         public ActionResult Crear()
         {
+            ViewBag.Notificaciones = _notificaciones;
             var usuarios = (from a in BD.Usuario select a).ToList();
             List<Usuario> usuarios2 = new List<Usuario>();
             foreach (var usuario in usuarios)

@@ -9,8 +9,9 @@ namespace SistemaCC.Controllers
 {
     public class UsuariosController : Controller
     {
-        BDControlCambioDataContext BD = new BDControlCambioDataContext();
+        static BDControlCambioDataContext BD = new BDControlCambioDataContext();
         Mensajes Mensaje = new Mensajes();
+        List<Notificaciones> _notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
         //Función para agregar los roles
         void anadir_roles(int id_U, string roles)
         {
@@ -30,6 +31,7 @@ namespace SistemaCC.Controllers
         // GET: Usuarios
         public ActionResult Index(string mensaje)
         {
+            ViewBag.Notificaciones = _notificaciones;
             var datos = (from a in BD.Usuario select a).ToList();
             ViewBag.datos = datos;
             //Seccion de mensajes para la vista
@@ -37,7 +39,7 @@ namespace SistemaCC.Controllers
             string ME = "";
             if (mensaje != null)
             {
-                int numero = Convert.ToInt32(mensaje.Substring(1, 1));
+                int numero = Convert.ToInt32(mensaje.Substring(1, mensaje.Length - 1));
                 if (mensaje.Substring(0, 1) == "C")
                 {
                     MC = Mensaje.getMConfirmacion(numero);
@@ -55,6 +57,7 @@ namespace SistemaCC.Controllers
         // GET: Usuarios/Ver/5
         public ActionResult Ver(int id)
         {
+            ViewBag.Notificaciones = _notificaciones;
             ViewBag.Modelo = (from u in BD.Usuario where u.Id_U == id select u).SingleOrDefault();
             ViewBag.Roles = (from ur in BD.UsuarioRol where ur.fk_Us == id select ur).ToList();
             return View();
@@ -63,6 +66,7 @@ namespace SistemaCC.Controllers
         // GET: Usuarios/Crear
         public ActionResult Crear()
         {
+            ViewBag.Notificaciones = _notificaciones;
             ViewBag.Roles = (from r in BD.Roles select r).ToList();
             ViewData["ME1"] = Mensaje.getMError(0);
             ViewData["MA"] = Mensaje.getMAdvertencia(2);
@@ -79,6 +83,7 @@ namespace SistemaCC.Controllers
                 var correo = (from u in BD.Usuario where u.Email == modelo.Email select u).ToList();
                 if(correo.Count != 0)
                 {
+                    ViewBag.Notificaciones = _notificaciones;
                     ViewBag.Roles = (from r in BD.Roles select r).ToList();
                     ViewData["ME1"] = Mensaje.getMError(12);
                     return View();

@@ -12,8 +12,9 @@ namespace SistemaCC.Controllers
 {
     public class HomeController : Controller
     {
-        BDControlCambioDataContext BD = new BDControlCambioDataContext();
+        static BDControlCambioDataContext BD = new BDControlCambioDataContext();
         Mensajes Mensaje = new Mensajes();
+        List<Notificaciones> _notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
         public string generarClave(ControlCambio cc)
         {
             Usuario creador = (from u in BD.Usuario where u.Id_U == cc.Creador select u).SingleOrDefault();
@@ -88,9 +89,24 @@ namespace SistemaCC.Controllers
                 notificaciones.FechaEnvio = DateTime.Today;
                 notificaciones.Contenido = notificacion.generateNAut_ejecucion();
             }
+            foreach(var s in servapp)
+            {
+                Notificaciones notificaciones = new Notificaciones();
+                Notificacion notificacion = new Notificacion(cc.Id_CC, 2);
+                var creador = (from u in BD.Usuario where u.Id_U == cc.Creador select u).SingleOrDefault();
+                notificacion.fecha_emision = DateTime.Today.ToString().Substring(0, 10);
+                notificacion.fecha_ejecucion_cc = cc.FechaEjecucion.ToString().Substring(0, 10);
+                notificacion.creador_cc = creador.Nombre + " " + creador.ApePaterno;
+                notificacion.clave_cc = generarClave(cc);
+                notificaciones.fk_CC = cc.Id_CC;
+                notificaciones.fk_U = s.Key;
+                notificaciones.FechaEnvio = DateTime.Today;
+                notificaciones.Contenido = notificacion.generateNAut_ejecucion();
+            }
         }
         public ActionResult Index(string mensaje)
         {
+            ViewBag.Notificaciones = _notificaciones;
             ViewBag.Creados_CC = (from cc in BD.ControlCambio where cc.Estado == "Creado" || cc.Estado == "EnEvaluacion" select cc).ToList();
             ViewBag.Claves_ccc = generarListaClave(ViewBag.Creados_CC);
             ViewBag.Revisados_CC = (from cc in BD.ControlCambio where cc.Estado == "EnCorreccion" || cc.Estado == "Aprobado" select cc).ToList();
@@ -106,7 +122,7 @@ namespace SistemaCC.Controllers
             string ME = "";
             if (mensaje != null)
             {
-                int numero = Convert.ToInt32(mensaje.Substring(1, 1));
+                int numero = Convert.ToInt32(mensaje.Substring(1, mensaje.Length - 1));
                 if (mensaje.Substring(0, 1) == "C")
                 {
                     MC = Mensaje.getMConfirmacion(numero);
@@ -155,6 +171,7 @@ namespace SistemaCC.Controllers
             if(control.Estado == "Aprobado")
             {
                 control.Estado = "Pausado";
+                doNotificacion(control);
                 BD.SubmitChanges();
             }
             return RedirectToAction("Index");

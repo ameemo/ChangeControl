@@ -16,12 +16,13 @@ namespace SistemaCC.Controllers
                                           "Bloqueo de usuario exitoso.",
                                           "Inicio de sesion exitoso.",
                                           "Se cerro con éxito la sesión.",
-                                          "Contraseña cambiada con exito.",
+                                          "Contraseña cambiada con éxito.",
                                           "Creación de servicio o aplicación exitoso.",
                                           "Bloqueo de servicio o aplicación exitoso.",
                                           "Creación de usuario exitoso.",
                                           "Control de cambio creado de manera exitosa.",
-                                          "Control de cambio modificado de manera exitosa."
+                                          "Control de cambio modificado de manera exitosa.",
+                                          "Revision enviada con éxito."
                                         };
             MAdvertencia = new string[] {"",
                                          "El archivo puede contener errores si no es compatible o no se cuentan con los permisos asignados por el administrador.",
