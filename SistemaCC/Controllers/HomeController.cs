@@ -12,9 +12,8 @@ namespace SistemaCC.Controllers
 {
     public class HomeController : Controller
     {
-        static BDControlCambioDataContext BD = new BDControlCambioDataContext();
+        BDControlCambioDataContext BD = new BDControlCambioDataContext();
         Mensajes Mensaje = new Mensajes();
-        List<Notificaciones> _notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
         public string generarClave(ControlCambio cc)
         {
             Usuario creador = (from u in BD.Usuario where u.Id_U == cc.Creador select u).SingleOrDefault();
@@ -54,8 +53,10 @@ namespace SistemaCC.Controllers
             }
             return claves;
         }
-        public void Email(String to, String subject, String body)
+        public int Email(String to, String subject, String body)
         {
+            // Variable para tratar los errores y mostrar los mensajes
+            int error = 0;
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.office365.com", 587);
             mail.To.Add(to);
@@ -69,44 +70,63 @@ namespace SistemaCC.Controllers
             {
                 SmtpServer.Send(mail);
             }
-            catch (Exception ex){ }
+            catch (Exception ex)
+            {
+                error = 7;
+            }
+            return error;
         }
-        public void doNotificacion(ControlCambio cc) 
+        public int generarNotificacion(ControlCambio cc, int tipo, int? key)
         {
-            var actividades = (from ac in BD.ActividadesControl join a in BD.Actividades on ac.fk_Ac equals a.Id_Ac where ac.fk_CC == cc.Id_CC group a by a.Responsable).ToList();
-            var servapp = (from sc in BD.ControlServicio join sa in BD.ServiciosAplicaciones on sc.fk_CC equals sa.Id_SA where sc.fk_CC == cc.Id_CC group sa by sa.Dueno).ToList();
-            foreach(var act in actividades)
+            // Variable para tratar los errores y mostrar los mensajes
+            int error = 0;
+            try
             {
                 Notificaciones notificaciones = new Notificaciones();
-                Notificacion notificacion = new Notificacion(cc.Id_CC, 1);
-                var creador = (from u in BD.Usuario where u.Id_U == cc.Creador select u).SingleOrDefault();
+                Notificacion notificacion = new Notificacion(cc.Id_CC, tipo);
+                Usuario creador = (from u in BD.Usuario where u.Id_U == cc.Creador select u).SingleOrDefault();
+                // Agrego lo necesario para el mensaje de la notificación
                 notificacion.fecha_emision = DateTime.Today.ToString().Substring(0, 10);
                 notificacion.fecha_ejecucion_cc = cc.FechaEjecucion.ToString().Substring(0, 10);
                 notificacion.creador_cc = creador.Nombre + " " + creador.ApePaterno;
                 notificacion.clave_cc = generarClave(cc);
+                // Agrego lo necesario para la notificación en la BD
                 notificaciones.fk_CC = cc.Id_CC;
-                notificaciones.fk_U = act.Key;
+                notificaciones.fk_U = key;
                 notificaciones.FechaEnvio = DateTime.Today;
-                notificaciones.Contenido = notificacion.generateNAut_ejecucion();
+                notificaciones.Contenido = notificacion.generateNAut_ejecucion().Substring(0,100);
+                BD.Notificaciones.InsertOnSubmit(notificaciones);
+                BD.SubmitChanges();
+                // Enviar el correo
+                string to = (from u in BD.Usuario where u.Id_U == key select u.Email).SingleOrDefault();
+                notificacion.email = true;
+                error = Email(to, notificacion.getSubject(0), notificacion.generateNAut_ejecucion());
+            } 
+            catch(Exception e)
+            {
+                error = 1;
+            }
+            return error;
+        }
+        public int generarNotificaciones(ControlCambio cc)
+        {
+            // Variable para tratar los errores y mostrar los mensajes
+            int error = 0;
+            var actividades = (from ac in BD.ActividadesControl join a in BD.Actividades on ac.fk_Ac equals a.Id_Ac where ac.fk_CC == cc.Id_CC group a by a.Responsable).ToList();
+            var servapp = (from sc in BD.ControlServicio join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where sc.fk_CC == cc.Id_CC group sa by sa.Dueno).ToList();
+            foreach(var act in actividades)
+            {
+                error = generarNotificacion(cc, 1, act.Key);
             }
             foreach(var s in servapp)
             {
-                Notificaciones notificaciones = new Notificaciones();
-                Notificacion notificacion = new Notificacion(cc.Id_CC, 2);
-                var creador = (from u in BD.Usuario where u.Id_U == cc.Creador select u).SingleOrDefault();
-                notificacion.fecha_emision = DateTime.Today.ToString().Substring(0, 10);
-                notificacion.fecha_ejecucion_cc = cc.FechaEjecucion.ToString().Substring(0, 10);
-                notificacion.creador_cc = creador.Nombre + " " + creador.ApePaterno;
-                notificacion.clave_cc = generarClave(cc);
-                notificaciones.fk_CC = cc.Id_CC;
-                notificaciones.fk_U = s.Key;
-                notificaciones.FechaEnvio = DateTime.Today;
-                notificaciones.Contenido = notificacion.generateNAut_ejecucion();
+                error = generarNotificacion(cc, 2, s.Key);
             }
+            return error;
         }
         public ActionResult Index(string mensaje)
         {
-            ViewBag.Notificaciones = _notificaciones;
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
             ViewBag.Creados_CC = (from cc in BD.ControlCambio where cc.Estado == "Creado" || cc.Estado == "EnEvaluacion" select cc).ToList();
             ViewBag.Claves_ccc = generarListaClave(ViewBag.Creados_CC);
             ViewBag.Revisados_CC = (from cc in BD.ControlCambio where cc.Estado == "EnCorreccion" || cc.Estado == "Aprobado" select cc).ToList();
@@ -161,7 +181,10 @@ namespace SistemaCC.Controllers
             return View();
         }
         //Cambia el estado en el control de cambio
-        public ActionResult cambiarEstado(int id) {
+        public ActionResult cambiarEstado(int id)
+        {
+            // Variable para tratar los errores y mostrar los mensajes
+            int error = 0;
             ControlCambio control = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
             if(control.Estado == "Creado")
             {
@@ -171,10 +194,20 @@ namespace SistemaCC.Controllers
             if(control.Estado == "Aprobado")
             {
                 control.Estado = "Pausado";
-                doNotificacion(control);
+                error = generarNotificaciones(control);
                 BD.SubmitChanges();
             }
-            return RedirectToAction("Index");
+            if(error == 0)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("./../Home/Index", new
+                {
+                    mensaje = "E" + error
+                }) ;
+            }
         }
     }
 }

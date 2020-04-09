@@ -15,9 +15,8 @@ namespace SistemaCC.Controllers
 {
     public class ControlCambioController : Controller
     {
-        static BDControlCambioDataContext BD = new BDControlCambioDataContext();
+        BDControlCambioDataContext BD = new BDControlCambioDataContext();
         HomeController clave = new HomeController();
-        List<Notificaciones> _notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
         DateTime fecha(string fecha)
         {
             int dia, mes, anio;
@@ -186,7 +185,7 @@ namespace SistemaCC.Controllers
         // GET: ControlCambio/Ver/5
         public ActionResult Ver(int id)
         {
-            ViewBag.Notificaciones = _notificaciones;
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
             ViewBag.Informacion = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
             ViewBag.Actividades_Prev = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "Previa" select ap).ToList();
             ViewBag.Actividades_CC = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "ControlCambio" select ap).ToList();
@@ -218,7 +217,7 @@ namespace SistemaCC.Controllers
         // GET: ControlCambio/Crear
         public ActionResult Crear()
         {
-            ViewBag.Notificaciones = _notificaciones;
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
             var usuarios = (from a in BD.Usuario select a).ToList();
             List<Usuario> usuarios2 = new List<Usuario>();
             foreach (var usuario in usuarios)
@@ -331,7 +330,7 @@ namespace SistemaCC.Controllers
         // GET: ControlCambio/Cerrar/5
         public ActionResult Revisar(int id)
         {
-            ViewBag.Notificaciones = _notificaciones;
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
             ViewBag.Informacion = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
             ViewBag.Actividades_Prev = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "Previa" select ap).ToList();
             ViewBag.Actividades_CC = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "ControlCambio" select ap).ToList();
