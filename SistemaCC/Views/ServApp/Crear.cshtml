@@ -8,17 +8,17 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-<div class="campos">
-    <div class="campos_ultimos">
-        <label>Nombre:</label>
+    <div class="campos">
+        <div class="campos_ultimos">
+            <label>Nombre:</label>
+        </div>
+        <div class="campos_ultimos">
+            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control contador", type = "text", placeholder = "Nombre", maxlength = "50", onkeyup = "contar('0', 'contador','conteo-')", required = "required" } })
+        </div>
+        <div id="conteo-0" class="campos_ultimos conteo">
+            <div>Caracteres: 0/50</div>
+        </div>
     </div>
-    <div class="campos_ultimos">
-        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control contador", type = "text", placeholder = "Nombre", maxlength = "50", onkeyup = "contar('0', 'contador','conteo-')", required = "required" } })
-    </div>
-    <div id="conteo-0" class="campos_ultimos conteo">
-        <div>Caracteres: 0/50</div>
-    </div>
-</div>
     <div class="campos campos_dos">
         <div class="campos_ultimos">
             <div class="campos_ultimos">
@@ -39,7 +39,7 @@
                 <label>Descripción:</label>
             </div>
             <div class="campos_ultimos">
-                @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control contador",rows = "3", placeholder = "Descripción", maxlength = "150", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 150", onkeyup = "contar('1', 'contador','conteo-')", required = "required" })
+                @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control contador", rows = "3", placeholder = "Descripción", maxlength = "150", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 150", onkeyup = "contar('1', 'contador','conteo-')", required = "required" })
             </div>
             <div id="conteo-1" class="campos_ultimos conteo">
                 <div>Caracteres: 0/150</div>
@@ -60,4 +60,26 @@
         </div>
     </div>
 }
-
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".fancybox").fancybox({
+                prevEffect: 'none',
+                nextEffect: 'none',
+                helpers: {
+                    title: {
+                        type: 'outside'
+                    },
+                    thumbs: {
+                        width: 50,
+                        height: 25
+                    }
+                }
+            });
+            $('#datos').DataTable({
+                "pagingType": "numbers"
+            });
+        });
+    </script>
+}

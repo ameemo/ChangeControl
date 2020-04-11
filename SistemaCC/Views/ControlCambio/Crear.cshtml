@@ -213,6 +213,20 @@
 
 @section Scripts{
     <script>
+        $(document).ready(function () {
+            $(".fancybox").fancybox({
+                prevEffect: 'none',
+                nextEffect: 'none',
+                helpers: {
+                    title: {
+                        type: 'outside'
+                    },
+                    thumbs: {
+                        width: 50,
+                        height: 25
+                    }
+                }
+            });
         $(document).on("submit", "form", function (e) {
             $('.contar-act-desc').val(function (i, text) {
                 return text.concat("&")
