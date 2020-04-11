@@ -13,15 +13,15 @@
             </li>
         </ul>
         <ul class="navbar-nav ml-md-auto">
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown mr-3">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="icon-bell"></span>
                 </a>
                 <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
                     @foreach (var n in ViewBag.Notificaciones as IEnumerable<SistemaCC.Models.Notificaciones>)
                     {
-                        <div>
-                            <span>@n.Contenido</span>
+                        <div class="link-dark">
+                            <span class="bold">@ViewBag.Notificaciones_claves[ViewBag.Notificaciones.IndexOf(n)]</span>
                             <a class="dropdown-item link-dark fancybox fancybox.ajax" href="~/ControlCambio/Notificar?id=@n.Id_No">
                                 Ver
                             </a>
@@ -29,16 +29,16 @@
                     }
                     @if(ViewBag.Notificaciones == null || ViewBag.Notificaciones.Count == 0)
                     {
-                        <div>
+                        <div class="link-dark">
                             <span>No hay notificaciones</span>
                         </div>
                     }
                 </div>
             </li>
-            <li class="nav-item">
+            <li class="nav-item mr-3">
                 <a class="nav-link fancybox fancybox.ajax" href="~/ControlCambio/Calendario?id=1"><span class="icon-calendar"></span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item mr-3">
                 <a class="nav-link" href="~/ControlCambio/Notificar?id=0"><span class="icon-log-out"></span></a>
             </li>
         </ul>

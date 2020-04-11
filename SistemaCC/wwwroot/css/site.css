@@ -31,16 +31,30 @@ div.seccion_contenedor {
     padding: 0;
 }
 /*Para las notificaciones y la dropdownnlist del sitio*/
-a.link-dark {
+a.link-dark, div.link-dark > span {
     color: white !important;
 }
 a:hover.link-dark {
     background: #343a40 !important;
     text-decoration: underline;
 }
+div.link-dark {
+    display: grid;
+    grid-template-columns: 80% 20%;
+    padding: 6%;
+    border-bottom: solid 1px #4f4f4f;
+}
+div.notificacion-link > a{
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+div.notificacion-link > a:hover {
+    text-decoration: underline;
+}
 /*Pie del sitio*/
-div.pie {
-    text-align: center;
+div .pie {
+text-align: center;
 }
 div.pie > a {
     color: #afafaf;
@@ -252,4 +266,10 @@ label.normal::after{
 }
 .fancybox-inner{
     width: 100% !important;
+}
+.dropdown-menu, .dropdown-item {
+    padding: 0 !important;
+}
+.body-content {
+    padding-bottom: 3% !important;
 }

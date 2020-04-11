@@ -94,13 +94,13 @@ namespace SistemaCC.Controllers
                 notificaciones.fk_CC = cc.Id_CC;
                 notificaciones.fk_U = key;
                 notificaciones.FechaEnvio = DateTime.Today;
-                notificaciones.Contenido = notificacion.generateNAut_ejecucion().Substring(0,100);
+                notificaciones.Contenido = notificacion.generateNAut_ejecucion();
                 BD.Notificaciones.InsertOnSubmit(notificaciones);
                 BD.SubmitChanges();
                 // Enviar el correo
-                string to = (from u in BD.Usuario where u.Id_U == key select u.Email).SingleOrDefault();
-                notificacion.email = true;
-                error = Email(to, notificacion.getSubject(0), notificacion.generateNAut_ejecucion());
+                //string to = (from u in BD.Usuario where u.Id_U == key select u.Email).SingleOrDefault();
+                //notificacion.email = true;
+                //error = Email(to, notificacion.getSubject(0), notificacion.generateNAut_ejecucion());
             } 
             catch(Exception e)
             {
@@ -126,7 +126,12 @@ namespace SistemaCC.Controllers
         }
         public ActionResult Index(string mensaje)
         {
+            // Notificaciones para navbar
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
+            ViewBag.Notificaciones_claves = generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+
+            // Termina lo necesario para notificacionespara navbar
             ViewBag.Creados_CC = (from cc in BD.ControlCambio where cc.Estado == "Creado" || cc.Estado == "EnEvaluacion" select cc).ToList();
             ViewBag.Claves_ccc = generarListaClave(ViewBag.Creados_CC);
             ViewBag.Revisados_CC = (from cc in BD.ControlCambio where cc.Estado == "EnCorreccion" || cc.Estado == "Aprobado" select cc).ToList();

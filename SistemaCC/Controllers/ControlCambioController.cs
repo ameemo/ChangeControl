@@ -17,6 +17,7 @@ namespace SistemaCC.Controllers
     {
         BDControlCambioDataContext BD = new BDControlCambioDataContext();
         HomeController clave = new HomeController();
+        Mensajes Mensaje = new Mensajes();
         DateTime fecha(string fecha)
         {
             int dia, mes, anio;
@@ -476,24 +477,23 @@ namespace SistemaCC.Controllers
         // GET: ControlCambio/Cerrar/5
         public ActionResult Notificar(int id)
         {
-            return View();
-        }
-
-        // POST: ControlCambio/Cerrar/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Notificar(int id, FormCollection collection)
-        {
+            Notificaciones model = new Notificaciones();
+            string error = "";
             try
             {
-                // TODO: Add Cerrar logic here
-
-                return RedirectToAction("~/Home/Index");
+                Notificaciones consulta = (from n in BD.Notificaciones where n.Id_No == id select n).SingleOrDefault();
+                ControlCambio cc = (from control in BD.ControlCambio where control.Id_CC == consulta.fk_CC select control).SingleOrDefault();
+                model = consulta;
+                ViewBag.Contenido = consulta.Contenido.Split(new string[] { "&" }, StringSplitOptions.RemoveEmptyEntries);
+                ViewData["Clave"] = clave.generarClave(cc);
+                ViewData["FechaEjecucion"] = cc.FechaEjecucion;
             }
-            catch
+            catch(Exception e)
             {
-                return View();
+                error = Mensaje.getMError(1);
             }
+            ViewData["ME"] = error;
+            return View(model);
         }
         public ActionResult Calendario(int id)
         {

@@ -38,7 +38,7 @@ namespace SistemaCC.Controllers.Clases
             }
             else
             {
-                mensaje = "<a href=\"~/ControlCambio/Ver?id=" + this.id_cc + "\"><span class=\"bold\">" + this.clave_cc + "</span></a></br>Para ejecutar.</br>El control de cambio con la clave anterior y con fecha de ejecución de <span class=\"bold\">" + this.fecha_ejecucion_cc + "</span> requiere de su autorización, ya que " + this.funcion + ".";
+                mensaje = "El control de cambio con la clave anterior y con fecha de ejecución de&requiere de su autorización, ya que " + this.funcion + ".";
             }
             return mensaje; 
         }
