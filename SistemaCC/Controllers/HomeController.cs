@@ -76,7 +76,7 @@ namespace SistemaCC.Controllers
             }
             return error;
         }
-        public int generarNotificacion(ControlCambio cc, int tipo, int? key)
+        public int generarNotificacion(ControlCambio cc, int tipo, int generate, int? key)
         {
             // Variable para tratar los errores y mostrar los mensajes
             int error = 0;
@@ -94,21 +94,21 @@ namespace SistemaCC.Controllers
                 notificaciones.fk_CC = cc.Id_CC;
                 notificaciones.fk_U = key;
                 notificaciones.FechaEnvio = DateTime.Today;
-                notificaciones.Contenido = notificacion.generateNAut_ejecucion();
+                notificaciones.Contenido = notificacion.generate(generate);
                 BD.Notificaciones.InsertOnSubmit(notificaciones);
                 BD.SubmitChanges();
                 // Enviar el correo
                 //string to = (from u in BD.Usuario where u.Id_U == key select u.Email).SingleOrDefault();
                 //notificacion.email = true;
-                //error = Email(to, notificacion.getSubject(0), notificacion.generateNAut_ejecucion());
-            } 
-            catch(Exception e)
+                //error = Email(to, notificacion.getSubject(generate), notificacion.generate(generate));
+            }
+            catch (Exception e)
             {
                 error = 1;
             }
             return error;
         }
-        public int generarNotificaciones(ControlCambio cc)
+        public int generarNotificacionesAut(ControlCambio cc)
         {
             // Variable para tratar los errores y mostrar los mensajes
             int error = 0;
@@ -116,11 +116,11 @@ namespace SistemaCC.Controllers
             var servapp = (from sc in BD.ControlServicio join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where sc.fk_CC == cc.Id_CC group sa by sa.Dueno).ToList();
             foreach(var act in actividades)
             {
-                error = generarNotificacion(cc, 1, act.Key);
+                error = generarNotificacion(cc, 1, 1, act.Key);
             }
             foreach(var s in servapp)
             {
-                error = generarNotificacion(cc, 2, s.Key);
+                error = generarNotificacion(cc, 2, 1, s.Key);
             }
             return error;
         }
@@ -198,7 +198,7 @@ namespace SistemaCC.Controllers
             if(control.Estado == "Aprobado")
             {
                 control.Estado = "Pausado";
-                error = generarNotificaciones(control);
+                error = generarNotificacionesAut(control);
                 BD.SubmitChanges();
             }
             if(error == 0)

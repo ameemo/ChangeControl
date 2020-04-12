@@ -498,7 +498,6 @@ namespace SistemaCC.Controllers
                 model = consulta;
                 ViewBag.Contenido = consulta.Contenido.Split(new string[] { "&" }, StringSplitOptions.RemoveEmptyEntries);
                 ViewData["Clave"] = clave.generarClave(cc);
-                ViewData["FechaEjecucion"] = cc.FechaEjecucion;
             }
             catch(Exception e)
             {

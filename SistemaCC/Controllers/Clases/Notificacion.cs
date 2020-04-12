@@ -10,7 +10,7 @@ namespace SistemaCC.Controllers.Clases
         public int id_cc;
         public string fecha_emision, clave_cc, creador_cc, fecha_ejecucion_cc, funcion;
         public Boolean email;
-        public string[] subject;
+        private string[] subject;
         public Notificacion(int id_cc, int funcion)
         {
             this.id_cc = id_cc;
@@ -21,7 +21,7 @@ namespace SistemaCC.Controllers.Clases
             this.funcion = funcion == 1 ? "tiene actividades asignadas" : "un servicio se ve afectado";
             this.email = false;
             //Inicia subject (asunto)
-            this.subject = new string[] { 
+            this.subject = new string[] { "",
                 "Autorización para ejecutar el control de cambio.",
                 "Autorización para termino del control de cambio.",
                 "Se ha excedido el tiempo de la autorización.",
@@ -29,7 +29,7 @@ namespace SistemaCC.Controllers.Clases
                 "Hay una nueva revisión."
             };
         }
-        public string generateNAut_ejecucion() 
+        private string generateNAut_ejecucion() 
         {
             string mensaje = "";
             if(this.email)
@@ -38,29 +38,52 @@ namespace SistemaCC.Controllers.Clases
             }
             else
             {
-                mensaje = "El control de cambio con la clave anterior y con fecha de ejecución de&requiere de su autorización, ya que " + this.funcion + ".";
+                mensaje = "Para ejecutar.&El control de cambio con la clave anterior y con fecha de ejecución de&requiere de su autorización, ya que " + this.funcion + ".";
             }
             return mensaje; 
         }
-        public string generateNAut_termino() 
+        private string generateNAut_termino() 
         { 
             return "";
         }
-        public string generateNLim_tiempo() 
+        private string generateNLim_tiempo() 
         {
             return "";
         }
-        public string generateNLim_controles() 
+        private string generateNLim_controles() 
         { 
             return ""; 
         }
-        public string generateNRevision() 
+        private string generateNRevision() 
         { 
             return ""; 
         }
         public string getSubject(int numero)
         {
             return this.subject[numero];
+        }
+        public string generate(int numero)
+        {
+            string retornar = "";
+            switch(numero)
+            {
+                case 1:
+                    retornar = generateNAut_ejecucion();
+                    break;
+                case 2:
+                    retornar = generateNAut_termino();
+                    break;
+                case 3:
+                    retornar = generateNLim_controles();
+                    break;
+                case 4:
+                    retornar = generateNLim_tiempo();
+                    break;
+                case 5:
+                    retornar = generateNRevision();
+                    break;
+            }
+            return retornar;
         }
     }
 }

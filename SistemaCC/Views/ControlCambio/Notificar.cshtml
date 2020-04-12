@@ -20,7 +20,8 @@ else
         </div>
     </div>
     <div>
-        @ViewBag.Contenido[0] <span class="bold">@ViewData["FechaEjecucion"].ToString().Substring(0,10)</span> @ViewBag.Contenido[1]
+        @ViewBag.Contenido[0]<br />
+        @ViewBag.Contenido[1] <span class="bold">@Model.ControlCambio.FechaEjecucion.ToString().Substring(0, 10)</span> @ViewBag.Contenido[2]
     </div>
     <div class="notificacion-link text-center">
         @Html.ActionLink("Ir al control de cambio","Ver", new { id = Model.fk_CC })
