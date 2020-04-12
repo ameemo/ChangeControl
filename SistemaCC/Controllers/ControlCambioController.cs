@@ -441,15 +441,45 @@ namespace SistemaCC.Controllers
         }
 
         // GET: ControlCambio/Cerrar/5
-        public ActionResult AnadirAdjuntos(int id)
+        public ActionResult Autorizar(int id)
         {
+            // Notificaciones para navbar
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
+            ViewBag.Notificaciones_claves = clave.generarListaClave(ccs);
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            // Demas codigo
+            ViewBag.Informacion = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
+            ViewBag.Actividades_Prev = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "Previa" select ap).ToList();
+            ViewBag.Actividades_CC = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "ControlCambio" select ap).ToList();
+            ViewBag.Servicios = (from sc in BD.ControlServicio join s in BD.ServiciosAplicaciones on sc.fk_SA equals s.Id_SA where sc.fk_CC == id select sc).ToList();
+            ViewBag.Riesgos_CC = (from r in BD.Riesgos where r.fk_CC == id && r.Tipo == "ControlCambio" select r).ToList();
+            ViewBag.Riesgos_No = (from r in BD.Riesgos where r.fk_CC == id && r.Tipo == "No" select r).ToList();
+            var documentos = (from d in BD.Documentos where d.fk_CC == id && d.TipoDoc == "Adjunto" select d);
+            List<Documentos> Documentos_imagenes = new List<Documentos>();
+            List<Documentos> Documentos_pdf = new List<Documentos>();
+            foreach (var doc in documentos)
+            {
+                var nombre_ = doc.DocPath.Split(new char[] { '\\' });
+                var nombre = nombre_[nombre_.Length - 1];
+                doc.DocPath = nombre;
+                if (nombre.Contains(".pdf"))
+                {
+                    Documentos_pdf.Add(doc);
+                }
+                else
+                {
+                    Documentos_imagenes.Add(doc);
+                }
+            }
+            ViewBag.Documentos_imagenes = Documentos_imagenes;
+            ViewBag.Documentos_pdf = Documentos_pdf;
             return View();
         }
 
         // POST: ControlCambio/Cerrar/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AnadirAdjuntos(int id, FormCollection collection)
+        public ActionResult Autorizar(int id, FormCollection collection)
         {
             try
             {

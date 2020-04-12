@@ -273,3 +273,7 @@ label.normal::after{
 .body-content {
     padding-bottom: 3% !important;
 }
+.custom-control-input:checked ~ .custom-control-label::before {
+    border-color: #28a745 !important;
+    background-color: #28a745 !important;
+}
