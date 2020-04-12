@@ -9,13 +9,17 @@ namespace SistemaCC.Controllers
 {
     public class ServAppController : Controller
     {
-        static BDControlCambioDataContext BD = new BDControlCambioDataContext();
+        BDControlCambioDataContext BD = new BDControlCambioDataContext();
+        HomeController clave = new HomeController();
         Mensajes Mensaje = new Mensajes();
-        List<Notificaciones> _notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
         // GET: ServApp
         public ActionResult Index(string mensaje)
         {
-            ViewBag.Notificaciones = _notificaciones;
+            // Notificaciones para navbar
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
+            ViewBag.Notificaciones_claves = clave.generarListaClave(ccs);
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            // Demas codigo
             var datos = (from a in BD.ServiciosAplicaciones select a);
             ViewBag.datos = datos;
             //Seccion de mensajes para la vista
@@ -41,7 +45,6 @@ namespace SistemaCC.Controllers
         // GET: ServApp/Ver/5
         public ActionResult Ver(int id)
         {
-            ViewBag.Notificaciones = _notificaciones;
             ViewBag.Modelo = (from sa in BD.ServiciosAplicaciones where sa.Id_SA == id select sa).SingleOrDefault();
             return View();
         }
@@ -49,7 +52,11 @@ namespace SistemaCC.Controllers
         // GET: ServApp/Crear
         public ActionResult Crear()
         {
-            ViewBag.Notificaciones = _notificaciones;
+            // Notificaciones para navbar
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
+            ViewBag.Notificaciones_claves = clave.generarListaClave(ccs);
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            // Demas codigo
             var usuarios = (from a in BD.Usuario select a).ToList();
             List<Usuario> usuarios2 = new List<Usuario>();
             foreach (var usuario in usuarios)
