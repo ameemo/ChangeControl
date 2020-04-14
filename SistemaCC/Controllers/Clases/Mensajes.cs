@@ -22,11 +22,13 @@ namespace SistemaCC.Controllers
                                           "Creación de usuario exitoso.",
                                           "Control de cambio creado de manera exitosa.",
                                           "Control de cambio modificado de manera exitosa.",
-                                          "Revision enviada con éxito."
+                                          "Revision enviada con éxito.",
+                                          "Autorización exitosa."
                                         };
             MAdvertencia = new string[] {"",
                                          "El archivo puede contener errores si no es compatible o no se cuentan con los permisos asignados por el administrador.",
-                                         "Los usuarios sin rol asignado son considerados sólo como AVISO y no pueden acceder al sistema."
+                                         "Los usuarios sin rol asignado son considerados sólo como AVISO y no pueden acceder al sistema.",
+                                         "Se ha enviado el código, para verificar la autorización, al correo ligado a la sesión."
                                         };
             MError = new string[] {"",
                                    "No se puede acceder a los datos, contacte al administrador.",

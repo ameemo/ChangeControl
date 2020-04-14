@@ -441,7 +441,7 @@ namespace SistemaCC.Controllers
         }
 
         // GET: ControlCambio/Cerrar/5
-        public ActionResult Autorizar(int id)
+        public ActionResult Autorizar(int id, string tipo)
         {
             // Notificaciones para navbar
             List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
@@ -473,19 +473,51 @@ namespace SistemaCC.Controllers
             }
             ViewBag.Documentos_imagenes = Documentos_imagenes;
             ViewBag.Documentos_pdf = Documentos_pdf;
+            // Variables para los PASOS a seguir
+            ViewData["Paso"] = "1";
             return View();
         }
 
         // POST: ControlCambio/Cerrar/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Autorizar(int id, FormCollection collection)
+        public ActionResult Autorizar(int id, string tipo, FormCollection collection)
         {
             try
             {
-                // TODO: Add Cerrar logic here
-
-                return RedirectToAction("~/Home/Index");
+                if(collection["Paso1"] != null)
+                {
+                    Autorizaciones aut = new Autorizaciones();
+                    if (collection["autorizacion"] != null)
+                    {
+                        aut.Autorizado = true;
+                    }
+                    else
+                    {
+                        aut.Autorizado = false;
+                    }
+                    aut.Fecha = DateTime.Today;
+                    aut.Tipo = tipo;
+                    aut.fk_CC = id;
+                    aut.fk_U = 1;
+                    BD.Autorizaciones.InsertOnSubmit(aut);
+                    BD.SubmitChanges();
+                    ViewData["MA"] = Mensaje.getMAdvertencia(3);
+                    ViewData["Paso"] = "2";
+                    return View(aut);
+                }
+                if(collection["Paso2"] != null)
+                {
+                    // Comparacion de codigos 7u7
+                    return RedirectToAction("./../Home/Index", new
+                    {
+                        mensaje = "C11"
+                    });
+                }
+                return RedirectToAction("~/Home/Index", new
+                {
+                    mensaje = "E1"
+                });
             }
             catch
             {

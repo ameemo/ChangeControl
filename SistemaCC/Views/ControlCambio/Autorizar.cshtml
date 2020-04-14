@@ -7,9 +7,11 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    <div class="campos campos_tres">
+<div class="campos campos_tres">
+    @if (ViewData["Paso"] == "1")
+    {
         <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion"/>
+            <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion" />
             <label class="custom-control-label" for="switch_aut">
                 <span id="check_span" style="display:none">
                     Si autorizo el control de cambio
@@ -19,8 +21,32 @@
                 </span>
             </label>
         </div>
-        <div class="campos_ultimos text-right">
-            <label>Código:</label>
+        <div class="campos campos_dos">
+            <div class="campos_submit">
+                <input class="btn btn-success" type="submit" value="Continuar" name="Paso1" />
+            </div>
+        </div>
+    }
+    @if (ViewData["Paso"] == "2")
+    {
+        <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion" />
+            <label class="custom-control-label" for="switch_aut">
+                <span id="check_span" style="display:none">
+                    Si autorizo el control de cambio
+                </span>
+                <span id="uncheck_span" class="text-danger">
+                    No autorizo el control de cambio
+                </span>
+            </label>
+        </div>
+        <div class="campos campos_dos">
+            <div class="campos_submit">
+                <input class="btn btn-success" type="submit" value="Continuar" disabled />
+            </div>
+            <div class="campos_ultimos">
+                <label>Código:</label>
+            </div>
         </div>
         <div class="campos campos_dos">
             <div class="campos_ultimos">
@@ -30,7 +56,8 @@
                 <input class="btn btn-dark" type="submit" value="Validar" />
             </div>
         </div>
-    </div>
+    }
+</div>
 }
 @RenderPage("_SharedVer.cshtml")
 @section Scripts
