@@ -44,7 +44,8 @@ namespace SistemaCC.Controllers
                                    "Servicio o aplicación ya existente.",
                                    "Usuario ya existente.",
                                    "El tiempo mínimo permitido es de 1 día.",
-                                   "Las nuevas contraseñas no coinciden, no se puede realizar el cambio"
+                                   "Las nuevas contraseñas no coinciden, no se puede realizar el cambio.",
+                                   "Los codigos no coinciden."
                                    };
         }
         public string getMConfirmacion(int numero)

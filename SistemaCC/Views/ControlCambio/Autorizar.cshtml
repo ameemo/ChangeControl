@@ -7,8 +7,14 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    if (ViewData["MA"].ToString() != "")
+    {
+        <div class="alert alert-warning mensaje" role="alert">
+            @ViewData["MC"]
+        </div>
+    }
 <div class="campos campos_tres">
-    @if (ViewData["Paso"] == "1")
+    @if (ViewData["Paso"].ToString() == "1")
     {
         <div class="custom-control custom-switch">
             <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion" />
@@ -27,22 +33,33 @@
             </div>
         </div>
     }
-    @if (ViewData["Paso"] == "2")
+    @if (ViewData["Paso"].ToString() == "2")
     {
-        <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion" />
-            <label class="custom-control-label" for="switch_aut">
-                <span id="check_span" style="display:none">
-                    Si autorizo el control de cambio
-                </span>
-                <span id="uncheck_span" class="text-danger">
-                    No autorizo el control de cambio
-                </span>
-            </label>
-        </div>
+        if (ViewData["check"].ToString() == "True")
+        {
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion" checked disabled/>
+                <label class="custom-control-label" for="switch_aut">
+                    <span id="check_span">
+                        Si autorizo el control de cambio
+                    </span>
+                </label>
+            </div>
+        }
+        else
+        {
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="switch_aut" disabled/>
+                <label class="custom-control-label" for="switch_aut">
+                    <span id="uncheck_span" class="text-danger">
+                        No autorizo el control de cambio
+                    </span>
+                </label>
+            </div>
+        }
         <div class="campos campos_dos">
             <div class="campos_submit">
-                <input class="btn btn-success" type="submit" value="Continuar" disabled />
+                <input class="btn btn-success" type="submit" value="Continuar" disabled/>
             </div>
             <div class="campos_ultimos">
                 <label>Código:</label>
@@ -50,10 +67,10 @@
         </div>
         <div class="campos campos_dos">
             <div class="campos_ultimos">
-                <input class="form-control" type="text" placeholder="codigo" />
+                <input class="form-control" type="text" placeholder="codigo" name="codigo"/>
             </div>
             <div class="campos_submit">
-                <input class="btn btn-dark" type="submit" value="Validar" />
+                <input class="btn btn-dark" type="submit" value="Validar" name="Paso2"/>
             </div>
         </div>
     }

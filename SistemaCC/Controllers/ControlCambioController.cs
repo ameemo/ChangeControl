@@ -475,6 +475,8 @@ namespace SistemaCC.Controllers
             ViewBag.Documentos_pdf = Documentos_pdf;
             // Variables para los PASOS a seguir
             ViewData["Paso"] = "1";
+            ViewData["ME"] = Mensaje.getMError(0);
+            ViewData["MA"] = Mensaje.getMAdvertencia(0);
             return View();
         }
 
@@ -487,32 +489,65 @@ namespace SistemaCC.Controllers
             {
                 if(collection["Paso1"] != null)
                 {
-                    Autorizaciones aut = new Autorizaciones();
+                    bool check = false;
                     if (collection["autorizacion"] != null)
                     {
-                        aut.Autorizado = true;
+                        check = true;
                     }
                     else
                     {
-                        aut.Autorizado = false;
+                        check = false;
                     }
-                    aut.Fecha = DateTime.Today;
-                    aut.Tipo = tipo;
-                    aut.fk_CC = id;
-                    aut.fk_U = 1;
-                    BD.Autorizaciones.InsertOnSubmit(aut);
-                    BD.SubmitChanges();
+                    ViewData["check"] = check;
                     ViewData["MA"] = Mensaje.getMAdvertencia(3);
+                    ViewData["ME"] = Mensaje.getMError(0);
                     ViewData["Paso"] = "2";
-                    return View(aut);
+                    return View();
                 }
                 if(collection["Paso2"] != null)
                 {
-                    // Comparacion de codigos 7u7
-                    return RedirectToAction("./../Home/Index", new
+                    bool check = false;
+                    if (collection["codigo"] == "si")
                     {
-                        mensaje = "C11"
-                    });
+                        try
+                        {
+                            Autorizaciones aut = new Autorizaciones();
+                            if (collection["autorizacion"] != null)
+                            {
+                                aut.Autorizado = true;
+                                check = true;
+                            }
+                            else
+                            {
+                                aut.Autorizado = false;
+                                check = false;
+                            }
+                            aut.Tipo = tipo;
+                            aut.Fecha = DateTime.Today;
+                            aut.fk_CC = id;
+                            aut.fk_U = 1;
+                            BD.Autorizaciones.InsertOnSubmit(aut);
+                            BD.SubmitChanges();
+                        }
+                        catch (Exception e)
+                        {
+                            return RedirectToAction("~/Home/Index", new
+                            {
+                                mensaje = "E1"
+                            });
+                        }
+                        return RedirectToAction("./../Home/Index", new
+                        {
+                            mensaje = "C11"
+                        });
+                    }
+                    else
+                    {
+                        ViewData["check"] = check;
+                        ViewData["MA"] = Mensaje.getMAdvertencia(0);
+                        ViewData["ME"] = Mensaje.getMError(17);
+                        ViewData["Paso"] = "2";
+                    }
                 }
                 return RedirectToAction("~/Home/Index", new
                 {
