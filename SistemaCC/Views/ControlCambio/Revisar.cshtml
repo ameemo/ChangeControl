@@ -306,9 +306,9 @@
                     </ul>
                     <div class="campos campos_dos">
                         <div id="SeccionRiesgo1" class="seccion-activa SRiesgo">
-                                <div class="campos_ultimos seccion">
-                                    <label>Riesgos del control de cambio</label>
-                                </div>
+                            <div class="campos_ultimos seccion">
+                                <label>Riesgos del control de cambio</label>
+                            </div>
                             <div id="riesgos_contenedor">
                                 @foreach (var r in ViewBag.Riesgos_CC)
                                 {
@@ -447,18 +447,24 @@
             </div>
         </div>
     </div>
+    <div id="ME1" class="alert alert-danger mensaje mt-1" role="alert" style="display: none">
+        @ViewData["ME1"]
+    </div>
+    <div id="ME2" class="alert alert-danger mensaje mt-1" role="alert" style="display: none">
+        @ViewData["ME2"]
+    </div>
     <div class="campos campos_tres mt-3">
         <input id="submit" type="submit" hidden />
         <div class="campos_ultimos text-right">
             <a href="~/Home/Index" class="btn btn-light">Cancelar</a>
         </div>
         <div class="campos_submit">
-            <a href="#" class="btn btn-secondary" onclick="revisarSubmit('corregir')">Corregir</a>
+            <a href="#" class="btn btn-secondary" onclick="revisarSubmit('corregir'); return false">Corregir</a>
         </div>
         <div class="campos_submit text-left">
-            <a href="#" class="btn btn-dark" onclick="revisarSubmit('aprobar')">Aprobar</a>
+            <a href="#" class="btn btn-dark" onclick="revisarSubmit('aprobar'); return false">Aprobar</a>
         </div>
-    </div> 
+    </div>
 }
 @section Scripts
 {

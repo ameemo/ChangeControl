@@ -10,13 +10,14 @@ using SistemaCC.Models;
 using SistemaCC.Controllers;
 using System.Web;
 using System.IO;
+using SistemaCC.Controllers.Clases;
 
 namespace SistemaCC.Controllers
 {
     public class ControlCambioController : Controller
     {
         BDControlCambioDataContext BD = new BDControlCambioDataContext();
-        HomeController clave = new HomeController();
+        HomeController General = new HomeController();
         Mensajes Mensaje = new Mensajes();
         DateTime fecha(string fecha)
         {
@@ -188,7 +189,7 @@ namespace SistemaCC.Controllers
         {
             // Notificaciones para navbar
             List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
-            ViewBag.Notificaciones_claves = clave.generarListaClave(ccs);
+            ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
             // Demas codigo
             ViewBag.Informacion = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
@@ -224,7 +225,7 @@ namespace SistemaCC.Controllers
         {
             // Notificaciones para navbar
             List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
-            ViewBag.Notificaciones_claves = clave.generarListaClave(ccs);
+            ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
             // Demas codigo
             var usuarios = (from a in BD.Usuario select a).ToList();
@@ -341,7 +342,7 @@ namespace SistemaCC.Controllers
         {
             // Notificaciones para navbar
             List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
-            ViewBag.Notificaciones_claves = clave.generarListaClave(ccs);
+            ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
             // Demas codigo
             ViewBag.Informacion = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
@@ -369,6 +370,9 @@ namespace SistemaCC.Controllers
             }
             ViewBag.Documentos_imagenes = Documentos_imagenes;
             ViewBag.Documentos_pdf = Documentos_pdf;
+            // Mensajes de error
+            ViewData["ME1"] = Mensaje.getMError(15);
+            ViewData["ME2"] = Mensaje.getMError(16);
             // Validacion para saber si ya ha habido una revision anterior
             var model = (from r in BD.Revisiones where r.fk_CC == id select r).ToList();
             Revisiones revision = new Revisiones();
@@ -445,7 +449,7 @@ namespace SistemaCC.Controllers
         {
             // Notificaciones para navbar
             List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
-            ViewBag.Notificaciones_claves = clave.generarListaClave(ccs);
+            ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
             // Demas codigo
             ViewBag.Informacion = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
@@ -487,7 +491,38 @@ namespace SistemaCC.Controllers
         {
             try
             {
-                if(collection["Paso1"] != null)
+                // Notificaciones para navbar
+                List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
+                ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
+                ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+                // Demas codigo
+                ViewBag.Informacion = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
+                ViewBag.Actividades_Prev = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "Previa" select ap).ToList();
+                ViewBag.Actividades_CC = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "ControlCambio" select ap).ToList();
+                ViewBag.Servicios = (from sc in BD.ControlServicio join s in BD.ServiciosAplicaciones on sc.fk_SA equals s.Id_SA where sc.fk_CC == id select sc).ToList();
+                ViewBag.Riesgos_CC = (from r in BD.Riesgos where r.fk_CC == id && r.Tipo == "ControlCambio" select r).ToList();
+                ViewBag.Riesgos_No = (from r in BD.Riesgos where r.fk_CC == id && r.Tipo == "No" select r).ToList();
+                var documentos = (from d in BD.Documentos where d.fk_CC == id && d.TipoDoc == "Adjunto" select d);
+                List<Documentos> Documentos_imagenes = new List<Documentos>();
+                List<Documentos> Documentos_pdf = new List<Documentos>();
+                foreach (var doc in documentos)
+                {
+                    var nombre_ = doc.DocPath.Split(new char[] { '\\' });
+                    var nombre = nombre_[nombre_.Length - 1];
+                    doc.DocPath = nombre;
+                    if (nombre.Contains(".pdf"))
+                    {
+                        Documentos_pdf.Add(doc);
+                    }
+                    else
+                    {
+                        Documentos_imagenes.Add(doc);
+                    }
+                }
+                ViewBag.Documentos_imagenes = Documentos_imagenes;
+                ViewBag.Documentos_pdf = Documentos_pdf;
+                // Codigo para los PASOS a seguir
+                if (collection["Paso1"] != null || collection["PasoE"] != null)
                 {
                     bool check = false;
                     if (collection["autorizacion"] != null)
@@ -497,6 +532,28 @@ namespace SistemaCC.Controllers
                     else
                     {
                         check = false;
+                    }
+                    //Enviar Email
+                    try
+                    {
+                        string to = (from u in BD.Usuario where u.Id_U == 4 select u.Email).SingleOrDefault();
+                        ControlCambio cc = (from control in BD.ControlCambio where control.Id_CC == id select control).SingleOrDefault();
+                        Notificacion notificacion = new Notificacion("si", General.generarClave(cc));
+                        notificacion.email = true;
+                        if (General.Email(to,notificacion.getSubject(0),notificacion.generate(6)) != 0)
+                        {
+                            return RedirectToAction("./../Home/Index", new
+                            {
+                                mensaje = "E7"
+                            });
+                        }
+                    } 
+                    catch(Exception e)
+                    {
+                        return RedirectToAction("./../Home/Index", new
+                        {
+                            mensaje = "E1"
+                        });
                     }
                     ViewData["check"] = check;
                     ViewData["MA"] = Mensaje.getMAdvertencia(3);
@@ -531,7 +588,7 @@ namespace SistemaCC.Controllers
                         }
                         catch (Exception e)
                         {
-                            return RedirectToAction("~/Home/Index", new
+                            return RedirectToAction("./../Home/Index", new
                             {
                                 mensaje = "E1"
                             });
@@ -546,10 +603,11 @@ namespace SistemaCC.Controllers
                         ViewData["check"] = check;
                         ViewData["MA"] = Mensaje.getMAdvertencia(0);
                         ViewData["ME"] = Mensaje.getMError(17);
-                        ViewData["Paso"] = "2";
+                        ViewData["Paso"] = "E";
+                        return View();
                     }
                 }
-                return RedirectToAction("~/Home/Index", new
+                return RedirectToAction("./../Home/Index", new
                 {
                     mensaje = "E1"
                 });
@@ -594,7 +652,7 @@ namespace SistemaCC.Controllers
                 ControlCambio cc = (from control in BD.ControlCambio where control.Id_CC == consulta.fk_CC select control).SingleOrDefault();
                 model = consulta;
                 ViewBag.Contenido = consulta.Contenido.Split(new string[] { "&" }, StringSplitOptions.RemoveEmptyEntries);
-                ViewData["Clave"] = clave.generarClave(cc);
+                ViewData["Clave"] = General.generarClave(cc);
             }
             catch(Exception e)
             {
@@ -632,14 +690,14 @@ namespace SistemaCC.Controllers
                 List<ControlCambio> ccs = (from cc in BD.ControlCambio where cc.FechaEjecucion == dia_ && cc.Creador == id && cc.Estado == "Autorizado" select cc).ToList();
                 if (ccs.Count > 0)
                 {
-                    claves = clave.generarListaClave(ccs);
+                    claves = General.generarListaClave(ccs);
                     dia.setControlCambio(ccs, claves);
                 }
                 //Tomar los controles de cambio donde es responsable de actividades
                 List<ControlCambio> actividades = (from ac in BD.ActividadesControl join a in BD.Actividades on ac.fk_Ac equals a.Id_Ac join cc in BD.ControlCambio on ac.fk_CC equals cc.Id_CC where a.FechaRealizacion == dia_ && cc.Creador == id && cc.Estado == "Autorizado" select cc).ToList();
                 if (actividades.Count > 0)
                 {
-                    claves = clave.generarListaClave(actividades);
+                    claves = General.generarListaClave(actividades);
                     dia.setActividad(actividades, claves);
                 }
                 //Tomar los controles donde es afectado algún servicio del usuario
@@ -648,7 +706,7 @@ namespace SistemaCC.Controllers
                 List<ServiciosAplicaciones> servapp_nombres = (from sc in BD.ControlServicio join cc in BD.ControlCambio on sc.fk_CC equals cc.Id_CC join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where (sc.FechaInicio <= dia_ && sc.FechaFinal >= dia_) && sa.Dueno == id && cc.Estado == "Autorizado" select sa).ToList();
                 if (servapp.Count > 0)
                 {
-                    claves = clave.generarListaClave(servapp);
+                    claves = General.generarListaClave(servapp);
                     dia.setServApp(servapp, claves, servapp_nombres);
                 }
                 dias.Add(dia);

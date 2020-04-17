@@ -242,6 +242,10 @@ div.campo-ver {
 span.bold {
     font-weight: bold;
 }
+/*Estilo para autorizaciones*/
+a.submit-reenviar {
+    color: white !important;
+} 
 /*Estilo extra*/
 a.cerrar {
     color: #dc3545 !important;

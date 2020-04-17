@@ -469,18 +469,26 @@ function ocultar_mostrar_nota(ocultar, mostrar) {
 // Funcion para saber que tipo de submit y validar
 function revisarSubmit(tipo) {
     var submit = document.getElementById("submit")
+    var me1 = document.getElementById("ME1")
+    var me2 = document.getElementById("ME2")
     var validacion1 = true;
     var validacion2 = true;
     if (tipo == "corregir") {
         var textareas = document.getElementsByClassName("contador")
         for (var i = 0; i < textareas.length; i++) {
-                validacion1 = $(textareas[i]).val().length > 0
+            if (!$(textareas[i]).val().length > 0) {
+                validacion1 = false
+                break
+            }
         }
     }
     if (tipo == "aprobar") {
         var textareas = document.getElementsByClassName("contador")
         for (var i = 0; i < textareas.length; i++) {
-                validacion2 = ! $(textareas[i]).val().length > 0
+            if ($(textareas[i]).val().length > 0) {
+                validacion2 = false
+                break
+            }
         }
     }
     if (validacion1 && validacion2) {
@@ -489,10 +497,12 @@ function revisarSubmit(tipo) {
     }
     else {
         if (!validacion1) {
-            alert('No se puede enviar a correccion, sin observaciones en las secciones.')
+            me1.style.display = "block"
+            me2.style.display = "none"
         }
         if (!validacion2) {
-            alert('No se puede enviar a aprobar, con observaciones en las secciones.')
+            me1.style.display = "none"
+            me2.style.display = "block"
         }
     }
 }
@@ -508,4 +518,8 @@ function ocultarSpan(){
         span2.style.display = "block"
         span1.style.display = "none"
     }
+}
+function reenviarEmail() {
+    var pasoe = document.getElementById("PasoE")
+    $(pasoe).trigger('click')
 }

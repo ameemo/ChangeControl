@@ -45,6 +45,8 @@ namespace SistemaCC.Controllers
                                    "Usuario ya existente.",
                                    "El tiempo mínimo permitido es de 1 día.",
                                    "Las nuevas contraseñas no coinciden, no se puede realizar el cambio.",
+                                   "No se puede enviar a corrección si las notas están vacías.",
+                                   "No se puede aprobar si las notas tienen observaciones.",
                                    "Los codigos no coinciden."
                                    };
         }

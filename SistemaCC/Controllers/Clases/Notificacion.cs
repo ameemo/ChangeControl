@@ -10,6 +10,7 @@ namespace SistemaCC.Controllers.Clases
         public int id_cc;
         public string fecha_emision, clave_cc, creador_cc, fecha_ejecucion_cc, funcion;
         public Boolean email;
+        private string codigo;
         private string[] subject;
         public Notificacion(int id_cc, int funcion)
         {
@@ -28,6 +29,13 @@ namespace SistemaCC.Controllers.Clases
                 "Se ha excedido la cantidad de controles de cambio en ejecución.",
                 "Hay una nueva revisión."
             };
+        }
+        public Notificacion(string codigo, string clave)
+        {
+            this.codigo = codigo;
+            this.clave_cc = clave;
+            //Inicia subject (asunto)
+            this.subject = new string[] { "Autorizacion pendiente." };
         }
         private string generateNAut_ejecucion() 
         {
@@ -58,6 +66,15 @@ namespace SistemaCC.Controllers.Clases
         { 
             return ""; 
         }
+        private string generateDosPasos()
+        {
+            string mensaje = "";
+            if(this.email && this.codigo.Length > 0)
+            {
+                mensaje = "El código para el control de cambio <b>" + this.clave_cc + "</b> es:<br/><font size=\"5\">" + this.codigo + "</font>";
+            }
+            return mensaje;
+        }
         public string getSubject(int numero)
         {
             return this.subject[numero];
@@ -81,6 +98,9 @@ namespace SistemaCC.Controllers.Clases
                     break;
                 case 5:
                     retornar = generateNRevision();
+                    break;
+                case 6:
+                    retornar = generateDosPasos();
                     break;
             }
             return retornar;

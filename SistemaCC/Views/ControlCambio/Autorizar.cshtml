@@ -10,7 +10,7 @@
     if (ViewData["MA"].ToString() != "")
     {
         <div class="alert alert-warning mensaje" role="alert">
-            @ViewData["MC"]
+            @ViewData["MA"]
         </div>
     }
 <div class="campos campos_tres">
@@ -38,7 +38,8 @@
         if (ViewData["check"].ToString() == "True")
         {
             <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion" checked disabled/>
+                <input name="autorizacion" type="checkbox" checked hidden/>
+                <input type="checkbox" class="custom-control-input" id="switch_aut" checked disabled/>
                 <label class="custom-control-label" for="switch_aut">
                     <span id="check_span">
                         Si autorizo el control de cambio
@@ -68,10 +69,64 @@
         <div class="campos campos_dos">
             <div class="campos_ultimos">
                 <input class="form-control" type="text" placeholder="codigo" name="codigo"/>
+                <span class="text-danger">@ViewData["ME"]</span>
             </div>
             <div class="campos_submit">
                 <input class="btn btn-dark" type="submit" value="Validar" name="Paso2"/>
             </div>
+        </div>
+    }
+    @if (ViewData["Paso"].ToString() == "E")
+    {
+        if (ViewData["check"].ToString() == "True")
+        {
+            <div class="custom-control custom-switch">
+                <input name="autorizacion" type="checkbox" checked hidden/>
+                <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion" checked disabled/>
+                <label class="custom-control-label" for="switch_aut">
+                    <span id="check_span">
+                        Si autorizo el control de cambio
+                    </span>
+                </label>
+            </div>
+        }
+        else
+        {
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="switch_aut" disabled/>
+                <label class="custom-control-label" for="switch_aut">
+                    <span id="uncheck_span" class="text-danger">
+                        No autorizo el control de cambio
+                    </span>
+                </label>
+            </div>
+        }
+        <div class="campos campos_dos">
+            <div class="campos_submit">
+                <input class="btn btn-success" type="submit" value="Continuar" disabled/>
+            </div>
+            <div class="campos_ultimos">
+                <label>Código:</label>
+            </div>
+        </div>
+        <div class="campos campos_dos">
+            <div class="campos_ultimos">
+                <input class="form-control" type="text" placeholder="codigo" name="codigo" disabled/>
+                <span class="text-danger">@ViewData["ME"]</span>
+            </div>
+            <div class="campos_submit">
+                <input class="btn btn-dark" type="submit" value="Validar" name="Paso2" disabled/>
+            </div>
+        </div>
+        <div class="campos_ultimos"></div>
+        <div class="campos_ultimos text-center">
+            <label>Eniar nuevo código:</label>
+        </div>
+        <div class="campos_ultimos text-left">
+            <input id="PasoE" type="submit" name="PasoE" hidden />
+            <a class="btn btn-info submit-reenviar" onclick="reenviarEmail()">
+                <span class="icon-refresh-cw"></span>
+            </a>
         </div>
     }
 </div>
