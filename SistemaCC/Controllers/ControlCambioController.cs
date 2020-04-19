@@ -254,6 +254,8 @@ namespace SistemaCC.Controllers
                 controlCambio.Objetivos = model.Objetivos;
                 controlCambio.Tipo = model.Tipo;
                 controlCambio.Estado = "Creado";
+                controlCambio.Conclusion = "";
+                controlCambio.Exito = false;
                 controlCambio.Creador = 1;
                 BD.ControlCambio.InsertOnSubmit(controlCambio);
                 BD.SubmitChanges();

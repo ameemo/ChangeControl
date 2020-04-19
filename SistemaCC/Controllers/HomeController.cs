@@ -95,6 +95,7 @@ namespace SistemaCC.Controllers
                 notificaciones.fk_U = key;
                 notificaciones.FechaEnvio = DateTime.Today;
                 notificaciones.Contenido = notificacion.generate(generate);
+                notificaciones.Activa = true;
                 BD.Notificaciones.InsertOnSubmit(notificaciones);
                 BD.SubmitChanges();
                 // Enviar el correo
