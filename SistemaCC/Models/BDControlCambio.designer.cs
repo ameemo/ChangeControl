@@ -964,6 +964,8 @@ namespace SistemaCC.Models
 		
 		private EntitySet<Riesgos> _Riesgos;
 		
+		private EntityRef<Usuario> _Usuario;
+		
     #region Definiciones de métodos de extensibilidad
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -999,6 +1001,7 @@ namespace SistemaCC.Models
 			this._Notificaciones = new EntitySet<Notificaciones>(new Action<Notificaciones>(this.attach_Notificaciones), new Action<Notificaciones>(this.detach_Notificaciones));
 			this._Revisiones = new EntitySet<Revisiones>(new Action<Revisiones>(this.attach_Revisiones), new Action<Revisiones>(this.detach_Revisiones));
 			this._Riesgos = new EntitySet<Riesgos>(new Action<Riesgos>(this.attach_Riesgos), new Action<Riesgos>(this.detach_Riesgos));
+			this._Usuario = default(EntityRef<Usuario>);
 			OnCreated();
 		}
 		
@@ -1153,6 +1156,10 @@ namespace SistemaCC.Models
 			{
 				if ((this._Creador != value))
 				{
+					if (this._Usuario.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnCreadorChanging(value);
 					this.SendPropertyChanging();
 					this._Creador = value;
@@ -1290,6 +1297,40 @@ namespace SistemaCC.Models
 			set
 			{
 				this._Riesgos.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Usuario_ControlCambio", Storage="_Usuario", ThisKey="Creador", OtherKey="Id_U", IsForeignKey=true)]
+		public Usuario Usuario
+		{
+			get
+			{
+				return this._Usuario.Entity;
+			}
+			set
+			{
+				Usuario previousValue = this._Usuario.Entity;
+				if (((previousValue != value) 
+							|| (this._Usuario.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Usuario.Entity = null;
+						previousValue.ControlCambio.Remove(this);
+					}
+					this._Usuario.Entity = value;
+					if ((value != null))
+					{
+						value.ControlCambio.Add(this);
+						this._Creador = value.Id_U;
+					}
+					else
+					{
+						this._Creador = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Usuario");
+				}
 			}
 		}
 		
@@ -3067,6 +3108,8 @@ namespace SistemaCC.Models
 		
 		private EntitySet<Autorizaciones> _Autorizaciones;
 		
+		private EntitySet<ControlCambio> _ControlCambio;
+		
 		private EntitySet<Monitoreo> _Monitoreo;
 		
 		private EntitySet<Notificaciones> _Notificaciones;
@@ -3103,6 +3146,7 @@ namespace SistemaCC.Models
 		{
 			this._Actividades = new EntitySet<Actividades>(new Action<Actividades>(this.attach_Actividades), new Action<Actividades>(this.detach_Actividades));
 			this._Autorizaciones = new EntitySet<Autorizaciones>(new Action<Autorizaciones>(this.attach_Autorizaciones), new Action<Autorizaciones>(this.detach_Autorizaciones));
+			this._ControlCambio = new EntitySet<ControlCambio>(new Action<ControlCambio>(this.attach_ControlCambio), new Action<ControlCambio>(this.detach_ControlCambio));
 			this._Monitoreo = new EntitySet<Monitoreo>(new Action<Monitoreo>(this.attach_Monitoreo), new Action<Monitoreo>(this.detach_Monitoreo));
 			this._Notificaciones = new EntitySet<Notificaciones>(new Action<Notificaciones>(this.attach_Notificaciones), new Action<Notificaciones>(this.detach_Notificaciones));
 			this._ServiciosAplicaciones = new EntitySet<ServiciosAplicaciones>(new Action<ServiciosAplicaciones>(this.attach_ServiciosAplicaciones), new Action<ServiciosAplicaciones>(this.detach_ServiciosAplicaciones));
@@ -3316,6 +3360,19 @@ namespace SistemaCC.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Usuario_ControlCambio", Storage="_ControlCambio", ThisKey="Id_U", OtherKey="Creador")]
+		public EntitySet<ControlCambio> ControlCambio
+		{
+			get
+			{
+				return this._ControlCambio;
+			}
+			set
+			{
+				this._ControlCambio.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Usuario_Monitoreo", Storage="_Monitoreo", ThisKey="Id_U", OtherKey="fk_U")]
 		public EntitySet<Monitoreo> Monitoreo
 		{
@@ -3407,6 +3464,18 @@ namespace SistemaCC.Models
 		}
 		
 		private void detach_Autorizaciones(Autorizaciones entity)
+		{
+			this.SendPropertyChanging();
+			entity.Usuario = null;
+		}
+		
+		private void attach_ControlCambio(ControlCambio entity)
+		{
+			this.SendPropertyChanging();
+			entity.Usuario = this;
+		}
+		
+		private void detach_ControlCambio(ControlCambio entity)
 		{
 			this.SendPropertyChanging();
 			entity.Usuario = null;

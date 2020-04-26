@@ -216,6 +216,10 @@ div.campo-ver {
     border-radius: 0.25rem;
     margin-top: 10%;
 }
+.nota_corregir {
+    width: 100%;
+    text-align: justify;
+}
 /*Estilo para mensajes*/
 .mensaje{
     width: 100%;

@@ -180,6 +180,22 @@ namespace SistemaCC.Controllers
                 }
                 if(tipo == "Evidencia")
                 {
+                    foreach (var a in adjuntos)
+                    {
+                        Documentos documento = new Documentos();
+                        documento.DocPath = "";
+                        documento.TipoDoc = tipo;
+                        documento.fk_CC = id_CC;
+                        BD.Documentos.InsertOnSubmit(documento);
+                        BD.SubmitChanges();
+                        //Creamos en archivo con el id que le corresponde
+                        string carpetaCC = Path.Combine(Server.MapPath("~/Archivos/"), "CC_" + id_CC);
+                        Directory.CreateDirectory(carpetaCC);
+                        string path = Path.Combine(Server.MapPath("~/Archivos/CC_" + id_CC), documento.Id_Do + "_Evidencia.pdf");
+                        a.SaveAs(path);
+                        documento.DocPath = path;
+                        BD.SubmitChanges();
+                    }
 
                 }
             }
@@ -325,17 +341,31 @@ namespace SistemaCC.Controllers
         // POST: ControlCambio/Cerrar/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Cerrar(int id, FormCollection collection)
+        public ActionResult Cerrar(int id, ControlCambio model, HttpPostedFileBase[] evidencia, FormCollection collection)
         {
             try
             {
-                // TODO: Add Cerrar logic here
-
-                return RedirectToAction("~/Home/Index");
+                ControlCambio controlCambio = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
+                controlCambio.Estado = "Terminado";
+                controlCambio.Conclusion = model.Conclusion;
+                if(collection["exito"] != null)
+                {
+                    controlCambio.Exito = true;
+                }
+                //Llamar a adjuntos
+                anadir_adjuntos(controlCambio.Id_CC, evidencia, "Evidencia");
+                BD.SubmitChanges();
+                return RedirectToAction("./../Home/Index", new
+                {
+                    mensaje = "C9"
+                });
             }
             catch
             {
-                return View();
+                return RedirectToAction("./../Home/Index", new
+                {
+                    mensaje = "E1"
+                });
             }
         }
 
@@ -445,7 +475,31 @@ namespace SistemaCC.Controllers
                 });
             }
         }
-
+        public ActionResult Corregir(int id)
+        {
+            ControlCambio control = new ControlCambio();
+            try
+            {
+                // Notificaciones para navbar
+                List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
+                ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
+                ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+                control = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
+            }
+            catch(Exception e)
+            {
+                return RedirectToAction("./../Home/Index", new
+                {
+                    mensaje = "E1"
+                });
+            }
+            return View(control);
+        }
+        public ActionResult Notas(int id)
+        {
+            Revisiones revision = (from r in BD.Revisiones where r.fk_CC == id select r).SingleOrDefault();
+            return View(revision);
+        }
         // GET: ControlCambio/Cerrar/5
         public ActionResult Autorizar(int id, string tipo)
         {

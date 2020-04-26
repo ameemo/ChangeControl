@@ -52,6 +52,7 @@
       <Association Name="ControlCambio_Notificaciones" Member="Notificaciones" ThisKey="Id_CC" OtherKey="fk_CC" Type="Notificaciones" />
       <Association Name="ControlCambio_Revisiones" Member="Revisiones" ThisKey="Id_CC" OtherKey="fk_CC" Type="Revisiones" />
       <Association Name="ControlCambio_Riesgos" Member="Riesgos" ThisKey="Id_CC" OtherKey="fk_CC" Type="Riesgos" />
+      <Association Name="Usuario_ControlCambio" Member="Usuario" ThisKey="Creador" OtherKey="Id_U" Type="Usuario" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ControlServicio" Member="ControlServicio">
@@ -148,6 +149,7 @@
       <Column Name="Contrasena" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="Usuario_Actividades" Member="Actividades" ThisKey="Id_U" OtherKey="Responsable" Type="Actividades" />
       <Association Name="Usuario_Autorizaciones" Member="Autorizaciones" ThisKey="Id_U" OtherKey="fk_U" Type="Autorizaciones" />
+      <Association Name="Usuario_ControlCambio" Member="ControlCambio" ThisKey="Id_U" OtherKey="Creador" Type="ControlCambio" />
       <Association Name="Usuario_Monitoreo" Member="Monitoreo" ThisKey="Id_U" OtherKey="fk_U" Type="Monitoreo" />
       <Association Name="Usuario_Notificaciones" Member="Notificaciones" ThisKey="Id_U" OtherKey="fk_U" Type="Notificaciones" />
       <Association Name="Usuario_ServiciosAplicaciones" Member="ServiciosAplicaciones" ThisKey="Id_U" OtherKey="Dueno" Type="ServiciosAplicaciones" />

@@ -117,7 +117,7 @@
                             else
                             {
                                 <td class="link texto">
-                                    -
+                                    @Html.ActionLink("Corregir","../ControlCambio/Corregir", new { id = cc.Id_CC })
                                 </td>
                             }
                             <td class="link">
@@ -206,7 +206,7 @@
                                 </td>
                                 <td>@cc.Estado</td>
                                 <td class="link texto">
-                                    @Html.ActionLink("Enviar a cerrar","~/ControlCambio/Cerrar", new { @class = "fancybox fancybox.ajax" })
+                                    @Html.ActionLink("Enviar a cerrar","../ControlCambio/Cerrar",new { id = cc.Id_CC}, new { @class = "fancybox fancybox.ajax" })
                                 </td>
                                 <td class="link">
                                     <a href="~/ControlCambio/Ver?id=cc.Id_CC"><span class="icon-eye"></span></a>

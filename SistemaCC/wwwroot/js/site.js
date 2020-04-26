@@ -331,7 +331,7 @@ function adjunto_agregar(id) {
     var input = crear_elemento("input", [{ att: "type", val: "file" },
                                          { att: "name", val: "adjuntos_" },
                                          { att: "accept", val: "application/PDF, image/jpg, image/jpeg, image/png" },
-                                         { att: "onchange", val: "revisar_extension('" + id_ + "')" },
+                                         { att: "onchange", val: "revisar_extension('" + id_ + "','a')" },
                                          { att: "oninvalid", val: "error_campos(4)"},
                                          { att: "required", val: "required"}], "custom-file-input")
     var label = crear_elemento("label", [{ att: "for", val: "customFile" }], "custom-file-label normal")
@@ -405,10 +405,10 @@ function quitar(id)
         numeracion[i].appendChild(actividad_numeracion)
     }
 }
-function revisar_extension(id) {
+function revisar_extension(id, tipo) {
     var id_ = parseInt(id) - 1
-    var extensiones = ["jpg", "jpeg", "png", "pdf"]
-    var adjunto = document.getElementsByName("adjuntos_")[id_]
+    var extensiones = tipo == "a" ? ["jpg", "jpeg", "png", "pdf"] : ["pdf"]
+    var adjunto = tipo == "a" ? document.getElementsByName("adjuntos_")[id_] : document.getElementById("evidencia")
     var archivo_ = $(adjunto).val()
     var archivo = archivo_.substr(12, archivo_.length - 12)
     var extension = archivo.substr(-3, 3)
@@ -417,10 +417,14 @@ function revisar_extension(id) {
     var p = document.createElement("p")
     //validar la extension
     if (!extensiones.includes(extension)) {
-        var texto_nuevo = document.createTextNode("Adjuntar archivo tipo PNG, JPG, JPEG, o PDF")
+        var texto_nuevo = tipo == "a" ? document.createTextNode("Adjuntar archivo tipo PNG, JPG, JPEG, o PDF") : document.createTextNode("Adjuntar archivo tipo PDF")
         p.appendChild(texto_nuevo)
         adjunto.value = ""
-        alert("El archivo no cumple con las especificaciones. Sólo archivos: jpg, jpeg, png y pdf")//Cambio en el texto de la label para mostrarla al cliente
+        if (tipo == "a") {
+            alert("El archivo no cumple con las especificaciones. Sólo archivos: jpg, jpeg, png y pdf")
+        } else {
+            alert("El archivo no cumple con las especificaciones. Sólo archivos: pdf")
+        }
     }
     else { 
         var texto_nuevo = document.createTextNode(archivo)

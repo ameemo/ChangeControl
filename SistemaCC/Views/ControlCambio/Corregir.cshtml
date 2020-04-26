@@ -1,0 +1,34 @@
+﻿@model SistemaCC.Models.ControlCambio
+@{
+    ViewData["Title"] = "Corregir";
+}
+    <div class="seccion_contenedor">
+        <div class="seccion">
+            <h1>Corregir Control del cambio</h1>
+        </div>
+        <div class="seccion_boton">
+            @Html.ActionLink("Ver Notas", "../ControlCambio/Notas", new { id = Model.Id_CC }, new { @class = "btn btn-info fancybox fancybox.ajax"})
+        </div>
+    </div>
+
+@RenderPage("_SharedEditar.cshtml")
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".fancybox").fancybox({
+                prevEffect: 'none',
+                nextEffect: 'none',
+                helpers: {
+                    title: {
+                        type: 'outside'
+                    },
+                    thumbs: {
+                        width: 50,
+                        height: 25
+                    }
+                }
+            });
+        })
+    </script>
+}
