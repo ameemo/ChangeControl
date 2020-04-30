@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+    <div class="row">
+        @*@if (ViewData["MC"] != "")
+        {
+            <div class="alert alert-success mensaje" role="alert">
+                @ViewData["MC"]
+            </div>
+        }
+        @if (ViewData["ME"] != "")
+        {
+            <div class="alert alert-danger mensaje" role="alert">
+                @ViewData["ME"]
+            </div>
+        }*@
+        <div class="col-md-12 seccion_contenedor">
+            <div class="seccion">
+                <h1>Tiempo maximo en autorizar</h1>
+            </div>
+            <div class="seccion_boton">
+                <a class="btn btn-success fancybox fancybox.ajax" href="~/Monitoreo/Crear/?tipo=Tiempo"><span class="icon-plus-square"></span> Nuevo</a>
+            </div>
+        </div>
+        @if (ViewBag.Tiempos.Count > 0)
+        {
+            <table id="datos1" class="table table-hover">
+                <thead class="thead-info">
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Creador</th>
+                        <th>Días</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var dato in ViewBag.Tiempos as IEnumerable<SistemaCC.Models.Monitoreo>)
+                    {
+                        <tr>
+                            <td>@dato.Fecha.ToString().Substring(0,10)</td>
+                            <td>@dato.Usuario.Nombre @dato.Usuario.ApePaterno @dato.Usuario.ApeMaterno</td>
+                            <td>@dato.Cantidad</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        @if (ViewBag.Tiempos.Count == 0)
+        {
+            <h5 class="text-center">
+                <span class="badge badge-secondary">No hay tiempos</span>
+            </h5>
+        }
+        <div class="col-md-12 seccion_contenedor">
+            <div class="seccion">
+                <h1>Cantidad maxima de controles de cambio en ejecución</h1>
+            </div>
+            <div class="seccion_boton">
+                <a class="btn btn-success fancybox fancybox.ajax" href="~/Monitoreo/Crear/?tipo=Cantidad"><span class="icon-plus-square"></span> Nuevo</a>
+            </div>
+        </div>
+        @if (ViewBag.Cantidad.Count > 0)
+        {
+            <table id="datos2" class="table table-hover">
+                <thead class="thead-info">
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Creador</th>
+                        <th>Días</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var dato in ViewBag.Cantidad as IEnumerable<SistemaCC.Models.Monitoreo>)
+                    {
+                        <tr>
+                            <td>@dato.Fecha.ToString().Substring(0,10)</td>
+                            <td>@dato.Usuario.Nombre @dato.Usuario.ApePaterno @dato.Usuario.ApeMaterno</td>
+                            <td>@dato.Cantidad</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        @if (ViewBag.Cantidad.Count == 0)
+        {
+            <h5 class="text-center">
+                <span class="badge badge-secondary">No hay cantidades</span>
+            </h5>
+        }
+    </div>
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".fancybox").fancybox({
+                prevEffect: 'none',
+                nextEffect: 'none',
+                helpers: {
+                    title: {
+                        type: 'outside'
+                    },
+                    thumbs: {
+                        width: 50,
+                        height: 25
+                    }
+                }
+            });
+            $('.table').DataTable({
+                "pagingType": "numbers",
+                "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                        }
+            });
+        });
+    </script>
+}
+

@@ -140,6 +140,7 @@
     <Compile Include="Controllers\Clases\Evento.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Clases\Mensajes.cs" />
+    <Compile Include="Controllers\MonitoreoController.cs" />
     <Compile Include="Controllers\ServAppController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
@@ -332,7 +333,6 @@
     <Content Include="Views\ControlCambio\Cerrar.cshtml" />
     <Content Include="Views\ControlCambio\Crear.cshtml" />
     <Content Include="Views\ControlCambio\Editar.cshtml" />
-    <Content Include="Views\ControlCambio\Monitorear.cshtml" />
     <Content Include="Views\ControlCambio\Notificar.cshtml" />
     <Content Include="Views\ControlCambio\Revisar.cshtml" />
     <Content Include="Views\ControlCambio\Ver.cshtml" />
@@ -359,6 +359,8 @@
     <Content Include="Views\ControlCambio\Corregir.cshtml" />
     <Content Include="Views\ControlCambio\_SharedEditar.cshtml" />
     <Content Include="Views\ControlCambio\Notas.cshtml" />
+    <Content Include="Views\Monitoreo\Index.cshtml" />
+    <Content Include="Views\Monitoreo\Crear.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

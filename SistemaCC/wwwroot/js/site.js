@@ -527,3 +527,19 @@ function reenviarEmail() {
     var pasoe = document.getElementById("PasoE")
     $(pasoe).trigger('click')
 }
+// Funcion para input de numero custom
+function numero_mas() {
+    var input = document.getElementById('input_numero')
+    var numero = parseInt($(input).val())
+    if (numero < 10) {
+        input.value = numero == 9 ? (numero + 1):'0' + (numero + 1)
+    }
+}
+function numero_menos() {
+    var input = document.getElementById('input_numero')
+    var numero = parseInt($(input).val())
+    if (numero > 1) {
+        input.value = '0'+(numero - 1)
+    }
+}
+function numero_actualiza(numero) {}

@@ -675,29 +675,6 @@ namespace SistemaCC.Controllers
         }
 
         // GET: ControlCambio/Cerrar/5
-        public ActionResult Monitorear(int id)
-        {
-            return View();
-        }
-
-        // POST: ControlCambio/Cerrar/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Monitorear(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add Cerrar logic here
-
-                return RedirectToAction("~/Home/Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ControlCambio/Cerrar/5
         public ActionResult Notificar(int id)
         {
             Notificaciones model = new Notificaciones();

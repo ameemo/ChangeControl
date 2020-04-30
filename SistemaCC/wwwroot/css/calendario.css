@@ -15,9 +15,9 @@
 }
 .mes > .dia, .numero-grid > .numero {
     border: 1px #cfcfcf solid;
-    margin:-1px -1px -1px -1px;
+    margin-left:-1px -1px -1px;
 }
-.dia {
+.dia, .ndia {
     max-height: 96px;
     min-height: 96px;
     overflow-y: auto;
@@ -28,7 +28,7 @@
     grid-template-columns: 90% 10%;
 }
 .mes > .ndia {
-    border: 1px #ebebeb solid;
+    border: 1px #cfcfcf solid;
     border-collapse: collapse;
 }
 .dia > .contenedor{
