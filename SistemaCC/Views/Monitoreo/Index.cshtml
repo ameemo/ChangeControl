@@ -3,24 +3,38 @@
     ViewBag.Title = "Index";
 }
     <div class="row">
-        @*@if (ViewData["MC"] != "")
+        @if (ViewData["MC"].ToString() != "")
         {
             <div class="alert alert-success mensaje" role="alert">
                 @ViewData["MC"]
             </div>
         }
-        @if (ViewData["ME"] != "")
+        @if (ViewData["MA"].ToString() != "")
+        {
+            <div class="alert alert-warning mensaje" role="alert">
+                @ViewData["MA"]
+            </div>
+        }
+        @if (ViewData["ME"].ToString() != "")
         {
             <div class="alert alert-danger mensaje" role="alert">
                 @ViewData["ME"]
             </div>
-        }*@
+        }
         <div class="col-md-12 seccion_contenedor">
             <div class="seccion">
                 <h1>Tiempo maximo en autorizar</h1>
             </div>
             <div class="seccion_boton">
                 <a class="btn btn-success fancybox fancybox.ajax" href="~/Monitoreo/Crear/?tipo=Tiempo"><span class="icon-plus-square"></span> Nuevo</a>
+            </div>
+        </div>
+        <div class="campos campos_dos">
+            <div class="campos campos_tres">
+                <div class="campos campos_dos_kai">
+                    <div class="regla-actual" style="width:50%">&ensp;</div>
+                    <div class="campos_ultimos">Regla actual</div>
+                </div>
             </div>
         </div>
         @if (ViewBag.Tiempos.Count > 0)
@@ -36,11 +50,22 @@
                 <tbody>
                     @foreach (var dato in ViewBag.Tiempos as IEnumerable<SistemaCC.Models.Monitoreo>)
                     {
-                        <tr>
-                            <td>@dato.Fecha.ToString().Substring(0,10)</td>
-                            <td>@dato.Usuario.Nombre @dato.Usuario.ApePaterno @dato.Usuario.ApeMaterno</td>
-                            <td>@dato.Cantidad</td>
-                        </tr>
+                        if (ViewBag.Tiempos.IndexOf(dato) == 0)
+                        {
+                            <tr class="regla-actual">
+                                <td>@dato.Fecha.ToString().Substring(0, 10)</td>
+                                <td>@dato.Usuario.Nombre @dato.Usuario.ApePaterno @dato.Usuario.ApeMaterno</td>
+                                <td>@dato.Cantidad</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>@dato.Fecha.ToString().Substring(0, 10)</td>
+                                <td>@dato.Usuario.Nombre @dato.Usuario.ApePaterno @dato.Usuario.ApeMaterno</td>
+                                <td>@dato.Cantidad</td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>
@@ -59,6 +84,14 @@
                 <a class="btn btn-success fancybox fancybox.ajax" href="~/Monitoreo/Crear/?tipo=Cantidad"><span class="icon-plus-square"></span> Nuevo</a>
             </div>
         </div>
+        <div class="campos campos_dos">
+            <div class="campos campos_tres">
+                <div class="campos campos_dos_kai">
+                    <div class="regla-actual" style="width:50%">&ensp;</div>
+                    <div class="campos_ultimos">Regla actual</div>
+                </div>
+            </div>
+        </div>
         @if (ViewBag.Cantidad.Count > 0)
         {
             <table id="datos2" class="table table-hover">
@@ -72,11 +105,22 @@
                 <tbody>
                     @foreach (var dato in ViewBag.Cantidad as IEnumerable<SistemaCC.Models.Monitoreo>)
                     {
-                        <tr>
-                            <td>@dato.Fecha.ToString().Substring(0,10)</td>
-                            <td>@dato.Usuario.Nombre @dato.Usuario.ApePaterno @dato.Usuario.ApeMaterno</td>
-                            <td>@dato.Cantidad</td>
-                        </tr>
+                        if (ViewBag.Cantidad.IndexOf(dato) == 0)
+                        {
+                            <tr class="regla-actual">
+                                <td>@dato.Fecha.ToString().Substring(0, 10)</td>
+                                <td>@dato.Usuario.Nombre @dato.Usuario.ApePaterno @dato.Usuario.ApeMaterno</td>
+                                <td>@dato.Cantidad</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>@dato.Fecha.ToString().Substring(0, 10)</td>
+                                <td>@dato.Usuario.Nombre @dato.Usuario.ApePaterno @dato.Usuario.ApeMaterno</td>
+                                <td>@dato.Cantidad</td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>

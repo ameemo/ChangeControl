@@ -440,7 +440,7 @@ function error_campos(seccion) {
     $(show).removeClass("show")
     $(collapse[seccion]).addClass("show")
 }
-// funcion para cambiar al nombre del input con el id del rol
+// funciones para cambiar al nombre del input con el id del rol crear y editar
 function setNombre() {
     var index = this.getAttribute("id")
     var rol_input = document.getElementsByClassName("rol_input")
@@ -452,11 +452,23 @@ function setNombre() {
     }
     showWarning()
 }
+function setNombreActual() {
+    var index = this.getAttribute("id")
+    var rol_input = document.getElementsByClassName("rol_input_actual")
+    if (this.checked) {
+        rol_input[index].setAttribute("name", "rol_input_actual")
+    }
+    else {
+        rol_input[index].setAttribute("name", "rol_input_eliminado")
+    }
+    showWarning()
+}
 // funcion para el warning acerca del rol y el tipo de usuario
 function showWarning() {
     var rol = document.getElementsByName("rol_input")
+    var actual = document.getElementsByName("rol_input_actual")
     var warning = document.getElementById("warning")
-    if (rol.length <= 0) {
+    if (rol.length <= 0 && actual.length <= 0) {
         warning.style.display = "block"
     }
     else {
@@ -542,4 +554,3 @@ function numero_menos() {
         input.value = '0'+(numero - 1)
     }
 }
-function numero_actualiza(numero) {}

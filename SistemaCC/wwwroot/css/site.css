@@ -94,6 +94,7 @@ a:hover.inactivo {
 .campos {
     display: grid;
     margin-bottom: 2%;
+    width: 100%;
 }
 .campos > div.campos_ultimos {
     padding-left: 7px;
@@ -278,8 +279,8 @@ a.submit-reenviar {
 .input-numero > a.mas {
     margin-left: -2px;
 }
-.input-numero > a.minus {
-
+.regla-actual {
+    background: #fcf8a8;
 }
 
 /*Estilo extra*/

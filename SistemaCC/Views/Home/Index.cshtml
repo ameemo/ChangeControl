@@ -209,10 +209,10 @@
                                     @Html.ActionLink("Enviar a cerrar","../ControlCambio/Cerrar",new { id = cc.Id_CC}, new { @class = "fancybox fancybox.ajax" })
                                 </td>
                                 <td class="link">
-                                    <a href="~/ControlCambio/Ver?id=cc.Id_CC"><span class="icon-eye"></span></a>
+                                    <a href="~/ControlCambio/Ver?id=@cc.Id_CC"><span class="icon-eye"></span></a>
                                 </td>
                                 <td class="link">
-                                    <a href="~/ControlCambio/Editar?id=cc.Id_CC"><span class="icon-edit"></span></a>
+                                    <a href="~/ControlCambio/Editar?id=@cc.Id_CC"><span class="icon-edit"></span></a>
                                 </td>
                             </tr>
                         }

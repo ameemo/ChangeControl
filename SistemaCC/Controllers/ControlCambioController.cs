@@ -734,7 +734,7 @@ namespace SistemaCC.Controllers
                     dia.setActividad(actividades, claves);
                 }
                 //Tomar los controles donde es afectado algún servicio del usuario
-                List<ControlCambio> servapp = (from sc in BD.ControlServicio join cc in BD.ControlCambio on sc.fk_CC equals cc.Id_CC join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where (sc.FechaInicio <= dia_ && sc.FechaFinal >= dia_) && cc.Creador == id && cc.Estado == "Autorizado" select cc).ToList();
+                List<ControlCambio> servapp = (from sc in BD.ControlServicio join cc in BD.ControlCambio on sc.fk_CC equals cc.Id_CC join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where (sc.FechaInicio <= dia_ && sc.FechaFinal >= dia_) && sa.Dueno == id && cc.Estado == "Autorizado" select cc).ToList();
                 //Tomar los servicios para el nombre
                 List<ServiciosAplicaciones> servapp_nombres = (from sc in BD.ControlServicio join cc in BD.ControlCambio on sc.fk_CC equals cc.Id_CC join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where (sc.FechaInicio <= dia_ && sc.FechaFinal >= dia_) && sa.Dueno == id && cc.Estado == "Autorizado" select sa).ToList();
                 if (servapp.Count > 0)

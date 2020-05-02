@@ -28,6 +28,20 @@ namespace SistemaCC.Controllers
                 }
             }
         }
+        // Funcion para eliminar roles
+        void eliminar_roles(string usuarioRoles)
+        {
+            if(usuarioRoles != null)
+            {
+                string[] usuarioRol = usuarioRoles.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                for(var i = 0; i < usuarioRol.Length; i++)
+                {
+                    UsuarioRol ur = (from urol in BD.UsuarioRol where urol.Id_UR == Int32.Parse(usuarioRol[i]) select urol).SingleOrDefault();
+                    BD.UsuarioRol.DeleteOnSubmit(ur);
+                    BD.SubmitChanges();
+                }
+            }
+        }
         // GET: Usuarios
         public ActionResult Index(string mensaje)
         {
@@ -102,6 +116,7 @@ namespace SistemaCC.Controllers
                     // Demas codigo
                     ViewBag.Roles = (from r in BD.Roles select r).ToList();
                     ViewData["ME1"] = Mensaje.getMError(12);
+                    ViewData["MA"] = Mensaje.getMAdvertencia(2);
                     return View();
                 }
                 Usuario usuario = new Usuario();
@@ -126,23 +141,119 @@ namespace SistemaCC.Controllers
         // GET: Usuarios/Editar/5
         public ActionResult Editar(int id)
         {
-            return View();
+            // Notificaciones para navbar
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
+            ViewBag.Notificaciones_claves = clave.generarListaClave(ccs);
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            // Codigo para saber que roles tiene en este momendo el usuario
+            List<Roles> Roles = (from r in BD.Roles select r).ToList();
+            List<UsuarioRol> UsuarioRoles = (from r in BD.UsuarioRol where r.fk_Us == id select r).ToList();
+            List<List<string>> rol = new List<List<string>>();
+            foreach (var r in Roles)
+            {
+                Boolean anadir = true;
+                List<string> list = new List<string>();
+                foreach (var ur in UsuarioRoles)
+                {
+                    if (r.Id_Rol == ur.fk_Rol)
+                    {
+                        anadir = false;
+                        list.Add("" + ur.Id_UR);
+                        list.Add(r.Rol);
+                        list.Add("1");
+                        rol.Add(list);
+                        break;
+                    }
+                    else
+                    {
+                        anadir = true;
+                    }
+                }
+                if (anadir)
+                {
+                    list.Add("" + r.Id_Rol);
+                    list.Add(r.Rol);
+                    list.Add("0");
+                    rol.Add(list);
+                }
+            }
+            ViewBag.Roles = rol;
+            // Codigo para el modelo y los mensajes
+            Usuario model = (from u in BD.Usuario where u.Id_U == id select u).SingleOrDefault();
+            ViewData["ME1"] = Mensaje.getMError(0);
+            ViewData["MA"] = Mensaje.getMAdvertencia(2);
+            return View(model);
         }
 
         // POST: Usuarios/Editar/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar(int id, FormCollection collection)
+        public ActionResult Editar(int id, Usuario modelo, FormCollection collection)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
+                var correo = (from u in BD.Usuario where u.Email == modelo.Email && u.Id_U != id select u).ToList();
+                if (correo.Count != 0)
+                {
+                    // Notificaciones para navbar
+                    List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
+                    ViewBag.Notificaciones_claves = clave.generarListaClave(ccs);
+                    ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+                    // Codigo para saber que roles tiene en este momendo el usuario
+                    List<Roles> Roles = (from r in BD.Roles select r).ToList();
+                    List<UsuarioRol> UsuarioRoles = (from r in BD.UsuarioRol where r.fk_Us == id select r).ToList();
+                    List<List<string>> rol = new List<List<string>>();
+                    foreach (var r in Roles)
+                    {
+                        Boolean anadir = true;
+                        List<string> list = new List<string>();
+                        foreach (var ur in UsuarioRoles)
+                        {
+                            if (r.Id_Rol == ur.fk_Rol)
+                            {
+                                anadir = false;
+                                list.Add("" + ur.Id_UR);
+                                list.Add(r.Rol);
+                                list.Add("1");
+                                rol.Add(list);
+                                break;
+                            }
+                            else
+                            {
+                                anadir = true;
+                            }
+                        }
+                        if (anadir)
+                        {
+                            list.Add("" + r.Id_Rol);
+                            list.Add(r.Rol);
+                            list.Add("0");
+                            rol.Add(list);
+                        }
+                    }
+                    ViewBag.Roles = rol;
+                    // Codigo para el modelo y los mensajes
+                    Usuario model = (from u in BD.Usuario where u.Id_U == id select u).SingleOrDefault();
+                    ViewData["ME1"] = Mensaje.getMError(12);
+                    ViewData["MA"] = Mensaje.getMAdvertencia(2);
+                    return View();
+                }
+                Usuario usuario = (from u in BD.Usuario where u.Id_U == id select u).SingleOrDefault();
+                usuario.Nombre = modelo.Nombre.ToUpper();
+                usuario.ApePaterno = modelo.ApePaterno.ToUpper();
+                usuario.ApeMaterno = modelo.ApeMaterno.ToUpper();
+                usuario.NoExt = modelo.NoExt;
+                usuario.Email = modelo.Email;
+                usuario.Activo = true;
+                usuario.ClaveUnica = "";
+                BD.SubmitChanges();
+                anadir_roles(usuario.Id_U, collection["rol_input"]);
+                eliminar_roles(collection["rol_input_eliminado"]);
+                return RedirectToAction("Index", new { mensaje = "C7" });
             }
             catch
             {
-                return View();
+                return RedirectToAction("Index", new { mensaje = "E1" });
             }
         }
 

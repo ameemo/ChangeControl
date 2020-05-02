@@ -49,8 +49,11 @@
         <div class="campos_ultimos">
             <label>Roles:</label>
         </div>
+    </div>
+    <div class="campos campos_dos_kai">
         @foreach (var rol in ViewBag.Roles as IEnumerable<SistemaCC.Models.UsuarioRol>)
         {
+            <div class="campos_ultimos"></div>
             <div class="campos_ultimos campo-ver">
                 @rol.Roles.Rol
             </div>

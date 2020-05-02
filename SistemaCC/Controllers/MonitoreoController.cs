@@ -11,6 +11,7 @@ namespace SistemaCC.Controllers
     {
         BDControlCambioDataContext BD = new BDControlCambioDataContext();
         HomeController General = new HomeController();
+        Mensajes Mensaje = new Mensajes();
         // GET: Monitoreo
         public ActionResult Index(string mensaje)
         {
@@ -19,8 +20,31 @@ namespace SistemaCC.Controllers
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
             // Consultas para mostrar informacion
-            ViewBag.Tiempos = (from m in BD.Monitoreo where m.Tipo == "Tiempo" select m).ToList();
-            ViewBag.Cantidad = (from m in BD.Monitoreo where m.Tipo == "Cantidad" select m).ToList();
+            ViewBag.Tiempos = (from m in BD.Monitoreo where m.Tipo == "Tiempo" orderby m.Fecha ascending select m).ToList();
+            ViewBag.Cantidad = (from m in BD.Monitoreo where m.Tipo == "Cantidad" orderby m.Fecha ascending select m).ToList();
+            //Seccion de mensajes para la vista
+            string MC = "";
+            string MA = "";
+            string ME = "";
+            if (mensaje != null)
+            {
+                int numero = Convert.ToInt32(mensaje.Substring(1, mensaje.Length - 1));
+                if (mensaje.Substring(0, 1) == "C")
+                {
+                    MC = Mensaje.getMConfirmacion(numero);
+                }
+                if(mensaje.Substring(0,1) == "A")
+                {
+                    MA = Mensaje.getMAdvertencia(numero);
+                }
+                if (mensaje.Substring(0, 1) == "E")
+                {
+                    ME = Mensaje.getMError(numero);
+                }
+            }
+            ViewData["MC"] = MC;
+            ViewData["MA"] = MA;
+            ViewData["ME"] = ME;
             return View();
         }
 
@@ -28,9 +52,7 @@ namespace SistemaCC.Controllers
         public ActionResult Crear(string tipo)
         {
             ViewData["Tipo"] = tipo;
-            Monitoreo m = new Monitoreo();
-            m.Cantidad = 1;
-            return View(m);
+            return View();
         }
 
         // POST: Monitoreo/Create
@@ -39,6 +61,14 @@ namespace SistemaCC.Controllers
         {
             try
             {
+                List<Monitoreo> ultimo = (from m in BD.Monitoreo where m.Tipo == tipo orderby m.Fecha descending select m).ToList();
+                if(ultimo[0].Cantidad == Int32.Parse(collection["cantidad"]))
+                {
+                    return RedirectToAction("Index", new
+                    {
+                        mensaje = "A4"
+                    });
+                }
                 Monitoreo monitoreo = new Monitoreo();
                 monitoreo.fk_U = 1;
                 monitoreo.Cantidad = Int32.Parse(collection["cantidad"]);
@@ -48,7 +78,7 @@ namespace SistemaCC.Controllers
                 BD.SubmitChanges();
                 return RedirectToAction("Index", new
                 {
-                    mensaje = "C"
+                    mensaje = "C12"
                 });
             }
             catch
