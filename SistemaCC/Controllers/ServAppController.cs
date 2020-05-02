@@ -93,19 +93,36 @@ namespace SistemaCC.Controllers
         // GET: ServApp/Editar/5
         public ActionResult Editar(int id)
         {
-            return View();
+            // Notificaciones para navbar
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
+            ViewBag.Notificaciones_claves = clave.generarListaClave(ccs);
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            // Demas codigo
+            var usuarios = (from a in BD.Usuario select a).ToList();
+            List<Usuario> usuarios2 = new List<Usuario>();
+            foreach (var usuario in usuarios)
+            {
+                usuarios2.Add(new Usuario { Id_U = usuario.Id_U, Nombre = usuario.Nombre + " " + usuario.ApePaterno + " " + usuario.ApeMaterno });
+            }
+            ServiciosAplicaciones model = (from sa in BD.ServiciosAplicaciones where sa.Id_SA == id select sa).SingleOrDefault();
+            ViewData["usuarios"] = new SelectList(usuarios2, "Id_U", "Nombre");
+            return View(model);
         }
 
         // POST: ServApp/Editar/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar(int id, FormCollection collection)
+        public ActionResult Editar(int id, ServiciosAplicaciones modelo, FormCollection collection)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
+                ServiciosAplicaciones servapp = (from sa in BD.ServiciosAplicaciones where sa.Id_SA == id select sa).SingleOrDefault();
+                servapp.Nombre = modelo.Nombre;
+                servapp.Descripcion = modelo.Descripcion;
+                servapp.Acronimo = modelo.Acronimo;
+                servapp.Dueno = modelo.Dueno;
+                BD.SubmitChanges();
+                return RedirectToAction("Index", new { mensaje = "C14" });
             }
             catch
             {

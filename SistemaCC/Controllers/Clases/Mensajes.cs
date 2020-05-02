@@ -24,7 +24,9 @@ namespace SistemaCC.Controllers
                                           "Control de cambio modificado de manera exitosa.",
                                           "Revision enviada con éxito.",
                                           "Autorización exitosa.",
-                                          "Asignación de cantidad exitosa."
+                                          "Asignación de cantidad exitosa.",
+                                          "Usuario modificado de manera exitosa.",
+                                          "Servicio o aplicación modificado de manera exitosa."
                                         };
             MAdvertencia = new string[] {"",
                                          "El archivo puede contener errores si no es compatible o no se cuentan con los permisos asignados por el administrador.",

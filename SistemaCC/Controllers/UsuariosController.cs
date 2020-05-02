@@ -244,12 +244,10 @@ namespace SistemaCC.Controllers
                 usuario.ApeMaterno = modelo.ApeMaterno.ToUpper();
                 usuario.NoExt = modelo.NoExt;
                 usuario.Email = modelo.Email;
-                usuario.Activo = true;
-                usuario.ClaveUnica = "";
                 BD.SubmitChanges();
                 anadir_roles(usuario.Id_U, collection["rol_input"]);
                 eliminar_roles(collection["rol_input_eliminado"]);
-                return RedirectToAction("Index", new { mensaje = "C7" });
+                return RedirectToAction("Index", new { mensaje = "C13" });
             }
             catch
             {
