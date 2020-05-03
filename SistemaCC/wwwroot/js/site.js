@@ -386,7 +386,7 @@ function quitar(id)
     //Decrementamos el id en 1 para tener conteo adecuado del tipo
     var aa = document.getElementById(tipo + "_agregar")
     var arg_str = aa.getAttribute("onclick")
-    var id_ = parseInt(arg_str.substr(arg_str.length - 3, 1)) - 1
+    var id_ = arg_str.search("; return false") != -1 ? parseInt(arg_str.substr(arg_str.length - 17, 1)) - 1 : parseInt(arg_str.substr(arg_str.length - 3, 1)) - 1
     aa.removeAttribute("onclick")
     aa.setAttribute("onclick", tipo + "_agregar('" + id_ + "')")
     //Eliminar
@@ -577,8 +577,14 @@ function setSerEditar(id) {
     inicio.setAttribute('name', 'ser_inicio_editado')
     final.setAttribute('name','ser_fina_editado')
 }
+function setRieEditar(id, sub) {
+    var input = document.getElementById("rie_" + sub +"_id_" + id)
+    var textarea = document.getElementById("rie_" + sub + "_desc_" + id)
+    input.setAttribute('name', 'rie_' + sub + '_id_editado')
+    textarea.setAttribute('name','rie_'+sub+'_desc_editado')
+}
 function setActEliminar(id,sub) {
-    var res = confirm('Todos los datos relacionados a está actividad serán ELIMINADOS.\n¿Desea continuar?')
+    var res = confirm('Todos los datos relacionados a esta actividad serán ELIMINADOS.\n¿Desea continuar?')
     if (res) {
         var input = document.getElementById('act_' + sub + '_id_' + id)
         input.setAttribute('name', 'act_' + sub + '_eliminado')
@@ -596,5 +602,27 @@ function setSerEliminar(id) {
         var input = document.getElementById('ser_id_' + id)
         input.setAttribute('name', 'ser_id_eliminado')
         quitar('servicio' + (id + 1))
+    }
+}
+function setDocEliminar(id, sub) {
+    var res = confirm('Todos los datos relacionados a este documento serán ELIMINADOS.\n¿Desea continuar?')
+    if (res) {
+        var input = document.getElementById('doc_' + sub + '_id_' + id)
+        input.setAttribute('name', 'doc_' + sub + '_eliminado')
+        var div = document.getElementById('doc_' + sub + '_' + id)
+        div.remove()
+    }
+}
+function setRieEliminar(id, sub) {
+    var res = confirm('Todos los datos relacionados a este riesgo serán ELIMINADOS.\n¿Desea continuar?')
+    if (res) {
+        var input = document.getElementById('rie_' + sub + '_id_' + id)
+        input.setAttribute('name', 'rie_' + sub + '_eliminado')
+        if (sub == "cc") {
+            quitar('riesgo' + (id + 1))
+        }
+        else {
+            quitar('riesgo_no' + (id + 1))
+        }
     }
 }

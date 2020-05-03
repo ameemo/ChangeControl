@@ -313,19 +313,73 @@
                             <label>Riesgos del control de cambio</label>
                         </div>
                         <div class="campos_ultimos seccion_boton">
-                            <a id="riesgo_agregar" class="btn btn-info" onclick="riesgo_agregar('0'); return false"><span class="icon-plus-square"></span></a>
+                            <a id="riesgo_agregar" class="btn btn-info" onclick="riesgo_agregar('@ViewBag.Riesgos_CC.Count'); return false"><span class="icon-plus-square"></span></a>
                         </div>
                     </div>
-                    <div id="riesgos_contenedor"></div>
+                    <div id="riesgos_contenedor">
+                        @foreach (var r in ViewBag.Riesgos_CC as IEnumerable<SistemaCC.Models.Riesgos>)
+                        {
+                            <input id="rie_cc_id_@ViewBag.Riesgos_CC.IndexOf(r)" type="text" value="@r.Id_Ri" hidden/>
+                            <div id="riesgo@(ViewBag.Riesgos_CC.IndexOf(r)+1)" class="campos campos_dos">
+                                <div class="campos campos_dos_kai">
+                                    <div name="riesgo" class="campos campos_ultimos numeracion">
+                                        <div>R@(ViewBag.Riesgos_CC.IndexOf(r) + 1)</div>
+                                    </div>
+                                    <div class="campos campos_ultimos">
+                                        <textarea id="rie_cc_desc_@ViewBag.Riesgos_CC.IndexOf(r)" name="riesgos_descripcion_actual" maxlength="150" placeholder="Descripción" onkeyup="contar('@ViewBag.Riesgos_CC.IndexOf(r)', 'contar-riesgo-desc', 'conteo-riesgo-desc-')" oninvalid="error_campos(3)" onchange="setRieEditar(@ViewBag.Riesgos_CC.IndexOf(r),'cc')" required="required" class="form-control contar-riesgo-desc">@r.Descripcion</textarea>
+                                        <div id="conteo-riesgo-desc-@ViewBag.Riesgos_CC.IndexOf(r)" class="campos_ultimos conteo-riesgo-desc">
+                                            <div>Caracteres: @r.Descripcion.Length/150</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="campos campos_tres">
+                                    <div class="campos campos_ultimos"></div>
+                                    <div class="campos campos_ultimos"></div>
+                                    <div class="campos campos_ultimos">
+                                        <div class="quitar">
+                                            <a onclick="setRieEliminar(@ViewBag.Riesgos_CC.IndexOf(r),'cc')" class="btn btn-outline-danger cerrar">X</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
                     <div class="campos campos_dos">
                         <div class="campos_ultimos seccion">
                             <label>Riesgos de no ejecutar el control de cambio</label>
                         </div>
                         <div class="campos_ultimos seccion_boton">
-                            <a id="riesgo_no_agregar" class="btn btn-info" onclick="riesgo_no_agregar('0'); return false"><span class="icon-plus-square"></span></a>
+                            <a id="riesgo_no_agregar" class="btn btn-info" onclick="riesgo_no_agregar('@ViewBag.Riesgos_No.Count'); return false"><span class="icon-plus-square"></span></a>
                         </div>
                     </div>
-                    <div id="riesgos_no_contenedor"></div>
+                    <div id="riesgos_no_contenedor">
+                        @foreach (var r in ViewBag.Riesgos_No as IEnumerable<SistemaCC.Models.Riesgos>)
+                        {
+                            <input id="rie_no_id_@ViewBag.Riesgos_No.IndexOf(r)" type="text" value="@r.Id_Ri" hidden />
+                            <div id="riesgo_no@(ViewBag.Riesgos_No.IndexOf(r)+1)" class="campos campos_dos">
+                                <div class="campos campos_dos_kai">
+                                    <div name="riesgo_no" class="campos campos_ultimos numeracion">
+                                        <div>R@(ViewBag.Riesgos_No.IndexOf(r) + 1)</div>
+                                    </div>
+                                    <div class="campos campos_ultimos">
+                                        <textarea id="rie_no_desc_@ViewBag.Riesgos_No.IndexOf(r)" name="riesgos_descripcion_actual" maxlength="150" placeholder="Descripción" onkeyup="contar('@ViewBag.Riesgos_No.IndexOf(r)', 'contar-riesgo_no-desc', 'conteo-riesgo_no-desc-')" oninvalid="error_campos(3)" onchange="setRieEditar(@ViewBag.Riesgos_No.IndexOf(r),'no')" required="required" class="form-control contar-riesgo_no-desc">@r.Descripcion</textarea>
+                                        <div id="conteo-riesgo_no-desc-@ViewBag.Riesgos_No.IndexOf(r)" class="campos_ultimos conteo-riesgo_no-desc">
+                                            <div>Caracteres: @r.Descripcion.Length/150</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="campos campos_tres">
+                                    <div class="campos campos_ultimos"></div>
+                                    <div class="campos campos_ultimos"></div>
+                                    <div class="campos campos_ultimos">
+                                        <div class="quitar">
+                                            <a onclick="setRieEliminar(@ViewBag.Riesgos_No.IndexOf(r),'no')" class="btn btn-outline-danger cerrar">X</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
@@ -339,6 +393,72 @@
             </div>
             <div id="Seccion4" class="collapse" aria-labelledby="Titulo4" data-parent="#accordionFormulario">
                 <div class="card-body">
+                    <div class="campos campos_dos">
+                        <div class="campos_ultimos seccion">
+                            <label>Imagenes adjuntas</label>
+                        </div>
+                        <div class="campos_ultimos seccion">
+                            <label>Documentos adjuntos</label>
+                        </div>
+                    </div>
+                    <div id="adjuntos_contenedor_actual">
+                        <div class="campos campos_dos">
+                            <div class=campos_ultimos>
+                                @foreach (var doc in ViewBag.Documentos_imagenes as IEnumerable<SistemaCC.Models.Documentos>)
+                                {
+                                    <input id="doc_img_id_@ViewBag.Documentos_imagenes.IndexOf(doc)" type="text" value="@doc.Id_Do" hidden/>
+                                    <div id="doc_img_@ViewBag.Documentos_imagenes.IndexOf(doc)" class="campos campos_dos_kai">
+                                        <div class="campos_ultimos numeracion">
+                                            IA@(ViewBag.Documentos_imagenes.IndexOf(doc) + 1)
+                                        </div>
+                                        <div class="campos campos_dos">
+                                            <a class="fancybox-thumb" rel="fancybox-thumb" href="~/Archivos/CC_@doc.fk_CC/Adjuntos/@doc.DocPath">
+                                                <img src="~/Archivos/CC_@doc.fk_CC/Adjuntos/@doc.DocPath" width="100%" />
+                                            </a>
+                                            <div class="campos campos_ultimos">
+                                                <div class="quitar">
+                                                    <a onclick="setDocEliminar(@ViewBag.Documentos_imagenes.IndexOf(doc),'img')" class="btn btn-outline-danger cerrar">X</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                @if (ViewBag.Documentos_imagenes.Count == 0)
+                                {
+                                    <h5 class="text-center">
+                                        <span class="badge badge-secondary">No contiene imagenes adjuntas</span>
+                                    </h5>
+                                }
+                            </div>
+                            <div class=campos_ultimos>
+                                @foreach (var doc in ViewBag.Documentos_pdf)
+                                {
+                                    <input id = "doc_doc_id_@ViewBag.Documentos_imagenes.IndexOf(doc)" type = "text" value = "@doc.Id_Do" hidden />
+                                    <div id="doc_doc_@ViewBag.Documentos_imagenes.IndexOf(doc)" class="campos campos_dos_kai">
+                                        <div class="campos_ultimos numeracion">
+                                            DA@(ViewBag.Documentos_pdf.IndexOf(doc) + 1)
+                                        </div>
+                                        <div class="campos campos_dos pt-2">
+                                            <a class="fancybox2 fancybox.iframe" href="~/Archivos/CC_@doc.fk_CC/Adjuntos/@doc.DocPath">
+                                                @doc.DocPath
+                                            </a>
+                                            <div class="campos campos_ultimos">
+                                                <div class="quitar">
+                                                    <a onclick="setDocEliminar(@ViewBag.Documentos_imagenes.IndexOf(doc),'doc')" class="btn btn-outline-danger cerrar">X</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                @if (ViewBag.Documentos_pdf.Count == 0)
+                                {
+                                    <h5 class="text-center">
+                                        <span class="badge badge-secondary">No contiene documentos adjuntos</span>
+                                    </h5>
+                                }
+                            </div>
+                        </div>
+                    </div>
                     <div class="campos campos_dos">
                         <div class="campos_ultimos seccion">
                             <label>Adjuntar archivos</label>
