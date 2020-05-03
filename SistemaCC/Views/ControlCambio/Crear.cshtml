@@ -97,9 +97,9 @@
                     <div style="display: none">
                         <select id="usuarios2">
                             <option value="">Select...</option>
-                            @foreach (var usuario in ViewBag.usuarios)
+                            @foreach (var usuario in ViewBag.usuarios as IEnumerable<SistemaCC.Models.Usuario>)
                             {
-                                <option value="@usuario.Id_U">@usuario.Nombre</option>
+                                <option value="@usuario.Id_U">@usuario.Nombre @usuario.ApePaterno @usuario.ApeMaterno</option>
                             }
                         </select>
                     </div>
@@ -227,6 +227,7 @@
                     }
                 }
             });
+        })
         $(document).on("submit", "form", function (e) {
             $('.contar-act-desc').val(function (i, text) {
                 return text.concat("&")

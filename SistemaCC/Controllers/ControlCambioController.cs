@@ -211,7 +211,7 @@ namespace SistemaCC.Controllers
             ViewBag.Informacion = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
             ViewBag.Actividades_Prev = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "Previa" select ap).ToList();
             ViewBag.Actividades_CC = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "ControlCambio" select ap).ToList();
-            ViewBag.Servicios = (from sc in BD.ControlServicio join s in BD.ServiciosAplicaciones on sc.fk_SA equals s.Id_SA where sc.fk_CC == id select sc).ToList();
+            ViewBag.Servicios = (from sc in BD.ControlServicio where sc.fk_CC == id select sc).ToList();
             ViewBag.Riesgos_CC = (from r in BD.Riesgos where r.fk_CC == id && r.Tipo == "ControlCambio" select r).ToList();
             ViewBag.Riesgos_No = (from r in BD.Riesgos where r.fk_CC == id && r.Tipo == "No" select r).ToList();
             var documentos = (from d in BD.Documentos where d.fk_CC == id && d.TipoDoc == "Adjunto" select d);
@@ -244,15 +244,10 @@ namespace SistemaCC.Controllers
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
             // Demas codigo
-            var usuarios = (from a in BD.Usuario select a).ToList();
-            List<Usuario> usuarios2 = new List<Usuario>();
-            foreach (var usuario in usuarios)
-            {
-                usuarios2.Add(new Usuario { Id_U = usuario.Id_U, Nombre = usuario.Nombre + " " + usuario.ApePaterno + " " + usuario.ApeMaterno });
-            }
-            var servicios = (from a in BD.ServiciosAplicaciones select a).ToList();
+            List<Usuario> usuarios = (from a in BD.Usuario select a).ToList();
+            List<ServiciosAplicaciones> servicios = (from a in BD.ServiciosAplicaciones select a).ToList();
             ViewBag.servicios = servicios;
-            ViewBag.usuarios = usuarios2;
+            ViewBag.usuarios = usuarios;
             return View();
         }
 
@@ -312,7 +307,42 @@ namespace SistemaCC.Controllers
         // GET: ControlCambio/Editar/5
         public ActionResult Editar(int id)
         {
-            return View();
+            // Notificaciones para navbar
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
+            ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            // Codigo general
+            ControlCambio model = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
+            List<Usuario> usuarios = (from a in BD.Usuario select a).ToList();
+            List<ServiciosAplicaciones> servicios = (from a in BD.ServiciosAplicaciones select a).ToList();
+            ViewBag.servicios = servicios;
+            ViewBag.usuarios = usuarios;
+            // Codigo para servicios/aplicaciones/actividades/riesgos/adjuntos asociados al control
+            ViewBag.Actividades_Prev = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "Previa" select ac).ToList();
+            ViewBag.Actividades_CC = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "ControlCambio" select ac).ToList();
+            ViewBag.ControlServicios = (from sc in BD.ControlServicio where sc.fk_CC == id select sc).ToList();
+            ViewBag.Riesgos_CC = (from r in BD.Riesgos where r.fk_CC == id && r.Tipo == "ControlCambio" select r).ToList();
+            ViewBag.Riesgos_No = (from r in BD.Riesgos where r.fk_CC == id && r.Tipo == "No" select r).ToList();
+            var documentos = (from d in BD.Documentos where d.fk_CC == id && d.TipoDoc == "Adjunto" select d);
+            List<Documentos> Documentos_imagenes = new List<Documentos>();
+            List<Documentos> Documentos_pdf = new List<Documentos>();
+            foreach (var doc in documentos)
+            {
+                var nombre_ = doc.DocPath.Split(new char[] { '\\' });
+                var nombre = nombre_[nombre_.Length - 1];
+                doc.DocPath = nombre;
+                if (nombre.Contains(".pdf"))
+                {
+                    Documentos_pdf.Add(doc);
+                }
+                else
+                {
+                    Documentos_imagenes.Add(doc);
+                }
+            }
+            ViewBag.Documentos_imagenes = Documentos_imagenes;
+            ViewBag.Documentos_pdf = Documentos_pdf;
+            return View(model);
         }
 
         // POST: ControlCambio/Editar/5

@@ -554,3 +554,47 @@ function numero_menos() {
         input.value = '0'+(numero - 1)
     }
 }
+// Funciones de editar cotrol de cambio
+function setActEditar(id,sub) {
+    var input = document.getElementById('act_' + sub +'_id_'+id)
+    var textarea1 = document.getElementById('act_' + sub +'_desc_'+id)
+    var textarea2 = document.getElementById('act_' + sub +'_obs_'+id)
+    var fecha = document.getElementById('act_' + sub +'_fecha_'+id)
+    var res = document.getElementById('act_' + sub +'_res_' + id)
+    input.setAttribute('name', 'act_' + sub +'_editado')
+    textarea1.setAttribute('name', 'act_' + sub +'_desc_editado')
+    textarea2.setAttribute('name', 'act_' + sub +'_obs_editado')
+    fecha.setAttribute('name', 'act_' + sub +'_fecha_editado')
+    res.setAttribute('name', 'act_' + sub +'_res_editado')
+}
+function setSerEditar(id) {
+    var input = document.getElementById('ser_id_'+id)
+    var ser = document.getElementById('ser_ser_' + id)
+    var inicio = document.getElementById('ser_inicio_' + id)
+    var final = document.getElementById('ser_final_' + id)
+    input.setAttribute('name', 'ser_id_editado')
+    ser.setAttribute('name', 'ser_ser_editado')
+    inicio.setAttribute('name', 'ser_inicio_editado')
+    final.setAttribute('name','ser_fina_editado')
+}
+function setActEliminar(id,sub) {
+    var res = confirm('Todos los datos relacionados a está actividad serán ELIMINADOS.\n¿Desea continuar?')
+    if (res) {
+        var input = document.getElementById('act_' + sub + '_id_' + id)
+        input.setAttribute('name', 'act_' + sub + '_eliminado')
+        if (sub == "prev") {
+            quitar('actividad' + (id + 1))
+        }
+        else {
+            quitar('actividad_cc' + (id + 1))
+        }
+    }
+}
+function setSerEliminar(id) {
+    var res = confirm('Todos los datos relacionados a este servicio o aplicación serán ELIMINADOS.\n¿Desea continuar?')
+    if (res) {
+        var input = document.getElementById('ser_id_' + id)
+        input.setAttribute('name', 'ser_id_eliminado')
+        quitar('servicio' + (id + 1))
+    }
+}
