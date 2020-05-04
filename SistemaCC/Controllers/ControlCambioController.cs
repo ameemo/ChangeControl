@@ -82,6 +82,44 @@ namespace SistemaCC.Controllers
                 }
             }
         }
+        //Funcion para actualizar las actividades
+        void actualizar_actividades(string id_AC, string[] act)
+        {
+            if (!act.Contains(null))
+            { 
+                List<string> id_CA = id_AC.Split(new string[] { "&,", "&" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                string[] act_desc = act[0].Split(new string[] { "&,", "&" }, StringSplitOptions.RemoveEmptyEntries);
+                string[] act_obs = act[1].Split(new string[] { "&,", "&" }, StringSplitOptions.RemoveEmptyEntries);
+                string[] act_fecha = act[2].Split(new Char[] { ',' });
+                string[] act_usuario = act[3].Split(new Char[] { ',' });
+                foreach (var id in id_CA)
+                {
+                    ActividadesControl ac = (from actc in BD.ActividadesControl where actc.Id_CA == Int32.Parse(id) select actc).SingleOrDefault();
+                    ac.Actividades.Descripcion = act_desc[id_CA.IndexOf(id)];
+                    ac.Actividades.Observaciones = act_obs[id_CA.IndexOf(id)];
+                    ac.Actividades.FechaRealizacion = fecha(act_fecha[id_CA.IndexOf(id)]);
+                    ac.Actividades.Responsable = Int32.Parse(act_usuario[id_CA.IndexOf(id)]);
+                    BD.SubmitChanges();
+                }
+            }
+        }
+        //Funcion para eliminar actividades
+        void eliminar_actividades(string id_A)
+        {
+            if (id_A != null)
+            {
+                List<string> id_CA = id_A.Split(new Char[] { '&', ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                foreach (var id in id_CA)
+                {
+                    ActividadesControl ca = (from ac in BD.ActividadesControl where ac.Id_CA == Int32.Parse(id) select ac).SingleOrDefault();
+                    Actividades act = (from a in BD.Actividades where a.Id_Ac == ca.fk_Ac select a).SingleOrDefault();
+                    BD.ActividadesControl.DeleteOnSubmit(ca);
+                    BD.SubmitChanges();
+                    BD.Actividades.DeleteOnSubmit(act);
+                    BD.SubmitChanges();
+                }
+            }
+        }
         //Funcion para dar formato a las actividades
         List<Riesgos> riesgos(string ries, string tipo, int id_CC)
         {
@@ -119,15 +157,44 @@ namespace SistemaCC.Controllers
                 }
             }
         }
+        //Funcion para actualizar los riesgos
+        void actualizar_riesgos(string id_r, string rie)
+        {
+            if (rie != null)
+            { 
+                List<string> id_CR = id_r.Split(new string[] { "&,", "&" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                string[] rie_desc = rie.Split(new string[] { "&,", "&" }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var id in id_CR)
+                {
+                    Riesgos riesgo = (from riec in BD.Riesgos where riec.Id_Ri == Int32.Parse(id) select riec).SingleOrDefault();
+                    riesgo.Descripcion = rie_desc[id_CR.IndexOf(id)];
+                    BD.SubmitChanges();
+                }
+            }
+        }
+        //Funcion para eliminar riesgos
+        void eliminar_riesgos(string id_R)
+        {
+            if (id_R != null)
+            {
+                List<string> id_CR = id_R.Split(new Char[] { '&', ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                foreach (var id in id_CR)
+                {
+                    Riesgos cr = (from riesgo in BD.Riesgos where riesgo.Id_Ri == Int32.Parse(id) select riesgo).SingleOrDefault();
+                    BD.Riesgos.DeleteOnSubmit(cr);
+                    BD.SubmitChanges();
+                }
+            }
+        }
         //Funcion para dar formato a los servicios
         void servicios(int id_CC, string[] ser)
         {
             List<ControlServicio> servicios = new List<ControlServicio>();
             if(!ser.Contains(null))
             {
-                string[] id_CS = ser[0].Split(new Char[] { '&', ',' });
-                string[] fecha_inicio = ser[1].Split(new Char[] { '&', ',' });
-                string[] fecha_termino = ser[2].Split(new Char[] { ',' });
+                string[] id_CS = ser[0].Split(new Char[] { '&', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] fecha_inicio = ser[1].Split(new Char[] { '&', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] fecha_termino = ser[2].Split(new Char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 for (var i = 0; i < id_CS.Length; i++)
                 {
                     ControlServicio servicios_ = new ControlServicio();
@@ -148,6 +215,39 @@ namespace SistemaCC.Controllers
                 foreach (var s in servicios)
                 {
                     BD.ControlServicio.InsertOnSubmit(s);
+                    BD.SubmitChanges();
+                }
+            }
+        }
+        //Funcion para actualizar los servicios
+        void actualizar_servicios(string id_CS, string[] ser)
+        {
+            if (!ser.Contains(null))
+            {
+                List<string> id_CoS = id_CS.Split(new Char[] { '&', ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                string[] id_S = ser[0].Split(new Char[] { '&', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] fecha_inicio = ser[1].Split(new Char[] { '&', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] fecha_termino = ser[2].Split(new Char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach(var s in id_CoS)
+                {
+                    ControlServicio servicios_ = (from sc in BD.ControlServicio where sc.Id_CS == Int32.Parse(s) select sc).SingleOrDefault();
+                    servicios_.fk_SA = Int32.Parse(id_S[id_CoS.IndexOf(s)]);
+                    servicios_.FechaInicio = fecha(fecha_inicio[id_CoS.IndexOf(s)]);
+                    servicios_.FechaFinal = fecha(fecha_termino[id_CoS.IndexOf(s)]);
+                    BD.SubmitChanges();
+                }
+            }
+        }
+        //Funcion para eliminar servicios
+        void eliminar_servicios(string id_S)
+        {
+            if(id_S != null)
+            {
+                List<string> id_CS = id_S.Split(new Char[] { '&', ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                foreach(var id in id_CS)
+                {
+                    ControlServicio cs = (from cos in BD.ControlServicio where cos.Id_CS == Int32.Parse(id) select cos).SingleOrDefault();
+                    BD.ControlServicio.DeleteOnSubmit(cs);
                     BD.SubmitChanges();
                 }
             }
@@ -197,6 +297,31 @@ namespace SistemaCC.Controllers
                         BD.SubmitChanges();
                     }
 
+                }
+            }
+        }
+        //Funcioon para eliminar los documentos adjuntos
+        void eliminar_adjuntos(string id_a)
+        {
+            if (id_a != null)
+            {
+                List<string> id_CA = id_a.Split(new Char[] { '&', ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                foreach (var id in id_CA)
+                {
+                    Documentos doc = (from d in BD.Documentos where d.Id_Do == Int32.Parse(id) select d).SingleOrDefault();
+                    string path = doc.DocPath;
+                    BD.Documentos.DeleteOnSubmit(doc);
+                    BD.SubmitChanges();
+                    if (System.IO.File.Exists(path))
+                    {
+                        try
+                        {
+                            System.IO.File.Delete(path);
+                        }
+                        catch (System.IO.IOException e)
+                        {
+                        }
+                    }
                 }
             }
         }
@@ -348,17 +473,90 @@ namespace SistemaCC.Controllers
         // POST: ControlCambio/Editar/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar(int id, FormCollection collection)
+        public ActionResult Editar(int id, ControlCambio modelo, HttpPostedFileBase[] adjuntos_, FormCollection collection)
         {
             try
             {
-                // TODO: Add update logic here
+                // Información general
+                ControlCambio control = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
+                control.Titulo = modelo.Titulo;
+                control.Objetivos = modelo.Objetivos;
+                control.Introduccion = modelo.Introduccion;
+                control.Tipo = modelo.Tipo;
+                control.FechaEjecucion = modelo.FechaEjecucion;
+                control.Estado = "EnEvaluacion";
+                BD.SubmitChanges();
+                // Se elimina las autorizaciones
+                List<Autorizaciones> aut = (from a in BD.Autorizaciones where a.fk_CC == id select a).ToList();
+                foreach(var a in aut)
+                {
+                    BD.Autorizaciones.DeleteOnSubmit(a);
+                    BD.SubmitChanges();
+                }
+                //Llamar anadir actividades nuevas si las hay
+                string[] act_prev = new string[4];
+                string[] act_cc = new string[4];
+                act_prev[0] = collection["actividades_prev_descripcion"];
+                act_prev[1] = collection["actividades_prev_observaciones"];
+                act_prev[2] = collection["actividades_prev_fecha"];
+                act_prev[3] = collection["actividades_prev_usuarios"];
+                act_cc[0] = collection["actividades_cc_descripcion"];
+                act_cc[1] = collection["actividades_cc_observaciones"];
+                act_cc[2] = collection["actividades_cc_fecha"];
+                act_cc[3] = collection["actividades_cc_usuarios"];
+                anadir_actividades(id, act_prev, act_cc);
+                //Llamar actualizar actividades, si editaron alguna
+                act_prev[0] = collection["act_prev_desc_editado"];
+                act_prev[1] = collection["act_prev_obs_editado"];
+                act_prev[2] = collection["act_prev_fecha_editado"];
+                act_prev[3] = collection["act_prev_res_editado"];
+                act_cc[0] = collection["act_cc_desc_editado"];
+                act_cc[1] = collection["act_cc_obs_editado"];
+                act_cc[2] = collection["act_cc_fecha_editado"];
+                act_cc[3] = collection["act_cc_res_editado"];
+                actualizar_actividades(collection["act_prev_editado"], act_prev);
+                actualizar_actividades(collection["act_cc_editado"], act_cc);
+                //Llamar eliminar actividades, si se elimino alguna
+                eliminar_actividades(collection["act_cc_eliminado"]);
+                eliminar_actividades(collection["act_prev_eliminado"]);
+                //Llamar anadir riesgos nuevos si los hay
+                anadir_riesgos(id, collection["riesgos_descripcion"], collection["riesgos_no_descripcion"]);
+                //Llamar actualizar riesgos, si editaron alguno
+                actualizar_riesgos(collection["rie_cc_id_editado"], collection["rie_cc_desc_editado"]);
+                actualizar_riesgos(collection["rie_no_id_editado"], collection["rie_no_desc_editado"]);
+                //Llamar eliminar riesgos, si se elimino alguno
+                eliminar_riesgos(collection["rie_cc_eliminado"]);
+                eliminar_riesgos(collection["rie_no_eliminado"]);
+                //Llamar anadir servicios nuevos, si los hay
+                string[] servicios_ = new string[3];
+                servicios_[0] = collection["servicio_servicios"];
+                servicios_[1] = collection["servicio_inicio"];
+                servicios_[2] = collection["servicio_temino"];
+                servicios(id, servicios_);
+                //Llamar actualizar servicios, si editaron alguno
+                servicios_[0] = collection["ser_ser_editado"];
+                servicios_[1] = collection["ser_inicio_editado"];
+                servicios_[2] = collection["ser_final_editado"];
+                actualizar_servicios(collection["ser_id_editado"], servicios_);
+                //Llamar eliminar servicios, si se elimino alguno
+                eliminar_servicios(collection["ser_id_eliminado"]);
+                //Llamar a anadir adjuntos nuevos, si los hay
+                anadir_adjuntos(id, adjuntos_, "Adjunto");
+                //Llamar a eliminar adjuntos, si se elimino alguno
+                eliminar_adjuntos(collection["doc_img_eliminado"]);
+                eliminar_adjuntos(collection["doc_doc_eliminado"]);
+                return RedirectToAction("./../Home/Index", new
+                {
+                    mensaje = "C9"
+                });
 
-                return RedirectToAction("~/Home/Index");
             }
-            catch
+            catch(Exception e)
             {
-                return View();
+                return RedirectToAction("./../Home/Index", new
+                {
+                    mensaje = "E1"
+                });
             }
         }
 

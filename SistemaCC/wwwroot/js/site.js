@@ -575,7 +575,7 @@ function setSerEditar(id) {
     input.setAttribute('name', 'ser_id_editado')
     ser.setAttribute('name', 'ser_ser_editado')
     inicio.setAttribute('name', 'ser_inicio_editado')
-    final.setAttribute('name','ser_fina_editado')
+    final.setAttribute('name','ser_final_editado')
 }
 function setRieEditar(id, sub) {
     var input = document.getElementById("rie_" + sub +"_id_" + id)

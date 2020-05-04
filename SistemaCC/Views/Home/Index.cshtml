@@ -67,10 +67,10 @@
                                 </td>
                             }
                             <td class="link">
-                                <a href="~/ControlCambio/Ver?id=@cc.Id_CC"><span class="icon-eye"></span></a>
+                                <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
                             </td>
                             <td class="link">
-                                <a href="~/ControlCambio/Editar?id=@cc.Id_CC"><span class="icon-edit"></span></a>
+                                <a href="~/ControlCambio/Editar/@cc.Id_CC"><span class="icon-edit"></span></a>
                             </td>
                         </tr>
                         }
@@ -111,21 +111,28 @@
                             @if (cc.Estado == "Aprobado")
                             {
                                 <td class="link texto">
-                                    @Html.ActionLink("Enviar a autorizar","cambiarEstado", new { id = cc.Id_CC })
+                                    @Html.ActionLink("Enviar a autorizar", "cambiarEstado", new { id = cc.Id_CC })
                                 </td>
                             }
                             else
                             {
                                 <td class="link texto">
-                                    @Html.ActionLink("Corregir","../ControlCambio/Corregir", new { id = cc.Id_CC })
+                                    @Html.ActionLink("Corregir", "../ControlCambio/Corregir", new { id = cc.Id_CC })
                                 </td>
                             }
                             <td class="link">
-                                <a href="~/ControlCambio/Ver?id=@cc.Id_CC"><span class="icon-eye"></span></a>
+                                <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
                             </td>
-                            <td class="link">
-                                <a href="~/ControlCambio/Editar?id=@cc.Id_CC"><span class="icon-edit"></span></a>
-                            </td>
+                            @if (cc.Estado != "Aprobado")
+                            {
+                                <td class="link">-</td>
+                            }
+                            else
+                            {
+                                <td class="link">
+                                    <a href="~/ControlCambio/Editar/@cc.Id_CC"><span class="icon-edit"></span></a>
+                                </td>
+                            }
                         </tr>
                         }
                     </tbody>
@@ -162,10 +169,10 @@
                                 <td>@cc.FechaEjecucion.ToString().Substring(0, 10)</td>
                                 <td>@cc.Estado</td>
                                 <td class="link">
-                                    <a href="~/ControlCambio/Ver?id=@cc.Id_CC"><span class="icon-eye"></span></a>
+                                    <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
                                 </td>
                                 <td class="link">
-                                    <a href="~/ControlCambio/Editar?id=@cc.Id_CC"><span class="icon-edit"></span></a>
+                                    <a href="~/ControlCambio/Editar/@cc.Id_CC"><span class="icon-edit"></span></a>
                                 </td>
                             </tr>
                         }
@@ -209,10 +216,10 @@
                                     @Html.ActionLink("Enviar a cerrar","../ControlCambio/Cerrar",new { id = cc.Id_CC}, new { @class = "fancybox fancybox.ajax" })
                                 </td>
                                 <td class="link">
-                                    <a href="~/ControlCambio/Ver?id=@cc.Id_CC"><span class="icon-eye"></span></a>
+                                    <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
                                 </td>
                                 <td class="link">
-                                    <a href="~/ControlCambio/Editar?id=@cc.Id_CC"><span class="icon-edit"></span></a>
+                                    <a href="~/ControlCambio/Editar/@cc.Id_CC"><span class="icon-edit"></span></a>
                                 </td>
                             </tr>
                         }
@@ -248,10 +255,10 @@
                                 <td>@ViewBag.Claves_enrcc[ViewBag.Revision_CC.IndexOf(cc)]</td>
                                 <td>@cc.Usuario.Nombre @cc.Usuario.ApePaterno</td>
                                 <td class="link texto">
-                                    <a href="~/ControlCambio/Revisar?id=@cc.Id_CC">Revisar</a>
+                                    <a href="~/ControlCambio/Revisar/@cc.Id_CC">Revisar</a>
                                 </td>
                                 <td class="link">
-                                    <a href="~/ControlCambio/Ver?id=@cc.Id_CC"><span class="icon-eye"></span></a>
+                                    <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
                                 </td>
                             </tr>
                         }
