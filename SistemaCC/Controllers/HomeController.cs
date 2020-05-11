@@ -14,6 +14,7 @@ namespace SistemaCC.Controllers
     {
         BDControlCambioDataContext BD = new BDControlCambioDataContext();
         Mensajes Mensaje = new Mensajes();
+        public int Sesion = 4;
         public string generarClave(ControlCambio cc)
         {
             Usuario creador = (from u in BD.Usuario where u.Id_U == cc.Creador select u).SingleOrDefault();
@@ -60,12 +61,14 @@ namespace SistemaCC.Controllers
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.office365.com", 587);
             mail.To.Add(to);
-            mail.From = new MailAddress("tt2019a071_notificaciones@hotmail.com");
+            //mail.From = new MailAddress("tt2019a071_notificaciones@hotmail.com");
+            mail.From = new MailAddress("ame_rainbow@hotmail.com");
             mail.Subject = subject;
             mail.IsBodyHtml = true;
             mail.Body = body;
             SmtpServer.EnableSsl = true;
-            SmtpServer.Credentials = new System.Net.NetworkCredential("tt2019a071_notificaciones@hotmail.com", "tt-2019-a071");
+            //SmtpServer.Credentials = new System.Net.NetworkCredential("tt2019a071_notificaciones@hotmail.com", "tt-2019-a071");
+            SmtpServer.Credentials = new System.Net.NetworkCredential("ame_rainbow@hotmail.com", "fuLLbuster4");
             try
             {
                 SmtpServer.Send(mail);
@@ -76,7 +79,7 @@ namespace SistemaCC.Controllers
             }
             return error;
         }
-        public int generarNotificacion(ControlCambio cc, int tipo, int generate, int? key)
+        public int generarNotificacionAut(ControlCambio cc, int tipo, int generate, int? key)
         {
             // Variable para tratar los errores y mostrar los mensajes
             int error = 0;
@@ -88,7 +91,6 @@ namespace SistemaCC.Controllers
                 // Agrego lo necesario para el mensaje de la notificación
                 notificacion.fecha_emision = DateTime.Today.ToString().Substring(0, 10);
                 notificacion.fecha_ejecucion_cc = cc.FechaEjecucion.ToString().Substring(0, 10);
-                notificacion.creador_cc = creador.Nombre + " " + creador.ApePaterno;
                 notificacion.clave_cc = generarClave(cc);
                 // Agrego lo necesario para la notificación en la BD
                 notificaciones.fk_CC = cc.Id_CC;
@@ -98,10 +100,19 @@ namespace SistemaCC.Controllers
                 notificaciones.Activa = true;
                 BD.Notificaciones.InsertOnSubmit(notificaciones);
                 BD.SubmitChanges();
-                // Enviar el correo
-                //string to = (from u in BD.Usuario where u.Id_U == key select u.Email).SingleOrDefault();
-                //notificacion.email = true;
-                //error = Email(to, notificacion.getSubject(generate), notificacion.generate(generate));
+                //Enviar el correo
+                string to = (from u in BD.Usuario where u.Id_U == key select u.Email).SingleOrDefault();
+                notificacion.email = true;
+                error = Email(to, notificacion.getSubject(generate), notificacion.generate(generate));
+                // Creo la autorización para despues editarla
+                Autorizaciones aut = new Autorizaciones();
+                aut.fk_CC = cc.Id_CC;
+                aut.fk_U = key;
+                aut.Tipo = generate == 1 ? "Ejecutar" : "Termino";
+                aut.Fecha = DateTime.Now;
+                aut.Autorizado = false;
+                BD.Autorizaciones.InsertOnSubmit(aut);
+                BD.SubmitChanges();
             }
             catch (Exception e)
             {
@@ -117,28 +128,28 @@ namespace SistemaCC.Controllers
             var servapp = (from sc in BD.ControlServicio join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where sc.fk_CC == cc.Id_CC group sa by sa.Dueno).ToList();
             foreach(var act in actividades)
             {
-                error = generarNotificacion(cc, 1, 1, act.Key);
+                error = generarNotificacionAut(cc, 1, 1, act.Key);
             }
             foreach(var s in servapp)
             {
-                error = generarNotificacion(cc, 2, 1, s.Key);
+                error = generarNotificacionAut(cc, 2, 1, s.Key);
             }
             return error;
         }
         public ActionResult Index(string mensaje)
         {
             // Notificaciones para navbar
-            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
             ViewBag.Notificaciones_claves = generarListaClave(ccs);
-            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             // Termina lo necesario para notificacionespara navbar
             ViewBag.Creados_CC = (from cc in BD.ControlCambio where cc.Estado == "Creado" || cc.Estado == "EnEvaluacion" select cc).ToList();
             ViewBag.Claves_ccc = generarListaClave(ViewBag.Creados_CC);
             ViewBag.Revisados_CC = (from cc in BD.ControlCambio where cc.Estado == "EnCorreccion" || cc.Estado == "Aprobado" select cc).ToList();
             ViewBag.Claves_rcc = generarListaClave(ViewBag.Revisados_CC);
-            ViewBag.ParaAut_CC = (from cc in BD.ControlCambio where cc.Estado == "Pausado" || cc.Estado == "Autorizado" select cc).ToList();
+            ViewBag.ParaAut_CC = (from cc in BD.ControlCambio where cc.Estado == "PausadoE" || cc.Estado == "Autorizado" select cc).ToList();
             ViewBag.Claves_pacc = generarListaClave(ViewBag.ParaAut_CC);
-            ViewBag.Ejecucion_CC = (from cc in BD.ControlCambio where cc.Estado == "EnEjecucion" select cc).ToList();
+            ViewBag.Ejecucion_CC = (from cc in BD.ControlCambio where cc.Estado == "EnEjecucion" || cc.Estado == "PausadoT" select cc).ToList();
             ViewBag.Claves_ecc = generarListaClave(ViewBag.Ejecucion_CC);
             ViewBag.Revision_CC = (from cc in BD.ControlCambio where cc.Estado == "EnEvaluacion" select cc).ToList();
             ViewBag.Claves_enrcc = generarListaClave(ViewBag.Revision_CC);
@@ -198,7 +209,7 @@ namespace SistemaCC.Controllers
             }
             if(control.Estado == "Aprobado")
             {
-                control.Estado = "Pausado";
+                control.Estado = "PausadoE";
                 error = generarNotificacionesAut(control);
                 BD.SubmitChanges();
             }

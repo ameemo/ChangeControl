@@ -51,7 +51,10 @@ namespace SistemaCC.Controllers
                                    "Las nuevas contraseñas no coinciden, no se puede realizar el cambio.",
                                    "No se puede enviar a corrección si las notas están vacías.",
                                    "No se puede aprobar si las notas tienen observaciones.",
-                                   "Los codigos no coinciden."
+                                   "Los codigos no coinciden.",
+                                   "Ya se había autorizado el control de cambio.",
+                                   "El usuario fue creado, pero sólo puede haber UN SUPER ADMINISTRADOR.",
+                                   "El usuario fue creado, pero sólo puede haber UN ADMINISTRADOR."
                                    };
         }
         public string getMConfirmacion(int numero)

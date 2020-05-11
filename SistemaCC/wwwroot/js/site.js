@@ -526,13 +526,23 @@ function revisarSubmit(tipo) {
 function ocultarSpan(){
     var span1 = document.getElementById("check_span")
     var span2 = document.getElementById("uncheck_span")
+    var motivo = document.getElementById("motivo")
+    var textarea = document.getElementById("textarea_motivo")
     if (this.checked) {
         span1.style.display = "block"
         span2.style.display = "none"
+        if (motivo != null) {
+            motivo.style.display = "none"
+            textarea.removeAttribute('required')
+        }
     }
     else {
         span2.style.display = "block"
         span1.style.display = "none"
+        if (motivo != null) {
+            motivo.style.display = "block"
+            textarea.setAttribute('required','')
+        }
     }
 }
 function reenviarEmail() {

@@ -13,19 +13,35 @@
             @ViewData["MA"]
         </div>
     }
+    if (ViewData["ME2"].ToString() != "")
+    {<div class="alert alert-danger mensaje" role="alert">
+            @ViewData["ME2"]
+        </div>
+    }
+    else
+    {
 <div class="campos campos_tres">
     @if (ViewData["Paso"].ToString() == "1")
     {
-        <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion" />
-            <label class="custom-control-label" for="switch_aut">
-                <span id="check_span" style="display:none">
-                    Si autorizo el control de cambio
-                </span>
-                <span id="uncheck_span" class="text-danger">
-                    No autorizo el control de cambio
-                </span>
-            </label>
+        <div class="campos_ultimos">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion" />
+                <label class="custom-control-label" for="switch_aut">
+                    <span id="check_span" style="display:none">
+                        Si autorizo el control de cambio
+                    </span>
+                    <span id="uncheck_span" class="text-danger">
+                        No autorizo el control de cambio
+                    </span>
+                </label>
+            </div>
+            <div id="motivo" class="campos_ultimos">
+                <label>Motivo</label>
+                <textarea id="textarea_motivo" name="motivo" class="form-control contador" placeholder="¿Por qué no autorizo?" maxLength="500" title="Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500" onkeyup="contar('0','contador', 'conteo-')" required></textarea>
+                <div id="conteo-0" class="campos_ultimos conteo">
+                    <div>Caracteres: 0/500</div>
+                </div>
+            </div>
         </div>
         <div class="campos campos_dos">
             <div class="campos_submit">
@@ -38,8 +54,7 @@
         if (ViewData["check"].ToString() == "True")
         {
             <div class="custom-control custom-switch">
-                <input name="autorizacion" type="checkbox" checked hidden/>
-                <input type="checkbox" class="custom-control-input" id="switch_aut" checked disabled/>
+                <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion" checked disabled />
                 <label class="custom-control-label" for="switch_aut">
                     <span id="check_span">
                         Si autorizo el control de cambio
@@ -49,18 +64,27 @@
         }
         else
         {
-            <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" id="switch_aut" disabled/>
-                <label class="custom-control-label" for="switch_aut">
-                    <span id="uncheck_span" class="text-danger">
-                        No autorizo el control de cambio
-                    </span>
-                </label>
+            <div class="campos_ultimos">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion" disabled />
+                    <label class="custom-control-label" for="switch_aut">
+                        <span id="uncheck_span" class="text-danger">
+                            No autorizo el control de cambio
+                        </span>
+                    </label>
+                </div>
+                <div id="motivo" class="campos_ultimos">
+                    <label>Motivo</label>
+                    <textarea id="textarea_motivo" name="motivo" class="form-control contador" placeholder="¿Por qué no autorizo?" maxLength="500" title="Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500" onkeyup="contar('0','contador', 'conteo-')" disabled>@ViewData["motivo"]</textarea>
+                    <div id="conteo-0" class="campos_ultimos conteo">
+                        <div>Caracteres: @ViewData["motivo"].ToString().Length/500</div>
+                    </div>
+                </div>
             </div>
         }
         <div class="campos campos_dos">
             <div class="campos_submit">
-                <input class="btn btn-success" type="submit" value="Continuar" disabled/>
+                <input class="btn btn-success" type="submit" value="Continuar" disabled />
             </div>
             <div class="campos_ultimos">
                 <label>Código:</label>
@@ -68,11 +92,11 @@
         </div>
         <div class="campos campos_dos">
             <div class="campos_ultimos">
-                <input class="form-control" type="text" placeholder="codigo" name="codigo"/>
+                <input class="form-control" type="text" placeholder="codigo" name="codigo" />
                 <span class="text-danger">@ViewData["ME"]</span>
             </div>
             <div class="campos_submit">
-                <input class="btn btn-dark" type="submit" value="Validar" name="Paso2"/>
+                <input class="btn btn-dark" type="submit" value="Validar" name="Paso2" />
             </div>
         </div>
     }
@@ -80,30 +104,40 @@
     {
         if (ViewData["check"].ToString() == "True")
         {
-            <div class="custom-control custom-switch">
-                <input name="autorizacion" type="checkbox" checked hidden/>
-                <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion" checked disabled/>
-                <label class="custom-control-label" for="switch_aut">
-                    <span id="check_span">
-                        Si autorizo el control de cambio
-                    </span>
-                </label>
+            <div class="campos campos_dos">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion" checked disabled />
+                    <label class="custom-control-label" for="switch_aut">
+                        <span id="check_span">
+                            Si autorizo el control de cambio
+                        </span>
+                    </label>
+                </div>
             </div>
         }
         else
         {
-            <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" id="switch_aut" disabled/>
-                <label class="custom-control-label" for="switch_aut">
-                    <span id="uncheck_span" class="text-danger">
-                        No autorizo el control de cambio
-                    </span>
-                </label>
+            <div class="campos_ultimos">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion" disabled />
+                    <label class="custom-control-label" for="switch_aut">
+                        <span id="uncheck_span" class="text-danger">
+                            No autorizo el control de cambio
+                        </span>
+                    </label>
+                </div>
+                <div id="motivo" class="campos_ultimos">
+                    <label>Motivo</label>
+                    <textarea id="textarea_motivo" name="motivo" class="form-control contador" placeholder="¿Por qué no autorizo?" maxLength="500" title="Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500" onkeyup="contar('0','contador', 'conteo-')" disabled>@ViewData["motivo"]</textarea>
+                    <div id="conteo-0" class="campos_ultimos conteo">
+                        <div>Caracteres: @ViewData["motivo"].ToString().Length/500</div>
+                    </div>
+                </div>
             </div>
         }
         <div class="campos campos_dos">
             <div class="campos_submit">
-                <input class="btn btn-success" type="submit" value="Continuar" disabled/>
+                <input class="btn btn-success" type="submit" value="Continuar" disabled />
             </div>
             <div class="campos_ultimos">
                 <label>Código:</label>
@@ -111,11 +145,11 @@
         </div>
         <div class="campos campos_dos">
             <div class="campos_ultimos">
-                <input class="form-control" type="text" placeholder="codigo" name="codigo" disabled/>
+                <input class="form-control" type="text" placeholder="codigo" name="codigo" disabled />
                 <span class="text-danger">@ViewData["ME"]</span>
             </div>
             <div class="campos_submit">
-                <input class="btn btn-dark" type="submit" value="Validar" name="Paso2" disabled/>
+                <input class="btn btn-dark" type="submit" value="Validar" name="Paso2" disabled />
             </div>
         </div>
         <div class="campos_ultimos"></div>
@@ -130,6 +164,7 @@
         </div>
     }
 </div>
+    }
 }
 @RenderPage("_SharedVer.cshtml")
 @section Scripts

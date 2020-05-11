@@ -17,8 +17,9 @@ namespace SistemaCC.Controllers
     public class ControlCambioController : Controller
     {
         BDControlCambioDataContext BD = new BDControlCambioDataContext();
-        HomeController General = new HomeController();
+        static HomeController General = new HomeController();
         Mensajes Mensaje = new Mensajes();
+        int Sesion = General.Sesion;
         DateTime fecha(string fecha)
         {
             int dia, mes, anio;
@@ -325,13 +326,71 @@ namespace SistemaCC.Controllers
                 }
             }
         }
+        // Revisar las autorizaciones
+        void revisarAut(ControlCambio cc)
+        {
+            List<Notificaciones> notificaciones = (from n in BD.Notificaciones where n.fk_CC == cc.Id_CC && n.Activa == true select n).ToList();
+            if(notificaciones.Count > 0) { return; }
+            List<Autorizaciones> aut = (from a in BD.Autorizaciones where a.fk_CC == cc.Id_CC && a.Autorizado == false select a).ToList();
+            Notificacion notificacion = new Notificacion(cc.Id_CC,0);
+            notificacion.clave_cc = General.generarClave(cc);
+            notificacion.fecha_ejecucion_cc = cc.FechaEjecucion.ToString().Substring(0,10);
+            try
+            {
+                if (aut.Count == 0)
+                {
+                    // Se envia la notificacion al Super Admin
+                    Usuario super = (from ur in BD.UsuarioRol where ur.fk_Rol == 2 && ur.Usuario.Activo == true select ur.Usuario).SingleOrDefault();
+                    Notificaciones not = new Notificaciones();
+                    not.fk_CC = cc.Id_CC;
+                    not.fk_U = super.Id_U;
+                    not.FechaEnvio = DateTime.Today;
+                    not.Contenido = notificacion.generate(7);
+                    not.Activa = true;
+                    BD.Notificaciones.InsertOnSubmit(not);
+                    BD.SubmitChanges();
+                    notificacion.email = true;
+                    General.Email(super.Email,notificacion.getSubject(1), notificacion.generate(7));
+                    // Cambio de estado
+                    if(cc.Estado == "PausadoT" || cc.Estado =="PausadoE")
+                    {
+                        cc.Estado = cc.Estado == "PausadoE" ? "Autorizado" : "Terminado";
+                    }
+                    else
+                    {
+                        cc.Estado = "Corrupto";
+                    }
+                }
+                else
+                {
+                    // Se envia la notificacion al dueno del control
+                    notificacion.motivos = (from a in BD.Autorizaciones where a.fk_CC == cc.Id_CC && a.Autorizado == false select a).ToList();
+                    Usuario dueno = cc.Usuario;
+                    Notificaciones not = new Notificaciones();
+                    not.fk_CC = cc.Id_CC;
+                    not.fk_U = dueno.Id_U;
+                    not.FechaEnvio = DateTime.Today;
+                    not.Contenido = notificacion.generate(8);
+                    not.Activa = true;
+                    BD.Notificaciones.InsertOnSubmit(not);
+                    BD.SubmitChanges();
+                    notificacion.email = true;
+                    General.Email(dueno.Email, notificacion.getSubject(8), notificacion.generate(8));
+                    // Cambio de estado
+                    cc.Estado = "Creado";
+                }
+            }
+            catch(Exception e) 
+            {
+            }
+        }
         // GET: ControlCambio/Ver/5
         public ActionResult Ver(int id)
         {
             // Notificaciones para navbar
-            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
-            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             // Demas codigo
             ViewBag.Informacion = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
             ViewBag.Actividades_Prev = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "Previa" select ap).ToList();
@@ -365,9 +424,9 @@ namespace SistemaCC.Controllers
         public ActionResult Crear()
         {
             // Notificaciones para navbar
-            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
-            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             // Demas codigo
             List<Usuario> usuarios = (from a in BD.Usuario select a).ToList();
             List<ServiciosAplicaciones> servicios = (from a in BD.ServiciosAplicaciones select a).ToList();
@@ -392,7 +451,7 @@ namespace SistemaCC.Controllers
                 controlCambio.Estado = "Creado";
                 controlCambio.Conclusion = "";
                 controlCambio.Exito = false;
-                controlCambio.Creador = 1;
+                controlCambio.Creador = Sesion;
                 BD.ControlCambio.InsertOnSubmit(controlCambio);
                 BD.SubmitChanges();
                 //Llamar anadir actividades
@@ -433,9 +492,9 @@ namespace SistemaCC.Controllers
         public ActionResult Editar(int id)
         {
             // Notificaciones para navbar
-            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
-            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             // Codigo general
             ControlCambio model = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
             List<Usuario> usuarios = (from a in BD.Usuario select a).ToList();
@@ -574,7 +633,7 @@ namespace SistemaCC.Controllers
             try
             {
                 ControlCambio controlCambio = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
-                controlCambio.Estado = "Terminado";
+                controlCambio.Estado = "PausadoT";
                 controlCambio.Conclusion = model.Conclusion;
                 if(collection["exito"] != null)
                 {
@@ -601,9 +660,9 @@ namespace SistemaCC.Controllers
         public ActionResult Revisar(int id)
         {
             // Notificaciones para navbar
-            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
-            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             // Demas codigo
             ViewBag.Informacion = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
             ViewBag.Actividades_Prev = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "Previa" select ap).ToList();
@@ -709,9 +768,9 @@ namespace SistemaCC.Controllers
             try
             {
                 // Notificaciones para navbar
-                List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
+                List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
                 ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
-                ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+                ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
                 control = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
             }
             catch(Exception e)
@@ -732,9 +791,9 @@ namespace SistemaCC.Controllers
         public ActionResult Autorizar(int id, string tipo)
         {
             // Notificaciones para navbar
-            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
-            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             // Demas codigo
             ViewBag.Informacion = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
             ViewBag.Actividades_Prev = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "Previa" select ap).ToList();
@@ -761,10 +820,18 @@ namespace SistemaCC.Controllers
             }
             ViewBag.Documentos_imagenes = Documentos_imagenes;
             ViewBag.Documentos_pdf = Documentos_pdf;
+            // Se revisa que no haya autrizado antes
+            string error = "";
+            List<Notificaciones> no = (from n in BD.Notificaciones where n.fk_U == Sesion && n.fk_CC == id && n.Activa == true select n).ToList();
+            if (no.Count == 0)
+            {
+                error = Mensaje.getMError(18);
+            }
             // Variables para los PASOS a seguir
             ViewData["Paso"] = "1";
             ViewData["ME"] = Mensaje.getMError(0);
             ViewData["MA"] = Mensaje.getMAdvertencia(0);
+            ViewData["ME2"] = error;
             return View();
         }
 
@@ -776,9 +843,9 @@ namespace SistemaCC.Controllers
             try
             {
                 // Notificaciones para navbar
-                List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
+                List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
                 ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
-                ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+                ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
                 // Demas codigo
                 ViewBag.Informacion = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
                 ViewBag.Actividades_Prev = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "Previa" select ap).ToList();
@@ -805,22 +872,22 @@ namespace SistemaCC.Controllers
                 }
                 ViewBag.Documentos_imagenes = Documentos_imagenes;
                 ViewBag.Documentos_pdf = Documentos_pdf;
+                // Se revisa que no haya autrizado antes
+                List<Notificaciones> no = (from n in BD.Notificaciones where n.fk_U == Sesion && n.fk_CC == id && n.Activa == true select n).ToList();
+                if (no.Count == 0)
+                {
+                    ViewData["MA"] = Mensaje.getMAdvertencia(0);
+                    ViewData["ME2"] = Mensaje.getMError(18);
+                    return View();
+                }
                 // Codigo para los PASOS a seguir
                 if (collection["Paso1"] != null || collection["PasoE"] != null)
                 {
-                    bool check = false;
-                    if (collection["autorizacion"] != null)
-                    {
-                        check = true;
-                    }
-                    else
-                    {
-                        check = false;
-                    }
+                    bool check = collection["autorizacion"] != null;
                     //Enviar Email
                     try
                     {
-                        string to = (from u in BD.Usuario where u.Id_U == 4 select u.Email).SingleOrDefault();
+                        string to = (from u in BD.Usuario where u.Id_U == Sesion select u.Email).SingleOrDefault();
                         ControlCambio cc = (from control in BD.ControlCambio where control.Id_CC == id select control).SingleOrDefault();
                         Notificacion notificacion = new Notificacion("si", General.generarClave(cc));
                         notificacion.email = true;
@@ -840,37 +907,33 @@ namespace SistemaCC.Controllers
                         });
                     }
                     ViewData["check"] = check;
+                    ViewData["motivo"] = collection["motivo"] != null ? collection["motivo"] : "";
                     ViewData["MA"] = Mensaje.getMAdvertencia(3);
                     ViewData["ME"] = Mensaje.getMError(0);
+                    ViewData["ME2"] = "";
                     ViewData["Paso"] = "2";
                     return View();
                 }
-                if(collection["Paso2"] != null)
+                if (collection["Paso2"] != null)
                 {
-                    bool check = false;
+                    Boolean check = collection["autorizacion"] != null;
                     if (collection["codigo"] == "si")
                     {
                         try
                         {
-                            Autorizaciones aut = new Autorizaciones();
-                            if (collection["autorizacion"] != null)
-                            {
-                                aut.Autorizado = true;
-                                check = true;
-                            }
-                            else
-                            {
-                                aut.Autorizado = false;
-                                check = false;
-                            }
-                            aut.Tipo = tipo;
+                            Autorizaciones aut = (from a in BD.Autorizaciones where a.fk_CC == id && a.fk_U == Sesion && a.Tipo == "Ejecutar" select a).SingleOrDefault();
+                            aut.Autorizado = collection["autorizacion"] != null;
+                            aut.Motivo = collection["motivo"];
                             aut.Fecha = DateTime.Today;
-                            aut.fk_CC = id;
-                            aut.fk_U = 1;
-                            BD.Autorizaciones.InsertOnSubmit(aut);
+                            BD.SubmitChanges();
+                            // Funcion para saber si ya se cumplieron las autorizaciones
+                            revisarAut(aut.ControlCambio);
+                            // Desactivar notificacion
+                            Notificaciones not = (from n in BD.Notificaciones where n.fk_CC == id && n.fk_U == Sesion && n.Activa == true select n).SingleOrDefault();
+                            not.Activa = false;
                             BD.SubmitChanges();
                         }
-                        catch (Exception e)
+                         catch (Exception e)
                         {
                             return RedirectToAction("./../Home/Index", new
                             {
@@ -885,8 +948,10 @@ namespace SistemaCC.Controllers
                     else
                     {
                         ViewData["check"] = check;
+                        ViewData["motivo"] = collection["motivo"] != null ? collection["motivo"] : "";
                         ViewData["MA"] = Mensaje.getMAdvertencia(0);
                         ViewData["ME"] = Mensaje.getMError(17);
+                        ViewData["ME2"] = "";
                         ViewData["Paso"] = "E";
                         return View();
                     }
@@ -922,7 +987,7 @@ namespace SistemaCC.Controllers
             ViewData["ME"] = error;
             return View(model);
         }
-        public ActionResult Calendario(int id)
+        public ActionResult Calendario()
         {
             DateTime hoy = DateTime.Today;
             DateTime inicio = new DateTime(hoy.Year, hoy.Month, 1);
@@ -948,23 +1013,23 @@ namespace SistemaCC.Controllers
                 Dia dia = new Dia();
                 DateTime dia_ = new DateTime(hoy.Year, hoy.Month, i);
                 //Tomar los controles que pertenecen a el usuario
-                List<ControlCambio> ccs = (from cc in BD.ControlCambio where cc.FechaEjecucion == dia_ && cc.Creador == id && cc.Estado == "Autorizado" select cc).ToList();
+                List<ControlCambio> ccs = (from cc in BD.ControlCambio where cc.FechaEjecucion == dia_ && cc.Creador == Sesion && cc.Estado == "Autorizado" select cc).ToList();
                 if (ccs.Count > 0)
                 {
                     claves = General.generarListaClave(ccs);
                     dia.setControlCambio(ccs, claves);
                 }
                 //Tomar los controles de cambio donde es responsable de actividades
-                List<ControlCambio> actividades = (from ac in BD.ActividadesControl join a in BD.Actividades on ac.fk_Ac equals a.Id_Ac join cc in BD.ControlCambio on ac.fk_CC equals cc.Id_CC where a.FechaRealizacion == dia_ && cc.Creador == id && cc.Estado == "Autorizado" select cc).ToList();
+                List<ControlCambio> actividades = (from ac in BD.ActividadesControl join a in BD.Actividades on ac.fk_Ac equals a.Id_Ac join cc in BD.ControlCambio on ac.fk_CC equals cc.Id_CC where a.FechaRealizacion == dia_ && a.Responsable == Sesion && cc.Estado == "Autorizado" select cc).ToList();
                 if (actividades.Count > 0)
                 {
                     claves = General.generarListaClave(actividades);
                     dia.setActividad(actividades, claves);
                 }
                 //Tomar los controles donde es afectado algún servicio del usuario
-                List<ControlCambio> servapp = (from sc in BD.ControlServicio join cc in BD.ControlCambio on sc.fk_CC equals cc.Id_CC join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where (sc.FechaInicio <= dia_ && sc.FechaFinal >= dia_) && sa.Dueno == id && cc.Estado == "Autorizado" select cc).ToList();
+                List<ControlCambio> servapp = (from sc in BD.ControlServicio join cc in BD.ControlCambio on sc.fk_CC equals cc.Id_CC join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where (sc.FechaInicio <= dia_ && sc.FechaFinal >= dia_) && sa.Dueno == Sesion && cc.Estado == "Autorizado" select cc).ToList();
                 //Tomar los servicios para el nombre
-                List<ServiciosAplicaciones> servapp_nombres = (from sc in BD.ControlServicio join cc in BD.ControlCambio on sc.fk_CC equals cc.Id_CC join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where (sc.FechaInicio <= dia_ && sc.FechaFinal >= dia_) && sa.Dueno == id && cc.Estado == "Autorizado" select sa).ToList();
+                List<ServiciosAplicaciones> servapp_nombres = (from sc in BD.ControlServicio join cc in BD.ControlCambio on sc.fk_CC equals cc.Id_CC join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where (sc.FechaInicio <= dia_ && sc.FechaFinal >= dia_) && sa.Dueno == Sesion && cc.Estado == "Autorizado" select sa).ToList();
                 if (servapp.Count > 0)
                 {
                     claves = General.generarListaClave(servapp);

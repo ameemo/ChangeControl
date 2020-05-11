@@ -678,6 +678,8 @@ namespace SistemaCC.Models
 		
 		private bool _Autorizado;
 		
+		private string _Motivo;
+		
 		private EntityRef<ControlCambio> _ControlCambio;
 		
 		private EntityRef<Usuario> _Usuario;
@@ -698,6 +700,8 @@ namespace SistemaCC.Models
     partial void OnFechaChanged();
     partial void OnAutorizadoChanging(bool value);
     partial void OnAutorizadoChanged();
+    partial void OnMotivoChanging(string value);
+    partial void OnMotivoChanged();
     #endregion
 		
 		public Autorizaciones()
@@ -831,6 +835,26 @@ namespace SistemaCC.Models
 					this._Autorizado = value;
 					this.SendPropertyChanged("Autorizado");
 					this.OnAutorizadoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Motivo", DbType="VarChar(500)")]
+		public string Motivo
+		{
+			get
+			{
+				return this._Motivo;
+			}
+			set
+			{
+				if ((this._Motivo != value))
+				{
+					this.OnMotivoChanging(value);
+					this.SendPropertyChanging();
+					this._Motivo = value;
+					this.SendPropertyChanged("Motivo");
+					this.OnMotivoChanged();
 				}
 			}
 		}

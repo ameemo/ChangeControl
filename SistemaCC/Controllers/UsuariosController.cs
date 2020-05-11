@@ -10,23 +10,36 @@ namespace SistemaCC.Controllers
     public class UsuariosController : Controller
     {
         BDControlCambioDataContext BD = new BDControlCambioDataContext();
-        HomeController clave = new HomeController();
+        static HomeController General = new HomeController();
         Mensajes Mensaje = new Mensajes();
+        int Sesion = General.Sesion;
         //Función para agregar los roles
-        void anadir_roles(int id_U, string roles)
+        int anadir_roles(int id_U, string roles)
         {
             if(roles != null)
             {
                 string[] rol = roles.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                for(var i = 0; i < rol.Length; i++)
+                foreach(var r in rol)
                 {
+                    // Validar si es Administrador o S Administrador, ya que sólo puede haber 1
+                    if(Convert.ToInt32(r) == 2)
+                    {
+                        List<UsuarioRol> usuariosRol = (from urp in BD.UsuarioRol where urp.fk_Rol == 2 && urp.Usuario.Activo == true select urp).ToList();
+                        if(usuariosRol.Count == 1) { return 19; }
+                    }
+                    if(Convert.ToInt32(r) == 3)
+                    {
+                        List<UsuarioRol> usuariosRol = (from urp in BD.UsuarioRol where urp.fk_Rol == 3 && urp.Usuario.Activo == true select urp).ToList();
+                        if(usuariosRol.Count == 1) { return 20; }
+                    }
                     UsuarioRol ur = new UsuarioRol();
-                    ur.fk_Rol = Convert.ToInt32(rol[i]);
+                    ur.fk_Rol = Convert.ToInt32(r);
                     ur.fk_Us = id_U;
                     BD.UsuarioRol.InsertOnSubmit(ur);
                     BD.SubmitChanges();
                 }
             }
+            return 0;
         }
         // Funcion para eliminar roles
         void eliminar_roles(string usuarioRoles)
@@ -46,9 +59,9 @@ namespace SistemaCC.Controllers
         public ActionResult Index(string mensaje)
         {
             // Notificaciones para navbar
-            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
-            ViewBag.Notificaciones_claves = clave.generarListaClave(ccs);
-            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
+            ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             // Demas codigo
             var datos = (from a in BD.Usuario select a).ToList();
             ViewBag.datos = datos;
@@ -76,9 +89,9 @@ namespace SistemaCC.Controllers
         public ActionResult Ver(int id)
         {
             // Notificaciones para navbar
-            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
-            ViewBag.Notificaciones_claves = clave.generarListaClave(ccs);
-            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
+            ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             // Demas codigo
             ViewBag.Modelo = (from u in BD.Usuario where u.Id_U == id select u).SingleOrDefault();
             ViewBag.Roles = (from ur in BD.UsuarioRol where ur.fk_Us == id select ur).ToList();
@@ -89,9 +102,9 @@ namespace SistemaCC.Controllers
         public ActionResult Crear()
         {
             // Notificaciones para navbar
-            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
-            ViewBag.Notificaciones_claves = clave.generarListaClave(ccs);
-            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
+            ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             // Demas codigo
             ViewBag.Roles = (from r in BD.Roles select r).ToList();
             ViewData["ME1"] = Mensaje.getMError(0);
@@ -110,9 +123,9 @@ namespace SistemaCC.Controllers
                 if(correo.Count != 0)
                 {
                     // Notificaciones para navbar
-                    List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
-                    ViewBag.Notificaciones_claves = clave.generarListaClave(ccs);
-                    ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+                    List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
+                    ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
+                    ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
                     // Demas codigo
                     ViewBag.Roles = (from r in BD.Roles select r).ToList();
                     ViewData["ME1"] = Mensaje.getMError(12);
@@ -127,12 +140,13 @@ namespace SistemaCC.Controllers
                 usuario.Email = modelo.Email;
                 usuario.Activo = true;
                 usuario.ClaveUnica = "";
+                usuario.Contrasena = modelo.ApePaterno + "" + DateTime.Now.Year;
                 BD.Usuario.InsertOnSubmit(usuario);
                 BD.SubmitChanges();
-                anadir_roles(usuario.Id_U, collection["rol_input"]);
-                return RedirectToAction("Index", new { mensaje = "C7" });
+                int res = anadir_roles(usuario.Id_U, collection["rol_input"]);
+                return RedirectToAction("Index", new { mensaje = res == 0 ? "C7" : "E" + res });
             }
-            catch
+            catch(Exception e)
             {
                 return RedirectToAction("Index", new { mensaje = "E1" });
             }
@@ -142,9 +156,9 @@ namespace SistemaCC.Controllers
         public ActionResult Editar(int id)
         {
             // Notificaciones para navbar
-            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
-            ViewBag.Notificaciones_claves = clave.generarListaClave(ccs);
-            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
+            ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             // Codigo para saber que roles tiene en este momendo el usuario
             List<Roles> Roles = (from r in BD.Roles select r).ToList();
             List<UsuarioRol> UsuarioRoles = (from r in BD.UsuarioRol where r.fk_Us == id select r).ToList();
@@ -196,9 +210,9 @@ namespace SistemaCC.Controllers
                 if (correo.Count != 0)
                 {
                     // Notificaciones para navbar
-                    List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
-                    ViewBag.Notificaciones_claves = clave.generarListaClave(ccs);
-                    ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+                    List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
+                    ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
+                    ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
                     // Codigo para saber que roles tiene en este momendo el usuario
                     List<Roles> Roles = (from r in BD.Roles select r).ToList();
                     List<UsuarioRol> UsuarioRoles = (from r in BD.UsuarioRol where r.fk_Us == id select r).ToList();
@@ -245,9 +259,9 @@ namespace SistemaCC.Controllers
                 usuario.NoExt = modelo.NoExt;
                 usuario.Email = modelo.Email;
                 BD.SubmitChanges();
-                anadir_roles(usuario.Id_U, collection["rol_input"]);
                 eliminar_roles(collection["rol_input_eliminado"]);
-                return RedirectToAction("Index", new { mensaje = "C13" });
+                int res = anadir_roles(usuario.Id_U, collection["rol_input"]);
+                return RedirectToAction("Index", new { mensaje = res == 0 ? "C13" : "E" + res });
             }
             catch
             {

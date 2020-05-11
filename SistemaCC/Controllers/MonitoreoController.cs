@@ -10,15 +10,16 @@ namespace SistemaCC.Controllers
     public class MonitoreoController : Controller
     {
         BDControlCambioDataContext BD = new BDControlCambioDataContext();
-        HomeController General = new HomeController();
+        static HomeController General = new HomeController();
         Mensajes Mensaje = new Mensajes();
+        int Sesion = General.Sesion;
         // GET: Monitoreo
         public ActionResult Index(string mensaje)
         {
             // Notificaciones para navbar
-            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
-            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             // Consultas para mostrar informacion
             ViewBag.Tiempos = (from m in BD.Monitoreo where m.Tipo == "Tiempo" orderby m.Fecha ascending select m).ToList();
             ViewBag.Cantidad = (from m in BD.Monitoreo where m.Tipo == "Cantidad" orderby m.Fecha ascending select m).ToList();

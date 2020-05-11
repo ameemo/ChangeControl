@@ -10,15 +10,16 @@ namespace SistemaCC.Controllers
     public class ServAppController : Controller
     {
         BDControlCambioDataContext BD = new BDControlCambioDataContext();
-        HomeController clave = new HomeController();
+        static HomeController General = new HomeController();
         Mensajes Mensaje = new Mensajes();
+        int Sesion = General.Sesion;
         // GET: ServApp
         public ActionResult Index(string mensaje)
         {
             // Notificaciones para navbar
-            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
-            ViewBag.Notificaciones_claves = clave.generarListaClave(ccs);
-            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
+            ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             // Demas codigo
             var datos = (from a in BD.ServiciosAplicaciones select a);
             ViewBag.datos = datos;
@@ -53,9 +54,9 @@ namespace SistemaCC.Controllers
         public ActionResult Crear()
         {
             // Notificaciones para navbar
-            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
-            ViewBag.Notificaciones_claves = clave.generarListaClave(ccs);
-            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
+            ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             // Demas codigo
             var usuarios = (from a in BD.Usuario select a).ToList();
             List<Usuario> usuarios2 = new List<Usuario>();
@@ -94,9 +95,9 @@ namespace SistemaCC.Controllers
         public ActionResult Editar(int id)
         {
             // Notificaciones para navbar
-            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == 1 select cc).ToList();
-            ViewBag.Notificaciones_claves = clave.generarListaClave(ccs);
-            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == 1 select n).ToList();
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
+            ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             // Demas codigo
             var usuarios = (from a in BD.Usuario select a).ToList();
             List<Usuario> usuarios2 = new List<Usuario>();
