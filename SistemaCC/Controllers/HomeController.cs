@@ -14,7 +14,7 @@ namespace SistemaCC.Controllers
     {
         BDControlCambioDataContext BD = new BDControlCambioDataContext();
         Mensajes Mensaje = new Mensajes();
-        public int Sesion = 4;
+        public int Sesion = 8;
         public string generarClave(ControlCambio cc)
         {
             Usuario creador = (from u in BD.Usuario where u.Id_U == cc.Creador select u).SingleOrDefault();
@@ -128,11 +128,17 @@ namespace SistemaCC.Controllers
             var servapp = (from sc in BD.ControlServicio join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where sc.fk_CC == cc.Id_CC group sa by sa.Dueno).ToList();
             foreach(var act in actividades)
             {
-                error = generarNotificacionAut(cc, 1, 1, act.Key);
+                if(act.Key != cc.Usuario.Id_U)
+                { 
+                    error = generarNotificacionAut(cc, 1, 1, act.Key);
+                }
             }
             foreach(var s in servapp)
             {
-                error = generarNotificacionAut(cc, 2, 1, s.Key);
+                if (s.Key != cc.Usuario.Id_U)
+                {
+                    error = generarNotificacionAut(cc, 2, 1, s.Key);
+                }
             }
             return error;
         }
@@ -143,15 +149,15 @@ namespace SistemaCC.Controllers
             ViewBag.Notificaciones_claves = generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             // Termina lo necesario para notificacionespara navbar
-            ViewBag.Creados_CC = (from cc in BD.ControlCambio where cc.Estado == "Creado" || cc.Estado == "EnEvaluacion" select cc).ToList();
+            ViewBag.Creados_CC = (from cc in BD.ControlCambio where (cc.Estado == "Creado" || cc.Estado == "EnEvaluacion") && cc.Creador == Sesion select cc).ToList();
             ViewBag.Claves_ccc = generarListaClave(ViewBag.Creados_CC);
-            ViewBag.Revisados_CC = (from cc in BD.ControlCambio where cc.Estado == "EnCorreccion" || cc.Estado == "Aprobado" select cc).ToList();
+            ViewBag.Revisados_CC = (from cc in BD.ControlCambio where (cc.Estado == "EnCorreccion" || cc.Estado == "Aprobado") && cc.Creador == Sesion select cc).ToList();
             ViewBag.Claves_rcc = generarListaClave(ViewBag.Revisados_CC);
-            ViewBag.ParaAut_CC = (from cc in BD.ControlCambio where cc.Estado == "PausadoE" || cc.Estado == "Autorizado" select cc).ToList();
+            ViewBag.ParaAut_CC = (from cc in BD.ControlCambio where (cc.Estado == "PausadoE" || cc.Estado == "Autorizado") && cc.Creador == Sesion select cc).ToList();
             ViewBag.Claves_pacc = generarListaClave(ViewBag.ParaAut_CC);
-            ViewBag.Ejecucion_CC = (from cc in BD.ControlCambio where cc.Estado == "EnEjecucion" || cc.Estado == "PausadoT" select cc).ToList();
+            ViewBag.Ejecucion_CC = (from cc in BD.ControlCambio where (cc.Estado == "EnEjecucion" || cc.Estado == "PausadoT") && cc.Creador == Sesion select cc).ToList();
             ViewBag.Claves_ecc = generarListaClave(ViewBag.Ejecucion_CC);
-            ViewBag.Revision_CC = (from cc in BD.ControlCambio where cc.Estado == "EnEvaluacion" select cc).ToList();
+            ViewBag.Revision_CC = (from cc in BD.ControlCambio where cc.Estado == "EnEvaluacion" && cc.Creador == Sesion select cc).ToList();
             ViewBag.Claves_enrcc = generarListaClave(ViewBag.Revision_CC);
             //Seccion de mensajes para la vista
             string MC = "";
@@ -212,6 +218,16 @@ namespace SistemaCC.Controllers
                 control.Estado = "PausadoE";
                 error = generarNotificacionesAut(control);
                 BD.SubmitChanges();
+                // Desactivamos la notificacion de No se autorizo. si la hay
+                List<Notificaciones> not = (from n in BD.Notificaciones where n.fk_CC == id && n.fk_U == Sesion && n.Activa == true select n).ToList();
+                foreach(var n in not)
+                {
+                    if(n.Contenido.Split(new string[] { "&" }, StringSplitOptions.RemoveEmptyEntries)[0] == "No autorizado.")
+                    {
+                        n.Activa = false;
+                        BD.SubmitChanges();
+                    }
+                }
             }
             if(error == 0)
             {

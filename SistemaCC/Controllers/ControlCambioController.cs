@@ -341,6 +341,15 @@ namespace SistemaCC.Controllers
                 {
                     // Se envia la notificacion al Super Admin
                     Usuario super = (from ur in BD.UsuarioRol where ur.fk_Rol == 2 && ur.Usuario.Activo == true select ur.Usuario).SingleOrDefault();
+                    // Creo la autorización para despues editarla
+                    Autorizaciones autorizacion = new Autorizaciones();
+                    autorizacion.fk_CC = cc.Id_CC;
+                    autorizacion.fk_U = super.Id_U;
+                    autorizacion.Tipo = "Ejecutar";
+                    autorizacion.Fecha = DateTime.Now;
+                    autorizacion.Autorizado = false;
+                    BD.Autorizaciones.InsertOnSubmit(autorizacion);
+                    BD.SubmitChanges();
                     Notificaciones not = new Notificaciones();
                     not.fk_CC = cc.Id_CC;
                     not.fk_U = super.Id_U;
@@ -351,15 +360,6 @@ namespace SistemaCC.Controllers
                     BD.SubmitChanges();
                     notificacion.email = true;
                     General.Email(super.Email,notificacion.getSubject(1), notificacion.generate(7));
-                    // Cambio de estado
-                    if(cc.Estado == "PausadoT" || cc.Estado =="PausadoE")
-                    {
-                        cc.Estado = cc.Estado == "PausadoE" ? "Autorizado" : "Terminado";
-                    }
-                    else
-                    {
-                        cc.Estado = "Corrupto";
-                    }
                 }
                 else
                 {
@@ -926,12 +926,41 @@ namespace SistemaCC.Controllers
                             aut.Motivo = collection["motivo"];
                             aut.Fecha = DateTime.Today;
                             BD.SubmitChanges();
-                            // Funcion para saber si ya se cumplieron las autorizaciones
-                            revisarAut(aut.ControlCambio);
+                            // Si autoriza el S Admin
+                            if(aut.Autorizado)
+                            {
+                                List<UsuarioRol> ur = aut.Usuario.UsuarioRol.ToList();
+                                foreach (var rol in ur)
+                                {
+                                    if (rol.fk_Rol == 2)
+                                    {
+                                        ControlCambio cc = aut.ControlCambio;
+                                        // Cambio de estado
+                                        if (cc.Estado == "PausadoT" || cc.Estado == "PausadoE")
+                                        {
+                                            cc.Estado = cc.Estado == "PausadoE" ? "Autorizado" : "Terminado";
+                                        }
+                                        else
+                                        {
+                                            cc.Estado = "Corrupto";
+                                        }
+                                        // Desactivar notificacion
+                                        Notificaciones noti = (from n in BD.Notificaciones where n.fk_CC == id && n.fk_U == Sesion && n.Activa == true select n).SingleOrDefault();
+                                        noti.Activa = false;
+                                        BD.SubmitChanges();
+                                        return RedirectToAction("./../Home/Index", new
+                                        {
+                                            mensaje = "C11"
+                                        });
+                                    }
+                                }
+                            }
                             // Desactivar notificacion
                             Notificaciones not = (from n in BD.Notificaciones where n.fk_CC == id && n.fk_U == Sesion && n.Activa == true select n).SingleOrDefault();
                             not.Activa = false;
                             BD.SubmitChanges();
+                            // Funcion para saber si ya se cumplieron las autorizaciones
+                            revisarAut(aut.ControlCambio);
                         }
                          catch (Exception e)
                         {

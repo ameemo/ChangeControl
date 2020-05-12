@@ -10,21 +10,30 @@
     </div>
 }
 else
-{ 
+{
     <div class="seccion_contenedor">
         <div class="seccion-dark">
             <h1>@ViewData["Clave"]</h1>
         </div>
         <div class="text-right pt-3">
-            <span class="bold">@Model.FechaEnvio.ToString().Substring(0,10)</span>
+            <span class="bold">@Model.FechaEnvio.ToString().Substring(0, 10)</span>
         </div>
     </div>
     <div>
         @ViewBag.Contenido[0]<br />
         @ViewBag.Contenido[1] <span class="bold">@Model.ControlCambio.FechaEjecucion.ToString().Substring(0, 10)</span> @ViewBag.Contenido[2]
     </div>
-    <div class="notificacion-link text-center">
-        @Html.ActionLink("Ir al control de cambio","Autorizar", new { id = Model.fk_CC, tipo = "Ejecucion" })
-    </div>
+    if (@ViewBag.Contenido[0].ToString() == "No autorizado.")
+    {
+        <div class="notificacion-link text-center">
+            @Html.ActionLink("Ir al control de cambio", "Editar", new { id = Model.fk_CC })
+        </div>
+    }
+    else
+    {
+        <div class="notificacion-link text-center">
+            @Html.ActionLink("Ir al control de cambio", "Autorizar", new { id = Model.fk_CC, tipo = "Ejecucion" })
+        </div>
+    }
 
 }

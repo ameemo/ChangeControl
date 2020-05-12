@@ -186,8 +186,6 @@
                     }
                 }
             });
-        });
-        $(document).ready(function () {
             $(".fancybox2").fancybox({
                 fitToView: false,
                 width: '100%',
@@ -198,8 +196,6 @@
                 closeEffect: 'none',
                 type: 'iframe'
             });
-        });
-        $(document).ready(function () {
             $(".fancybox").fancybox({
                 prevEffect: 'none',
                 nextEffect: 'none',
@@ -214,5 +210,9 @@
                 }
             });
         });
+        $(document).on("submit", "form", function (e) {
+            $(switch_aut).removeAttr('disabled')
+            $(textarea_motivo).removeAttr('disabled')
+        })
     </script>
 }
