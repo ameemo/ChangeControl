@@ -481,6 +481,11 @@
                         width: 50,
                         height: 50
                     }
+                },
+                tpl : {
+                    closeBtn : '<a title="Cerrar" class="fancybox-item fancybox-close" href="javascript:;"></a>',
+                    next: '<a title="Siguiente" class="fancybox-nav fancybox-next"><span></span></a>',
+                    prev: '<a title="Anterior" class="fancybox-nav fancybox-prev"><span></span></a>'
                 }
             });
         });
@@ -493,7 +498,10 @@
                 closeClick: false,
                 openEffect: 'none',
                 closeEffect: 'none',
-                type: 'iframe'
+                type: 'iframe',
+                tpl : {
+                    closeBtn : '<a title="Cerrar" class="fancybox-item fancybox-close" href="javascript:;"></a>'
+                }
             });
         });
         $(document).ready(function () {
@@ -508,6 +516,9 @@
                         width: 50,
                         height: 25
                     }
+                },
+                tpl : {
+                    closeBtn : '<a title="Cerrar" class="fancybox-item fancybox-close" href="javascript:;"></a>'
                 }
             });
     </script>

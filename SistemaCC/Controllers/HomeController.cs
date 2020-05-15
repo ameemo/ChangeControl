@@ -14,7 +14,7 @@ namespace SistemaCC.Controllers
     {
         BDControlCambioDataContext BD = new BDControlCambioDataContext();
         Mensajes Mensaje = new Mensajes();
-        public int Sesion = 8;
+        public int Sesion = 1;
         public string generarClave(ControlCambio cc)
         {
             Usuario creador = (from u in BD.Usuario where u.Id_U == cc.Creador select u).SingleOrDefault();

@@ -2,6 +2,12 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+// funcion para traducir botones del fancybox
+function traducir() {
+    var close = document.getElementsByClassName('fancybox-close')
+    close[0].setAttribute('title','Cerrar')
+}
+// ***************
 function tabs(seccion, sc, sl)
 {
     //Activar o desactivar los div indicados
