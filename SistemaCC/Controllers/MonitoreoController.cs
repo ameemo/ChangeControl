@@ -21,8 +21,8 @@ namespace SistemaCC.Controllers
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             // Consultas para mostrar informacion
-            ViewBag.Tiempos = (from m in BD.Monitoreo where m.Tipo == "Tiempo" orderby m.Fecha ascending select m).ToList();
-            ViewBag.Cantidad = (from m in BD.Monitoreo where m.Tipo == "Cantidad" orderby m.Fecha ascending select m).ToList();
+            ViewBag.Tiempos = (from m in BD.Monitoreo where m.Tipo == "Tiempo" orderby m.Fecha descending select m).ToList();
+            ViewBag.Cantidad = (from m in BD.Monitoreo where m.Tipo == "Cantidad" orderby m.Fecha descending select m).ToList();
             //Seccion de mensajes para la vista
             string MC = "";
             string MA = "";
@@ -58,7 +58,7 @@ namespace SistemaCC.Controllers
 
         // POST: Monitoreo/Create
         [HttpPost]
-        public ActionResult Crear(Monitoreo model, string tipo, FormCollection collection)
+        public ActionResult Crear(string tipo, FormCollection collection)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace SistemaCC.Controllers
                 Monitoreo monitoreo = new Monitoreo();
                 monitoreo.fk_U = 1;
                 monitoreo.Cantidad = Int32.Parse(collection["cantidad"]);
-                monitoreo.Fecha = DateTime.Today;
+                monitoreo.Fecha = DateTime.Now;
                 monitoreo.Tipo = tipo;
                 BD.Monitoreo.InsertOnSubmit(monitoreo);
                 BD.SubmitChanges();

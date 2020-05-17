@@ -35,7 +35,7 @@
                                 <label>Fecha de ejecuión:</label>
                             </div>
                             <div class="campos_ultimos">
-                                <input name="FechaEjecucion" class="form-control" type = "date" value="@Model.FechaEjecucion.ToString().Substring(6,4)-@Model.FechaEjecucion.ToString().Substring(3,2)-@Model.FechaEjecucion.ToString().Substring(0,2)" oninvalid = "error_campos(1)" required = "required" />
+                                <input id="FechaEjecucion" name="FechaEjecucion" class="form-control" type = "date" value="@Model.FechaEjecucion.ToString().Substring(6,4)-@Model.FechaEjecucion.ToString().Substring(3,2)-@Model.FechaEjecucion.ToString().Substring(0,2)" onchange="cambiarFechasAct()" oninvalid = "error_campos(1)" required = "required" />
                             </div>
                         </div>
                         <div class="campos campos_dos_kai">
@@ -219,7 +219,7 @@
                                         </div>
                                     </div>
                                     <div class="campos campos_ultimos">
-                                        <input id="act_cc_fecha_@ViewBag.Actividades_CC.IndexOf(act)" name="actividades_cc_fecha_actual" type="date" oninvalid="error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_CC.IndexOf(act),'cc')" required="required" class="form-control act_cc_actual" value="@act.Actividades.FechaRealizacion.ToString().Substring(6,4)-@act.Actividades.FechaRealizacion.ToString().Substring(3,2)-@act.Actividades.FechaRealizacion.ToString().Substring(0,2)">
+                                        <input id="act_cc_fecha_@ViewBag.Actividades_CC.IndexOf(act)" name="actividades_cc_fecha_actual" type="date" min="@Model.FechaEjecucion.ToString().Substring(6,4)-@Model.FechaEjecucion.ToString().Substring(3,2)-@Model.FechaEjecucion.ToString().Substring(0,2)" oninvalid="error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_CC.IndexOf(act),'cc')" required="required" class="form-control act_cc_actual" value="@act.Actividades.FechaRealizacion.ToString().Substring(6,4)-@act.Actividades.FechaRealizacion.ToString().Substring(3,2)-@act.Actividades.FechaRealizacion.ToString().Substring(0,2)">
                                         <select id="act_cc_res_@ViewBag.Actividades_CC.IndexOf(act)" name="actividades_cc_usuarios_actual" required="required" oninvalid="error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_CC.IndexOf(act),'cc')" class="form-control act_cc_actual">
                                             <option value="">Select...</option>
                                             @foreach (var usuario in ViewBag.usuarios as IEnumerable<SistemaCC.Models.Usuario>)
@@ -284,7 +284,7 @@
                                         <input id="ser_inicio_@ViewBag.ControlServicios.IndexOf(ser)" name="servicio_inicio_actual" type="date" oninvalid="error_campos(2)" onchange="setSerEditar(@ViewBag.ControlServicios.IndexOf(ser))" required="required" class="form-control" value="@ser.FechaInicio.ToString().Substring(6,4)-@ser.FechaInicio.ToString().Substring(3,2)-@ser.FechaInicio.ToString().Substring(0,2)">
                                     </div>
                                 <div class="campos campos_ultimos">
-                                    <input id="ser_final_@ViewBag.ControlServicios.IndexOf(ser)" name="servicio_temino_actual" type="date" oninvalid="error_campos(2)" onchange="setSerEditar(@ViewBag.ControlServicios.IndexOf(ser))" required="required" class="form-control" value="@ser.FechaFinal.ToString().Substring(6,4)-@ser.FechaFinal.ToString().Substring(3,2)-@ser.FechaFinal.ToString().Substring(0,2)">
+                                    <input id="ser_final_@ViewBag.ControlServicios.IndexOf(ser)" name="servicio_temino_actual" type="date" min="@ser.FechaInicio.ToString().Substring(6,4)-@ser.FechaInicio.ToString().Substring(3,2)-@ser.FechaInicio.ToString().Substring(0,2)" oninvalid="error_campos(2)" onchange="setSerEditar(@ViewBag.ControlServicios.IndexOf(ser))" required="required" class="form-control" value="@ser.FechaFinal.ToString().Substring(6,4)-@ser.FechaFinal.ToString().Substring(3,2)-@ser.FechaFinal.ToString().Substring(0,2)">
                                 </div>
                                 <div class="campos campos_ultimos">
                                     <div class="quitar">

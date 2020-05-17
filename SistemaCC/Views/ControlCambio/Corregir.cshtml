@@ -16,7 +16,16 @@
 {
     <script>
         $(document).ready(function () {
-
+            // fechas minima hoy
+            document.getElementById('FechaEjecucion').setAttribute('min', revisarFechaMin(true))
+            var actA = document.getElementsByName('actividades_prev_fecha_actual')
+            var ser = document.getElementsByName('servicio_inicio_actual')
+            for (var a of actA) {
+                a.setAttribute('min', revisarFechaMin(true))
+            }
+            for (var s of ser) {
+                s.setAttribute('min', revisarFechaMin(true))
+            }
             $(".fancybox").fancybox({
                 prevEffect: 'none',
                 nextEffect: 'none',

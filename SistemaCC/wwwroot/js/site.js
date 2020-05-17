@@ -2,12 +2,6 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-// funcion para traducir botones del fancybox
-function traducir() {
-    var close = document.getElementsByClassName('fancybox-close')
-    close[0].setAttribute('title','Cerrar')
-}
-// ***************
 function tabs(seccion, sc, sl)
 {
     //Activar o desactivar los div indicados
@@ -75,6 +69,7 @@ function actividad_agregar(id)
                                                 { att: "required", val: "required" }], "form-control contar-act-obs")
     var input1 = crear_elemento("input", [{ att: "name", val: "actividades_prev_fecha" },
                                           { att: "type", val: "date" },
+                                          { att: "min", val: revisarFechaMin(true)},
                                           { att: "oninvalid", val: "error_campos(2)"},
                                           { att: "required", val: "required" }], "form-control")
     var select = clonar_select("usuarios2", "actividades_prev_usuarios")
@@ -144,6 +139,7 @@ function actividad_cc_agregar(id) {
                                                 { att: "required", val: "required" }], "form-control contar-act_cc-obs")
     var input1 = crear_elemento("input", [{ att: "name", val: "actividades_cc_fecha" },
                                           { att: "type", val: "date" },
+                                          { att: "min", val: revisarFechaMin(false)},
                                           { att: "oninvalid", val: "error_campos(2)"},
                                           { att: "required", val: "required" }], "form-control")
     var select = clonar_select("usuarios2","actividades_cc_usuarios")
@@ -196,10 +192,13 @@ function servicio_agregar(id) {
     var select = clonar_select("servicios","servicio_servicios")
     var input1 = crear_elemento("input", [{ att: "name", val: "servicio_inicio" },
                                           { att: "type", val: "date" },
+                                          { att: "min", val: revisarFechaMin(true)},
+                                          { att: "onchange", val: "cambiarFechaFinal("+id+")"},
                                           { att: "oninvalid", val: "error_campos(2)"},
                                           { att: "required", val: "required" }], "form-control")
     var input2 = crear_elemento("input", [{ att: "name", val: "servicio_temino" },
                                           { att: "type", val: "date" },
+                                          { att: "min", val: revisarFechaMin(true)},
                                           { att: "oninvalid", val: "error_campos(2)"},
                                           { att: "required", val: "required" }], "form-control")
     var cerrar = crear_elemento("a", [{ att: "onclick", val: "quitar('servicio" + id_ + "')" }], "btn btn-outline-danger cerrar")
@@ -439,6 +438,34 @@ function revisar_extension(id, tipo) {
     label.removeChild(texto_viejo)
     label.appendChild(p)
 }
+function revisarFechaMin(previa) {
+    if (previa) {
+        var fecha = new Date();
+        var mes = fecha.getMonth() < 9 ? '0' + (fecha.getMonth() + 1) : (fecha.getMonth() + 1)
+        return fecha.getFullYear() + '-' + mes + '-' + fecha.getDate()
+    } else {
+        return $('#FechaEjecucion').val()
+    }
+}
+function cambiarFechaFinal(id) {
+    var inicial = document.getElementsByName('servicio_inicio')[id]
+    var termino = document.getElementsByName('servicio_temino')[id]
+    termino.setAttribute('min', $(inicial).val())
+}
+function cambiarFechasAct() {
+    var actividades = document.getElementsByName('actividades_cc_fecha')
+    var actividadesA = document.getElementsByName('actividades_cc_fecha_actual')
+    var actividadesE = document.getElementsByName('act_cc_fecha_editado')
+    for (var act of actividades) {
+        act.setAttribute('min', $('#FechaEjecucion').val())
+    }
+    for (var act of actividadesA){
+        act.setAttribute('min', $('#FechaEjecucion').val())
+    }
+    for (var act of actividadesE) {
+        act.setAttribute('min', $('#FechaEjecucion').val())
+    }
+}
 // funcion para mostrar la sección en la que el campo no está respondido
 function error_campos(seccion) {
     var collapse = document.getElementsByClassName("collapse")
@@ -588,6 +615,8 @@ function setSerEditar(id) {
     var ser = document.getElementById('ser_ser_' + id)
     var inicio = document.getElementById('ser_inicio_' + id)
     var final = document.getElementById('ser_final_' + id)
+    //validar fechas
+    final.setAttribute('min', $(inicio).val())
     input.setAttribute('name', 'ser_id_editado')
     ser.setAttribute('name', 'ser_ser_editado')
     inicio.setAttribute('name', 'ser_inicio_editado')
