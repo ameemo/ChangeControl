@@ -23,7 +23,7 @@ else
         @ViewBag.Contenido[0]<br />
         @ViewBag.Contenido[1] <span class="bold">@Model.ControlCambio.FechaEjecucion.ToString().Substring(0, 10)</span> @ViewBag.Contenido[2]
     </div>
-    if (@ViewBag.Contenido[0].ToString() == "No autorizado.")
+    @if (Model.Tipo == "NoAutorizado")
     {
         <div class="notificacion-link text-center">
             @Html.ActionLink("Ir al control de cambio", "Editar", new { id = Model.fk_CC })

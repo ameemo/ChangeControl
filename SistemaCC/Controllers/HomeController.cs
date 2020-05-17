@@ -98,6 +98,7 @@ namespace SistemaCC.Controllers
                 notificaciones.FechaEnvio = DateTime.Today;
                 notificaciones.Contenido = notificacion.generate(generate);
                 notificaciones.Activa = true;
+                notificaciones.Tipo = "Autorizar";
                 BD.Notificaciones.InsertOnSubmit(notificaciones);
                 BD.SubmitChanges();
                 //Enviar el correo
@@ -120,7 +121,7 @@ namespace SistemaCC.Controllers
             }
             return error;
         }
-        public int generarNotificacionesAut(ControlCambio cc)
+        public int generarNotificacionesAut(ControlCambio cc, int tipo)
         {
             // Variable para tratar los errores y mostrar los mensajes
             int error = 0;
@@ -130,14 +131,14 @@ namespace SistemaCC.Controllers
             {
                 if(act.Key != cc.Usuario.Id_U)
                 { 
-                    error = generarNotificacionAut(cc, 1, 1, act.Key);
+                    error = generarNotificacionAut(cc, 1, tipo, act.Key);
                 }
             }
             foreach(var s in servapp)
             {
                 if (s.Key != cc.Usuario.Id_U)
                 {
-                    error = generarNotificacionAut(cc, 2, 1, s.Key);
+                    error = generarNotificacionAut(cc, 2, tipo, s.Key);
                 }
             }
             return error;
@@ -208,21 +209,39 @@ namespace SistemaCC.Controllers
             // Variable para tratar los errores y mostrar los mensajes
             int error = 0;
             ControlCambio control = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
-            if(control.Estado == "Creado")
+            if (control.Estado == "Creado")
             {
                 control.Estado = "EnEvaluacion";
                 BD.SubmitChanges();
+                // Generar notificación de revisión
+                Usuario admin = (from ur in BD.UsuarioRol where ur.fk_Rol == 2 select ur.Usuario).SingleOrDefault();
+                Notificacion noti = new Notificacion(id, 0);
+                noti.clave_cc = generarClave(control);
+                noti.fecha_ejecucion_cc = control.FechaEjecucion.ToString().Substring(0, 10);
+                Notificaciones not = new Notificaciones();
+                not.fk_U = admin.Id_U;
+                not.fk_CC = id;
+                not.Activa = true;
+                not.FechaEnvio = DateTime.Now;
+                not.Tipo = "Revision";
+                not.Contenido = noti.generate(5);
+                BD.Notificaciones.InsertOnSubmit(not);
+                BD.SubmitChanges();
+                // enviar correo al admin
+                noti.email = true;
+                Email(admin.Email, noti.getSubject(5), noti.generate(5));
+
             }
             if(control.Estado == "Aprobado")
             {
                 control.Estado = "PausadoE";
-                error = generarNotificacionesAut(control);
+                error = generarNotificacionesAut(control,1);// 1 = autorizar ejecucion
                 BD.SubmitChanges();
-                // Desactivamos la notificacion de No se autorizo. si la hay
-                List<Notificaciones> not = (from n in BD.Notificaciones where n.fk_CC == id && n.fk_U == Sesion && n.Activa == true select n).ToList();
+                // Desactivamos la notificacion de No se autorizo, si la hay y de aprobado
+                List<Notificaciones> not = (from n in BD.Notificaciones where n.fk_CC == id && n.fk_U == control.Usuario.Id_U && n.Activa == true select n).ToList();
                 foreach(var n in not)
                 {
-                    if(n.Contenido.Split(new string[] { "&" }, StringSplitOptions.RemoveEmptyEntries)[0] == "No autorizado.")
+                    if(n.Tipo == "NoAutorizo" || n.Tipo == "Aprobado")
                     {
                         n.Activa = false;
                         BD.SubmitChanges();

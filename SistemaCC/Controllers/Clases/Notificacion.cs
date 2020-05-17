@@ -20,7 +20,6 @@ namespace SistemaCC.Controllers.Clases
             this.fecha_emision = "";
             this.clave_cc = "";
             this.fecha_ejecucion_cc = "";
-            this.funcion = funcion == 1 ? "tiene actividades asignadas" : "un servicio se ve afectado";
             this.email = false;
             //Inicia subject (asunto)
             this.subject = new string[] { "",
@@ -31,8 +30,25 @@ namespace SistemaCC.Controllers.Clases
                 "Hay una nueva revisión.",
                 "",
                 "",
-                "Control de cambio NO autorizado."
+                "Control de cambio NO autorizado.",
+                "Control de cambio revisado."
             };
+            // Saber la funcion que cumple o algun estado
+            switch(funcion)
+            {
+                case 1:
+                    this.funcion = "tiene actividades asignadas";
+                    break;
+                case 2:
+                    this.funcion = "un servicio se ve afectado";
+                    break;
+                case 3:
+                    this.funcion = "aprobado";
+                    break;
+                case 4:
+                    this.funcion = "enviado a corrección";
+                    break;
+            }
         }
         public Notificacion(string codigo, string clave)
         {
@@ -67,8 +83,17 @@ namespace SistemaCC.Controllers.Clases
             return ""; 
         }
         private string generateNRevision() 
-        { 
-            return ""; 
+        {
+            string mensaje = "";
+            if (this.email)
+            {
+                mensaje = "El control de cambio con la clave: <b>" + this.clave_cc + "</b> y con fecha de ejecución de <b>" + this.fecha_ejecucion_cc + "</b> requiere de su revisión.</br>Para ello dar click en <a href =\"www.prueba.com/ControlCambio/Ver/" + this.id_cc + "\">" + this.clave_cc + "</a>.";
+            }
+            else
+            {
+                mensaje = "Para revisar.&El control de cambio con la clave anterior y con fecha de ejecución de&requiere de su revision.";
+            }
+            return mensaje; 
         }
         private string generateDosPasos()
         {
@@ -111,6 +136,19 @@ namespace SistemaCC.Controllers.Clases
             }
             return mensaje;
         }
+        private string generateNCorreccion()
+        {
+            string mensaje = "";
+            if (this.email)
+            {
+                mensaje = "El control de cambio con la clave: <b>" + this.clave_cc + "</b> y con fecha de ejecución de <b>" + this.fecha_ejecucion_cc + "</b> ha sido revisado y " + this.funcion + ".</br>Para ver más detalles dar click en <a href =\"www.prueba.com/ControlCambio/Corregir/" + this.id_cc + "\">" + this.clave_cc + "</a>.";
+            }
+            else
+            {
+                mensaje = "El control de cambio ha sido revisado.&El control de cambio con la clave anterior y con fecha de ejecución de&requiere de su corrección por las siguientes observaciones:";
+            }
+            return mensaje;
+        }
         public string getSubject(int numero)
         {
             return this.subject[numero];
@@ -143,6 +181,9 @@ namespace SistemaCC.Controllers.Clases
                     break;
                 case 8:
                     retornar = generateNoAut();
+                    break;
+                case 9:
+                    retornar = generateNCorreccion();
                     break;
             }
             return retornar;

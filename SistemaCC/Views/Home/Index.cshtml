@@ -40,6 +40,7 @@
                     <thead class="thead-info">
                         <tr>
                             <th>Clave</th>
+                            <th>Titulo</th>
                             <th>Fecha-Ejecución</th>
                             <th>Estado</th>
                             <th></th>
@@ -52,6 +53,7 @@
                         {
                         <tr>
                             <td>@ViewBag.Claves_ccc[ViewBag.Creados_CC.IndexOf(cc)]</td>
+                            <td>@cc.Titulo</td>
                             <td>@cc.FechaEjecucion.ToString().Substring(0, 10)</td>
                             <td>@cc.Estado</td>
                             @if (cc.Estado == "EnEvaluacion")
@@ -59,19 +61,23 @@
                                 <td class="link texto">
                                     -
                                 </td>
+                                <td class="link">
+                                    <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
+                                </td>
+                                <td class="link">-</td>
                             }
                             else
                             {
                                 <td class="link texto">
                                     @Html.ActionLink("Enviar a revisar", "cambiarEstado", new { id = cc.Id_CC })
                                 </td>
+                                <td class="link">
+                                    <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
+                                </td>
+                                <td class="link">
+                                    <a href="~/ControlCambio/Editar/@cc.Id_CC"><span class="icon-edit"></span></a>
+                                </td>
                             }
-                            <td class="link">
-                                <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
-                            </td>
-                            <td class="link">
-                                <a href="~/ControlCambio/Editar/@cc.Id_CC"><span class="icon-edit"></span></a>
-                            </td>
                         </tr>
                         }
                     </tbody>
@@ -94,6 +100,7 @@
                     <thead class="thead-info">
                         <tr>
                             <th>Clave</th>
+                            <th>Titulo</th>
                             <th>Fecha-Ejecución</th>
                             <th>Estado</th>
                             <th></th>
@@ -106,6 +113,7 @@
                         {
                         <tr>
                             <td>@ViewBag.Claves_rcc[ViewBag.Revisados_CC.IndexOf(cc)]</td>
+                            <td>@cc.Titulo</td>
                             <td>@cc.FechaEjecucion.ToString().Substring(0, 10)</td>
                             <td>@cc.Estado</td>
                             @if (cc.Estado == "Aprobado")
@@ -155,6 +163,7 @@
                     <thead class="thead-info">
                         <tr>
                             <th>Clave</th>
+                            <th>Titulo</th>
                             <th>Fecha-Ejecución</th>
                             <th>Estado</th>
                             <th></th>
@@ -165,6 +174,7 @@
                         {
                             <tr>
                                 <td>@ViewBag.Claves_pacc[ViewBag.ParaAut_CC.IndexOf(cc)]</td>
+                                <td>@cc.Titulo</td>
                                 <td>@cc.FechaEjecucion.ToString().Substring(0, 10)</td>
                                 <td>@cc.Estado</td>
                                 <td class="link">
@@ -192,6 +202,7 @@
                     <thead class="thead-info">
                         <tr>
                             <th scope="col">Clave</th>
+                            <th scope="col">Titulo</th>
                             <th scope="col">Creador</th>
                             <th scope="col">Estado</th>
                             <th scope="col"></th>
@@ -204,6 +215,7 @@
                         {
                             <tr>
                                 <td>@ViewBag.Claves_ecc[ViewBag.Ejecucion_CC.IndexOf(cc)]</td>
+                                <td>@cc.Titulo</td>
                                 <td>
                                     @cc.Usuario.Nombre @cc.Usuario.ApePaterno @cc.Usuario.ApeMaterno
                                 </td>
@@ -239,6 +251,7 @@
                     <thead class="thead-info">
                         <tr>
                             <th scope="col">Clave</th>
+                            <th scope="col">Titulo</th>
                             <th scope="col">Creador</th>
                             <th scope="col"></th>
                             <th scope="col"></th>
@@ -249,6 +262,7 @@
                         {
                             <tr>
                                 <td>@ViewBag.Claves_enrcc[ViewBag.Revision_CC.IndexOf(cc)]</td>
+                                <td>@cc.Titulo</td>
                                 <td>@cc.Usuario.Nombre @cc.Usuario.ApePaterno</td>
                                 <td class="link texto">
                                     <a href="~/ControlCambio/Revisar/@cc.Id_CC">Revisar</a>

@@ -2095,6 +2095,8 @@ namespace SistemaCC.Models
 		
 		private bool _Activa;
 		
+		private string _Tipo;
+		
 		private EntityRef<ControlCambio> _ControlCambio;
 		
 		private EntityRef<Usuario> _Usuario;
@@ -2115,6 +2117,8 @@ namespace SistemaCC.Models
     partial void Onfk_CCChanged();
     partial void OnActivaChanging(bool value);
     partial void OnActivaChanged();
+    partial void OnTipoChanging(string value);
+    partial void OnTipoChanged();
     #endregion
 		
 		public Notificaciones()
@@ -2248,6 +2252,26 @@ namespace SistemaCC.Models
 					this._Activa = value;
 					this.SendPropertyChanged("Activa");
 					this.OnActivaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tipo", DbType="VarChar(15) NOT NULL", CanBeNull=false)]
+		public string Tipo
+		{
+			get
+			{
+				return this._Tipo;
+			}
+			set
+			{
+				if ((this._Tipo != value))
+				{
+					this.OnTipoChanging(value);
+					this.SendPropertyChanging();
+					this._Tipo = value;
+					this.SendPropertyChanged("Tipo");
+					this.OnTipoChanged();
 				}
 			}
 		}
