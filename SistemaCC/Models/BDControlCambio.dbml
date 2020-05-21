@@ -89,7 +89,7 @@
   <Table Name="dbo.Notificaciones" Member="Notificaciones">
     <Type Name="Notificaciones">
       <Column Name="Id_No" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Contenido" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="Contenido" Type="System.String" DbType="VarChar(300)" CanBeNull="true" />
       <Column Name="FechaEnvio" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="fk_U" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="fk_CC" Type="System.Int32" DbType="Int" CanBeNull="true" />

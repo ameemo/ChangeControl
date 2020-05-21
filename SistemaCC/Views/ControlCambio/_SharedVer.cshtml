@@ -410,6 +410,57 @@
             </div>
         </div>
     </div>
+    @if (ViewBag.Informacion.Estado == "PausadoT" || ViewBag.Informacion.Estado == "Terminado")
+    {
+        <div class="card">
+            <div class="card-header" id="Titulo1">
+                <h2 class="mb-0">
+                    <button class="btn btn-collapse" type="button" data-toggle="collapse" data-target="#Section5" aria-expanded="true" aria-controls="Section1">
+                        Cierre
+                    </button>
+                </h2>
+            </div>
+            <div id="Section5" class="collapse show" aria-labelledby="Titulo5" data-parent="#accordionFormulario">
+                <div id="max_fila" class="card-body">
+                    <div class="campos campos_dos_kai">
+                        <div class="campos_ultimos">
+                            <label>Conclusión:</label>
+                        </div>
+                        <div class="campos_ultimos">
+                            <label>El control de cambio fue:</label>
+                        </div>
+                    </div>
+                    <div class="campos campos_dos_kai">
+                        <div class="campos_ultimos campo-ver">
+                             @ViewBag.Informacion.Conclusion
+                        </div>
+                        <div class="campos_ultimos text-center">
+                            @if (ViewBag.Informacion.Exito)
+                            {
+                                <span class="icon-check-square text-success"></span><p>Exitoso</p>
+                            }
+                            else
+                            {
+                                <span class="icon-x-square text-success"></span><p>Fallido</p>
+                            }
+                        </div>
+                    </div>
+                    <div class="campos campos_dos">
+                        <div class="campos campos_dos_kai">
+                            <div class="campos_ultimos numeracion">
+                                DE1
+                            </div>
+                            <div class="campos_ultimos pt-2">
+                                <a class="fancybox2 fancybox.iframe" href="~/Archivos/CC_@ViewBag.Evidencia[0].fk_CC/Adjuntos/@ViewBag.Evidencia[0].DocPath">
+                                    @ViewBag.Evidencia[0].DocPath
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
     <div class="campos campos_tres mt-3">
         <div class="campos_ultimos"></div>
         <div class="campos_submit">

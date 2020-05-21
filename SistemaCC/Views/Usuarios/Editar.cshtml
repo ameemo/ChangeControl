@@ -71,18 +71,9 @@
                     }
                 }
         </div>
-        @if(ViewBag.Roles.Count > 0)
-        {
-        <div id="warning" class="alert alert-warning mensaje" style="display: none" role="alert">
-            @ViewData["MA"]
-        </div>
-        }
-        else
-        {
         <div id="warning" class="alert alert-warning mensaje" role="alert">
             @ViewData["MA"]
         </div>
-        }
         <div class="campos campos_dos">
             <div class="campos campos_dos">
                 <div class="campos_ultimos"></div>
@@ -110,6 +101,7 @@
             for (var i = 0; i < check2.length; i++) {
                 check2[i].addEventListener("change", setNombreActual, false)
             }
+            showWarning();
             $(".fancybox").fancybox({
                 prevEffect: 'none',
                 nextEffect: 'none',

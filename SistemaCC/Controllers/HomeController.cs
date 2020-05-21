@@ -61,14 +61,14 @@ namespace SistemaCC.Controllers
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.office365.com", 587);
             mail.To.Add(to);
-            //mail.From = new MailAddress("tt2019a071_notificaciones@hotmail.com");
-            mail.From = new MailAddress("ame_rainbow@hotmail.com");
+            mail.From = new MailAddress("tt2019a071_notificaciones@hotmail.com");
+            //mail.From = new MailAddress("ame_rainbow@hotmail.com");
             mail.Subject = subject;
             mail.IsBodyHtml = true;
             mail.Body = body;
             SmtpServer.EnableSsl = true;
-            //SmtpServer.Credentials = new System.Net.NetworkCredential("tt2019a071_notificaciones@hotmail.com", "tt-2019-a071");
-            SmtpServer.Credentials = new System.Net.NetworkCredential("ame_rainbow@hotmail.com", "fuLLbuster4");
+            SmtpServer.Credentials = new System.Net.NetworkCredential("tt2019a071_notificaciones@hotmail.com", "tt-2019-a071");
+            //SmtpServer.Credentials = new System.Net.NetworkCredential("ame_rainbow@hotmail.com", "fuLLbuster4");
             try
             {
                 SmtpServer.Send(mail);
@@ -76,6 +76,34 @@ namespace SistemaCC.Controllers
             catch (Exception ex)
             {
                 error = 7;
+            }
+            return error;
+        }
+        public int generarNotificacionRev(ControlCambio control)
+        {
+            int error = 0;
+            try
+            {
+                Usuario admin = (from ur in BD.UsuarioRol where ur.fk_Rol == 2 select ur.Usuario).SingleOrDefault();
+                Notificacion noti = new Notificacion(control.Id_CC, 0);
+                noti.clave_cc = generarClave(control);
+                noti.fecha_ejecucion_cc = control.FechaEjecucion.ToString().Substring(0, 10);
+                Notificaciones not = new Notificaciones();
+                not.fk_U = admin.Id_U;
+                not.fk_CC = control.Id_CC;
+                not.Activa = true;
+                not.FechaEnvio = DateTime.Now;
+                not.Tipo = "Revision";
+                not.Contenido = noti.generate(5);
+                BD.Notificaciones.InsertOnSubmit(not);
+                BD.SubmitChanges();
+                // enviar correo al admin
+                noti.email = true;
+                Email(admin.Email, noti.getSubject(5), noti.generate(5));
+            }
+            catch(Exception e)
+            {
+                error = 1;
             }
             return error;
         }
@@ -214,22 +242,21 @@ namespace SistemaCC.Controllers
                 control.Estado = "EnEvaluacion";
                 BD.SubmitChanges();
                 // Generar notificación de revisión
-                Usuario admin = (from ur in BD.UsuarioRol where ur.fk_Rol == 2 select ur.Usuario).SingleOrDefault();
-                Notificacion noti = new Notificacion(id, 0);
-                noti.clave_cc = generarClave(control);
-                noti.fecha_ejecucion_cc = control.FechaEjecucion.ToString().Substring(0, 10);
-                Notificaciones not = new Notificaciones();
-                not.fk_U = admin.Id_U;
-                not.fk_CC = id;
-                not.Activa = true;
-                not.FechaEnvio = DateTime.Now;
-                not.Tipo = "Revision";
-                not.Contenido = noti.generate(5);
-                BD.Notificaciones.InsertOnSubmit(not);
-                BD.SubmitChanges();
-                // enviar correo al admin
-                noti.email = true;
-                Email(admin.Email, noti.getSubject(5), noti.generate(5));
+                error = generarNotificacionRev(control);
+                if (error == 0)
+                {
+                    return RedirectToAction("./../Home/Index", new
+                    {
+                        mensaje = "C16"
+                    });
+                }
+                else
+                {
+                    return RedirectToAction("./../Home/Index", new
+                    {
+                        mensaje = "E" + error
+                    });
+                }
 
             }
             if(control.Estado == "Aprobado")
@@ -247,18 +274,35 @@ namespace SistemaCC.Controllers
                         BD.SubmitChanges();
                     }
                 }
-            }
-            if(error == 0)
-            {
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                return RedirectToAction("./../Home/Index", new
+                if (error == 0)
                 {
-                    mensaje = "E" + error
-                }) ;
+                    if(control.FechaEjecucion == DateTime.Now && control.Tipo != "Emergente")
+                    { 
+                        return RedirectToAction("./../Home/Index", new
+                        {
+                            mensaje = "E21"
+                        });
+                    }
+                    else
+                    {
+                        return RedirectToAction("./../Home/Index", new
+                        {
+                            mensaje = "C15"
+                        });
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("./../Home/Index", new
+                    {
+                        mensaje = "E" + error
+                    });
+                }
             }
+            return RedirectToAction("./../Home/Index", new
+            {
+                mensaje = "E1"
+            });
         }
     }
 }

@@ -520,13 +520,13 @@ function revisarSubmit(tipo) {
     var submit = document.getElementById("submit")
     var me1 = document.getElementById("ME1")
     var me2 = document.getElementById("ME2")
-    var validacion1 = true;
+    var validacion1 = false;
     var validacion2 = true;
     if (tipo == "corregir") {
         var textareas = document.getElementsByClassName("contador")
         for (var i = 0; i < textareas.length; i++) {
-            if (!$(textareas[i]).val().length > 0) {
-                validacion1 = false
+            if ($(textareas[i]).val().length > 0) {
+                validacion1 = true
                 break
             }
         }
@@ -540,7 +540,7 @@ function revisarSubmit(tipo) {
             }
         }
     }
-    if (validacion1 && validacion2) {
+    if (!validacion1 && validacion2) {
         submit.setAttribute("name", tipo)
         $(submit).trigger('click')
     }

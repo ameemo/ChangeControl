@@ -379,7 +379,7 @@ namespace SistemaCC.Controllers
                     notificacion.email = true;
                     General.Email(dueno.Email, notificacion.getSubject(8), notificacion.generate(8));
                     // Cambio de estado
-                    cc.Estado = "Creado";
+                    cc.Estado = cc.Estado == "PausadoE" ? "Creado" : "EnEjecucion";
                 }
             }
             catch(Exception e) 
@@ -403,6 +403,7 @@ namespace SistemaCC.Controllers
             var documentos = (from d in BD.Documentos where d.fk_CC == id && d.TipoDoc == "Adjunto" select d);
             List<Documentos> Documentos_imagenes = new List<Documentos>();
             List<Documentos> Documentos_pdf = new List<Documentos>();
+            Documentos evidencia = new Documentos();
             foreach(var doc in documentos)
             {
                 var nombre_ = doc.DocPath.Split(new char[] { '\\' });
@@ -411,6 +412,7 @@ namespace SistemaCC.Controllers
                 if (nombre.Contains(".pdf"))
                 {
                     Documentos_pdf.Add(doc);
+                    if (doc.TipoDoc == "Evidencia") { evidencia = doc; }
                 }
                 else
                 {
@@ -419,6 +421,7 @@ namespace SistemaCC.Controllers
             }
             ViewBag.Documentos_imagenes = Documentos_imagenes;
             ViewBag.Documentos_pdf = Documentos_pdf;
+            ViewBag.Evidencia = evidencia;
             return View();
         }
 
@@ -607,7 +610,9 @@ namespace SistemaCC.Controllers
                 eliminar_adjuntos(collection["doc_img_eliminado"]);
                 eliminar_adjuntos(collection["doc_doc_eliminado"]);
                 // Desactivar notificacion de correccion si la hay
-                Notificaciones not = (from n in BD.Notificaciones where n.fk_CC == id && n.fk_U == modelo.Usuario.Id_U && n.Tipo == "Correccion" select n).SingleOrDefault();
+                Notificaciones not = (from n in BD.Notificaciones where n.fk_CC == id && n.fk_U == control.Usuario.Id_U && n.Tipo == "Correccion" && n.Activa == true select n).SingleOrDefault();
+                // crear notificacion para revision
+                General.generarNotificacionRev(control);
                 if(not != null)
                 {
                     not.Activa = false;
@@ -685,6 +690,7 @@ namespace SistemaCC.Controllers
             var documentos = (from d in BD.Documentos where d.fk_CC == id && d.TipoDoc == "Adjunto" select d);
             List<Documentos> Documentos_imagenes = new List<Documentos>();
             List<Documentos> Documentos_pdf = new List<Documentos>();
+            Documentos evidencia = new Documentos();
             foreach (var doc in documentos)
             {
                 var nombre_ = doc.DocPath.Split(new char[] { '\\' });
@@ -693,6 +699,7 @@ namespace SistemaCC.Controllers
                 if (nombre.Contains(".pdf"))
                 {
                     Documentos_pdf.Add(doc);
+                    if (doc.TipoDoc == "Evidencia") { evidencia = doc; }
                 }
                 else
                 {
@@ -701,6 +708,7 @@ namespace SistemaCC.Controllers
             }
             ViewBag.Documentos_imagenes = Documentos_imagenes;
             ViewBag.Documentos_pdf = Documentos_pdf;
+            ViewBag.Evidencia = evidencia;
             // Mensajes de error
             ViewData["ME1"] = Mensaje.getMError(15);
             ViewData["ME2"] = Mensaje.getMError(16);
@@ -794,6 +802,10 @@ namespace SistemaCC.Controllers
                     noti.email = true;
                     General.Email(controlcambio.Usuario.Email, noti.getSubject(9), noti.generate(9));
                 }
+                // se desactiva notificacion de revision
+                Notificaciones notificaciones = (from n in BD.Notificaciones where n.fk_CC == id && n.Tipo == "Revision" && n.Activa == true select n).SingleOrDefault();
+                notificaciones.Activa = false;
+                BD.SubmitChanges();
                 return RedirectToAction("./../Home/Index", new
                 {
                     mensaje = "C10"
@@ -985,10 +997,19 @@ namespace SistemaCC.Controllers
                     {
                         try
                         {
-                            Autorizaciones aut = (from a in BD.Autorizaciones where a.fk_CC == id && a.fk_U == Sesion && a.Tipo == "Ejecutar" select a).SingleOrDefault();
+                            ControlCambio cc = (from control in BD.ControlCambio where control.Id_CC == id select control).SingleOrDefault();
+                            Autorizaciones aut = new Autorizaciones();
+                            if(cc.Estado == "PausadoE")
+                            {
+                                aut = (from a in BD.Autorizaciones where a.fk_CC == id && a.fk_U == Sesion && a.Tipo == "Ejecutar" select a).SingleOrDefault();
+                            }
+                            else
+                            {
+                                aut = (from a in BD.Autorizaciones where a.fk_CC == id && a.fk_U == Sesion && a.Tipo == "Termino" select a).SingleOrDefault();
+                            }
                             aut.Autorizado = collection["autorizacion"] != null;
                             aut.Motivo = collection["motivo"];
-                            aut.Fecha = DateTime.Today;
+                            aut.Fecha = DateTime.Now;
                             BD.SubmitChanges();
                             // Si autoriza el S Admin
                             if(aut.Autorizado)
@@ -998,15 +1019,14 @@ namespace SistemaCC.Controllers
                                 {
                                     if (rol.fk_Rol == 2)
                                     {
-                                        ControlCambio cc = aut.ControlCambio;
                                         // Cambio de estado
                                         if (cc.Estado == "PausadoT" || cc.Estado == "PausadoE")
                                         {
                                             cc.Estado = cc.Estado == "PausadoE" ? "Autorizado" : "Terminado";
                                         }
                                         // Desactivar notificacion
-                                        Notificaciones noti = (from n in BD.Notificaciones where n.fk_CC == id && n.fk_U == Sesion && n.Activa == true && (n.Tipo == "Autorizar" || n.Tipo == "Terminado") select n).SingleOrDefault();
-                                        noti.Activa = false;
+                                        Notificaciones not = (from n in BD.Notificaciones where n.fk_CC == id && n.fk_U == Sesion && n.Activa == true && (n.Tipo == "Autorizar" || n.Tipo == "Terminado") select n).SingleOrDefault();
+                                        not.Activa = false;
                                         BD.SubmitChanges();
                                         return RedirectToAction("./../Home/Index", new
                                         {
@@ -1016,8 +1036,8 @@ namespace SistemaCC.Controllers
                                 }
                             }
                             // Desactivar notificacion
-                            Notificaciones not = (from n in BD.Notificaciones where n.fk_CC == id && n.fk_U == Sesion && n.Activa == true select n).SingleOrDefault();
-                            not.Activa = false;
+                            Notificaciones noti = (from n in BD.Notificaciones where n.fk_CC == id && n.fk_U == Sesion && n.Activa == true && (n.Tipo == "Autorizar" || n.Tipo == "Terminado") select n).SingleOrDefault();
+                            noti.Activa = false;
                             BD.SubmitChanges();
                             // Funcion para saber si ya se cumplieron las autorizaciones
                             revisarAut(aut.ControlCambio);
@@ -1066,7 +1086,10 @@ namespace SistemaCC.Controllers
                 Notificaciones consulta = (from n in BD.Notificaciones where n.Id_No == id select n).SingleOrDefault();
                 ControlCambio cc = (from control in BD.ControlCambio where control.Id_CC == consulta.fk_CC select control).SingleOrDefault();
                 model = consulta;
+                List<Autorizaciones> aut = new List<Autorizaciones>();
+                aut = (from m in BD.Autorizaciones where m.fk_CC == cc.Id_CC && m.Autorizado == false select m).ToList();
                 ViewBag.Contenido = consulta.Contenido.Split(new string[] { "&" }, StringSplitOptions.RemoveEmptyEntries);
+                ViewBag.Motivos = aut;
                 ViewData["Clave"] = General.generarClave(cc);
             }
             catch(Exception e)
@@ -1131,8 +1154,20 @@ namespace SistemaCC.Controllers
             ViewBag.Dias = dias;
             return View();
         }
-        public ActionResult Autorizaciones()
+        public ActionResult Autorizaciones(int id)
         {
+            ControlCambio control = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
+            List<Autorizaciones> aut = new List<Autorizaciones>();
+            if(control.Estado == "PausadoE")
+            {
+                aut = (from a in BD.Autorizaciones where a.fk_CC == id && a.Tipo == "Autorizado" select a).ToList();
+            }
+            else
+            {
+                aut = (from a in BD.Autorizaciones where a.fk_CC == id && a.Tipo == "Termino" select a).ToList();
+            }
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_CC == id && n.Activa == true select n).ToList();
+            ViewBag.Autorizaciones = aut;
             return View();
         }
     }

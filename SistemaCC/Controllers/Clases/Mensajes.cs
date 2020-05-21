@@ -26,13 +26,15 @@ namespace SistemaCC.Controllers
                                           "Autorización exitosa.",
                                           "Asignación de cantidad exitosa.",
                                           "Usuario modificado de manera exitosa.",
-                                          "Servicio o aplicación modificado de manera exitosa."
+                                          "Servicio o aplicación modificado de manera exitosa.",
+                                       /*15*/   "Control de cambio enviado para autorizar.",
+                                       "Control de cambio enviado a revisar."
                                         };
             MAdvertencia = new string[] {"",
                                          "El archivo puede contener errores si no es compatible o no se cuentan con los permisos asignados por el administrador.",
                                          "Los usuarios sin rol asignado son considerados sólo como AVISO y no pueden acceder al sistema.",
                                          "Se ha enviado el código, para verificar la autorización, al correo ligado a la sesión.",
-                                         "La cantidad es la misma a la regla actual, por lo que no se creó ninguna regla nueva."
+                                     /*4*/    "La cantidad es la misma a la regla actual, por lo que no se creó ninguna regla nueva."
                                         };
             MError = new string[] {"",
                                    "No se puede acceder a los datos, contacte al administrador.",
@@ -54,7 +56,8 @@ namespace SistemaCC.Controllers
                                    "Los codigos no coinciden.",
                                    "Ya se había autorizado el control de cambio.",
                                    "El usuario fue creado, pero sólo puede haber UN SUPER ADMINISTRADOR.",
-                                   "El usuario fue creado, pero sólo puede haber UN ADMINISTRADOR."
+                                   "El usuario fue creado, pero sólo puede haber UN ADMINISTRADOR.",
+                                /*21*/   "El control de cambio no puede ser enviado a autorizar el mismo día de su ejecución. Sólo se le permite esto a un control de cambio tipo Emergente."
                                    };
         }
         public string getMConfirmacion(int numero)

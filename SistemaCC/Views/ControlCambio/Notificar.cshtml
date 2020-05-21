@@ -1,4 +1,5 @@
 ﻿@model  SistemaCC.Models.Notificaciones
+@using SistemaCC.Models
 @{
     ViewData["Title"] = "Notificar";
     Layout = "./../Shared/_LayoutVacio.cshtml";
@@ -23,17 +24,45 @@ else
         @ViewBag.Contenido[0]<br />
         @ViewBag.Contenido[1] <span class="bold">@Model.ControlCambio.FechaEjecucion.ToString().Substring(0, 10)</span> @ViewBag.Contenido[2]
     </div>
-    @if (Model.Tipo == "NoAutorizado")
+    switch (Model.Tipo)
     {
-        <div class="notificacion-link text-center">
-            @Html.ActionLink("Ir al control de cambio", "Editar", new { id = Model.fk_CC })
-        </div>
+        case "NoAutorizado":
+            <div class="notificacion-link text-center">
+                @Html.ActionLink("Ir al control de cambio", "Editar", new { id = Model.fk_CC })
+            </div>
+            <div class="campos campos_dos text-center">
+                <div class="campos campos_dos">
+                    <div class="campos_ultimos">
+                        <label>Usuario</label>
+                    </div>
+                    <div class="campos_ultimos">
+                        <label>Motivo</label>
+                    </div>
+                </div>
+            </div>
+            foreach (var aut in ViewBag.Motivos as IEnumerable<Autorizaciones>)
+            {
+                <div class="campos campos_dos">
+                    <div class="campos campos_dos">
+                        <div class="campos_ultimos">
+                            <label>@aut.Usuario.Nombre @aut.Usuario.ApePaterno</label>
+                        </div>
+                        <div class="campos_ultimos">
+                            <label>@aut.Motivo</label>
+                        </div>
+                    </div>
+                </div>
+            }
+            break;
+        case "Autorizar":
+            <div class="notificacion-link text-center">
+                @Html.ActionLink("Ir al control de cambio", "Autorizar", new { id = Model.fk_CC, tipo = "Ejecucion" })
+            </div>
+            break;
+        case "Correccion":
+            <div class="notificacion-link text-center">
+                @Html.ActionLink("Ir al control de cambio", "Corregir", new { id = Model.fk_CC })
+            </div>
+            break;
     }
-    else
-    {
-        <div class="notificacion-link text-center">
-            @Html.ActionLink("Ir al control de cambio", "Autorizar", new { id = Model.fk_CC, tipo = "Ejecucion" })
-        </div>
-    }
-
 }

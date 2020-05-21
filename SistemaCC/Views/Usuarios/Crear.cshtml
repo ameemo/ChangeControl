@@ -33,7 +33,7 @@
             <label>Email:</label>
         </div>
         <div class="campos_ultimos">
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", placeholder = "nombre.apellido@eutelsat.com.mx", pattern = ".+@[g][m][a][i][l][.][c][o][m]", title = "El dominio admintido es: @eutelsat.com", required = "required" } })
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", placeholder = "nombre.apellido@eutelsat.com.mx", required = "required" } })
             @*@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", placeholder = "nombre.apellido@eutelsat.com.mx", pattern = ".+@[e][u][t][e][l][s][a][t][.][c][o][m]", title = "El dominio admitido es: @eutelsat.com", required = "required" } })*@
             <span class="text-danger">@ViewData["ME1"]</span>
         </div>

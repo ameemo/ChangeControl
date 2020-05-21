@@ -12,15 +12,21 @@ namespace SistemaCC.Controllers.Clases
         public string fecha_emision, clave_cc, fecha_ejecucion_cc, funcion;
         public Boolean email;
         public List<Autorizaciones> motivos;
+        public string emailAdmin;
+        public string contrasena;
         private string codigo;
+        private string dominio;
         private string[] subject;
-        public Notificacion(int id_cc, int funcion)
+        public Notificacion(int id_cc = 0, int funcion = 0)
         {
             this.id_cc = id_cc;
             this.fecha_emision = "";
             this.clave_cc = "";
             this.fecha_ejecucion_cc = "";
             this.email = false;
+            this.emailAdmin = "";
+            this.contrasena = "";
+            this.dominio = "https://www.quack.com/";
             //Inicia subject (asunto)
             this.subject = new string[] { "",
                 "Autorización para ejecutar el control de cambio.",
@@ -31,7 +37,8 @@ namespace SistemaCC.Controllers.Clases
                 "",
                 "",
                 "Control de cambio NO autorizado.",
-                "Control de cambio revisado."
+                "Control de cambio revisado.",
+                "Creacion de cuenta."
             };
             // Saber la funcion que cumple o algun estado
             switch(funcion)
@@ -62,7 +69,7 @@ namespace SistemaCC.Controllers.Clases
             string mensaje = "";
             if(this.email)
             {
-                mensaje = "El control de cambio con la clave: <b>" + this.clave_cc + "</b> y con fecha de ejecución de <b>" + this.fecha_ejecucion_cc + "</b> requiere de su autorización, ya que " + this.funcion + ".</br>Para ello dar click en <a href =\"www.prueba.com/ControlCambio/Ver/" + this.id_cc + "\">" + this.clave_cc + "</a>.";
+                mensaje = "El control de cambio con la clave: <b>" + this.clave_cc + "</b> y con fecha de ejecución de <b>" + this.fecha_ejecucion_cc + "</b> requiere de su autorización, ya que " + this.funcion + ".</br>Para ello dar click en <a href =\"" + this.dominio + "ControlCambio/Ver/" + this.id_cc + "\">" + this.clave_cc + "</a>.";
             }
             else
             {
@@ -70,9 +77,18 @@ namespace SistemaCC.Controllers.Clases
             }
             return mensaje; 
         }
-        private string generateNAut_termino() 
-        { 
-            return "";
+        private string generateNAut_termino()
+        {
+            string mensaje = "";
+            if (this.email)
+            {
+                mensaje = "El control de cambio con la clave: <b>" + this.clave_cc + "</b>, que fue ejecutado el <b>" + this.fecha_ejecucion_cc + "</b> requiere de su autorización para su termino.</br>Para ello dar click en <a href =\"" + this.dominio + "ControlCambio/Ver/" + this.id_cc + "\">" + this.clave_cc + "</a>.";
+            }
+            else
+            {
+                mensaje = "Para ejecutar.&El control de cambio con la clave anterior y con fecha de ejecución de&requiere de su autorización, ya que " + this.funcion + ".";
+            }
+            return mensaje;
         }
         private string generateNLim_tiempo() 
         {
@@ -87,7 +103,7 @@ namespace SistemaCC.Controllers.Clases
             string mensaje = "";
             if (this.email)
             {
-                mensaje = "El control de cambio con la clave: <b>" + this.clave_cc + "</b> y con fecha de ejecución de <b>" + this.fecha_ejecucion_cc + "</b> requiere de su revisión.</br>Para ello dar click en <a href =\"www.prueba.com/ControlCambio/Ver/" + this.id_cc + "\">" + this.clave_cc + "</a>.";
+                mensaje = "El control de cambio con la clave: <b>" + this.clave_cc + "</b> y con fecha de ejecución de <b>" + this.fecha_ejecucion_cc + "</b> requiere de su revisión.</br>Para ello dar click en <a href =\"" + this.dominio + "ControlCambio/Ver/" + this.id_cc + "\">" + this.clave_cc + "</a>.";
             }
             else
             {
@@ -109,7 +125,7 @@ namespace SistemaCC.Controllers.Clases
             string mensaje = "";
             if (email)
             {
-                mensaje = "Para ejecutar.<br/>El control de cambio con la clave <b>" + this.clave_cc + "</b> y fecha de ejecución de <b>" + this.fecha_ejecucion_cc + "</b> require su autorización para ser ejecutado.</br>Para ello dar click en <a href =\"www.prueba.com/ControlCambio/Ver/" + this.id_cc + "\">" + this.clave_cc + "</a>.";
+                mensaje = "Para ejecutar.<br/>El control de cambio con la clave <b>" + this.clave_cc + "</b> y fecha de ejecución de <b>" + this.fecha_ejecucion_cc + "</b> require su autorización para ser ejecutado.</br>Para ello dar click en <a href =\"" + this.dominio + "ControlCambio/Ver/" + this.id_cc + "\">" + this.clave_cc + "</a>.";
             }
             else
             {
@@ -128,7 +144,7 @@ namespace SistemaCC.Controllers.Clases
                     tabla += "<tr><td>" + a.Motivo + "</td><td>" + a.Usuario.Nombre + " " + a.Usuario.ApePaterno + "</td></tr>";
                 }
                 tabla += "</tbody></table>";
-                mensaje = "No autorizado.<br/>El control de cambio con la clave <b>" + this.clave_cc + "</b> y fecha de ejecución de <b>" + this.fecha_ejecucion_cc + "</b> no fue autorizado debido a los siguientes motivos:</br>" + tabla + "</br>Para revisar el control de cambio <a href =\"www.prueba.com/ControlCambio/Ver/" + this.id_cc + "\">" + this.clave_cc + "</a>.";
+                mensaje = "No autorizado.<br/>El control de cambio con la clave <b>" + this.clave_cc + "</b> y fecha de ejecución de <b>" + this.fecha_ejecucion_cc + "</b> no fue autorizado debido a los siguientes motivos:</br>" + tabla + "</br>Para revisar el control de cambio <a href =\"" + this.dominio + "ControlCambio/Ver/" + this.id_cc + "\">" + this.clave_cc + "</a>.";
             }
             else
             {
@@ -141,11 +157,20 @@ namespace SistemaCC.Controllers.Clases
             string mensaje = "";
             if (this.email)
             {
-                mensaje = "El control de cambio con la clave: <b>" + this.clave_cc + "</b> y con fecha de ejecución de <b>" + this.fecha_ejecucion_cc + "</b> ha sido revisado y " + this.funcion + ".</br>Para ver más detalles dar click en <a href =\"www.prueba.com/ControlCambio/Corregir/" + this.id_cc + "\">" + this.clave_cc + "</a>.";
+                mensaje = "El control de cambio con la clave: <b>" + this.clave_cc + "</b> y con fecha de ejecución de <b>" + this.fecha_ejecucion_cc + "</b> ha sido revisado y " + this.funcion + ".</br>Para ver más detalles dar click en <a href =\"" + this.dominio + "ControlCambio/Corregir/" + this.id_cc + "\">" + this.clave_cc + "</a>.";
             }
             else
             {
-                mensaje = "El control de cambio ha sido revisado.&El control de cambio con la clave anterior y con fecha de ejecución de&requiere de su corrección por las siguientes observaciones:";
+                mensaje = "El control de cambio ha sido revisado.&El control de cambio con la clave anterior y con fecha de ejecución de&ha sido revisado y " + this.funcion;
+            }
+            return mensaje;
+        }
+        private string generateNCreacionU()
+        {
+            string mensaje = "";
+            if(email)
+            {
+                mensaje = "Cuenta creada.<br/>Esta dirección de correo ha sido utilizada para la creación de una cuenta dentro del <b>SistemaCC</b>.<p style=\"text-align: center\"><b>Contraseña: </b>" + this.contrasena + "<br/>Para ingresar dar click en <a href =\"" + this.dominio + "\">SistemaCC</a>.<br/><i>Al iniciar sesión se le llevara al cambio de su contraseña, es importante que no olvide la contraseña que cree.</i></p><br/>Si usted no solicitó o no estaba enterado de esta operación, favor de comunicarse con el administrador del sistema: " + this.emailAdmin;
             }
             return mensaje;
         }
@@ -184,6 +209,9 @@ namespace SistemaCC.Controllers.Clases
                     break;
                 case 9:
                     retornar = generateNCorreccion();
+                    break;
+                case 10:
+                    retornar = generateNCreacionU();
                     break;
             }
             return retornar;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using SistemaCC.Controllers.Clases;
 using SistemaCC.Models;
 
 namespace SistemaCC.Controllers
@@ -120,7 +121,7 @@ namespace SistemaCC.Controllers
             try
             {
                 var correo = (from u in BD.Usuario where u.Email == modelo.Email select u).ToList();
-                if(correo.Count != 0)
+                if (correo.Count != 0)
                 {
                     // Notificaciones para navbar
                     List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
@@ -144,6 +145,12 @@ namespace SistemaCC.Controllers
                 BD.Usuario.InsertOnSubmit(usuario);
                 BD.SubmitChanges();
                 int res = anadir_roles(usuario.Id_U, collection["rol_input"]);
+                // Enviar correo para informa que fue creado en el sistema
+                Notificacion noti = new Notificacion();
+                noti.emailAdmin = (from ur in BD.UsuarioRol where ur.fk_Rol == 3 select ur.Usuario.Email).SingleOrDefault();
+                noti.contrasena = usuario.Contrasena;
+                noti.email = true;
+                General.Email(usuario.Email, noti.getSubject(10), noti.generate(10));
                 return RedirectToAction("Index", new { mensaje = res == 0 ? "C7" : "E" + res });
             }
             catch(Exception e)

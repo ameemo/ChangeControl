@@ -1,7 +1,59 @@
-﻿
+﻿@using SistemaCC.Models
 @{
     ViewBag.Title = "Autorizaciones";
+    Layout = "./../Shared/_LayoutVacio.cshtml";
 }
-
-<h2>Autorizaciones</h2>
-
+<div class="seccion-dark col-md-12">
+    <h1>Autorizaciones</h1>
+</div>
+<div class="campos campos_dos text-center">
+    <div class="campos campos_dos">
+        <div class="campos_ultimos">
+            <label>Usuario</label>
+        </div>
+        <div class="campos_ultimos">
+            <label>Autorización</label>
+        </div>
+    </div>
+    <div class="campos campos_dos">
+        <div class="campos_ultimos">
+            <label>¿Falta de realizar la operación?</label>
+        </div>
+        <div class="campos_ultimos"></div>
+    </div>
+</div>
+@foreach (var aut in ViewBag.Autorizaciones as IEnumerable<Autorizaciones>)
+{
+    <div class="campos campos_dos">
+        <div class="campos campos_dos">
+            <div class="campos_ultimos">
+                <label>@aut.Usuario.Nombre @aut.Usuario.ApePaterno</label>
+            </div>
+            <div class="campos_ultimos">
+                @if (aut.Autorizado)
+                {
+                    <span class="text-success icon-check-square"></span>
+                }
+                else
+                {
+                    <span class="text-danger icon-x-square"></span>
+                }
+            </div>
+        </div>
+        @foreach (var not in ViewBag.Notificaciones as IEnumerable<Notificaciones>)
+        {
+            <div class="campos campos_dos">
+                @if (aut.fk_U == not.fk_U)
+                {
+                    <div class="campos_ultimos">
+                        <label>Falta</label>
+                    </div>
+                }
+                else
+                {
+                <div class="campos_ultimos"></div>
+                }
+            </div>
+        }
+    </div>
+}

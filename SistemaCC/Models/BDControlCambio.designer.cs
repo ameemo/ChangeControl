@@ -2148,7 +2148,7 @@ namespace SistemaCC.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Contenido", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Contenido", DbType="VarChar(300)")]
 		public string Contenido
 		{
 			get
