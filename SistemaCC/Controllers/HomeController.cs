@@ -79,6 +79,41 @@ namespace SistemaCC.Controllers
             }
             return error;
         }
+        public int generarNotiicacionAutSA(Usuario super, ControlCambio cc, string tipo)
+        {
+            int error = 0;
+            try
+            {
+                Notificacion notificacion = new Notificacion(cc.Id_CC, 0);
+                notificacion.clave_cc = generarClave(cc);
+                notificacion.fecha_ejecucion_cc = cc.FechaEjecucion.ToString().Substring(0, 10);
+                // Creo la autorización para despues editarla
+                Autorizaciones autorizacion = new Autorizaciones();
+                autorizacion.fk_CC = cc.Id_CC;
+                autorizacion.fk_U = super.Id_U;
+                autorizacion.Tipo = tipo;
+                autorizacion.Fecha = DateTime.Now;
+                autorizacion.Autorizado = false;
+                BD.Autorizaciones.InsertOnSubmit(autorizacion);
+                BD.SubmitChanges();
+                Notificaciones not = new Notificaciones();
+                not.fk_CC = cc.Id_CC;
+                not.fk_U = super.Id_U;
+                not.FechaEnvio = DateTime.Today;
+                not.Contenido = notificacion.generate(7);
+                not.Activa = true;
+                not.Tipo = "Autorizar";
+                BD.Notificaciones.InsertOnSubmit(not);
+                BD.SubmitChanges();
+                notificacion.email = true;
+                Email(super.Email, notificacion.getSubject(1), notificacion.generate(7));
+            }
+            catch(Exception e)
+            {
+                error = 1;
+            }
+            return error;
+        }
         public int generarNotificacionRev(ControlCambio control)
         {
             int error = 0;

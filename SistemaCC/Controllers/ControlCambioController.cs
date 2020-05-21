@@ -332,38 +332,19 @@ namespace SistemaCC.Controllers
             List<Notificaciones> notificaciones = (from n in BD.Notificaciones where n.fk_CC == cc.Id_CC && n.Activa == true && n.Tipo == "Autorizar" select n).ToList();
             if(notificaciones.Count > 0) { return; }
             List<Autorizaciones> aut = (from a in BD.Autorizaciones where a.fk_CC == cc.Id_CC && a.Autorizado == false select a).ToList();
-            Notificacion notificacion = new Notificacion(cc.Id_CC,0);
-            notificacion.clave_cc = General.generarClave(cc);
-            notificacion.fecha_ejecucion_cc = cc.FechaEjecucion.ToString().Substring(0,10);
             try
             {
                 if (aut.Count == 0)
                 {
                     // Se envia la notificacion al Super Admin
                     Usuario super = (from ur in BD.UsuarioRol where ur.fk_Rol == 2 && ur.Usuario.Activo == true select ur.Usuario).SingleOrDefault();
-                    // Creo la autorización para despues editarla
-                    Autorizaciones autorizacion = new Autorizaciones();
-                    autorizacion.fk_CC = cc.Id_CC;
-                    autorizacion.fk_U = super.Id_U;
-                    autorizacion.Tipo = "Ejecutar";
-                    autorizacion.Fecha = DateTime.Now;
-                    autorizacion.Autorizado = false;
-                    BD.Autorizaciones.InsertOnSubmit(autorizacion);
-                    BD.SubmitChanges();
-                    Notificaciones not = new Notificaciones();
-                    not.fk_CC = cc.Id_CC;
-                    not.fk_U = super.Id_U;
-                    not.FechaEnvio = DateTime.Today;
-                    not.Contenido = notificacion.generate(7);
-                    not.Activa = true;
-                    not.Tipo = "Autorizar";
-                    BD.Notificaciones.InsertOnSubmit(not);
-                    BD.SubmitChanges();
-                    notificacion.email = true;
-                    General.Email(super.Email,notificacion.getSubject(1), notificacion.generate(7));
+                    General.generarNotiicacionAutSA(super, cc, "Ejecutar");
                 }
                 else
                 {
+                    Notificacion notificacion = new Notificacion(cc.Id_CC, 0);
+                    notificacion.clave_cc = General.generarClave(cc);
+                    notificacion.fecha_ejecucion_cc = cc.FechaEjecucion.ToString().Substring(0, 10);
                     // Se envia la notificacion al dueno del control
                     notificacion.motivos = (from a in BD.Autorizaciones where a.fk_CC == cc.Id_CC && a.Autorizado == false select a).ToList();
                     Usuario dueno = cc.Usuario;
@@ -1005,7 +986,7 @@ namespace SistemaCC.Controllers
                             }
                             else
                             {
-                                aut = (from a in BD.Autorizaciones where a.fk_CC == id && a.fk_U == Sesion && a.Tipo == "Termino" select a).SingleOrDefault();
+                                aut = (from a in BD.Autorizaciones where a.fk_CC == id && a.fk_U == Sesion && a.Tipo == "Termino" select a).SingleOrDefault();  
                             }
                             aut.Autorizado = collection["autorizacion"] != null;
                             aut.Motivo = collection["motivo"];
