@@ -2,13 +2,13 @@
     ViewData["Title"] = "Inicio";
 }
     <div class="row">
-        @if (ViewData["MC"] != "")
+        @if (ViewData["MC"].ToString() != "")
         {
             <div class="alert alert-success mensaje" role="alert">
                 @ViewData["MC"]
             </div>
         }
-        @if (ViewData["ME"] != "")
+        @if (ViewData["ME"].ToString() != "")
         {
             <div class="alert alert-danger mensaje" role="alert">
                 @ViewData["ME"]
@@ -173,18 +173,18 @@
                     <tbody>
                         @foreach (var cc in ViewBag.ParaAut_CC)
                         {
-                            <tr>
-                                <td>@ViewBag.Claves_pacc[ViewBag.ParaAut_CC.IndexOf(cc)]</td>
-                                <td>@cc.Titulo</td>
-                                <td>@cc.FechaEjecucion.ToString().Substring(0, 10)</td>
-                                <td>@cc.Estado</td>
-                                <td class="link">
-                                    <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
-                                </td>
-                                <td class="link">
-                                    <a class="fancybox fancybox.ajax" href="~/ControlCambio/Autorizaciones/@cc.Id_CC"><span class="icon-eye"></span></a>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>@ViewBag.Claves_pacc[ViewBag.ParaAut_CC.IndexOf(cc)]</td>
+                            <td>@cc.Titulo</td>
+                            <td>@cc.FechaEjecucion.ToString().Substring(0, 10)</td>
+                            <td>@cc.Estado</td>
+                            <td class="link texto">
+                                <a class="fancybox fancybox.ajax" href="~/ControlCambio/Autorizaciones/@cc.Id_CC">Ver Autorizaciones</a>
+                            </td>
+                            <td class="link">
+                                <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>

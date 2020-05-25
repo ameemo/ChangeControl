@@ -46,6 +46,7 @@
       <Column Name="Creador" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Conclusion" Type="System.String" DbType="VarChar(500) NOT NULL" CanBeNull="false" />
       <Column Name="Exito" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="FechaCierre" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="ControlCambio_ActividadesControl" Member="ActividadesControl" ThisKey="Id_CC" OtherKey="fk_CC" Type="ActividadesControl" />
       <Association Name="ControlCambio_Autorizaciones" Member="Autorizaciones" ThisKey="Id_CC" OtherKey="fk_CC" Type="Autorizaciones" />
       <Association Name="ControlCambio_ControlServicio" Member="ControlServicio" ThisKey="Id_CC" OtherKey="fk_CC" Type="ControlServicio" />

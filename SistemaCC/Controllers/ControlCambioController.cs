@@ -427,19 +427,31 @@ namespace SistemaCC.Controllers
         {
             try
             {
-                //PRIMERO: Insertar en la tabla control de cambio
+                //Insertar en la tabla control de cambio
                 ControlCambio controlCambio = new ControlCambio();
                 controlCambio.Titulo = model.Titulo;
                 controlCambio.FechaEjecucion = model.FechaEjecucion;
                 controlCambio.Introduccion = model.Introduccion;
                 controlCambio.Objetivos = model.Objetivos;
-                controlCambio.Tipo = model.Tipo;
-                controlCambio.Estado = "Creado";
                 controlCambio.Conclusion = "";
                 controlCambio.Exito = false;
                 controlCambio.Creador = Sesion;
-                BD.ControlCambio.InsertOnSubmit(controlCambio);
-                BD.SubmitChanges();
+                controlCambio.Tipo = model.Tipo;
+                //Validacion para un control tipo Emergente
+                if (model.Tipo == "Emergente")
+                {
+                    Usuario super = (from u in BD.UsuarioRol where u.fk_Rol == 2 select u.Usuario).SingleOrDefault();
+                    controlCambio.Estado = "PausadoE";
+                    BD.ControlCambio.InsertOnSubmit(controlCambio);
+                    BD.SubmitChanges();
+                    General.generarNotiicacionAutSA(super, controlCambio, "Ejecutar");
+                }
+                else
+                {
+                    controlCambio.Estado = "Creado";
+                    BD.ControlCambio.InsertOnSubmit(controlCambio);
+                    BD.SubmitChanges();
+                }
                 //Llamar anadir actividades
                 string[] act_prev = new string[4];
                 string[] act_cc = new string[4];
@@ -464,6 +476,11 @@ namespace SistemaCC.Controllers
                 servicios(controlCambio.Id_CC, servicios_);
                 //Llamar a adjuntos
                 anadir_adjuntos(controlCambio.Id_CC, adjuntos_, "Adjunto");
+                // Hacemos la validaciones de emergente de nuevo, por las act y servicos que se agregaron
+                if(controlCambio.Tipo == "Emergente")
+                {
+                    General.generarNotificacionesAut(controlCambio, 1, true); 
+                }
                 return RedirectToAction("./../Home/Index", new {
                     mensaje = "C8" });
                 }
@@ -630,6 +647,7 @@ namespace SistemaCC.Controllers
                 ControlCambio controlCambio = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
                 controlCambio.Estado = "PausadoT";
                 controlCambio.Conclusion = model.Conclusion;
+                controlCambio.FechaCierre = DateTime.Today;
                 if(collection["exito"] != null)
                 {
                     controlCambio.Exito = true;
@@ -638,6 +656,16 @@ namespace SistemaCC.Controllers
                 //Llamar a adjuntos
                 anadir_adjuntos(controlCambio.Id_CC, evidencia, "Evidencia");
                 BD.SubmitChanges();
+                // si el control fue emergente desactivar notificaciones
+                if(controlCambio.Tipo == "Emergente")
+                {
+                    List<Notificaciones> notis = (from n in BD.Notificaciones where n.fk_CC == id && n.Tipo == "Autorizar" select n).ToList();
+                    foreach(var n in notis)
+                    {
+                        n.Activa = false;
+                        BD.SubmitChanges();
+                    }
+                }
                 // generar notificaciones para autorizar el cierre
                 General.generarNotificacionesAut(model, 2);
                 return RedirectToAction("./../Home/Index", new
@@ -1141,15 +1169,31 @@ namespace SistemaCC.Controllers
             List<Autorizaciones> aut = new List<Autorizaciones>();
             if(control.Estado == "PausadoE")
             {
-                aut = (from a in BD.Autorizaciones where a.fk_CC == id && a.Tipo == "Autorizado" select a).ToList();
+                aut = (from a in BD.Autorizaciones where a.fk_CC == control.Id_CC && a.Tipo == "Autorizado" select a).ToList();
             }
             else
             {
-                aut = (from a in BD.Autorizaciones where a.fk_CC == id && a.Tipo == "Termino" select a).ToList();
+                aut = (from a in BD.Autorizaciones where a.fk_CC == control.Id_CC && a.Tipo == "Termino" select a).ToList();
             }
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_CC == id && n.Activa == true select n).ToList();
             ViewBag.Autorizaciones = aut;
             return View();
+        }
+        public ActionResult Repositorio()
+        {
+            try
+            {
+                ViewBag.datos = (from cc in BD.ControlCambio where cc.Estado == "Terminado" select cc).ToList();
+                ViewBag.claves = General.generarListaClave(ViewBag.datos);
+                return View();
+            }
+            catch(Exception e)
+            {
+                return RedirectToAction("./../Home/Index", new
+                {
+                    mensaje = "E1"
+                });
+            }
         }
     }
 }

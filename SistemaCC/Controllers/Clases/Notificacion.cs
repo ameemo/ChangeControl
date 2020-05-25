@@ -9,15 +9,18 @@ namespace SistemaCC.Controllers.Clases
     public class Notificacion
     {
         public int id_cc;
+        public int enEjecucion;
         public string fecha_emision, clave_cc, fecha_ejecucion_cc, funcion;
         public Boolean email;
+        public Boolean emergente;
         public List<Autorizaciones> motivos;
+        public List<Notificaciones> noAutorizo;
         public string emailAdmin;
         public string contrasena;
         private string codigo;
         private string dominio;
         private string[] subject;
-        public Notificacion(int id_cc = 0, int funcion = 0)
+        public Notificacion(int id_cc = 0, int funcion = 0, Boolean emergente = false)
         {
             this.id_cc = id_cc;
             this.fecha_emision = "";
@@ -29,7 +32,7 @@ namespace SistemaCC.Controllers.Clases
             this.dominio = "https://www.quack.com/";
             //Inicia subject (asunto)
             this.subject = new string[] { "",
-                "Autorización para ejecutar el control de cambio.",
+                "Autorización para ejecutar el control de cambio." + (emergente == true ? "EMERGENTE": ""),
                 "Autorización para termino del control de cambio.",
                 "Se ha excedido el tiempo de la autorización.",
                 "Se ha excedido la cantidad de controles de cambio en ejecución.",
@@ -38,7 +41,8 @@ namespace SistemaCC.Controllers.Clases
                 "",
                 "Control de cambio NO autorizado.",
                 "Control de cambio revisado.",
-                "Creacion de cuenta."
+                "Creacion de cuenta.",
+                "Control cambio EN EJECUCIÓN."
             };
             // Saber la funcion que cumple o algun estado
             switch(funcion)
@@ -69,7 +73,14 @@ namespace SistemaCC.Controllers.Clases
             string mensaje = "";
             if(this.email)
             {
-                mensaje = "El control de cambio con la clave: <b>" + this.clave_cc + "</b> y con fecha de ejecución de <b>" + this.fecha_ejecucion_cc + "</b> requiere de su autorización, ya que " + this.funcion + ".</br>Para ello dar click en <a href =\"" + this.dominio + "ControlCambio/Ver/" + this.id_cc + "\">" + this.clave_cc + "</a>.";
+                if(emergente)
+                {
+                    mensaje = "El control de cambio con la clave: <b>" + this.clave_cc + "</b> y con fecha de ejecución de <b>" + this.fecha_ejecucion_cc + "</b>, tipo <b>EMERGENTE</b>, requiere de su REVISION, ya que " + this.funcion + ".</br>Para ello dar click en <a href =\"" + this.dominio + "ControlCambio/Ver/" + this.id_cc + "\">" + this.clave_cc + "</a>.";
+                }
+                else
+                {
+                    mensaje = "El control de cambio con la clave: <b>" + this.clave_cc + "</b> y con fecha de ejecución de <b>" + this.fecha_ejecucion_cc + "</b> requiere de su autorización, ya que " + this.funcion + ".</br>Para ello dar click en <a href =\"" + this.dominio + "ControlCambio/Ver/" + this.id_cc + "\">" + this.clave_cc + "</a>.";
+                }
             }
             else
             {
@@ -90,13 +101,30 @@ namespace SistemaCC.Controllers.Clases
             }
             return mensaje;
         }
-        private string generateNLim_tiempo() 
+        private string generateNLim_tiempo()
         {
-            return "";
+            string mensaje = "";
+            if (this.email)
+            {
+                string tabla = "<table><thead><th>Clave</th><th>Usuario</th></thead><tbody>";
+                foreach (var a in noAutorizo as IEnumerable<Notificaciones>)
+                {
+                    HomeController general = new HomeController();
+                    tabla += "<tr><td>" + general.generarClave(a.ControlCambio) + "</td><td>" + a.Usuario.Nombre + " " + a.Usuario.ApePaterno + "</td></tr>";
+                }
+                tabla += "</tbody></table>";
+                mensaje = "Se enviado recordatorio para su autorización a los siguientes usuarios: <br/>" + tabla;
+            }
+            return mensaje;
         }
         private string generateNLim_controles() 
-        { 
-            return ""; 
+        {
+            string mensaje = "";
+            if(email)
+            {
+                mensaje += "Hoy <b>" + DateTime.Now.ToString().Substring(0, 10) + "</b> se contó el total de controles de cambio de cambio EN EJECUCION: <b>" + this.enEjecucion + "</b>, ha sobre pasado la regla de cantidad máxima.";
+            }
+            return mensaje; 
         }
         private string generateNRevision() 
         {
@@ -174,6 +202,15 @@ namespace SistemaCC.Controllers.Clases
             }
             return mensaje;
         }
+        private string generateNEnEjecucion()
+        {
+            string mensaje = "";
+            if(email)
+            {
+                mensaje += "En ejecución.<br/>El control cambios con la clave <b>" + this.clave_cc + "</b> ha cambiado de Autorizado a En Ejecución. Esté atento a las funciones que cumple dentro de este control.</br>Para saber sus funciones puede apoyarse en su calendario y/o ver más detalles en <a href =\"" + this.dominio + "ControlCambio/Ver/" + this.id_cc + "\">" + this.clave_cc + "</a>.";
+            }
+            return mensaje;
+        }
         public string getSubject(int numero)
         {
             return this.subject[numero];
@@ -190,10 +227,10 @@ namespace SistemaCC.Controllers.Clases
                     retornar = generateNAut_termino();
                     break;
                 case 3:
-                    retornar = generateNLim_controles();
+                    retornar = generateNLim_tiempo();
                     break;
                 case 4:
-                    retornar = generateNLim_tiempo();
+                    retornar = generateNLim_controles();
                     break;
                 case 5:
                     retornar = generateNRevision();
@@ -212,6 +249,9 @@ namespace SistemaCC.Controllers.Clases
                     break;
                 case 10:
                     retornar = generateNCreacionU();
+                    break;
+                case 11:
+                    retornar = generateNEnEjecucion();
                     break;
             }
             return retornar;

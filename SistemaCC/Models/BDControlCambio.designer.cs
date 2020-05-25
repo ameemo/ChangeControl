@@ -974,6 +974,8 @@ namespace SistemaCC.Models
 		
 		private bool _Exito;
 		
+		private System.Nullable<System.DateTime> _FechaCierre;
+		
 		private EntitySet<ActividadesControl> _ActividadesControl;
 		
 		private EntitySet<Autorizaciones> _Autorizaciones;
@@ -1014,6 +1016,8 @@ namespace SistemaCC.Models
     partial void OnConclusionChanged();
     partial void OnExitoChanging(bool value);
     partial void OnExitoChanged();
+    partial void OnFechaCierreChanging(System.Nullable<System.DateTime> value);
+    partial void OnFechaCierreChanged();
     #endregion
 		
 		public ControlCambio()
@@ -1229,6 +1233,26 @@ namespace SistemaCC.Models
 					this._Exito = value;
 					this.SendPropertyChanged("Exito");
 					this.OnExitoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FechaCierre", DbType="DateTime")]
+		public System.Nullable<System.DateTime> FechaCierre
+		{
+			get
+			{
+				return this._FechaCierre;
+			}
+			set
+			{
+				if ((this._FechaCierre != value))
+				{
+					this.OnFechaCierreChanging(value);
+					this.SendPropertyChanging();
+					this._FechaCierre = value;
+					this.SendPropertyChanged("FechaCierre");
+					this.OnFechaCierreChanged();
 				}
 			}
 		}

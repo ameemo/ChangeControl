@@ -441,6 +441,7 @@ function revisar_extension(id, tipo) {
 function revisarFechaMin(previa) {
     if (previa) {
         var fecha = new Date();
+        fecha.setDate(fecha.getDate() + 2)
         var mes = fecha.getMonth() < 9 ? '0' + (fecha.getMonth() + 1) : (fecha.getMonth() + 1)
         return fecha.getFullYear() + '-' + mes + '-' + fecha.getDate()
     } else {
@@ -464,6 +465,59 @@ function cambiarFechasAct() {
     }
     for (var act of actividadesE) {
         act.setAttribute('min', $('#FechaEjecucion').val())
+    }
+}
+function cambiarFechasE(att,fecha, remove) {
+    var actividades = document.getElementsByName('actividades_prev_fecha')
+    var actividades_cc = document.getElementsByName('actividades_cc_fecha')
+    var inicio = document.getElementsByName('servicio_inicio')
+    var final = document.getElementsByName('servicio_temino')
+    if (remove) {
+        for (var act of actividades) {
+            act.removeAttribute(att, fecha)
+        }
+        for (var act of actividades_cc) {
+            act.removeAttribute(att, fecha)
+        }
+        for (var s of inicio) {
+            s.removeAttribute(att, fecha)
+        }
+        for (var s of final) {
+            s.removeAttribute(att, fecha)
+        }
+    } else {
+        for (var act of actividades) {
+            act.setAttribute(att, fecha)
+        }
+        for (var act of actividades_cc) {
+            act.setAttribute(att, fecha)
+        }
+        for (var s of inicio) {
+            s.setAttribute(att, fecha)
+        }
+        for (var s of final) {
+            s.setAttribute(att, fecha)
+        }
+    }
+}
+function validarFechaEjecucion() {
+    var fecha = document.getElementById('FechaEjecucion')
+    var tipo = $('#tipo').val()
+    if ( tipo == "Emergente") {
+        var max = new Date()
+        var mes = max.getMonth() < 9 ? '0' + (max.getMonth() + 1) : (max.getMonth() + 1)
+        fecha.setAttribute('min', max.getFullYear() + '-' + mes + '-' + max.getDate())
+        cambiarFechasE('min',  max.getFullYear() + '-' + mes + '-' + max.getDate(), false)
+        max.setDate(max.getDate() + 1)
+        mes = max.getMonth() < 9 ? '0' + (max.getMonth() + 1) : (max.getMonth() + 1)
+        fecha.setAttribute('max', max.getFullYear() + '-' + mes + '-' + max.getDate())
+        cambiarFechasE('max',  max.getFullYear() + '-' + mes + '-' + max.getDate(), false)
+    }
+    else {
+        fecha.removeAttribute('max')
+        fecha.setAttribute('min', revisarFechaMin(true))
+        cambiarFechasE('min', revisarFechaMin(true), false)
+        cambiarFechasE('max', '', true)
     }
 }
 // funcion para mostrar la sección en la que el campo no está respondido

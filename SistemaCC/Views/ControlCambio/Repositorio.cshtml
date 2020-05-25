@@ -1,0 +1,84 @@
+﻿@using SistemaCC.Models
+@{
+    ViewBag.Title = "Repositorio";
+}
+<div class="col-md-12 seccion_contenedor">
+    <div class="seccion">
+        <h1>Repositorio</h1>
+    </div>
+    <div class="seccion_boton">
+        <a class="btn btn-success" href="~/Usuarios/Crear"><span class="icon-plus-square"></span> Crear</a>
+    </div>
+</div>
+@if (ViewBag.datos.Count > 0)
+{
+    <table id="datos" class="table table-hover">
+        <thead class="thead-info">
+            <tr>
+                <th>Clave</th>
+                <th>Titulo</th>
+                <th>Dueño</th>
+                <th>Fecha ejecucion</th>
+                <th class="link"></th>
+                <th>Exitoso</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dato in ViewBag.datos as IEnumerable<ControlCambio>)
+            {
+            <tr>
+                <td>@ViewBag.claves[ViewBag.datos.IndexOf(dato)]</td>
+                <td>@dato.Titulo</td>
+                <td>@dato.Usuario.Nombre @dato.Usuario.ApePaterno @dato.Usuario.ApeMaterno</td>
+                <td>@dato.FechaEjecucion.ToString().Substring(0, 10)</td>
+                <td class="link">
+                    <a href="~/Usuarios/Ver/@dato.Id_CC"><span class="icon-eye"></span></a>
+                </td>
+                @if (dato.Exito)
+                {
+                    <td><span class="text-success icon-check-square"></span></td>
+                }
+                else
+                {
+                    <td><span class="text-danger icon-x-square"></span></td>
+                }
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (ViewBag.datos.Count == 0)
+{
+    <h5 class="text-center">
+        <span class="badge badge-secondary">No hay controles de cambio terminados</span>
+    </h5>
+}
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".fancybox").fancybox({
+                prevEffect: 'none',
+                nextEffect: 'none',
+                helpers: {
+                    title: {
+                        type: 'outside'
+                    },
+                    thumbs: {
+                        width: 100,
+                        height: 25
+                    }
+                },
+                tpl: {
+                    closeBtn: '<a title="Cerrar" class="fancybox-item fancybox-close" href="javascript:;"></a>'
+                }
+            });
+            $('#datos').DataTable({
+                "pagingType": "numbers",
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                }
+            });
+        });
+    </script>
+}

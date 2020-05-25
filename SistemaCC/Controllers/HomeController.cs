@@ -92,7 +92,7 @@ namespace SistemaCC.Controllers
                 autorizacion.fk_CC = cc.Id_CC;
                 autorizacion.fk_U = super.Id_U;
                 autorizacion.Tipo = tipo;
-                autorizacion.Fecha = DateTime.Now;
+                autorizacion.Fecha = DateTime.Today;
                 autorizacion.Autorizado = false;
                 BD.Autorizaciones.InsertOnSubmit(autorizacion);
                 BD.SubmitChanges();
@@ -102,7 +102,7 @@ namespace SistemaCC.Controllers
                 not.FechaEnvio = DateTime.Today;
                 not.Contenido = notificacion.generate(7);
                 not.Activa = true;
-                not.Tipo = "Autorizar";
+                not.Tipo = tipo == "Ejecutar" ? "AutorizarE": "AutorizarT";
                 BD.Notificaciones.InsertOnSubmit(not);
                 BD.SubmitChanges();
                 notificacion.email = true;
@@ -127,7 +127,7 @@ namespace SistemaCC.Controllers
                 not.fk_U = admin.Id_U;
                 not.fk_CC = control.Id_CC;
                 not.Activa = true;
-                not.FechaEnvio = DateTime.Now;
+                not.FechaEnvio = DateTime.Today;
                 not.Tipo = "Revision";
                 not.Contenido = noti.generate(5);
                 BD.Notificaciones.InsertOnSubmit(not);
@@ -142,14 +142,14 @@ namespace SistemaCC.Controllers
             }
             return error;
         }
-        public int generarNotificacionAut(ControlCambio cc, int tipo, int generate, int? key)
+        public int generarNotificacionAut(ControlCambio cc, int tipo, int generate, int? key, Boolean emergente = false)
         {
             // Variable para tratar los errores y mostrar los mensajes
             int error = 0;
             try
             {
                 Notificaciones notificaciones = new Notificaciones();
-                Notificacion notificacion = new Notificacion(cc.Id_CC, tipo);
+                Notificacion notificacion = new Notificacion(cc.Id_CC, tipo, emergente);
                 Usuario creador = (from u in BD.Usuario where u.Id_U == cc.Creador select u).SingleOrDefault();
                 // Agrego lo necesario para el mensaje de la notificación
                 notificacion.fecha_emision = DateTime.Today.ToString().Substring(0, 10);
@@ -161,22 +161,25 @@ namespace SistemaCC.Controllers
                 notificaciones.FechaEnvio = DateTime.Today;
                 notificaciones.Contenido = notificacion.generate(generate);
                 notificaciones.Activa = true;
-                notificaciones.Tipo = "Autorizar";
+                notificaciones.Tipo = generate == 1 ? "AutorizarE" : "AutorizarT";
                 BD.Notificaciones.InsertOnSubmit(notificaciones);
                 BD.SubmitChanges();
                 //Enviar el correo
                 string to = (from u in BD.Usuario where u.Id_U == key select u.Email).SingleOrDefault();
                 notificacion.email = true;
                 error = Email(to, notificacion.getSubject(generate), notificacion.generate(generate));
-                // Creo la autorización para despues editarla
-                Autorizaciones aut = new Autorizaciones();
-                aut.fk_CC = cc.Id_CC;
-                aut.fk_U = key;
-                aut.Tipo = generate == 1 ? "Ejecutar" : "Termino";
-                aut.Fecha = DateTime.Now;
-                aut.Autorizado = false;
-                BD.Autorizaciones.InsertOnSubmit(aut);
-                BD.SubmitChanges();
+                // Creo la autorización para despues editarla si no es emergente
+                if(!emergente)
+                {
+                    Autorizaciones aut = new Autorizaciones();
+                    aut.fk_CC = cc.Id_CC;
+                    aut.fk_U = key;
+                    aut.Tipo = generate == 1 ? "Ejecutar" : "Termino";
+                    aut.Fecha = DateTime.Now;
+                    aut.Autorizado = false;
+                    BD.Autorizaciones.InsertOnSubmit(aut);
+                    BD.SubmitChanges();
+                }
             }
             catch (Exception e)
             {
@@ -184,24 +187,30 @@ namespace SistemaCC.Controllers
             }
             return error;
         }
-        public int generarNotificacionesAut(ControlCambio cc, int tipo)
+        public int generarNotificacionesAut(ControlCambio cc, int tipo, Boolean emergente = false)
         {
             // Variable para tratar los errores y mostrar los mensajes
             int error = 0;
             var actividades = (from ac in BD.ActividadesControl join a in BD.Actividades on ac.fk_Ac equals a.Id_Ac where ac.fk_CC == cc.Id_CC group a by a.Responsable).ToList();
             var servapp = (from sc in BD.ControlServicio join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where sc.fk_CC == cc.Id_CC group sa by sa.Dueno).ToList();
+            // si el único involucrado es el dueño se manda la notificacion sólo al super admin
+            if(actividades.Count == 1 && actividades[0].Key == cc.Usuario.Id_U )
+            {
+                Usuario super = (from u in BD.UsuarioRol where u.fk_Rol == 2 select u.Usuario).SingleOrDefault();
+                generarNotiicacionAutSA(super, cc, tipo == 1 ? "Ejecutar": "Termino");
+            }
             foreach(var act in actividades)
             {
                 if(act.Key != cc.Usuario.Id_U)
                 { 
-                    error = generarNotificacionAut(cc, 1, tipo, act.Key);
+                    error = generarNotificacionAut(cc, 1, tipo, act.Key, emergente);
                 }
             }
             foreach(var s in servapp)
             {
                 if (s.Key != cc.Usuario.Id_U)
                 {
-                    error = generarNotificacionAut(cc, 2, tipo, s.Key);
+                    error = generarNotificacionAut(cc, 2, tipo, s.Key, emergente);
                 }
             }
             return error;

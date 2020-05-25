@@ -46,7 +46,7 @@
                                 <label>Tipo:</label>
                             </div>
                             <div class="campos_ultimos">
-                                <select name="tipo" class="form-control" oninvalid = "error_campos(1)" required="required">
+                                <select id="tipo" name="tipo" class="form-control" onchange="validarFechaEjecucion()" oninvalid = "error_campos(1)" required="required">
                                     <option value="">Seleccione...</option>
                                     <option value="Programado">Programado</option>
                                     <option value="Emergente">Emergente</option>
@@ -117,7 +117,7 @@
                             <label>Actividades previas del control de cambio</label>
                         </div>
                         <div class="campos_ultimos seccion_boton">
-                            <a id="actividad_agregar" class="btn btn-info" onclick="actividad_agregar('0'); return false"><span class="icon-plus-square"></span></a>
+                            <a id="actividad_agregar" class="btn btn-info" onclick="actividad_agregar('0'); validarFechaEjecucion(); return false"><span class="icon-plus-square"></span></a>
                         </div>
                     </div>
                     <div id="actividades_contenedor"></div>
@@ -126,7 +126,7 @@
                             <label>Actividades del control de cambio</label>
                         </div>
                         <div class="campos_ultimos seccion_boton">
-                            <a id="actividad_cc_agregar" class="btn btn-info" onclick="actividad_cc_agregar('0'); return false"><span class="icon-plus-square"></span></a>
+                            <a id="actividad_cc_agregar" class="btn btn-info" onclick="actividad_cc_agregar('0'); validarFechaEjecucion(); return false"><span class="icon-plus-square"></span></a>
                         </div>
                     </div>
                     <div id="actividades_cc_contenedor"></div>
@@ -135,7 +135,7 @@
                             <label>Servicios afectados por el control de cambio</label>
                         </div>
                         <div class="campos_ultimos seccion_boton">
-                            <a id="servicio_agregar" class="btn btn-info" onclick="servicio_agregar('0'); return false"><span class="icon-plus-square"></span></a>
+                            <a id="servicio_agregar" class="btn btn-info" onclick="servicio_agregar('0'); validarFechaEjecucion(); return false"><span class="icon-plus-square"></span></a>
                         </div>
                     </div>
                     <div id="servicio_contenedor"></div>

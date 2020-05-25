@@ -362,6 +362,7 @@
     <Content Include="Views\Monitoreo\Index.cshtml" />
     <Content Include="Views\Monitoreo\Crear.cshtml" />
     <Content Include="Views\ControlCambio\Autorizaciones.cshtml" />
+    <Content Include="Views\ControlCambio\Repositorio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
