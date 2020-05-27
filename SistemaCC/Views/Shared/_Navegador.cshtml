@@ -1,24 +1,34 @@
 ﻿<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="~/Home/Index">SistemaCC</a>
+    <a class="navbar-brand" href="~/Home/Index" onclick="load('block')">SistemaCC</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="~/Monitoreo/Index">Monitoreo</a>
+                <a class="nav-link" href="~/Monitoreo/Index" onclick="load('block')">Monitoreo</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="~/Usuarios/Index">Usuarios</a>
+                <a class="nav-link" href="~/Usuarios/Index" onclick="load('block')">Usuarios</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="~/ServApp/Index">Servicios y aplicaciones</a>
+                <a class="nav-link" href="~/ServApp/Index" onclick="load('block')">Servicios y aplicaciones</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="~/ControlCambio/Repositorio" onclick="load('block')">Repositorio</a>
             </li>
         </ul>
         <ul class="navbar-nav ml-md-auto">
             <li class="nav-item dropdown mr-3">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="icon-bell"></span>
+                    @if (ViewBag.Notificaciones.Count > 0)
+                    {
+                        <span class="icon-bell"></span>
+                    }
+                    else
+                    {
+                        <span class="icon-bell-off"></span>
+                    }
                 </a>
                 <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
                     @foreach (var n in ViewBag.Notificaciones as IEnumerable<SistemaCC.Models.Notificaciones>)
