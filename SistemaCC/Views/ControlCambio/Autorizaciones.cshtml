@@ -24,29 +24,31 @@
 </div>
 @foreach (var aut in ViewBag.Autorizaciones as IEnumerable<Autorizaciones>)
 {
+    Boolean noti = false;
     <div class="campos campos_dos">
         <div class="campos campos_dos">
             <div class="campos_ultimos">
-                <label>@aut.Usuario.Nombre @aut.Usuario.ApePaterno</label>
+                @aut.Usuario.Nombre @aut.Usuario.ApePaterno
             </div>
-            <div class="campos_ultimos">
+            <div class="campos_ultimos text-center">
                 @if (aut.Autorizado)
                 {
-                    <span class="text-success icon-check-square"></span>
+                    <span class="text-success icon-check-square span-aut"></span>
                 }
                 else
                 {
-                    <span class="text-danger icon-x-square"></span>
+                    <span class="text-danger icon-x-square span-aut"></span>
                 }
             </div>
         </div>
         @foreach (var not in ViewBag.Notificaciones as IEnumerable<Notificaciones>)
         {
             <div class="campos campos_dos">
-                @if (aut.fk_U == not.fk_U)
+                @if (aut.fk_U == not.fk_U && noti == false)
                 {
-                    <div class="campos_ultimos">
-                        <label>Falta</label>
+                    noti = true;
+                    <div class="campos_ultimos text-center">
+                        Si
                     </div>
                 }
                 else

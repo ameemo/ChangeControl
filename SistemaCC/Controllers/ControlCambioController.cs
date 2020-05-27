@@ -794,7 +794,8 @@ namespace SistemaCC.Controllers
                 {
                     controlcambio.Estado = "Aprobado";
                     BD.SubmitChanges();
-                    // Enviar notificación de la correccion
+                    General.cambiarEstado(id);
+                    // Enviar notificación de aprobacion
                     Notificacion noti = new Notificacion(id, 3);
                     noti.clave_cc = General.generarClave(controlcambio);
                     noti.fecha_ejecucion_cc = controlcambio.FechaEjecucion.ToString().Substring(0, 10);
@@ -1029,9 +1030,14 @@ namespace SistemaCC.Controllers
                                     if (rol.fk_Rol == 2)
                                     {
                                         // Cambio de estado
-                                        if (cc.Estado == "PausadoT" || cc.Estado == "PausadoE")
+                                        if ((cc.Estado == "PausadoT" || cc.Estado == "PausadoE") && cc.Tipo != "Emergente")
                                         {
                                             cc.Estado = cc.Estado == "PausadoE" ? "Autorizado" : "Terminado";
+                                        }
+                                        if(cc.Tipo == "Emergente")
+                                        {
+                                            DateTime hoy = DateTime.Today;
+                                            cc.Estado = hoy == cc.FechaEjecucion ? "EnEjecucion": cc.Estado;
                                         }
                                         // Desactivar notificacion
                                         Notificaciones not = (from n in BD.Notificaciones where n.fk_CC == id && n.fk_U == Sesion && n.Activa == true && (n.Tipo == "Autorizar" || n.Tipo == "Terminado") select n).SingleOrDefault();
@@ -1169,7 +1175,7 @@ namespace SistemaCC.Controllers
             List<Autorizaciones> aut = new List<Autorizaciones>();
             if(control.Estado == "PausadoE")
             {
-                aut = (from a in BD.Autorizaciones where a.fk_CC == control.Id_CC && a.Tipo == "Autorizado" select a).ToList();
+                aut = (from a in BD.Autorizaciones where a.fk_CC == control.Id_CC && a.Tipo == "Ejecutar" select a).ToList();
             }
             else
             {

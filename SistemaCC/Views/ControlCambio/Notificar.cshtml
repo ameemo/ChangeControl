@@ -4,7 +4,7 @@
     ViewData["Title"] = "Notificar";
     Layout = "./../Shared/_LayoutVacio.cshtml";
 }
-@if (ViewData["ME"] != "")
+@if (ViewData["ME"].ToString() != "")
 {
     <div class="alert alert-danger mensaje" role="alert">
         @ViewData["ME"]
@@ -28,7 +28,7 @@ else
     {
         case "NoAutorizado":
             <div class="notificacion-link text-center">
-                @Html.ActionLink("Ir al control de cambio", "Editar", new { id = Model.fk_CC })
+                @Html.ActionLink("Ir al control de cambio", "Editar", new { id = Model.fk_CC }, new { onclick="load('block')" })
             </div>
             <div class="campos campos_dos text-center">
                 <div class="campos campos_dos">
@@ -56,12 +56,12 @@ else
             break;
         case "Autorizar":
             <div class="notificacion-link text-center">
-                @Html.ActionLink("Ir al control de cambio", "Autorizar", new { id = Model.fk_CC, tipo = "Ejecucion" })
+                @Html.ActionLink("Ir al control de cambio", "Autorizar", new { id = Model.fk_CC, tipo = "Ejecucion" }, new { onclick="load('block')" })
             </div>
             break;
         case "Correccion":
             <div class="notificacion-link text-center">
-                @Html.ActionLink("Ir al control de cambio", "Corregir", new { id = Model.fk_CC })
+                @Html.ActionLink("Ir al control de cambio", "Corregir", new { id = Model.fk_CC }, new { onclick="load('block')" })
             </div>
             break;
     }

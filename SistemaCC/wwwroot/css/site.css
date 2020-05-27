@@ -112,6 +112,9 @@ a:hover.inactivo {
 .campos_dos_kai {
     grid-template-columns: 25% 75%;
 }
+.campos_dos_ichi {
+    grid-template-columns: 75% 25%;
+}
 .campos_tres {
     grid-template-columns: 33% 34% 33%;
 }
@@ -251,6 +254,9 @@ span.bold {
 a.submit-reenviar {
     color: white !important;
 } 
+span.span-aut {
+    font-size: 25px;
+}
 /*Estilo para monitoreo, input tipo number*/
 #input_numero {
    border-color: #9f9f9f;
@@ -282,7 +288,24 @@ a.submit-reenviar {
 .regla-actual {
     background: #fcf8a8;
 }
-
+/*spinners*/
+.diseño-spinner {
+    width: 7rem;
+    height: 7rem;
+    font-size: 2rem;
+    z-index: 99;
+    position: fixed;
+    bottom: 46%;
+    left: 49%;
+}
+.over {
+    z-index: 99;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: black;
+    opacity: 0.6;
+}
 /*Estilo extra*/
 a.cerrar {
     color: #dc3545 !important;

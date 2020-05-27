@@ -45,7 +45,7 @@
         </div>
         <div class="campos campos_dos">
             <div class="campos_submit">
-                <input class="btn btn-success" type="submit" value="Continuar" name="Paso1" />
+                <input class="btn btn-success" type="submit" value="Continuar" name="Paso1" onclick="load('block')"/>
             </div>
         </div>
     }
@@ -96,7 +96,7 @@
                 <span class="text-danger">@ViewData["ME"]</span>
             </div>
             <div class="campos_submit">
-                <input class="btn btn-dark" type="submit" value="Validar" name="Paso2" />
+                <input class="btn btn-dark" type="submit" value="Validar" name="Paso2" onclick="load('block')"/>
             </div>
         </div>
     }
@@ -158,7 +158,7 @@
         </div>
         <div class="campos_ultimos text-left">
             <input id="PasoE" type="submit" name="PasoE" hidden />
-            <a class="btn btn-info submit-reenviar" onclick="reenviarEmail()">
+            <a class="btn btn-info submit-reenviar" onclick="load('block'); reenviarEmail()">
                 <span class="icon-refresh-cw"></span>
             </a>
         </div>
@@ -220,6 +220,7 @@
                     closeBtn : '<a title="Cerrar" class="fancybox-item fancybox-close" href="javascript:;"></a>'
                 }
             });
+            load('none')
         });
         $(document).on("submit", "form", function (e) {
             $(switch_aut).removeAttr('disabled')

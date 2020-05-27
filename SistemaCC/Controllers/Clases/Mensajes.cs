@@ -56,9 +56,8 @@ namespace SistemaCC.Controllers
                                    "Los codigos no coinciden.",
                                    "Ya se había autorizado el control de cambio.",
                                    "El usuario fue creado, pero sólo puede haber UN SUPER ADMINISTRADOR.",
-                                   "El usuario fue creado, pero sólo puede haber UN ADMINISTRADOR.",
-                                /*21*/   "El control de cambio no puede ser enviado a autorizar el mismo día de su ejecución. Sólo se le permite esto a un control de cambio tipo Emergente."
-                                   };
+                                /*20*/   "El usuario fue creado, pero sólo puede haber UN ADMINISTRADOR.",
+			     };
         }
         public string getMConfirmacion(int numero)
         {

@@ -48,7 +48,7 @@
     <div class="campos campos_tres">
         <div class="campos_ultimos"></div>
         <div class="campos_submit">
-            <input type="submit" class="btn btn-dark" />
+            <input type="submit" class="btn btn-dark" onclick="load('block')"/>
         </div>
     </div>
 }
@@ -58,6 +58,7 @@
             $(document).ready(function () {
                 var check = document.getElementById("switch_success")
                 check.addEventListener("change", ocultarSpan, false)
+                load('none')
             });
         </script>
     }

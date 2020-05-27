@@ -17,6 +17,10 @@ function tabs(seccion, sc, sl)
     $("#Link" + seccion).addClass("active " + sl)
     $("#Link" + seccion).removeClass("inactivo")
 }
+function load(mostrar) {
+    document.getElementById('over').style.display = mostrar;
+    document.getElementById('spinner1').style.display = mostrar;
+}
 // Funcion para contador de caracteres
 function contar(posicion, clase, conteo_id)
 {
@@ -595,6 +599,7 @@ function revisarSubmit(tipo) {
         }
     }
     if (!validacion1 && validacion2) {
+        load('block');
         submit.setAttribute("name", tipo)
         $(submit).trigger('click')
     }

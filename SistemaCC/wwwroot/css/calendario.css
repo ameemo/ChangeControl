@@ -18,8 +18,7 @@
     margin-left:-1px -1px -1px;
 }
 .dia, .ndia {
-    max-height: 96px;
-    min-height: 96px;
+    height: 88px;
     overflow-y: auto;
     overflow-x: hidden;
 }

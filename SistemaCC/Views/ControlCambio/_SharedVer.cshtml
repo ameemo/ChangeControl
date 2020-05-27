@@ -422,7 +422,7 @@
             </div>
             <div id="Section5" class="collapse show" aria-labelledby="Titulo5" data-parent="#accordionFormulario">
                 <div id="max_fila" class="card-body">
-                    <div class="campos campos_dos_kai">
+                    <div class="campos campos_dos_ichi">
                         <div class="campos_ultimos">
                             <label>Conclusión:</label>
                         </div>
@@ -430,18 +430,18 @@
                             <label>El control de cambio fue:</label>
                         </div>
                     </div>
-                    <div class="campos campos_dos_kai">
+                    <div class="campos campos_dos_ichi">
                         <div class="campos_ultimos campo-ver">
                              @ViewBag.Informacion.Conclusion
                         </div>
                         <div class="campos_ultimos text-center">
-                            @if (ViewBag.Informacion.Exito)
+                            @if (ViewBag.Informacion.Exito == true)
                             {
-                                <span class="icon-check-square text-success"></span><p>Exitoso</p>
+                                <span class="icon-check-square text-success span-aut"></span><span>Exitoso</span>
                             }
                             else
                             {
-                                <span class="icon-x-square text-success"></span><p>Fallido</p>
+                                <span class="icon-x-square text-success span-aut"></span><span>Fallido</span>
                             }
                         </div>
                     </div>
@@ -451,8 +451,8 @@
                                 DE1
                             </div>
                             <div class="campos_ultimos pt-2">
-                                <a class="fancybox2 fancybox.iframe" href="~/Archivos/CC_@ViewBag.Evidencia[0].fk_CC/Adjuntos/@ViewBag.Evidencia[0].DocPath">
-                                    @ViewBag.Evidencia[0].DocPath
+                                <a class="fancybox2 fancybox.iframe" href="~/Archivos/CC_@ViewBag.Evidencia.fk_CC/Adjuntos/@ViewBag.Evidencia.DocPath">
+                                    @ViewBag.Evidencia.DocPath
                                 </a>
                             </div>
                         </div>
@@ -464,7 +464,7 @@
     <div class="campos campos_tres mt-3">
         <div class="campos_ultimos"></div>
         <div class="campos_submit">
-            <a href="~/Home/Index" class="btn btn-dark">Volver</a>
+            <a href="~/Home/Index" class="btn btn-dark" onclick="load('block')">Volver</a>
         </div>
     </div>
 </div>

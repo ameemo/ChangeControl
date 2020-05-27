@@ -43,18 +43,18 @@
                         <a class="fancybox fancybox.ajax" href="~/ServApp/Ver/@dato.Id_SA"><span class="icon-eye"></span></a>
                     </td>
                     <td class="link">
-                        <a href="~/ServApp/Editar/@dato.Id_SA"><span class="icon-edit"></span></a>
+                        <a href="~/ServApp/Editar/@dato.Id_SA" onclick="load('block')"><span class="icon-edit"></span></a>
                     </td>
                     @if (dato.Activo == true)
                     {
                         <td class="link">
-                            <span class="icon-unlock"></span> @Html.ActionLink("Bloquear", "Bloquear", new { id = dato.Id_SA })
+                            <span class="icon-unlock"></span> @Html.ActionLink("Bloquear", "Bloquear", new { id = dato.Id_SA }, new { onclick="load('block')"})
                         </td>
                     }
                     else
                     {
                         <td class="link">
-                            <span class="icon-lock"></span> @Html.ActionLink("Desbloquear", "Desbloquear", new { id = dato.Id_SA })
+                            <span class="icon-lock"></span> @Html.ActionLink("Desbloquear", "Desbloquear", new { id = dato.Id_SA }, new { onclick="load('block')"})
                         </td>
                     }
                 </tr>
@@ -88,6 +88,7 @@
                             "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
                         }
             });
+            load('none')
         });
     </script>
 }
