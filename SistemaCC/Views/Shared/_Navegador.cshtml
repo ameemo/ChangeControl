@@ -5,12 +5,15 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="~/Monitoreo/Index" onclick="load('block')">Monitoreo</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="~/Usuarios/Index" onclick="load('block')">Usuarios</a>
-            </li>
+            @if(ViewData["NavRol"].ToString() == "Admin")
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Monitoreo/Index" onclick="load('block')">Monitoreo</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Usuarios/Index" onclick="load('block')">Usuarios</a>
+                </li>
+            }
             <li class="nav-item">
                 <a class="nav-link" href="~/ServApp/Index" onclick="load('block')">Servicios y aplicaciones</a>
             </li>
@@ -19,6 +22,9 @@
             </li>
         </ul>
         <ul class="navbar-nav ml-md-auto">
+            <li>
+                @ViewData["NavNombre"]
+            </li>
             <li class="nav-item dropdown mr-3">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     @if (ViewBag.Notificaciones.Count > 0)

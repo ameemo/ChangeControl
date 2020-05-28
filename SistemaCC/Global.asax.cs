@@ -164,7 +164,7 @@ namespace SistemaCC
                 noti.noAutorizo = notis;
                 noti.email = true;
                 General.Email(admin, noti.getSubject(3), noti.generate(3));
-                Thread.Sleep(300000);
+                Thread.Sleep(86400000);
             }
         }
         protected void Application_Start()
