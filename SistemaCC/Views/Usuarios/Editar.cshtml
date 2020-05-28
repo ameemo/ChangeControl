@@ -11,13 +11,13 @@
     <div id="principal">
         <div class="campos campos_tres">
             <div class="campos_ultimos">
-                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control mayusculas", type = "text", placeholder = "Nombre", maxLength = "50", required = "required" } })
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control mayusculas", type = "text", placeholder = "Nombre", maxLength = "50", onclick="load('none')", required = "required" } })
             </div>
             <div class="campos_ultimos">
-                @Html.EditorFor(model => model.ApePaterno, new { htmlAttributes = new { @class = "form-control mayusculas", type = "text", placeholder = "Apellido paterno", maxLength = "50", required = "required" } })
+                @Html.EditorFor(model => model.ApePaterno, new { htmlAttributes = new { @class = "form-control mayusculas", type = "text", placeholder = "Apellido paterno", maxLength = "50", onclick="load('none')", required = "required" } })
             </div>
             <div class="campos_ultimos">
-                @Html.EditorFor(model => model.ApeMaterno, new { htmlAttributes = new { @class = "form-control mayusculas", type = "text", placeholder = "Apellido materno", maxLength = "50", required = "required" } })
+                @Html.EditorFor(model => model.ApeMaterno, new { htmlAttributes = new { @class = "form-control mayusculas", type = "text", placeholder = "Apellido materno", maxLength = "50", onclick="load('none')", required = "required" } })
             </div>
         </div>
         <div class="campos campos_tres">
@@ -26,14 +26,14 @@
                     <label>Extensión:</label>
                 </div>
                 <div class="campos_ultimos">
-                    @Html.EditorFor(model => model.NoExt, new { htmlAttributes = new { @class = "form-control", type = "text", placeholder = "# # #", maxlength = "3", pattern = "[0-9]{3}", title = "El formato son 3 números, no admite ótros símbolos. Ejem: 158, 298, 092" } })
+                    @Html.EditorFor(model => model.NoExt, new { htmlAttributes = new { @class = "form-control", type = "text", placeholder = "# # #", maxlength = "3", pattern = "[0-9]{3}", title = "El formato son 3 números, no admite ótros símbolos. Ejem: 158, 298, 092", onclick="load('none')"} })
                 </div>
             </div>
             <div class="campos_ultimos" style="text-align: right">
                 <label>Email:</label>
             </div>
             <div class="campos_ultimos">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", placeholder = "nombre.apellido@eutelsat.com.mx", pattern = ".+@[g][m][a][i][l][.][c][o][m]", title = "El dominio admintido es: @eutelsat.com", required = "required" } })
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", placeholder = "nombre.apellido@eutelsat.com.mx", pattern = ".+@[g][m][a][i][l][.][c][o][m]", title = "El dominio admintido es: @eutelsat.com", onclick="load('none')", required = "required" } })
                 @*@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", placeholder = "nombre.apellido@eutelsat.com.mx", pattern = ".+@[e][u][t][e][l][s][a][t][.][c][o][m]", title = "El dominio admitido es: @eutelsat.com", required = "required" } })*@
                 <span class="text-danger">@ViewData["ME1"]</span>
             </div>

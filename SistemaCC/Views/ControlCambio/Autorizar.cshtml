@@ -37,7 +37,7 @@
             </div>
             <div id="motivo" class="campos_ultimos">
                 <label>Motivo</label>
-                <textarea id="textarea_motivo" name="motivo" class="form-control contador" placeholder="¿Por qué no autorizo?" maxLength="500" title="Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500" onkeyup="contar('0','contador', 'conteo-')" required></textarea>
+                <textarea id="textarea_motivo" name="motivo" class="form-control contador" placeholder="¿Por qué no autorizo?" maxLength="500" title="Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500" oninvalid="load('none')" onkeyup="contar('0','contador', 'conteo-')" required></textarea>
                 <div id="conteo-0" class="campos_ultimos conteo">
                     <div>Caracteres: 0/500</div>
                 </div>
@@ -92,7 +92,7 @@
         </div>
         <div class="campos campos_dos">
             <div class="campos_ultimos">
-                <input class="form-control" type="text" placeholder="codigo" name="codigo" />
+                <input class="form-control" type="text" placeholder="codigo" name="codigo" oninvalid="load('none')" />
                 <span class="text-danger">@ViewData["ME"]</span>
             </div>
             <div class="campos_submit">

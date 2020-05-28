@@ -23,7 +23,7 @@
                     <a class="menos cuadro" onclick="numero_menos(); return false" href="#">
                         <span class="icon-minus"></span>
                     </a>
-                    <input class="form-control" id="input_numero" name="cantidad" type="text" value="01" maxlength="2" pattern="[0]{0,1}[1]{0,1}[0-9]{1}" title="El valor debe estar entre 1 y 10" required />
+                    <input class="form-control" id="input_numero" name="cantidad" type="text" value="01" maxlength="2" pattern="[0]{0,1}[1]{0,1}[0-9]{1}" title="El valor debe estar entre 1 y 10" oninvalid="load('none')" required />
                     <a class="mas cuadro" onclick="numero_mas();; return false" href="#">
                         <span class="icon-plus"></span>
                     </a>

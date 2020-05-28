@@ -134,24 +134,10 @@ namespace SistemaCC.Controllers
         // GET: ServApp/Bloquear/5
         public ActionResult Bloquear(int id)
         {
+            ServiciosAplicaciones servapp = (from s in BD.ServiciosAplicaciones where s.Id_SA == id select s).SingleOrDefault();
+            servapp.Activo = false;
+            BD.SubmitChanges();
             return View();
-        }
-
-        // POST: ServApp/Bloquear/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Bloquear(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add Bloquear logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }

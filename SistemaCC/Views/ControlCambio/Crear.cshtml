@@ -26,7 +26,7 @@
                     </div>
                     <div class="campos">
                         <div class="campos_ultimos">
-                            @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control contador", type = "text", placeholder = "Titulo", maxLength = "150", title = "Sólo se admiten 150 caracteres como máximo, de ingresar más, se capturarán los primeros 150", onkeyup = "contar('0','contador', 'conteo-')", oninvalid = "error_campos(1)", required = "required" } })
+                            @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control contador", type = "text", placeholder = "Titulo", maxLength = "150", title = "Sólo se admiten 150 caracteres como máximo, de ingresar más, se capturarán los primeros 150", onkeyup = "contar('0','contador', 'conteo-')", oninvalid = "load('none');  error_campos(1)", required = "required" } })
                         </div>
                         <div id="conteo-0" class="campos_ultimos conteo">
                             <div>Caracteres: 0/150</div>
@@ -38,7 +38,7 @@
                                 <label>Fecha de ejecuión:</label>
                             </div>
                             <div class="campos_ultimos">
-                                @Html.EditorFor(model => model.FechaEjecucion, new { htmlAttributes = new { @class = "form-control", type = "date", onchange = "cambiarFechasAct()", oninvalid = "error_campos(1)", required = "required" } })
+                                @Html.EditorFor(model => model.FechaEjecucion, new { htmlAttributes = new { @class = "form-control", type = "date", onchange = "cambiarFechasAct()", oninvalid = "load('none');  error_campos(1)", required = "required" } })
                             </div>
                         </div>
                         <div class="campos campos_dos_kai">
@@ -46,7 +46,7 @@
                                 <label>Tipo:</label>
                             </div>
                             <div class="campos_ultimos">
-                                <select id="tipo" name="tipo" class="form-control" onchange="validarFechaEjecucion()" oninvalid = "error_campos(1)" required="required">
+                                <select id="tipo" name="tipo" class="form-control" onchange="validarFechaEjecucion()" oninvalid = "load('none');  error_campos(1)" required="required">
                                     <option value="">Seleccione...</option>
                                     <option value="Programado">Programado</option>
                                     <option value="Emergente">Emergente</option>
@@ -62,7 +62,7 @@
                     </div>
                     <div class="campos">
                         <div class="campos_ultimos">
-                            @Html.TextAreaFor(model => model.Objetivos, new { @class = "form-control contador", placeholder = "Ejem. 1.- Verbo (ar, er, ir) [complemento]", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500", rows = "4", onkeyup = "contar('1', 'contador', 'conteo-')", oninvalid = "error_campos(1)", required = "required" })
+                            @Html.TextAreaFor(model => model.Objetivos, new { @class = "form-control contador", placeholder = "Ejem. 1.- Verbo (ar, er, ir) [complemento]", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500", rows = "4", onkeyup = "contar('1', 'contador', 'conteo-')", oninvalid = "load('none');  error_campos(1)", required = "required" })
                         </div>
                         <div id="conteo-1" class="campos_ultimos conteo">
                             <div>Caracteres: 0/500</div>
@@ -75,7 +75,7 @@
                     </div>
                     <div class="campos">
                         <div class="campos_ultimos">
-                            @Html.TextAreaFor(model => model.Introduccion, new { @class = "form-control contador", placeholder = "Redacta aquí...", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturararán los primeros 500", rows = "4", onkeyup = "contar('2', 'contador', 'conteo-')", oninvalid = "error_campos(1)", required = "required" })
+                            @Html.TextAreaFor(model => model.Introduccion, new { @class = "form-control contador", placeholder = "Redacta aquí...", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturararán los primeros 500", rows = "4", onkeyup = "contar('2', 'contador', 'conteo-')", oninvalid = "load('none');  error_campos(1)", required = "required" })
                         </div>
                         <div id="conteo-2" class="campos_ultimos conteo">
                             <div>Caracteres: 0/500</div>

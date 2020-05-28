@@ -193,22 +193,62 @@ namespace SistemaCC.Controllers
             int error = 0;
             var actividades = (from ac in BD.ActividadesControl join a in BD.Actividades on ac.fk_Ac equals a.Id_Ac where ac.fk_CC == cc.Id_CC group a by a.Responsable).ToList();
             var servapp = (from sc in BD.ControlServicio join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where sc.fk_CC == cc.Id_CC group sa by sa.Dueno).ToList();
-            // si el único involucrado es el dueño se manda la notificacion sólo al super admin
-            if(actividades.Count == 1 && actividades[0].Key == cc.Usuario.Id_U )
+            // si el único involucrado es el dueño se manda la notificacion sólo al super admin, si no hay serv ni act se notifica al super
+            switch(actividades.Count + servapp.Count)
             {
-                Usuario super = (from u in BD.UsuarioRol where u.fk_Rol == 2 select u.Usuario).SingleOrDefault();
-                generarNotiicacionAutSA(super, cc, tipo == 1 ? "Ejecutar": "Termino");
+                case 0:
+                    Usuario super = (from u in BD.UsuarioRol where u.fk_Rol == 2 select u.Usuario).SingleOrDefault();
+                    generarNotiicacionAutSA(super, cc, tipo == 1 ? "Ejecutar" : "Termino");
+                    break;
+                case 1:
+                    if(actividades.Count != 0)
+                    {
+                        if(actividades[0].Key == cc.Usuario.Id_U)
+                        {
+                            Usuario super3 = (from u in BD.UsuarioRol where u.fk_Rol == 2 select u.Usuario).SingleOrDefault();
+                            generarNotiicacionAutSA(super3, cc, tipo == 1 ? "Ejecutar" : "Termino");
+                        }
+                    }
+                    else
+                    {
+                        if(servapp[0].Key == cc.Usuario.Id_U)
+                        {
+                            Usuario super3 = (from u in BD.UsuarioRol where u.fk_Rol == 2 select u.Usuario).SingleOrDefault();
+                            generarNotiicacionAutSA(super3, cc, tipo == 1 ? "Ejecutar" : "Termino");
+                        }
+                    }
+                    break;
+                case 2:
+                    if((actividades[0].Key == servapp[0].Key) && actividades[0].Key == cc.Usuario.Id_U)
+                    {
+                        Usuario super2 = (from u in BD.UsuarioRol where u.fk_Rol == 2 select u.Usuario).SingleOrDefault();
+                        generarNotiicacionAutSA(super2, cc, tipo == 1 ? "Ejecutar" : "Termino");
+                    }
+                    break;
+            }
+            // revisar si se repiden usuario en actividades y servapp
+            List<int?> ambos = new List<int?>();
+            foreach(var act in actividades)
+            {
+                foreach (var s in servapp)
+                {
+                    if (s.Key == act.Key)
+                    {
+                        error = generarNotificacionAut(cc, 5, tipo, act.Key, emergente);
+                        ambos.Add(s.Key);
+                    }
+                }
             }
             foreach(var act in actividades)
             {
-                if(act.Key != cc.Usuario.Id_U)
+                if(act.Key != cc.Usuario.Id_U && !ambos.Contains(act.Key))
                 { 
                     error = generarNotificacionAut(cc, 1, tipo, act.Key, emergente);
                 }
             }
             foreach(var s in servapp)
             {
-                if (s.Key != cc.Usuario.Id_U)
+                if (s.Key != cc.Usuario.Id_U && !ambos.Contains(s.Key))
                 {
                     error = generarNotificacionAut(cc, 2, tipo, s.Key, emergente);
                 }
@@ -226,7 +266,7 @@ namespace SistemaCC.Controllers
             ViewBag.Claves_ccc = generarListaClave(ViewBag.Creados_CC);
             ViewBag.Revisados_CC = (from cc in BD.ControlCambio where (cc.Estado == "EnCorreccion" || cc.Estado == "Aprobado") && cc.Creador == Sesion select cc).ToList();
             ViewBag.Claves_rcc = generarListaClave(ViewBag.Revisados_CC);
-            ViewBag.ParaAut_CC = (from cc in BD.ControlCambio where (cc.Estado == "PausadoE" || cc.Estado == "Autorizado") && cc.Creador == Sesion select cc).ToList();
+            ViewBag.ParaAut_CC = (from cc in BD.ControlCambio where (cc.Estado == "PausadoE" || cc.Estado == "Autorizado" || cc.Estado == "PausadoT") && cc.Creador == Sesion select cc).ToList();
             ViewBag.Claves_pacc = generarListaClave(ViewBag.ParaAut_CC);
             ViewBag.Ejecucion_CC = (from cc in BD.ControlCambio where (cc.Estado == "EnEjecucion" || cc.Estado == "PausadoT") && cc.Creador == Sesion select cc).ToList();
             ViewBag.Claves_ecc = generarListaClave(ViewBag.Ejecucion_CC);

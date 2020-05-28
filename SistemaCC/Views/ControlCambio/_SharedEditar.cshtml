@@ -24,7 +24,7 @@
                         </div>
                         <div class="campos">
                             <div class="campos_ultimos">
-                                @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control contador", type = "text", placeholder = "Titulo", maxLength = "150", title = "Sólo se admiten 150 caracteres como máximo, de ingresar más, se capturarán los primeros 150", onkeyup = "contar('0','contador', 'conteo-')", oninvalid = "error_campos(1)", required = "required" } })
+                                @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control contador", type = "text", placeholder = "Titulo", maxLength = "150", title = "Sólo se admiten 150 caracteres como máximo, de ingresar más, se capturarán los primeros 150", onkeyup = "contar('0','contador', 'conteo-')", oninvalid = "load('none'); error_campos(1)", required = "required" } })
                             </div>
                             <div id="conteo-0" class="campos_ultimos conteo">
                                 <div>Caracteres: @Model.Titulo.Length/150</div>
@@ -36,7 +36,7 @@
                                     <label>Fecha de ejecuión:</label>
                                 </div>
                                 <div class="campos_ultimos">
-                                    <input id="FechaEjecucion" name="FechaEjecucion" class="form-control" type="date" value="@Model.FechaEjecucion.ToString().Substring(6,4)-@Model.FechaEjecucion.ToString().Substring(3,2)-@Model.FechaEjecucion.ToString().Substring(0,2)" onchange="cambiarFechasAct()" oninvalid="error_campos(1)" required="required" />
+                                    <input id="FechaEjecucion" name="FechaEjecucion" class="form-control" type="date" value="@Model.FechaEjecucion.ToString().Substring(6,4)-@Model.FechaEjecucion.ToString().Substring(3,2)-@Model.FechaEjecucion.ToString().Substring(0,2)" onchange="cambiarFechasAct()" oninvalid="load('none'); error_campos(1)" required="required" />
                                 </div>
                             </div>
                             <div class="campos campos_dos_kai">
@@ -44,7 +44,7 @@
                                     <label>Tipo:</label>
                                 </div>
                                 <div class="campos_ultimos">
-                                    <select name="tipo" class="form-control" oninvalid="error_campos(1)" required="required">
+                                    <select name="tipo" class="form-control" oninvalid="load('none'); error_campos(1)" required="required">
                                         <option value="">Seleccione...</option>
                                         @if (Model.Tipo == "Programado")
                                         {
@@ -81,7 +81,7 @@
                         </div>
                         <div class="campos">
                             <div class="campos_ultimos">
-                                @Html.TextAreaFor(model => model.Objetivos, new { @class = "form-control contador", placeholder = "Ejem. 1.- Verbo (ar, er, ir) [complemento]", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500", rows = "4", onkeyup = "contar('1', 'contador', 'conteo-')", oninvalid = "error_campos(1)", required = "required" })
+                                @Html.TextAreaFor(model => model.Objetivos, new { @class = "form-control contador", placeholder = "Ejem. 1.- Verbo (ar, er, ir) [complemento]", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500", rows = "4", onkeyup = "contar('1', 'contador', 'conteo-')", oninvalid = "load('none');  error_campos(1)", required = "required" })
                             </div>
                             <div id="conteo-1" class="campos_ultimos conteo">
                                 <div>Caracteres: @Model.Objetivos.Length/500</div>
@@ -94,7 +94,7 @@
                         </div>
                         <div class="campos">
                             <div class="campos_ultimos">
-                                @Html.TextAreaFor(model => model.Introduccion, new { @class = "form-control contador", placeholder = "Redacta aquí...", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturararán los primeros 500", rows = "4", onkeyup = "contar('2', 'contador', 'conteo-')", oninvalid = "error_campos(1)", required = "required" })
+                                @Html.TextAreaFor(model => model.Introduccion, new { @class = "form-control contador", placeholder = "Redacta aquí...", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturararán los primeros 500", rows = "4", onkeyup = "contar('2', 'contador', 'conteo-')", oninvalid = "load('none'); error_campos(1)", required = "required" })
                             </div>
                             <div id="conteo-2" class="campos_ultimos conteo">
                                 <div>Caracteres: @Model.Introduccion.Length/500</div>
@@ -149,7 +149,7 @@
                                             <div>A@(ViewBag.Actividades_Prev.IndexOf(act) + 1)</div>
                                         </div>
                                         <div class="campos campos_ultimos">
-                                            <textarea id="act_prev_desc_@ViewBag.Actividades_Prev.IndexOf(act)" name="actividades_prev_descripcion_actual" maxlength="150" placeholder="Descripción" pattern="[A-Za-z0-9 ,.;-_/*+´¨]+" onkeyup="contar('@ViewBag.Actividades_Prev.IndexOf(act)', 'contar-act-desc', 'conteo-act-desc-')" oninvalid="error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_Prev.IndexOf(act),'prev')" required="required" class="form-control contar-act-desc">@act.Actividades.Descripcion</textarea>
+                                            <textarea id="act_prev_desc_@ViewBag.Actividades_Prev.IndexOf(act)" name="actividades_prev_descripcion_actual" maxlength="150" placeholder="Descripción" pattern="[A-Za-z0-9 ,.;-_/*+´¨]+" onkeyup="contar('@ViewBag.Actividades_Prev.IndexOf(act)', 'contar-act-desc', 'conteo-act-desc-')" oninvalid="load('none');  error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_Prev.IndexOf(act),'prev')" required="required" class="form-control contar-act-desc">@act.Actividades.Descripcion</textarea>
                                             <div id="conteo-act-desc-@ViewBag.Actividades_Prev.IndexOf(act)" class="campos_ultimos conteo-act-desc">
                                                 <div>Caracteres: @act.Actividades.Descripcion.Length/150</div>
                                             </div>
@@ -157,14 +157,14 @@
                                     </div>
                                     <div class="campos campos_tres">
                                         <div class="campos campos_ultimos">
-                                            <textarea id="act_prev_obs_@ViewBag.Actividades_Prev.IndexOf(act)" name="actividades_prev_observaciones_actual" maxlength="150" placeholder="Observaciones" onkeyup="contar('@ViewBag.Actividades_Prev.IndexOf(act)', 'contar-act-obs', 'conteo-act-obs-')" oninvalid="error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_Prev.IndexOf(act),'prev')" required="required" class="form-control contar-act-obs act_prev_actual">@act.Actividades.Observaciones</textarea>
+                                            <textarea id="act_prev_obs_@ViewBag.Actividades_Prev.IndexOf(act)" name="actividades_prev_observaciones_actual" maxlength="150" placeholder="Observaciones" onkeyup="contar('@ViewBag.Actividades_Prev.IndexOf(act)', 'contar-act-obs', 'conteo-act-obs-')" oninvalid="load('none');  error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_Prev.IndexOf(act),'prev')" required="required" class="form-control contar-act-obs act_prev_actual">@act.Actividades.Observaciones</textarea>
                                             <div id="conteo-act-obs-@ViewBag.Actividades_Prev.IndexOf(act)" class="campos_ultimos conteo-act-obs">
                                                 <div>Caracteres: @act.Actividades.Observaciones.Length/150</div>
                                             </div>
                                         </div>
                                         <div class="campos campos_ultimos">
-                                            <input id="act_prev_fecha_@ViewBag.Actividades_Prev.IndexOf(act)" name="actividades_prev_fecha_actual" type="date" oninvalid="error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_Prev.IndexOf(act),'prev')" required="required" class="form-control act_prev_actual" value="@act.Actividades.FechaRealizacion.ToString().Substring(6,4)-@act.Actividades.FechaRealizacion.ToString().Substring(3,2)-@act.Actividades.FechaRealizacion.ToString().Substring(0,2)">
-                                            <select id="act_prev_res_@ViewBag.Actividades_Prev.IndexOf(act)" name="actividades_prev_usuarios_actual" required="required" oninvalid="error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_Prev.IndexOf(act),'prev')" class="form-control act_prev_actual">
+                                            <input id="act_prev_fecha_@ViewBag.Actividades_Prev.IndexOf(act)" name="actividades_prev_fecha_actual" type="date" oninvalid="load('none');  error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_Prev.IndexOf(act),'prev')" required="required" class="form-control act_prev_actual" value="@act.Actividades.FechaRealizacion.ToString().Substring(6,4)-@act.Actividades.FechaRealizacion.ToString().Substring(3,2)-@act.Actividades.FechaRealizacion.ToString().Substring(0,2)">
+                                            <select id="act_prev_res_@ViewBag.Actividades_Prev.IndexOf(act)" name="actividades_prev_usuarios_actual" required="required" oninvalid="load('none');  error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_Prev.IndexOf(act),'prev')" class="form-control act_prev_actual">
                                                 <option value="">Select...</option>
                                                 @foreach (var usuario in ViewBag.usuarios as IEnumerable<SistemaCC.Models.Usuario>)
                                                 {
@@ -206,7 +206,7 @@
                                             <div>A@(ViewBag.Actividades_CC.IndexOf(act) + 1)</div>
                                         </div>
                                         <div class="campos campos_ultimos">
-                                            <textarea id="act_cc_desc_@ViewBag.Actividades_CC.IndexOf(act)" name="actividades_cc_descripcion_actual" maxlength="150" placeholder="Descripción" pattern="[A-Za-z0-9 ,.;-_/*+´¨]+" onkeyup="contar('@ViewBag.Actividades_CC.IndexOf(act)', 'contar-act_cc-desc', 'conteo-act_cc-desc-')" oninvalid="error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_CC.IndexOf(act),'cc')" required="required" class="form-control contar-act-desc">@act.Actividades.Descripcion</textarea>
+                                            <textarea id="act_cc_desc_@ViewBag.Actividades_CC.IndexOf(act)" name="actividades_cc_descripcion_actual" maxlength="150" placeholder="Descripción" pattern="[A-Za-z0-9 ,.;-_/*+´¨]+" onkeyup="contar('@ViewBag.Actividades_CC.IndexOf(act)', 'contar-act_cc-desc', 'conteo-act_cc-desc-')" oninvalid="load('none');  error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_CC.IndexOf(act),'cc')" required="required" class="form-control contar-act-desc">@act.Actividades.Descripcion</textarea>
                                             <div id="conteo-act_cc-desc-@ViewBag.Actividades_CC.IndexOf(act)" class="campos_ultimos conteo-act_cc-desc">
                                                 <div>Caracteres: @act.Actividades.Descripcion.Length/150</div>
                                             </div>
@@ -214,14 +214,14 @@
                                     </div>
                                     <div class="campos campos_tres">
                                         <div class="campos campos_ultimos">
-                                            <textarea id="act_cc_obs_@ViewBag.Actividades_CC.IndexOf(act)" name="actividades_cc_observaciones_actual" maxlength="150" placeholder="Observaciones" onkeyup="contar('@ViewBag.Actividades_CC.IndexOf(act)', 'contar-act_cc-obs', 'conteo-act_cc-obs-')" oninvalid="error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_CC.IndexOf(act),'cc')" required="required" class="form-control contar-act-obs act_cc_actual">@act.Actividades.Observaciones</textarea>
+                                            <textarea id="act_cc_obs_@ViewBag.Actividades_CC.IndexOf(act)" name="actividades_cc_observaciones_actual" maxlength="150" placeholder="Observaciones" onkeyup="contar('@ViewBag.Actividades_CC.IndexOf(act)', 'contar-act_cc-obs', 'conteo-act_cc-obs-')" oninvalid="load('none');  error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_CC.IndexOf(act),'cc')" required="required" class="form-control contar-act-obs act_cc_actual">@act.Actividades.Observaciones</textarea>
                                             <div id="conteo-act_cc-obs-@ViewBag.Actividades_CC.IndexOf(act)" class="campos_ultimos conteo-act_cc-obs">
                                                 <div>Caracteres: @act.Actividades.Observaciones.Length/150</div>
                                             </div>
                                         </div>
                                         <div class="campos campos_ultimos">
-                                            <input id="act_cc_fecha_@ViewBag.Actividades_CC.IndexOf(act)" name="actividades_cc_fecha_actual" type="date" min="@Model.FechaEjecucion.ToString().Substring(6,4)-@Model.FechaEjecucion.ToString().Substring(3,2)-@Model.FechaEjecucion.ToString().Substring(0,2)" oninvalid="error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_CC.IndexOf(act),'cc')" required="required" class="form-control act_cc_actual" value="@act.Actividades.FechaRealizacion.ToString().Substring(6,4)-@act.Actividades.FechaRealizacion.ToString().Substring(3,2)-@act.Actividades.FechaRealizacion.ToString().Substring(0,2)">
-                                            <select id="act_cc_res_@ViewBag.Actividades_CC.IndexOf(act)" name="actividades_cc_usuarios_actual" required="required" oninvalid="error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_CC.IndexOf(act),'cc')" class="form-control act_cc_actual">
+                                            <input id="act_cc_fecha_@ViewBag.Actividades_CC.IndexOf(act)" name="actividades_cc_fecha_actual" type="date" min="@Model.FechaEjecucion.ToString().Substring(6,4)-@Model.FechaEjecucion.ToString().Substring(3,2)-@Model.FechaEjecucion.ToString().Substring(0,2)" oninvalid="load('none');  error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_CC.IndexOf(act),'cc')" required="required" class="form-control act_cc_actual" value="@act.Actividades.FechaRealizacion.ToString().Substring(6,4)-@act.Actividades.FechaRealizacion.ToString().Substring(3,2)-@act.Actividades.FechaRealizacion.ToString().Substring(0,2)">
+                                            <select id="act_cc_res_@ViewBag.Actividades_CC.IndexOf(act)" name="actividades_cc_usuarios_actual" required="required" oninvalid="load('none');  error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_CC.IndexOf(act),'cc')" class="form-control act_cc_actual">
                                                 <option value="">Select...</option>
                                                 @foreach (var usuario in ViewBag.usuarios as IEnumerable<SistemaCC.Models.Usuario>)
                                                 {
@@ -263,7 +263,7 @@
                                             <div>S@(ViewBag.ControlServicios.IndexOf(ser) + 1)</div>
                                         </div>
                                         <div class="campos campos_ultimos">
-                                            <select id="ser_ser_@ViewBag.ControlServicios.IndexOf(ser)" name="servicio_servicios_actual" required="required" oninvalid="error_campos(2)" onchange="setSerEditar(@ViewBag.ControlServicios.IndexOf(ser))" class="form-control">
+                                            <select id="ser_ser_@ViewBag.ControlServicios.IndexOf(ser)" name="servicio_servicios_actual" required="required" oninvalid="load('none');  error_campos(2)" onchange="setSerEditar(@ViewBag.ControlServicios.IndexOf(ser))" class="form-control">
                                                 <option value="">Select...</option>
                                                 @foreach (var s in ViewBag.servicios as IEnumerable<SistemaCC.Models.ServiciosAplicaciones>)
                                                 {
@@ -282,10 +282,10 @@
                                     </div>
                                     <div class="campos campos_tres">
                                         <div class="campos campos_ultimos">
-                                            <input id="ser_inicio_@ViewBag.ControlServicios.IndexOf(ser)" name="servicio_inicio_actual" type="date" oninvalid="error_campos(2)" onchange="setSerEditar(@ViewBag.ControlServicios.IndexOf(ser))" required="required" class="form-control" value="@ser.FechaInicio.ToString().Substring(6,4)-@ser.FechaInicio.ToString().Substring(3,2)-@ser.FechaInicio.ToString().Substring(0,2)">
+                                            <input id="ser_inicio_@ViewBag.ControlServicios.IndexOf(ser)" name="servicio_inicio_actual" type="date" oninvalid="load('none');  error_campos(2)" onchange="setSerEditar(@ViewBag.ControlServicios.IndexOf(ser))" required="required" class="form-control" value="@ser.FechaInicio.ToString().Substring(6,4)-@ser.FechaInicio.ToString().Substring(3,2)-@ser.FechaInicio.ToString().Substring(0,2)">
                                         </div>
                                         <div class="campos campos_ultimos">
-                                            <input id="ser_final_@ViewBag.ControlServicios.IndexOf(ser)" name="servicio_temino_actual" type="date" min="@ser.FechaInicio.ToString().Substring(6,4)-@ser.FechaInicio.ToString().Substring(3,2)-@ser.FechaInicio.ToString().Substring(0,2)" oninvalid="error_campos(2)" onchange="setSerEditar(@ViewBag.ControlServicios.IndexOf(ser))" required="required" class="form-control" value="@ser.FechaFinal.ToString().Substring(6,4)-@ser.FechaFinal.ToString().Substring(3,2)-@ser.FechaFinal.ToString().Substring(0,2)">
+                                            <input id="ser_final_@ViewBag.ControlServicios.IndexOf(ser)" name="servicio_temino_actual" type="date" min="@ser.FechaInicio.ToString().Substring(6,4)-@ser.FechaInicio.ToString().Substring(3,2)-@ser.FechaInicio.ToString().Substring(0,2)" oninvalid="load('none');  error_campos(2)" onchange="setSerEditar(@ViewBag.ControlServicios.IndexOf(ser))" required="required" class="form-control" value="@ser.FechaFinal.ToString().Substring(6,4)-@ser.FechaFinal.ToString().Substring(3,2)-@ser.FechaFinal.ToString().Substring(0,2)">
                                         </div>
                                         <div class="campos campos_ultimos">
                                             <div class="quitar">
@@ -327,7 +327,7 @@
                                             <div>R@(ViewBag.Riesgos_CC.IndexOf(r) + 1)</div>
                                         </div>
                                         <div class="campos campos_ultimos">
-                                            <textarea id="rie_cc_desc_@ViewBag.Riesgos_CC.IndexOf(r)" name="riesgos_descripcion_actual" maxlength="150" placeholder="Descripción" onkeyup="contar('@ViewBag.Riesgos_CC.IndexOf(r)', 'contar-riesgo-desc', 'conteo-riesgo-desc-')" oninvalid="error_campos(3)" onchange="setRieEditar(@ViewBag.Riesgos_CC.IndexOf(r),'cc')" required="required" class="form-control contar-riesgo-desc">@r.Descripcion</textarea>
+                                            <textarea id="rie_cc_desc_@ViewBag.Riesgos_CC.IndexOf(r)" name="riesgos_descripcion_actual" maxlength="150" placeholder="Descripción" onkeyup="contar('@ViewBag.Riesgos_CC.IndexOf(r)', 'contar-riesgo-desc', 'conteo-riesgo-desc-')" oninvalid="load('none');  error_campos(3)" onchange="setRieEditar(@ViewBag.Riesgos_CC.IndexOf(r),'cc')" required="required" class="form-control contar-riesgo-desc">@r.Descripcion</textarea>
                                             <div id="conteo-riesgo-desc-@ViewBag.Riesgos_CC.IndexOf(r)" class="campos_ultimos conteo-riesgo-desc">
                                                 <div>Caracteres: @r.Descripcion.Length/150</div>
                                             </div>
@@ -363,7 +363,7 @@
                                             <div>R@(ViewBag.Riesgos_No.IndexOf(r) + 1)</div>
                                         </div>
                                         <div class="campos campos_ultimos">
-                                            <textarea id="rie_no_desc_@ViewBag.Riesgos_No.IndexOf(r)" name="riesgos_descripcion_actual" maxlength="150" placeholder="Descripción" onkeyup="contar('@ViewBag.Riesgos_No.IndexOf(r)', 'contar-riesgo_no-desc', 'conteo-riesgo_no-desc-')" oninvalid="error_campos(3)" onchange="setRieEditar(@ViewBag.Riesgos_No.IndexOf(r),'no')" required="required" class="form-control contar-riesgo_no-desc">@r.Descripcion</textarea>
+                                            <textarea id="rie_no_desc_@ViewBag.Riesgos_No.IndexOf(r)" name="riesgos_descripcion_actual" maxlength="150" placeholder="Descripción" onkeyup="contar('@ViewBag.Riesgos_No.IndexOf(r)', 'contar-riesgo_no-desc', 'conteo-riesgo_no-desc-')" oninvalid="load('none');  error_campos(3)" onchange="setRieEditar(@ViewBag.Riesgos_No.IndexOf(r),'no')" required="required" class="form-control contar-riesgo_no-desc">@r.Descripcion</textarea>
                                             <div id="conteo-riesgo_no-desc-@ViewBag.Riesgos_No.IndexOf(r)" class="campos_ultimos conteo-riesgo_no-desc">
                                                 <div>Caracteres: @r.Descripcion.Length/150</div>
                                             </div>

@@ -51,13 +51,16 @@ namespace SistemaCC.Controllers.Clases
                     this.funcion = "tiene actividades asignadas";
                     break;
                 case 2:
-                    this.funcion = "un servicio se ve afectado";
+                    this.funcion = "un o varios servicios se ven afectados";
                     break;
                 case 3:
                     this.funcion = "aprobado";
                     break;
                 case 4:
                     this.funcion = "enviado a corrección";
+                    break;
+                case 5:
+                    this.funcion = "tiene actividades asignadas y un o varios servicios se ven afectados";
                     break;
             }
         }

@@ -281,23 +281,38 @@ namespace SistemaCC.Controllers
                 }
                 if(tipo == "Evidencia")
                 {
-                    foreach (var a in adjuntos)
+                    try
                     {
-                        Documentos documento = new Documentos();
-                        documento.DocPath = "";
-                        documento.TipoDoc = tipo;
-                        documento.fk_CC = id_CC;
-                        BD.Documentos.InsertOnSubmit(documento);
-                        BD.SubmitChanges();
+                        //validamos que sea un unico archivo de evidencia
+                        Documentos documento = (from d in BD.Documentos where d.TipoDoc == tipo select d).SingleOrDefault();
+                        if (documento == null)
+                        {
+                            documento = new Documentos();
+                            documento.DocPath = "";
+                            documento.TipoDoc = tipo;
+                            documento.fk_CC = id_CC;
+                            BD.Documentos.InsertOnSubmit(documento);
+                            BD.SubmitChanges();
+                        }
+                        else
+                        { 
+                            documento.DocPath = "";
+                            documento.TipoDoc = tipo;
+                            documento.fk_CC = id_CC;
+                            BD.SubmitChanges();
+                        }
                         //Creamos en archivo con el id que le corresponde
                         string carpetaCC = Path.Combine(Server.MapPath("~/Archivos/"), "CC_" + id_CC);
                         Directory.CreateDirectory(carpetaCC);
                         string path = Path.Combine(Server.MapPath("~/Archivos/CC_" + id_CC), documento.Id_Do + "_Evidencia.pdf");
-                        a.SaveAs(path);
+                        adjuntos[0].SaveAs(path);
                         documento.DocPath = path;
                         BD.SubmitChanges();
                     }
-
+                    catch(Exception e)
+                    {
+                        
+                    }
                 }
             }
         }
@@ -381,7 +396,7 @@ namespace SistemaCC.Controllers
             ViewBag.Servicios = (from sc in BD.ControlServicio where sc.fk_CC == id select sc).ToList();
             ViewBag.Riesgos_CC = (from r in BD.Riesgos where r.fk_CC == id && r.Tipo == "ControlCambio" select r).ToList();
             ViewBag.Riesgos_No = (from r in BD.Riesgos where r.fk_CC == id && r.Tipo == "No" select r).ToList();
-            var documentos = (from d in BD.Documentos where d.fk_CC == id && d.TipoDoc == "Adjunto" select d);
+            var documentos = (from d in BD.Documentos where d.fk_CC == id && d.TipoDoc == "Adjunto" select d).ToList();
             List<Documentos> Documentos_imagenes = new List<Documentos>();
             List<Documentos> Documentos_pdf = new List<Documentos>();
             Documentos evidencia = new Documentos();
@@ -393,7 +408,6 @@ namespace SistemaCC.Controllers
                 if (nombre.Contains(".pdf"))
                 {
                     Documentos_pdf.Add(doc);
-                    if (doc.TipoDoc == "Evidencia") { evidencia = doc; }
                 }
                 else
                 {
@@ -402,7 +416,7 @@ namespace SistemaCC.Controllers
             }
             ViewBag.Documentos_imagenes = Documentos_imagenes;
             ViewBag.Documentos_pdf = Documentos_pdf;
-            ViewBag.Evidencia = evidencia;
+            ViewBag.Evidencia = (from d in BD.Documentos where d.fk_CC == id && d.TipoDoc == "Evidencia" select d).SingleOrDefault();
             return View();
         }
 
@@ -814,8 +828,11 @@ namespace SistemaCC.Controllers
                 }
                 // se desactiva notificacion de revision
                 Notificaciones notificaciones = (from n in BD.Notificaciones where n.fk_CC == id && n.Tipo == "Revision" && n.Activa == true select n).SingleOrDefault();
-                notificaciones.Activa = false;
-                BD.SubmitChanges();
+                if(notificaciones != null)
+                {
+                    notificaciones.Activa = false;
+                    BD.SubmitChanges();
+                }
                 return RedirectToAction("./../Home/Index", new
                 {
                     mensaje = "C10"
@@ -906,6 +923,7 @@ namespace SistemaCC.Controllers
             }
             ViewBag.Documentos_imagenes = Documentos_imagenes;
             ViewBag.Documentos_pdf = Documentos_pdf;
+            ViewBag.Evidencia = (from d in BD.Documentos where d.fk_CC == id && d.TipoDoc == "Evidencia" select d).SingleOrDefault();
             // Se revisa que no haya autrizado antes
             string error = "";
             List<Notificaciones> no = (from n in BD.Notificaciones where n.fk_U == Sesion && n.fk_CC == id && n.Activa == true && n.Tipo == "Autorizar" select n).ToList();
@@ -958,6 +976,7 @@ namespace SistemaCC.Controllers
                 }
                 ViewBag.Documentos_imagenes = Documentos_imagenes;
                 ViewBag.Documentos_pdf = Documentos_pdf;
+                ViewBag.Evidencia = (from d in BD.Documentos where d.fk_CC == id && d.TipoDoc == "Evidencia" select d).SingleOrDefault();
                 // Se revisa que no haya autrizado antes
                 List<Notificaciones> no = (from n in BD.Notificaciones where n.fk_U == Sesion && n.fk_CC == id && n.Activa == true && n.Tipo == "Autorizar" select n).ToList();
                 if (no.Count == 0)
@@ -1189,6 +1208,11 @@ namespace SistemaCC.Controllers
         {
             try
             {
+                // Notificaciones para navbar
+                List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
+                ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
+                ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
+                // Demas codigo
                 ViewBag.datos = (from cc in BD.ControlCambio where cc.Estado == "Terminado" select cc).ToList();
                 ViewBag.claves = General.generarListaClave(ViewBag.datos);
                 return View();
