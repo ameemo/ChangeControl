@@ -21,9 +21,12 @@
         <li class="nav-item">
             <a id="Link2" class="nav-link inactivo" href="#" onclick="tabs('2','seccion-activa', 'active')">CC Ejecución</a>
         </li>
-        <li class="nav-item">
-            <a id="Link3" class="nav-link inactivo" href="#" onclick="tabs('3','seccion-activa', 'active')">CC Revisión</a>
-        </li>
+        @if(ViewData["NavRol"].ToString() == "Admin")
+        {
+            <li class="nav-item">
+                <a id="Link3" class="nav-link inactivo" href="#" onclick="tabs('3','seccion-activa', 'active')">CC Revisión</a>
+            </li>
+        }
     </ul>
     <div id="Seccion1" class="col-md-12 seccion-activa">
         <div class="col-md-12 seccion_contenedor">
@@ -241,47 +244,50 @@
             </h5>
         }
     </div>
-    <div id="Seccion3" class="col-md-12 seccion-inactiva">
-        <div class="col-md-12 seccion">
-            <h1>Controles de cambio a revisar</h1>
-        </div>
-        @if (ViewBag.Revision_CC.Count > 0)
-        {
-            <table id="Revision_CC" class="table table-hover">
-                <thead class="thead-info">
-                    <tr>
-                        <th scope="col">Clave</th>
-                        <th scope="col">Titulo</th>
-                        <th scope="col">Creador</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var cc in ViewBag.Revision_CC as IEnumerable<SistemaCC.Models.ControlCambio>)
-                    {
+    @if (ViewData["NavRol"].ToString() == "Admin")
+    {
+        <div id="Seccion3" class="col-md-12 seccion-inactiva">
+            <div class="col-md-12 seccion">
+                <h1>Controles de cambio a revisar</h1>
+            </div>
+            @if (ViewBag.Revision_CC.Count > 0)
+            {
+                <table id="Revision_CC" class="table table-hover">
+                    <thead class="thead-info">
                         <tr>
-                            <td>@ViewBag.Claves_enrcc[ViewBag.Revision_CC.IndexOf(cc)]</td>
-                            <td>@cc.Titulo</td>
-                            <td>@cc.Usuario.Nombre @cc.Usuario.ApePaterno</td>
-                            <td class="link texto">
-                                <a href="~/ControlCambio/Revisar/@cc.Id_CC" onclick="load('block')">Revisar</a>
-                            </td>
-                            <td class="link">
-                                <a href="~/ControlCambio/Ver/@cc.Id_CC" onclick="load('block')"><span class="icon-eye"></span></a>
-                            </td>
+                            <th scope="col">Clave</th>
+                            <th scope="col">Titulo</th>
+                            <th scope="col">Creador</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        }
-        @if (ViewBag.Revision_CC.Count == 0)
-        {
-            <h5 class="text-center">
-                <span class="badge badge-secondary">No hay controles de cambio para revisar</span>
-            </h5>
-        }
-    </div>
+                    </thead>
+                    <tbody>
+                        @foreach (var cc in ViewBag.Revision_CC as IEnumerable<SistemaCC.Models.ControlCambio>)
+                        {
+                            <tr>
+                                <td>@ViewBag.Claves_enrcc[ViewBag.Revision_CC.IndexOf(cc)]</td>
+                                <td>@cc.Titulo</td>
+                                <td>@cc.Usuario.Nombre @cc.Usuario.ApePaterno</td>
+                                <td class="link texto">
+                                    <a href="~/ControlCambio/Revisar/@cc.Id_CC" onclick="load('block')">Revisar</a>
+                                </td>
+                                <td class="link">
+                                    <a href="~/ControlCambio/Ver/@cc.Id_CC" onclick="load('block')"><span class="icon-eye"></span></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            @if (ViewBag.Revision_CC.Count == 0)
+            {
+                <h5 class="text-center">
+                    <span class="badge badge-secondary">No hay controles de cambio para revisar</span>
+                </h5>
+            }
+        </div>
+    }
 </div>
 @section Scripts
 {

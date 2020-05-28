@@ -146,7 +146,7 @@ namespace SistemaCC.Controllers
             ServiciosAplicaciones servapp = (from s in BD.ServiciosAplicaciones where s.Id_SA == id select s).SingleOrDefault();
             servapp.Activo = false;
             BD.SubmitChanges();
-            return View();
+            return RedirectToAction("Index", new { mensaje = "C6" });
         }
     }
 }

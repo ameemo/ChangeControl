@@ -344,3 +344,6 @@ label.normal::after{
 .dataTables_wrapper {
     width: 100% !important;
 }
+.fancybox-overlay {
+    z-index: 98 !important;
+}

@@ -172,7 +172,7 @@
     <script>
         $(document).ready(function () {
             var check = document.getElementById("switch_aut")
-            check.addEventListener("change", ocultarSpan, false)
+            if (check !== null && check !== undefined) { check.addEventListener("change", ocultarSpan, false) }
             $(".fancybox-thumb").fancybox({
                 prevEffect: 'none',
                 nextEffect: 'none',

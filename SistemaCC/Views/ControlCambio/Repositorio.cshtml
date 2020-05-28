@@ -6,9 +6,12 @@
     <div class="seccion">
         <h1>Repositorio</h1>
     </div>
+    @if (ViewData["NavRol"].ToString() == "Admin")
+    {
     <div class="seccion_boton">
-        <a class="btn btn-success" href="~/Usuarios/Crear"><span class="icon-plus-square"></span> Crear</a>
+        <a class="btn btn-success" href="~/Usuarios/Crear"><span class="icon-file"></span> Exportar</a>
     </div>
+    }
 </div>
 @if (ViewBag.datos.Count > 0)
 {
@@ -32,15 +35,19 @@
                 <td>@dato.Usuario.Nombre @dato.Usuario.ApePaterno @dato.Usuario.ApeMaterno</td>
                 <td>@dato.FechaEjecucion.ToString().Substring(0, 10)</td>
                 <td class="link">
-                    <a href="~/Usuarios/Ver/@dato.Id_CC"><span class="icon-eye"></span></a>
+                    <a href="~/ControlCambio/Ver/@dato.Id_CC"><span class="icon-eye"></span></a>
                 </td>
                 @if (dato.Exito)
                 {
-                    <td><span class="text-success icon-check-square"></span></td>
+                    <td class="text-center">
+                        <span class="text-success icon-check-square"></span>
+                    </td>
                 }
                 else
                 {
-                    <td><span class="text-danger icon-x-square"></span></td>
+                    <td class="text-center">
+                        <span class="text-danger icon-x-square"></span>
+                    </td>
                 }
             </tr>
             }
@@ -79,6 +86,7 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
                 }
             });
+            load('none')
         });
     </script>
 }

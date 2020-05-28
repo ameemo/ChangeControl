@@ -284,7 +284,7 @@ namespace SistemaCC.Controllers
                     try
                     {
                         //validamos que sea un unico archivo de evidencia
-                        Documentos documento = (from d in BD.Documentos where d.TipoDoc == tipo select d).SingleOrDefault();
+                        Documentos documento = (from d in BD.Documentos where d.fk_CC == id_CC && d.TipoDoc == tipo select d).SingleOrDefault();
                         if (documento == null)
                         {
                             documento = new Documentos();
@@ -304,7 +304,7 @@ namespace SistemaCC.Controllers
                         //Creamos en archivo con el id que le corresponde
                         string carpetaCC = Path.Combine(Server.MapPath("~/Archivos/"), "CC_" + id_CC);
                         Directory.CreateDirectory(carpetaCC);
-                        string path = Path.Combine(Server.MapPath("~/Archivos/CC_" + id_CC), documento.Id_Do + "_Evidencia.pdf");
+                        string path = Path.Combine(Server.MapPath("~/Archivos/CC_" + id_CC), "Evidencia.pdf");
                         adjuntos[0].SaveAs(path);
                         documento.DocPath = path;
                         BD.SubmitChanges();
@@ -966,8 +966,8 @@ namespace SistemaCC.Controllers
             {
                 // Notificaciones para navbar
                 List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
-                var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).SingleOrDefault();
-                ViewData["NavRol"] = rol != null ? "Admin" : "Funcional";
+                var rolnav = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).SingleOrDefault();
+                ViewData["NavRol"] = rolnav != null ? "Admin" : "Funcional";
                 ViewData["NavNombre"] = (from u in BD.Usuario where u.Id_U == Sesion select u.Nombre).SingleOrDefault();
                 ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
                 ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
