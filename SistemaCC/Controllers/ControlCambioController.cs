@@ -523,6 +523,11 @@ namespace SistemaCC.Controllers
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             // Codigo general
             ControlCambio model = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
+            //Solo el dueño del control puede editarlo
+            if(Sesion != model.Creador && model.Estado != "Creado")
+            {
+                return RedirectToAction("./../Home/Index");
+            }
             List<Usuario> usuarios = (from a in BD.Usuario where a.Activo == true select a).ToList();
             List<ServiciosAplicaciones> servicios = (from a in BD.ServiciosAplicaciones where a.Activo == true select a).ToList();
             ViewBag.servicios = servicios;
@@ -643,7 +648,6 @@ namespace SistemaCC.Controllers
                 {
                     mensaje = "C9"
                 });
-
             }
             catch(Exception e)
             {
@@ -657,6 +661,12 @@ namespace SistemaCC.Controllers
         // GET: ControlCambio/Cerrar/5
         public ActionResult Cerrar(int id)
         {
+            //validar que el control cumpla con el estado de En Ejecucion para poder cerrarlo
+            ControlCambio cc = (from control in BD.ControlCambio where control.Id_CC == id select control).SingleOrDefault();
+            if(cc.Estado != "EnEjecucion")
+            {
+                return RedirectToAction("./../Home/Index");
+            }
             return View();
         }
 
@@ -715,8 +725,14 @@ namespace SistemaCC.Controllers
             ViewData["NavNombre"] = (from u in BD.Usuario where u.Id_U == Sesion select u.Nombre).SingleOrDefault();
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
+            //validar que el control cumpla con el estado de EnEvaluacion
+            ControlCambio cc = (from control in BD.ControlCambio where control.Id_CC == id select control).SingleOrDefault();
+            if (cc.Estado != "EnEvaluacion")
+            {
+                return RedirectToAction("./../Home/Index");
+            }
             // Demas codigo
-            ViewBag.Informacion = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
+            ViewBag.Informacion = cc;
             ViewBag.Actividades_Prev = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "Previa" select ap).ToList();
             ViewBag.Actividades_CC = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "ControlCambio" select ap).ToList();
             ViewBag.Servicios = (from sc in BD.ControlServicio join s in BD.ServiciosAplicaciones on sc.fk_SA equals s.Id_SA where sc.fk_CC == id select sc).ToList();
@@ -869,6 +885,11 @@ namespace SistemaCC.Controllers
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             // Codigo general
             ControlCambio model = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
+            //validar que el control cumpla con el estado de EnCorreccion;
+            if (model.Estado != "EnCorreccion")
+            {
+                return RedirectToAction("./../Home/Index");
+            }
             List<Usuario> usuarios = (from a in BD.Usuario where a.Activo == true select a).ToList();
             List<ServiciosAplicaciones> servicios = (from a in BD.ServiciosAplicaciones where a.Activo == true select a).ToList();
             ViewBag.servicios = servicios;
@@ -1139,6 +1160,10 @@ namespace SistemaCC.Controllers
             try
             {
                 Notificaciones consulta = (from n in BD.Notificaciones where n.Id_No == id select n).SingleOrDefault();
+                if(consulta == null)
+                {
+                    return RedirectToAction("./../Home/Index");
+                }
                 ControlCambio cc = (from control in BD.ControlCambio where control.Id_CC == consulta.fk_CC select control).SingleOrDefault();
                 model = consulta;
                 List<Autorizaciones> aut = new List<Autorizaciones>();
@@ -1220,6 +1245,10 @@ namespace SistemaCC.Controllers
             else
             {
                 aut = (from a in BD.Autorizaciones where a.fk_CC == control.Id_CC && a.Tipo == "Termino" select a).ToList();
+            }
+            if(aut.Count == 0)
+            {
+                return RedirectToAction("./../Home/Index");
             }
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_CC == id && n.Activa == true select n).ToList();
             ViewBag.Autorizaciones = aut;
