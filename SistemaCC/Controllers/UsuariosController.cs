@@ -66,6 +66,11 @@ namespace SistemaCC.Controllers
             ViewData["NavNombre"] = (from u in BD.Usuario where u.Id_U == Sesion select u.Nombre).SingleOrDefault();
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
+            //validar rol
+            if (rol == null)
+            {
+                return RedirectToAction("./../Home/Index");
+            }
             // Demas codigo
             var datos = (from a in BD.Usuario select a).ToList();
             ViewBag.datos = datos;
@@ -99,6 +104,11 @@ namespace SistemaCC.Controllers
             ViewData["NavNombre"] = (from u in BD.Usuario where u.Id_U == Sesion select u.Nombre).SingleOrDefault();
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
+            //validar rol
+            if (rol == null)
+            {
+                return RedirectToAction("./../Home/Index");
+            }
             // Demas codigo
             ViewBag.Modelo = (from u in BD.Usuario where u.Id_U == id select u).SingleOrDefault();
             ViewBag.Roles = (from ur in BD.UsuarioRol where ur.fk_Us == id select ur).ToList();
@@ -115,6 +125,11 @@ namespace SistemaCC.Controllers
             ViewData["NavNombre"] = (from u in BD.Usuario where u.Id_U == Sesion select u.Nombre).SingleOrDefault();
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
+            //validar rol
+            if (rol == null)
+            {
+                return RedirectToAction("./../Home/Index");
+            }
             // Demas codigo
             ViewBag.Roles = (from r in BD.Roles select r).ToList();
             ViewData["ME1"] = Mensaje.getMError(0);
@@ -181,6 +196,15 @@ namespace SistemaCC.Controllers
             ViewData["NavNombre"] = (from u in BD.Usuario where u.Id_U == Sesion select u.Nombre).SingleOrDefault();
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
+            // Codigo para el modelo y los mensajes
+            Usuario model = (from u in BD.Usuario where u.Id_U == id select u).SingleOrDefault();
+            //validar rol
+            if (rolnav == null || model.Activo == false)
+            {
+                return RedirectToAction("./../Home/Index");
+            }
+            ViewData["ME1"] = Mensaje.getMError(0);
+            ViewData["MA"] = Mensaje.getMAdvertencia(2);
             // Codigo para saber que roles tiene en este momendo el usuario
             List<Roles> Roles = (from r in BD.Roles select r).ToList();
             List<UsuarioRol> UsuarioRoles = (from r in BD.UsuarioRol where r.fk_Us == id select r).ToList();
@@ -297,6 +321,11 @@ namespace SistemaCC.Controllers
         // GET: Usuarios/Bloquear/5
         public ActionResult Bloquear(int id)
         {
+            var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).SingleOrDefault();
+            if(rol == null)
+            {
+                return RedirectToAction("./../Home/Index");
+            }
             var row = (from a in BD.Usuario where a.Id_U == id select a).SingleOrDefault();
             row.Activo = false;
             BD.SubmitChanges();
@@ -306,6 +335,11 @@ namespace SistemaCC.Controllers
         // GET: Usuarios/Bloquear/5
         public ActionResult Desbloquear(int id)
         {
+            var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).SingleOrDefault();
+            if (rol == null)
+            {
+                return RedirectToAction("./../Home/Index");
+            }
             var row = (from a in BD.Usuario where a.Id_U == id select a).SingleOrDefault();
             row.Activo = true;
             BD.SubmitChanges();

@@ -324,6 +324,10 @@ namespace SistemaCC.Controllers
             // Variable para tratar los errores y mostrar los mensajes
             int error = 0;
             ControlCambio control = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
+            if(control.Creador != Sesion)
+            {
+                return RedirectToAction("./../Home/Index");
+            }
             if (control.Estado == "Creado")
             {
                 control.Estado = "EnEvaluacion";

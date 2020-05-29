@@ -108,13 +108,18 @@ namespace SistemaCC.Controllers
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             // Demas codigo
+            ServiciosAplicaciones model = (from sa in BD.ServiciosAplicaciones where sa.Id_SA == id select sa).SingleOrDefault();
+            //un servapp bloqueado no puede ser editado
+            if(model.Activo == false)
+            {
+                return RedirectToAction("./Index");
+            }
             var usuarios = (from a in BD.Usuario select a).ToList();
             List<Usuario> usuarios2 = new List<Usuario>();
             foreach (var usuario in usuarios)
             {
                 usuarios2.Add(new Usuario { Id_U = usuario.Id_U, Nombre = usuario.Nombre + " " + usuario.ApePaterno + " " + usuario.ApeMaterno });
             }
-            ServiciosAplicaciones model = (from sa in BD.ServiciosAplicaciones where sa.Id_SA == id select sa).SingleOrDefault();
             ViewData["usuarios"] = new SelectList(usuarios2, "Id_U", "Nombre");
             return View(model);
         }
