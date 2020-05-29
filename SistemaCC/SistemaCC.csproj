@@ -293,6 +293,7 @@
     </Content>
     <Content Include="Archivos\CC_39\Adjuntos\Cronograma.pdf" />
     <Content Include="Archivos\CC_41\Adjuntos\6_Cronograma.pdf" />
+    <Content Include="Archivos\reporte1.xlsx" />
     <None Include="Models\BDControlCambio.dbml.layout">
       <DependentUpon>BDControlCambio.dbml</DependentUpon>
     </None>
