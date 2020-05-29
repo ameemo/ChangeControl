@@ -23,6 +23,11 @@ namespace SistemaCC.Controllers
             ViewData["NavNombre"] = (from u in BD.Usuario where u.Id_U == Sesion select u.Nombre).SingleOrDefault();
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
+            //validar rol
+            if(rol == null)
+            {
+                return RedirectToAction("./../Home/Index");
+            }
             // Consultas para mostrar informacion
             ViewBag.Tiempos = (from m in BD.Monitoreo where m.Tipo == "Tiempo" orderby m.Fecha descending select m).ToList();
             ViewBag.Cantidad = (from m in BD.Monitoreo where m.Tipo == "Cantidad" orderby m.Fecha descending select m).ToList();
@@ -55,6 +60,12 @@ namespace SistemaCC.Controllers
         // GET: Monitoreo/Create
         public ActionResult Crear(string tipo)
         {
+            var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).SingleOrDefault();
+            //validar rol
+            if (rol == null)
+            {
+                return RedirectToAction("./../Home/Index");
+            }
             ViewData["Tipo"] = tipo;
             return View();
         }

@@ -524,7 +524,7 @@ namespace SistemaCC.Controllers
             // Codigo general
             ControlCambio model = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
             //Solo el dueño del control puede editarlo
-            if(Sesion != model.Creador && model.Estado != "Creado")
+            if(Sesion != model.Creador || model.Estado != "Creado")
             {
                 return RedirectToAction("./../Home/Index");
             }
@@ -726,13 +726,13 @@ namespace SistemaCC.Controllers
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             //validar que el control cumpla con el estado de EnEvaluacion
-            ControlCambio cc = (from control in BD.ControlCambio where control.Id_CC == id select control).SingleOrDefault();
-            if (cc.Estado != "EnEvaluacion")
+            ControlCambio cc2 = (from control in BD.ControlCambio where control.Id_CC == id select control).SingleOrDefault();
+            if (cc2.Estado != "EnEvaluacion" || rol == null)
             {
                 return RedirectToAction("./../Home/Index");
             }
             // Demas codigo
-            ViewBag.Informacion = cc;
+            ViewBag.Informacion = cc2;
             ViewBag.Actividades_Prev = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "Previa" select ap).ToList();
             ViewBag.Actividades_CC = (from ac in BD.ActividadesControl join ap in BD.Actividades on ac.fk_Ac equals ap.Id_Ac where ac.fk_CC == id && ap.Tipo == "ControlCambio" select ap).ToList();
             ViewBag.Servicios = (from sc in BD.ControlServicio join s in BD.ServiciosAplicaciones on sc.fk_SA equals s.Id_SA where sc.fk_CC == id select sc).ToList();
