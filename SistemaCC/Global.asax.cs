@@ -117,53 +117,56 @@ namespace SistemaCC
                 // Verificar que las autorizaciones se hagan en tiempo
                 fecha = fecha.AddDays(-tiempo);
                 List<Notificaciones> notis = (from n in BD.Notificaciones where n.FechaEnvio == fecha && (n.Tipo == "AutorizarE" || n.Tipo == "AutorizarT") && n.Activa == true select n).ToList();
-                // mandamos un recordatorio
-                foreach (var n in notis)
+                if (notis.Count > 0)
                 {
-                    //actualizamos fecha de notificacion
-                    n.FechaEnvio = DateTime.Today;
-                    BD.SubmitChanges();
-                    // Validamos que si es SAmin quien no ha autorizado
-                    List<UsuarioRol> urs = (from u in BD.UsuarioRol where u.fk_Us == n.fk_U select u).ToList();
-                    foreach (var ur in urs)
+                    // mandamos un recordatorio
+                    foreach (var n in notis)
                     {
-                        if (ur.fk_Rol == 2)
+                        //actualizamos fecha de notificacion
+                        n.FechaEnvio = DateTime.Today;
+                        BD.SubmitChanges();
+                        // Validamos que si es SAmin quien no ha autorizado
+                        List<UsuarioRol> urs = (from u in BD.UsuarioRol where u.fk_Us == n.fk_U select u).ToList();
+                        foreach (var ur in urs)
                         {
-                            //enviamos recordatorio
+                            if (ur.fk_Rol == 2)
+                            {
+                                //enviamos recordatorio
+                                Notificacion not = new Notificacion(n.ControlCambio.Id_CC, 1);
+                                not.fecha_ejecucion_cc = n.ControlCambio.FechaEjecucion.ToString().Substring(0, 10);
+                                not.clave_cc = General.generarClave(n.ControlCambio);
+                                not.email = true;
+                                General.Email(n.Usuario.Email, not.getSubject(3), not.generate(7));
+                                break;
+                            }
+                        }
+                        int autET = n.Tipo == "AutorizarE" ? 1 : 2;
+                        // saber que act o ser tiene el usuario
+                        var act = (from a in BD.ActividadesControl where a.fk_CC == n.fk_CC && a.Actividades.Responsable == n.fk_U select a).ToList();
+                        var sevapp = (from s in BD.ControlServicio where s.fk_CC == n.fk_CC && s.ServiciosAplicaciones.Dueno == n.fk_U select s).ToList();
+                        if (act.Count > 0)
+                        {
                             Notificacion not = new Notificacion(n.ControlCambio.Id_CC, 1);
                             not.fecha_ejecucion_cc = n.ControlCambio.FechaEjecucion.ToString().Substring(0, 10);
                             not.clave_cc = General.generarClave(n.ControlCambio);
                             not.email = true;
-                            General.Email(n.Usuario.Email, not.getSubject(3), not.generate(7));
-                            break;
+                            General.Email(n.Usuario.Email, not.getSubject(3), not.generate(autET));
+                        }
+                        if (sevapp.Count > 0)
+                        {
+                            Notificacion not = new Notificacion(n.ControlCambio.Id_CC, 2);
+                            not.fecha_ejecucion_cc = n.ControlCambio.FechaEjecucion.ToString().Substring(0, 10);
+                            not.clave_cc = General.generarClave(n.ControlCambio);
+                            not.email = true;
+                            General.Email(n.Usuario.Email, not.getSubject(3), not.generate(autET));
+
                         }
                     }
-                    int autET = n.Tipo == "AutorizarE" ? 1 : 2;
-                    // saber que act o ser tiene el usuario
-                    var act = (from a in BD.ActividadesControl where a.fk_CC == n.fk_CC && a.Actividades.Responsable == n.fk_U select a).ToList();
-                    var sevapp = (from s in BD.ControlServicio where s.fk_CC == n.fk_CC && s.ServiciosAplicaciones.Dueno == n.fk_U select s).ToList();
-                    if (act.Count > 0)
-                    {
-                        Notificacion not = new Notificacion(n.ControlCambio.Id_CC, 1);
-                        not.fecha_ejecucion_cc = n.ControlCambio.FechaEjecucion.ToString().Substring(0, 10);
-                        not.clave_cc = General.generarClave(n.ControlCambio);
-                        not.email = true;
-                        General.Email(n.Usuario.Email, not.getSubject(3), not.generate(autET));
-                    }
-                    if (sevapp.Count > 0)
-                    {
-                        Notificacion not = new Notificacion(n.ControlCambio.Id_CC, 2);
-                        not.fecha_ejecucion_cc = n.ControlCambio.FechaEjecucion.ToString().Substring(0, 10);
-                        not.clave_cc = General.generarClave(n.ControlCambio);
-                        not.email = true;
-                        General.Email(n.Usuario.Email, not.getSubject(3), not.generate(autET));
-
-                    }
+                    // enviar notificación al admin de que se recordaron a los usuarios anteriores
+                    noti.noAutorizo = notis;
+                    noti.email = true;
+                    General.Email(admin, noti.getSubject(3), noti.generate(3));
                 }
-                // enviar notificación al admin de que se recordaron a los usuarios anteriores
-                noti.noAutorizo = notis;
-                noti.email = true;
-                General.Email(admin, noti.getSubject(3), noti.generate(3));
                 Thread.Sleep(86400000);
             }
         }
