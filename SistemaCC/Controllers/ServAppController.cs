@@ -148,5 +148,13 @@ namespace SistemaCC.Controllers
             BD.SubmitChanges();
             return RedirectToAction("Index", new { mensaje = "C6" });
         }
+        // GET: ServApp/Bloquear/5
+        public ActionResult Desbloquear(int id)
+        {
+            ServiciosAplicaciones servapp = (from s in BD.ServiciosAplicaciones where s.Id_SA == id select s).SingleOrDefault();
+            servapp.Activo = true;
+            BD.SubmitChanges();
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -271,7 +271,7 @@ namespace SistemaCC.Controllers
             ViewBag.Claves_rcc = generarListaClave(ViewBag.Revisados_CC);
             ViewBag.ParaAut_CC = (from cc in BD.ControlCambio where (cc.Estado == "PausadoE" || cc.Estado == "Autorizado" || cc.Estado == "PausadoT") && cc.Creador == Sesion select cc).ToList();
             ViewBag.Claves_pacc = generarListaClave(ViewBag.ParaAut_CC);
-            ViewBag.Ejecucion_CC = (from cc in BD.ControlCambio where (cc.Estado == "EnEjecucion" || cc.Estado == "PausadoT") && cc.Creador == Sesion select cc).ToList();
+            ViewBag.Ejecucion_CC = (from cc in BD.ControlCambio where cc.Estado == "EnEjecucion" && cc.Creador == Sesion select cc).ToList();
             ViewBag.Claves_ecc = generarListaClave(ViewBag.Ejecucion_CC);
             ViewBag.Revision_CC = (from cc in BD.ControlCambio where cc.Estado == "EnEvaluacion" && cc.Creador == Sesion select cc).ToList();
             ViewBag.Claves_enrcc = generarListaClave(ViewBag.Revision_CC);
