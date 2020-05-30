@@ -61,12 +61,14 @@ namespace SistemaCC.Controllers
         public ActionResult Crear(string tipo)
         {
             var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).SingleOrDefault();
+            string error = "";
             //validar rol
             if (rol == null)
             {
-                return RedirectToAction("./../Home/Index");
+                error = Mensaje.getMError(1);
             }
             ViewData["Tipo"] = tipo;
+            ViewData["Error"] = error;
             return View();
         }
 

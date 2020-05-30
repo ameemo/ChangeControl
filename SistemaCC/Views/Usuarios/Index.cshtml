@@ -20,7 +20,7 @@
                 <h1>Usuarios</h1>
             </div>
             <div class="seccion_boton">
-                <a class="btn btn-success" href="~/Usuarios/Crear" onclick="load('block')"><span class="icon-plus-square"></span> Crear</a>
+                <a class="btn btn-success" href="~/Usuarios/Crear"><span class="icon-plus-square"></span> Crear</a>
             </div>
         </div>
         <table id="datos" class="table table-hover">
@@ -45,7 +45,7 @@
                             <a class="fancybox fancybox.ajax" href="~/Usuarios/Ver?id=@dato.Id_U"><span class="icon-eye"></span></a>
                         </td>
                         <td class="link">
-                            <a href="~/Usuarios/Editar/@dato.Id_U" onclick="load('block')"><span class="icon-edit"></span></a>
+                            <a href="~/Usuarios/Editar/@dato.Id_U"><span class="icon-edit"></span></a>
                         </td>
                         @if (dato.Activo == true)
                         {

@@ -34,7 +34,7 @@
                 <h1>Tus controles de cambio CREADOS</h1>
             </div>
             <div class="seccion_boton">
-                <a class="btn btn-success" onclick="load('block')" href="~/ControlCambio/Crear"><span class="icon-plus-square"></span> Crear</a>
+                <a class="btn btn-success" href="~/ControlCambio/Crear"><span class="icon-plus-square"></span> Crear</a>
             </div>
         </div>
         @if (ViewBag.Creados_CC.Count > 0)
@@ -65,7 +65,7 @@
                                     -
                                 </td>
                                 <td class="link">
-                                    <a href="~/ControlCambio/Ver/@cc.Id_CC" onclick="load('block')"><span class="icon-eye"></span></a>
+                                    <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
                                 </td>
                                 <td class="link">-</td>
                             }
@@ -75,10 +75,10 @@
                                     @Html.ActionLink("Enviar a revisar", "cambiarEstado", new { id = cc.Id_CC}, new { onclick="load('block')" })
                                 </td>
                                 <td class="link">
-                                    <a href="~/ControlCambio/Ver/@cc.Id_CC" onclick="load('block')"><span class="icon-eye"></span></a>
+                                    <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
                                 </td>
                                 <td class="link">
-                                    <a href="~/ControlCambio/Editar/@cc.Id_CC" onclick="load('block')"><span class="icon-edit"></span></a>
+                                    <a href="~/ControlCambio/Editar/@cc.Id_CC"><span class="icon-edit"></span></a>
                                 </td>
                             }
                         </tr>
@@ -132,7 +132,7 @@
                                 </td>
                             }
                             <td class="link">
-                                <a href="~/ControlCambio/Ver/@cc.Id_CC" onclick="load('block')"><span class="icon-eye"></span></a>
+                                <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
                             </td>
                             @if (cc.Estado != "Aprobado")
                             {
@@ -141,7 +141,7 @@
                             else
                             {
                                 <td class="link">
-                                    <a href="~/ControlCambio/Editar/@cc.Id_CC" onclick="load('block')"><span class="icon-edit"></span></a>
+                                    <a href="~/ControlCambio/Editar/@cc.Id_CC"><span class="icon-edit"></span></a>
                                 </td>
                             }
                         </tr>
@@ -185,7 +185,7 @@
                                 <a class="fancybox fancybox.ajax" href="~/ControlCambio/Autorizaciones/@cc.Id_CC">Ver Autorizaciones</a>
                             </td>
                             <td class="link">
-                                <a href="~/ControlCambio/Ver/@cc.Id_CC" onclick="load('block')"><span class="icon-eye"></span></a>
+                                <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
                             </td>
                         </tr>
                     }
@@ -230,7 +230,7 @@
                                 @Html.ActionLink("Enviar a cerrar", "../ControlCambio/Cerrar", new { id = cc.Id_CC }, new { @class = "fancybox fancybox.ajax" })
                             </td>
                             <td class="link">
-                                <a href="~/ControlCambio/Ver/@cc.Id_CC" onclick="load('block')"><span class="icon-eye"></span></a>
+                                <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
                             </td>
                         </tr>
                     }
@@ -273,7 +273,7 @@
                                     <a href="~/ControlCambio/Revisar/@cc.Id_CC" onclick="load('block')">Revisar</a>
                                 </td>
                                 <td class="link">
-                                    <a href="~/ControlCambio/Ver/@cc.Id_CC" onclick="load('block')"><span class="icon-eye"></span></a>
+                                    <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
                                 </td>
                             </tr>
                         }

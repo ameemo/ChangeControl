@@ -28,7 +28,7 @@ else
     {
         case "NoAutorizado":
             <div class="notificacion-link text-center">
-                @Html.ActionLink("Ir al control de cambio", "Editar", new { id = Model.fk_CC }, new { onclick="load('block')" })
+                @Html.ActionLink("Ir al control de cambio", "Editar", new { id = Model.fk_CC })
             </div>
             <div class="campos campos_dos text-center">
                 <div class="campos campos_dos">
@@ -54,14 +54,19 @@ else
                 </div>
             }
             break;
-        case "Autorizar":
+        case "AutorizarE":
             <div class="notificacion-link text-center">
-                @Html.ActionLink("Ir al control de cambio", "Autorizar", new { id = Model.fk_CC, tipo = "Ejecucion" }, new { onclick="load('block')" })
+                @Html.ActionLink("Ir al control de cambio", "Autorizar", new { id = Model.fk_CC, tipo = "Ejecucion" })
+            </div>
+            break;
+        case "AutorizarT":
+            <div class="notificacion-link text-center">
+                @Html.ActionLink("Ir al control de cambio", "Autorizar", new { id = Model.fk_CC, tipo = "Termino" })
             </div>
             break;
         case "Correccion":
             <div class="notificacion-link text-center">
-                @Html.ActionLink("Ir al control de cambio", "Corregir", new { id = Model.fk_CC }, new { onclick="load('block')" })
+                @Html.ActionLink("Ir al control de cambio", "Corregir", new { id = Model.fk_CC })
             </div>
             break;
     }

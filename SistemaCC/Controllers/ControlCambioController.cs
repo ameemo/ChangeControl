@@ -284,30 +284,37 @@ namespace SistemaCC.Controllers
                     try
                     {
                         //validamos que sea un unico archivo de evidencia
-                        Documentos documento = (from d in BD.Documentos where d.fk_CC == id_CC && d.TipoDoc == tipo select d).SingleOrDefault();
-                        if (documento == null)
+                        List<Documentos> documento = (from d in BD.Documentos where d.fk_CC == id_CC && d.TipoDoc == tipo select d).ToList();
+                        if (documento.Count < 1)
                         {
-                            documento = new Documentos();
-                            documento.DocPath = "";
-                            documento.TipoDoc = tipo;
-                            documento.fk_CC = id_CC;
-                            BD.Documentos.InsertOnSubmit(documento);
+                            Documentos doc = new Documentos();
+                            doc.DocPath = "";
+                            doc.TipoDoc = tipo;
+                            doc.fk_CC = id_CC;
+                            BD.Documentos.InsertOnSubmit(doc);
+                            BD.SubmitChanges();
+                            //Creamos en archivo con el id que le corresponde
+                            string carpetaCC = Path.Combine(Server.MapPath("~/Archivos/"), "CC_" + id_CC);
+                            Directory.CreateDirectory(carpetaCC);
+                            string path = Path.Combine(Server.MapPath("~/Archivos/CC_" + id_CC), "Evidencia.pdf");
+                            adjuntos[0].SaveAs(path);
+                            doc.DocPath = path;
                             BD.SubmitChanges();
                         }
                         else
                         { 
-                            documento.DocPath = "";
-                            documento.TipoDoc = tipo;
-                            documento.fk_CC = id_CC;
+                            documento[0].DocPath = "";
+                            documento[0].TipoDoc = tipo;
+                            documento[0].fk_CC = id_CC;
+                            BD.SubmitChanges();
+                            //Creamos en archivo con el id que le corresponde
+                            string carpetaCC = Path.Combine(Server.MapPath("~/Archivos/"), "CC_" + id_CC);
+                            Directory.CreateDirectory(carpetaCC);
+                            string path = Path.Combine(Server.MapPath("~/Archivos/CC_" + id_CC), "Evidencia.pdf");
+                            adjuntos[0].SaveAs(path);
+                            documento[0].DocPath = path;
                             BD.SubmitChanges();
                         }
-                        //Creamos en archivo con el id que le corresponde
-                        string carpetaCC = Path.Combine(Server.MapPath("~/Archivos/"), "CC_" + id_CC);
-                        Directory.CreateDirectory(carpetaCC);
-                        string path = Path.Combine(Server.MapPath("~/Archivos/CC_" + id_CC), "Evidencia.pdf");
-                        adjuntos[0].SaveAs(path);
-                        documento.DocPath = path;
-                        BD.SubmitChanges();
                     }
                     catch(Exception e)
                     {
@@ -663,10 +670,12 @@ namespace SistemaCC.Controllers
         {
             //validar que el control cumpla con el estado de En Ejecucion para poder cerrarlo
             ControlCambio cc = (from control in BD.ControlCambio where control.Id_CC == id select control).SingleOrDefault();
+            string error = "";
             if(cc.Estado != "EnEjecucion")
             {
-                return RedirectToAction("./../Home/Index");
+                error = Mensaje.getMError(1);
             }
+            ViewData["Error"] = error;
             return View();
         }
 
@@ -692,7 +701,7 @@ namespace SistemaCC.Controllers
                 // si el control fue emergente desactivar notificaciones
                 if(controlCambio.Tipo == "Emergente")
                 {
-                    List<Notificaciones> notis = (from n in BD.Notificaciones where n.fk_CC == id && n.Tipo == "Autorizar" select n).ToList();
+                    List<Notificaciones> notis = (from n in BD.Notificaciones where n.fk_CC == id && (n.Tipo == "AutorizarE" && n.Tipo == "AutorizarT") && n.Activa == true select n).ToList();
                     foreach(var n in notis)
                     {
                         n.Activa = false;
@@ -700,7 +709,7 @@ namespace SistemaCC.Controllers
                     }
                 }
                 // generar notificaciones para autorizar el cierre
-                General.generarNotificacionesAut(model, 2);
+                General.generarNotificacionesAut(controlCambio, 2);
                 return RedirectToAction("./../Home/Index", new
                 {
                     mensaje = "C9"
@@ -965,7 +974,7 @@ namespace SistemaCC.Controllers
             ViewBag.Evidencia = (from d in BD.Documentos where d.fk_CC == id && d.TipoDoc == "Evidencia" select d).SingleOrDefault();
             // Se revisa que no haya autrizado antes
             string error = "";
-            List<Notificaciones> no = (from n in BD.Notificaciones where n.fk_U == Sesion && n.fk_CC == id && n.Activa == true && n.Tipo == "Autorizar" select n).ToList();
+            List<Notificaciones> no = (from n in BD.Notificaciones where n.fk_U == Sesion && n.fk_CC == id && n.Activa == true && (n.Tipo == "AutorizarT" || n.Tipo == "AutorizarE") select n).ToList();
             if (no.Count == 0)
             {
                 error = Mensaje.getMError(18);
@@ -1020,7 +1029,7 @@ namespace SistemaCC.Controllers
                 ViewBag.Documentos_pdf = Documentos_pdf;
                 ViewBag.Evidencia = (from d in BD.Documentos where d.fk_CC == id && d.TipoDoc == "Evidencia" select d).SingleOrDefault();
                 // Se revisa que no haya autrizado antes
-                List<Notificaciones> no = (from n in BD.Notificaciones where n.fk_U == Sesion && n.fk_CC == id && n.Activa == true && n.Tipo == "Autorizar" select n).ToList();
+                List<Notificaciones> no = (from n in BD.Notificaciones where n.fk_U == Sesion && n.fk_CC == id && n.Activa == true && (n.Tipo == "AutorizarT" || n.Tipo == "AutorizarE") select n).ToList();
                 if (no.Count == 0)
                 {
                     ViewData["MA"] = Mensaje.getMAdvertencia(0);
@@ -1094,14 +1103,16 @@ namespace SistemaCC.Controllers
                                         if ((cc.Estado == "PausadoT" || cc.Estado == "PausadoE") && cc.Tipo != "Emergente")
                                         {
                                             cc.Estado = cc.Estado == "PausadoE" ? "Autorizado" : "Terminado";
+                                            BD.SubmitChanges();
                                         }
                                         if(cc.Tipo == "Emergente")
                                         {
                                             DateTime hoy = DateTime.Today;
                                             cc.Estado = hoy == cc.FechaEjecucion ? "EnEjecucion": cc.Estado;
+                                            BD.SubmitChanges();
                                         }
                                         // Desactivar notificacion
-                                        Notificaciones not = (from n in BD.Notificaciones where n.fk_CC == id && n.fk_U == Sesion && n.Activa == true && (n.Tipo == "Autorizar" || n.Tipo == "Terminado") select n).SingleOrDefault();
+                                        Notificaciones not = (from n in BD.Notificaciones where n.fk_CC == id && n.fk_U == Sesion && n.Activa == true && (n.Tipo == "AutorizarE" || n.Tipo == "AutorizarT") select n).SingleOrDefault();
                                         not.Activa = false;
                                         BD.SubmitChanges();
                                         return RedirectToAction("./../Home/Index", new
@@ -1160,10 +1171,6 @@ namespace SistemaCC.Controllers
             try
             {
                 Notificaciones consulta = (from n in BD.Notificaciones where n.Id_No == id select n).SingleOrDefault();
-                if(consulta == null)
-                {
-                    return RedirectToAction("./../Home/Index");
-                }
                 ControlCambio cc = (from control in BD.ControlCambio where control.Id_CC == consulta.fk_CC select control).SingleOrDefault();
                 model = consulta;
                 List<Autorizaciones> aut = new List<Autorizaciones>();
@@ -1238,6 +1245,7 @@ namespace SistemaCC.Controllers
         {
             ControlCambio control = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
             List<Autorizaciones> aut = new List<Autorizaciones>();
+            string error = "";
             if(control.Estado == "PausadoE")
             {
                 aut = (from a in BD.Autorizaciones where a.fk_CC == control.Id_CC && a.Tipo == "Ejecutar" select a).ToList();
@@ -1248,10 +1256,11 @@ namespace SistemaCC.Controllers
             }
             if(aut.Count == 0)
             {
-                return RedirectToAction("./../Home/Index");
+                error = Mensaje.getMError(1);
             }
-            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_CC == id && n.Activa == true select n).ToList();
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_CC == id && n.Activa == true && (n.Tipo == "AutorizarT" || n.Tipo == "AutorizarE") select n).ToList();
             ViewBag.Autorizaciones = aut;
+            ViewData["Error"] = error;
             return View();
         }
         public ActionResult Repositorio()

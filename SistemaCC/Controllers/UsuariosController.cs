@@ -104,14 +104,16 @@ namespace SistemaCC.Controllers
             ViewData["NavNombre"] = (from u in BD.Usuario where u.Id_U == Sesion select u.Nombre).SingleOrDefault();
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
+            string error = "";
             //validar rol
             if (rol == null)
             {
-                return RedirectToAction("./../Home/Index");
+                error = Mensaje.getMError(1);
             }
             // Demas codigo
             ViewBag.Modelo = (from u in BD.Usuario where u.Id_U == id select u).SingleOrDefault();
             ViewBag.Roles = (from ur in BD.UsuarioRol where ur.fk_Us == id select ur).ToList();
+            ViewData["Error"] = error;
             return View();
         }
 
@@ -239,7 +241,6 @@ namespace SistemaCC.Controllers
             }
             ViewBag.Roles = rol;
             // Codigo para el modelo y los mensajes
-            Usuario model = (from u in BD.Usuario where u.Id_U == id select u).SingleOrDefault();
             ViewData["ME1"] = Mensaje.getMError(0);
             ViewData["MA"] = Mensaje.getMAdvertencia(2);
             return View(model);

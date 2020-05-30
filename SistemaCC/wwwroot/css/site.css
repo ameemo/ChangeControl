@@ -250,6 +250,15 @@ div.campo-ver {
 span.bold {
     font-weight: bold;
 }
+.not-numero {
+    margin-top: -43px;
+    margin-left: 19px;
+    width: 23px;
+    height: 19px;
+}
+.nav-link > span {
+    font-size: 22px;
+}
 /*Estilo para autorizaciones*/
 a.submit-reenviar {
     color: white !important;
@@ -306,6 +315,33 @@ span.span-aut {
     background: black;
     opacity: 0.6;
 }
+/*estilo para la barra de notificaciones Estilos para motores Webkit y blink (Chrome, Safari, Opera... )*/
+
+.not-contenedor::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.not-contenedor::-webkit-scrollbar:vertical {
+    width: 10px;
+}
+
+.not-contenedor::-webkit-scrollbar-button:increment, .not-contenedor::-webkit-scrollbar-button {
+    display: none;
+}
+
+.not-contenedor::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+.not-contenedor::-webkit-scrollbar-thumb {
+    background-color: #4f4f4f;
+    border-radius: 20px;
+    border: 1px solid #6b6b6b;
+}
+
+.not-contenedor::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
 /*Estilo extra*/
 a.cerrar {
     color: #dc3545 !important;
@@ -346,4 +382,24 @@ label.normal::after{
 }
 .fancybox-overlay {
     z-index: 98 !important;
+}
+.page-item.active .page-link {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+a:active.page-link {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+.page-link {
+    color: #17a2b8;
+}
+.dropdown-menu {
+    min-width: 12rem;
+    max-height: 12rem;
+    overflow-x: auto;
+}
+.badge-pill {
+    padding-left: 0;
+    padding-right: 0;
 }

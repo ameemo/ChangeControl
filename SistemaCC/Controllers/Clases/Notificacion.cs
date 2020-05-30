@@ -100,7 +100,7 @@ namespace SistemaCC.Controllers.Clases
             }
             else
             {
-                mensaje = "Para ejecutar.&El control de cambio con la clave anterior y con fecha de ejecución de&requiere de su autorización, ya que " + this.funcion + ".";
+                mensaje = "Termino.&El control de cambio con la clave anterior y con fecha de ejecución de&requiere de su autorización para el cierre.";
             }
             return mensaje;
         }
