@@ -69,5 +69,10 @@ else
                 @Html.ActionLink("Ir al control de cambio", "Corregir", new { id = Model.fk_CC })
             </div>
             break;
+        case "Revision":
+            <div class="notificacion-link text-center">
+                @Html.ActionLink("Ir al control de cambio", "Revisar", new { id = Model.fk_CC })
+            </div>
+            break;
     }
 }

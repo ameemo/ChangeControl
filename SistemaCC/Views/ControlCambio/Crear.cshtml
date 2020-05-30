@@ -112,7 +112,7 @@
                             }
                         </select>
                     </div>
-                    <div class="campos campos_dos">
+                    <div id="prev_titulo_boton" class="campos campos_dos">
                         <div class="campos_ultimos seccion">
                             <label>Actividades previas del control de cambio</label>
                         </div>
@@ -226,27 +226,9 @@
                         width: 50,
                         height: 25
                     }
-                },
-                lang: "es",
-                i18n: {
-                    es: {
-                        CLOSE: "Cerrar",
-                        NEXT: "Siguiente",
-                        PREV: "Anterior",
-                        ERROR: "La petición no pudo ser cargada. <br/> Intenta de nuevo más tarde.",
-                        PLAY_START: "Iniciar presentación",
-                        PLAY_STOP: "Pausar",
-                        FULL_SCREEN: "Pantalla completa",
-                        THUMBS: "Thumbnails",
-                        DOWNLOAD: "Descargar",
-                        SHARE: "Compartir",
-                        ZOOM: "Zoom"
-                    }
                 }
             });
-            var fecha = new Date();
-            var mes = fecha.getMonth() < 9 ? '0' + (fecha.getMonth() + 1) : (fecha.getMonth() + 1)
-            document.getElementById('FechaEjecucion').setAttribute('min', revisarFechaMin(true))
+            document.getElementById('FechaEjecucion').setAttribute('min', revisarFecha(2))
             load('none');
         })
         $(document).on("submit", "form", function (e) {

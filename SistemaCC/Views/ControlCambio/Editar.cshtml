@@ -12,14 +12,14 @@
     <script>
         $(document).ready(function () {
             // fechas minima hoy
-            document.getElementById('FechaEjecucion').setAttribute('min', revisarFechaMin(true))
+            document.getElementById('FechaEjecucion').setAttribute('min', revisarFecha(2))
             var actA = document.getElementsByName('actividades_prev_fecha_actual')
             var ser = document.getElementsByName('servicio_inicio_actual')
             for (var a of actA) {
-                a.setAttribute('min', revisarFechaMin(true))
+                a.setAttribute('min', revisarFecha(0))
             }
             for (var s of ser) {
-                s.setAttribute('min', revisarFechaMin(true))
+                s.setAttribute('min', revisarFecha(0))
             }
             $(".fancybox").fancybox({
                 prevEffect: 'none',

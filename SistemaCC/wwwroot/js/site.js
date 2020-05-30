@@ -73,7 +73,8 @@ function actividad_agregar(id)
                                                 { att: "required", val: "required" }], "form-control contar-act-obs")
     var input1 = crear_elemento("input", [{ att: "name", val: "actividades_prev_fecha" },
                                           { att: "type", val: "date" },
-                                          { att: "min", val: revisarFechaMin(true)},
+                                          { att: "min", val: revisarFecha(0)},
+                                          { att: "max", val: getFechaMaxPrev()},
                                           { att: "oninvalid", val: "load('none');  error_campos(2)"},
                                           { att: "required", val: "required" }], "form-control")
     var select = clonar_select("usuarios2", "actividades_prev_usuarios")
@@ -108,7 +109,7 @@ function actividad_agregar(id)
     //cambiar el campo del atributo onclick para mantener la númeración
     var aa = document.getElementById("actividad_agregar")
     aa.removeAttribute("onclick")
-    aa.setAttribute("onclick","actividad_agregar('"+id_+"')")
+    aa.setAttribute("onclick", "actividad_agregar('" + id_ +"'); validarFechaEjecucion(); return false")
 }
 function actividad_cc_agregar(id) {
     //Asigar id a la nueva fila
@@ -143,7 +144,7 @@ function actividad_cc_agregar(id) {
                                                 { att: "required", val: "required" }], "form-control contar-act_cc-obs")
     var input1 = crear_elemento("input", [{ att: "name", val: "actividades_cc_fecha" },
                                           { att: "type", val: "date" },
-                                          { att: "min", val: revisarFechaMin(false)},
+                                          { att: "min", val: revisarFecha(-1)},
                                           { att: "oninvalid", val: "load('none');  error_campos(2)"},
                                           { att: "required", val: "required" }], "form-control")
     var select = clonar_select("usuarios2","actividades_cc_usuarios")
@@ -178,7 +179,7 @@ function actividad_cc_agregar(id) {
     //cambiar el campo del atributo onclick para mantener la númeración
     var aa = document.getElementById("actividad_cc_agregar")
     aa.removeAttribute("onclick")
-    aa.setAttribute("onclick", "actividad_cc_agregar('" + id_ + "')")
+    aa.setAttribute("onclick", "actividad_cc_agregar('" + id_ + "'); validarFechaEjecucion(); return false")
 }
 function servicio_agregar(id) {
     //Asigar id a la nueva fila
@@ -196,13 +197,13 @@ function servicio_agregar(id) {
     var select = clonar_select("servicios","servicio_servicios")
     var input1 = crear_elemento("input", [{ att: "name", val: "servicio_inicio" },
                                           { att: "type", val: "date" },
-                                          { att: "min", val: revisarFechaMin(true)},
+                                          { att: "min", val: revisarFecha(0)},
                                           { att: "onchange", val: "cambiarFechaFinal("+id+")"},
                                           { att: "oninvalid", val: "load('none');  error_campos(2)"},
                                           { att: "required", val: "required" }], "form-control")
     var input2 = crear_elemento("input", [{ att: "name", val: "servicio_temino" },
                                           { att: "type", val: "date" },
-                                          { att: "min", val: revisarFechaMin(true)},
+                                          { att: "min", val: revisarFecha(0)},
                                           { att: "oninvalid", val: "load('none');  error_campos(2)"},
                                           { att: "required", val: "required" }], "form-control")
     var cerrar = crear_elemento("a", [{ att: "onclick", val: "quitar('servicio" + id_ + "')" }], "btn btn-outline-danger cerrar")
@@ -229,7 +230,7 @@ function servicio_agregar(id) {
     //cambiar el campo del atributo onclick para mantener la númeración
     var aa = document.getElementById("servicio_agregar")
     aa.removeAttribute("onclick")
-    aa.setAttribute("onclick", "servicio_agregar('" + id_ + "')")
+    aa.setAttribute("onclick", "servicio_agregar('" + id_ + "'); validarFechaEjecucion(); return false")
 }
 function riesgo_agregar(id) {
     //Asigar id a la nueva fila
@@ -395,9 +396,11 @@ function quitar(id)
     //Decrementamos el id en 1 para tener conteo adecuado del tipo
     var aa = document.getElementById(tipo + "_agregar")
     var arg_str = aa.getAttribute("onclick")
-    var id_ = arg_str.search("; return false") != -1 ? parseInt(arg_str.substr(arg_str.length - 17, 1)) - 1 : parseInt(arg_str.substr(arg_str.length - 3, 1)) - 1
+    console.log(arg_str.substr(arg_str.length - 42, 1))
+    console.log(arg_str.search("validarFechaEjecucion"))
+    var id_ = arg_str.search("validarFechaEjecucion") != -1 ? parseInt(arg_str.substr(arg_str.length - 42, 1)) - 1 : parseInt(arg_str.substr(arg_str.length - 3, 1)) - 1
     aa.removeAttribute("onclick")
-    aa.setAttribute("onclick", tipo + "_agregar('" + id_ + "')")
+    aa.setAttribute("onclick", tipo + "_agregar('" + id_ + "'); validarFechaEjecucion(); return false")
     //Eliminar
     var campos_dos = document.getElementById(id)
     campos_dos.remove()
@@ -442,12 +445,13 @@ function revisar_extension(id, tipo) {
     label.removeChild(texto_viejo)
     label.appendChild(p)
 }
-function revisarFechaMin(previa) {
-    if (previa) {
+function revisarFecha(previa) {
+    if (previa != -1) {
         var fecha = new Date();
-        fecha.setDate(fecha.getDate() + 2)
-        var mes = fecha.getMonth() < 9 ? '0' + (fecha.getMonth() + 1) : (fecha.getMonth() + 1)
-        return fecha.getFullYear() + '-' + mes + '-' + fecha.getDate()
+        fecha.setDate(fecha.getDate() + previa)
+        var mes = fecha.getMonth() < 8 ? '0' + (fecha.getMonth() + 1) : (fecha.getMonth() + 1)
+        var dia = fecha.getDate() < 9 ? '0' + (fecha.getDate()) : (fecha.getDate())
+        return fecha.getFullYear() + '-' + mes + '-' + dia
     } else {
         return $('#FechaEjecucion').val()
     }
@@ -458,6 +462,9 @@ function cambiarFechaFinal(id) {
     termino.setAttribute('min', $(inicial).val())
 }
 function cambiarFechasAct() {
+    var actividadesP = document.getElementsByName('actividades_prev_fecha')
+    var actividadesAP = document.getElementsByName('actividades_prev_fecha_actual')
+    var actividadesEP = document.getElementsByName('act_prev_fecha_editado')
     var actividades = document.getElementsByName('actividades_cc_fecha')
     var actividadesA = document.getElementsByName('actividades_cc_fecha_actual')
     var actividadesE = document.getElementsByName('act_cc_fecha_editado')
@@ -470,16 +477,32 @@ function cambiarFechasAct() {
     for (var act of actividadesE) {
         act.setAttribute('min', $('#FechaEjecucion').val())
     }
+    for (var act of actividadesP) {
+        act.setAttribute('max', getFechaMaxPrev())
+    }
+    for (var act of actividadesAP){
+        act.setAttribute('max', getFechaMaxPrev())
+    }
+    for (var act of actividadesEP) {
+        act.setAttribute('max', getFechaMaxPrev())
+    }
+}
+function getFechaMaxPrev() {
+    var fechaE = $('#FechaEjecucion').val();
+    var anio = fechaE.substr(0, 4)
+    var diaE = fechaE.substr(8, 2)
+    var mesE = fechaE.substr(5, 2)
+    fecha = new Date(mesE + '-' + diaE + '-' + anio)
+    fecha.setDate(fecha.getDate() - 1)
+    var mes = fecha.getMonth() < 8 ? '0' + (fecha.getMonth() + 1) : (fecha.getMonth() + 1)
+    var dia = fecha.getDate() < 9 ? '0' + (fecha.getDate()) : (fecha.getDate())
+    return fecha.getFullYear() + '-' + mes + '-' + dia
 }
 function cambiarFechasE(att,fecha, remove) {
-    var actividades = document.getElementsByName('actividades_prev_fecha')
     var actividades_cc = document.getElementsByName('actividades_cc_fecha')
     var inicio = document.getElementsByName('servicio_inicio')
     var final = document.getElementsByName('servicio_temino')
     if (remove) {
-        for (var act of actividades) {
-            act.removeAttribute(att, fecha)
-        }
         for (var act of actividades_cc) {
             act.removeAttribute(att, fecha)
         }
@@ -490,9 +513,6 @@ function cambiarFechasE(att,fecha, remove) {
             s.removeAttribute(att, fecha)
         }
     } else {
-        for (var act of actividades) {
-            act.setAttribute(att, fecha)
-        }
         for (var act of actividades_cc) {
             act.setAttribute(att, fecha)
         }
@@ -507,7 +527,16 @@ function cambiarFechasE(att,fecha, remove) {
 function validarFechaEjecucion() {
     var fecha = document.getElementById('FechaEjecucion')
     var tipo = $('#tipo').val()
-    if ( tipo == "Emergente") {
+    var prev = document.getElementById('prev_titulo_boton')
+    if (tipo == "Emergente") {
+        prev.style.display = 'none';
+        var cont_act_prev = document.getElementById('actividades_contenedor')
+        if (cont_act_prev.hasChildNodes) {
+            document.getElementById('actividad_agregar').setAttribute('onclick', 'actividad_agregar(\'0\'); validarFechaEjecucion(); return false')
+            for (var c of cont_act_prev.children) {
+                c.remove();
+            }
+        }
         var max = new Date()
         var mes = max.getMonth() < 9 ? '0' + (max.getMonth() + 1) : (max.getMonth() + 1)
         fecha.setAttribute('min', max.getFullYear() + '-' + mes + '-' + max.getDate())
@@ -518,10 +547,27 @@ function validarFechaEjecucion() {
         cambiarFechasE('max',  max.getFullYear() + '-' + mes + '-' + max.getDate(), false)
     }
     else {
+        prev.style.display = 'grid';
         fecha.removeAttribute('max')
-        fecha.setAttribute('min', revisarFechaMin(true))
-        cambiarFechasE('min', revisarFechaMin(true), false)
+        fecha.setAttribute('min', revisarFecha(2))
         cambiarFechasE('max', '', true)
+        var act_prev = document.getElementsByName('actividades_prev_fecha')
+        var act_cc = document.getElementsByName('actividades_cc_fecha')
+        var inicio = document.getElementsByName('servicio_inicio')
+        var final = document.getElementsByName('servicio_temino')
+        for (var act of act_cc) {
+            act.setAttribute('min', $(fecha).val())
+        }
+        for (var act of act_prev) {
+            act.setAttribute('min', revisarFecha(0))
+            act.setAttribute('max', getFechaMaxPrev())
+        }
+        for (var s of inicio) {
+            s.setAttribute('min', revisarFecha(0))
+        }
+        for (var s of final) {
+            s.setAttribute('min', revisarFecha(0))
+        }
     }
 }
 // funcion para mostrar la sección en la que el campo no está respondido
@@ -583,22 +629,25 @@ function revisarSubmit(tipo) {
     if (tipo == "corregir") {
         var textareas = document.getElementsByClassName("contador")
         for (var i = 0; i < textareas.length; i++) {
-            if ($(textareas[i]).val().length > 0) {
-                validacion1 = true
-                break
-            }
+            validacion1 |= $(textareas[i]).val().length > 0
+            //if ($(textareas[i]).val().length > 0) {
+            //    validacion1 = true
+            //    break
+            //}
         }
     }
     if (tipo == "aprobar") {
+        validacion1 = true;
         var textareas = document.getElementsByClassName("contador")
         for (var i = 0; i < textareas.length; i++) {
-            if ($(textareas[i]).val().length > 0) {
-                validacion2 = false
-                break
-            }
+            validacion2 &= $(textareas[i]).val().length < 1
+            //if ($(textareas[i]).val().length > 0) {
+            //    validacion2 = false
+            //    break
+            //}
         }
     }
-    if (!validacion1 && validacion2) {
+    if (validacion1 && validacion2) {
         load('block');
         submit.setAttribute("name", tipo)
         $(submit).trigger('click')

@@ -14,7 +14,7 @@ namespace SistemaCC.Controllers
     {
         BDControlCambioDataContext BD = new BDControlCambioDataContext();
         Mensajes Mensaje = new Mensajes();
-        public int Sesion = 4;
+        public int Sesion = 1;
         public string generarClave(ControlCambio cc)
         {
             Usuario creador = (from u in BD.Usuario where u.Id_U == cc.Creador select u).SingleOrDefault();
@@ -273,7 +273,7 @@ namespace SistemaCC.Controllers
             ViewBag.Claves_pacc = generarListaClave(ViewBag.ParaAut_CC);
             ViewBag.Ejecucion_CC = (from cc in BD.ControlCambio where cc.Estado == "EnEjecucion" && cc.Creador == Sesion select cc).ToList();
             ViewBag.Claves_ecc = generarListaClave(ViewBag.Ejecucion_CC);
-            ViewBag.Revision_CC = (from cc in BD.ControlCambio where cc.Estado == "EnEvaluacion" && cc.Creador == Sesion select cc).ToList();
+            ViewBag.Revision_CC = (from cc in BD.ControlCambio where cc.Estado == "EnEvaluacion" select cc).ToList();
             ViewBag.Claves_enrcc = generarListaClave(ViewBag.Revision_CC);
             //Seccion de mensajes para la vista
             string MC = "";
