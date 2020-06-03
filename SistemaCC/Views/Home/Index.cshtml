@@ -21,7 +21,7 @@
         <li class="nav-item">
             <a id="Link2" class="nav-link inactivo" href="#" onclick="tabs('2','seccion-activa', 'active')">CC Ejecución</a>
         </li>
-        @if(ViewData["NavRol"].ToString() == "Admin")
+        @if(ViewData["RevisarRol"].ToString() == "Admin")
         {
             <li class="nav-item">
                 <a id="Link3" class="nav-link inactivo" href="#" onclick="tabs('3','seccion-activa', 'active')">CC Revisión</a>
@@ -182,7 +182,14 @@
                             <td>@cc.FechaEjecucion.ToString().Substring(0, 10)</td>
                             <td>@cc.Estado</td>
                             <td class="link texto">
-                                <a class="fancybox fancybox.ajax" href="~/ControlCambio/Autorizaciones/@cc.Id_CC">Ver Autorizaciones</a>
+                                @if (cc.Estado == "Autorizado")
+                                {
+                                    <span>-</span>
+                                }
+                                else
+                                {
+                                    <a class="fancybox fancybox.ajax" href="~/ControlCambio/Autorizaciones/@cc.Id_CC">Ver Autorizaciones</a>
+                                }
                             </td>
                             <td class="link">
                                 <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
@@ -244,7 +251,7 @@
             </h5>
         }
     </div>
-    @if (ViewData["NavRol"].ToString() == "Admin")
+    @if (ViewData["RevisarRol"].ToString() == "Admin")
     {
         <div id="Seccion3" class="col-md-12 seccion-inactiva">
             <div class="col-md-12 seccion">
@@ -270,7 +277,7 @@
                                 <td>@cc.Titulo</td>
                                 <td>@cc.Usuario.Nombre @cc.Usuario.ApePaterno</td>
                                 <td class="link texto">
-                                    <a href="~/ControlCambio/Revisar/@cc.Id_CC" onclick="load('block')">Revisar</a>
+                                    <a href="~/ControlCambio/Revisar/@cc.Id_CC">Revisar</a>
                                 </td>
                                 <td class="link">
                                     <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>

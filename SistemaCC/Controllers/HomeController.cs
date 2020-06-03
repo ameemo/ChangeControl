@@ -19,7 +19,7 @@ namespace SistemaCC.Controllers
         {
             Usuario creador = (from u in BD.Usuario where u.Id_U == cc.Creador select u).SingleOrDefault();
             string iniciales = creador.Nombre.Substring(0, 1) + creador.ApePaterno.Substring(0, 1) + creador.ApeMaterno.Substring(0, 1);
-            string tipo_id = cc.Tipo.Substring(0, 1) + cc.Id_CC;
+            string tipo_id = cc.Tipo == "Estandar" ? cc.Tipo.Substring(1, 1).ToUpper() + cc.Id_CC: cc.Tipo.Substring(0, 1) + cc.Id_CC;
             var ac = (from a in BD.ActividadesControl where a.fk_CC == cc.Id_CC select a).ToList();
             var s = (from sc in BD.ControlServicio where sc.fk_CC == cc.Id_CC select sc).ToList();
             var r = (from rc in BD.Riesgos where rc.fk_CC == cc.Id_CC select rc).ToList();
@@ -261,6 +261,12 @@ namespace SistemaCC.Controllers
             List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
             var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).SingleOrDefault();
             ViewData["NavRol"] = rol != null ? "Admin" : "Funcional";
+            string revisarrol = "Funcional";
+            if (rol != null)
+            {
+                revisarrol = rol.fk_Rol == 3 ? "Admin" : "Super";
+            }
+            ViewData["RevisarRol"] = revisarrol;
             ViewData["NavNombre"] = (from u in BD.Usuario where u.Id_U == Sesion select u.Nombre).SingleOrDefault();
             ViewBag.Notificaciones_claves = generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
@@ -324,12 +330,12 @@ namespace SistemaCC.Controllers
             // Variable para tratar los errores y mostrar los mensajes
             int error = 0;
             ControlCambio control = (from cc in BD.ControlCambio where cc.Id_CC == id select cc).SingleOrDefault();
-            if(control.Creador != Sesion)
-            {
-                return RedirectToAction("./../Home/Index");
-            }
             if (control.Estado == "Creado")
             {
+                if (control.Creador != Sesion)
+                {
+                    return RedirectToAction("./../Home/Index");
+                }
                 control.Estado = "EnEvaluacion";
                 BD.SubmitChanges();
                 // Generar notificación de revisión
@@ -350,16 +356,16 @@ namespace SistemaCC.Controllers
                 }
 
             }
-            if(control.Estado == "Aprobado")
-            {
+            if (control.Estado == "Aprobado")
+            { 
                 control.Estado = "PausadoE";
                 error = generarNotificacionesAut(control,1);// 1 = autorizar ejecucion
                 BD.SubmitChanges();
-                // Desactivamos la notificacion de No se autorizo, si la hay y de aprobado
-                List<Notificaciones> not = (from n in BD.Notificaciones where n.fk_CC == id && n.fk_U == control.Usuario.Id_U && n.Activa == true select n).ToList();
+                // Desactivamos la notificacion de No se autorizo, si la hay 
+                List<Notificaciones> not = (from n in BD.Notificaciones where n.fk_CC == id && n.fk_U == control.Creador && n.Activa == true select n).ToList();
                 foreach(var n in not)
                 {
-                    if(n.Tipo == "NoAutorizo" || n.Tipo == "Aprobado")
+                    if(n.Tipo == "NoAutorizo")
                     {
                         n.Activa = false;
                         BD.SubmitChanges();

@@ -5,7 +5,7 @@
 .mes > .nombre, .numero-grid > .numero {
     color: #949494;
     text-align: center;
-    min-height: initial;
+    max-height: 26px;
 }
 .mes > .nombre {
     font-size: medium;

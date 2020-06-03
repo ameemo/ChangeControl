@@ -383,6 +383,7 @@ namespace SistemaCC.Controllers
                     General.Email(dueno.Email, notificacion.getSubject(8), notificacion.generate(8));
                     // Cambio de estado
                     cc.Estado = cc.Estado == "PausadoE" ? "Creado" : "EnEjecucion";
+                    BD.SubmitChanges();
                 }
             }
             catch(Exception e) 
@@ -731,12 +732,18 @@ namespace SistemaCC.Controllers
             List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
             var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).SingleOrDefault();
             ViewData["NavRol"] = rol != null ? "Admin" : "Funcional";
+            string revisarrol = "Funcional";
+            if (rol != null)
+            {
+                revisarrol = rol.fk_Rol == 3 ? "Admin" : "Super";
+            }
+            ViewData["RevisarRol"] = revisarrol;
             ViewData["NavNombre"] = (from u in BD.Usuario where u.Id_U == Sesion select u.Nombre).SingleOrDefault();
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             //validar que el control cumpla con el estado de EnEvaluacion
             ControlCambio cc2 = (from control in BD.ControlCambio where control.Id_CC == id select control).SingleOrDefault();
-            if (cc2.Estado != "EnEvaluacion" || rol == null)
+            if (cc2.Estado != "EnEvaluacion" || rol == null || rol.fk_Rol == 2)
             {
                 return RedirectToAction("./../Home/Index");
             }
@@ -1123,7 +1130,7 @@ namespace SistemaCC.Controllers
                                 }
                             }
                             // Desactivar notificacion
-                            Notificaciones noti = (from n in BD.Notificaciones where n.fk_CC == id && n.fk_U == Sesion && n.Activa == true && (n.Tipo == "Autorizar" || n.Tipo == "Terminado") select n).SingleOrDefault();
+                            Notificaciones noti = (from n in BD.Notificaciones where n.fk_CC == id && n.fk_U == Sesion && n.Activa == true && (n.Tipo == "AutorizarE" || n.Tipo == "AutorizarT") select n).SingleOrDefault();
                             noti.Activa = false;
                             BD.SubmitChanges();
                             // Funcion para saber si ya se cumplieron las autorizaciones
