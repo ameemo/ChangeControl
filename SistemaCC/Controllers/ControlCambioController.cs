@@ -451,6 +451,7 @@ namespace SistemaCC.Controllers
 
         // POST: ControlCambio/Crear
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Crear(ControlCambio model, HttpPostedFileBase[] adjuntos_, FormCollection collection)
         {
             try
@@ -1219,23 +1220,23 @@ namespace SistemaCC.Controllers
                 Dia dia = new Dia();
                 DateTime dia_ = new DateTime(hoy.Year, hoy.Month, i);
                 //Tomar los controles que pertenecen a el usuario
-                List<ControlCambio> ccs = (from cc in BD.ControlCambio where cc.FechaEjecucion == dia_ && cc.Creador == Sesion && cc.Estado == "Autorizado" select cc).ToList();
+                List<ControlCambio> ccs = (from cc in BD.ControlCambio where cc.FechaEjecucion == dia_ && cc.Creador == Sesion && (cc.Estado == "Autorizado" || cc.Estado == "EnEjecucion") select cc).ToList();
                 if (ccs.Count > 0)
                 {
                     claves = General.generarListaClave(ccs);
                     dia.setControlCambio(ccs, claves);
                 }
                 //Tomar los controles de cambio donde es responsable de actividades
-                List<ControlCambio> actividades = (from ac in BD.ActividadesControl join a in BD.Actividades on ac.fk_Ac equals a.Id_Ac join cc in BD.ControlCambio on ac.fk_CC equals cc.Id_CC where a.FechaRealizacion == dia_ && a.Responsable == Sesion && cc.Estado == "Autorizado" select cc).ToList();
+                List<ControlCambio> actividades = (from ac in BD.ActividadesControl join a in BD.Actividades on ac.fk_Ac equals a.Id_Ac join cc in BD.ControlCambio on ac.fk_CC equals cc.Id_CC where a.FechaRealizacion == dia_ && a.Responsable == Sesion && (cc.Estado == "Autorizado" || cc.Estado == "EnEjecucion") select cc).ToList();
                 if (actividades.Count > 0)
                 {
                     claves = General.generarListaClave(actividades);
                     dia.setActividad(actividades, claves);
                 }
                 //Tomar los controles donde es afectado algún servicio del usuario
-                List<ControlCambio> servapp = (from sc in BD.ControlServicio join cc in BD.ControlCambio on sc.fk_CC equals cc.Id_CC join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where (sc.FechaInicio <= dia_ && sc.FechaFinal >= dia_) && sa.Dueno == Sesion && cc.Estado == "Autorizado" select cc).ToList();
+                List<ControlCambio> servapp = (from sc in BD.ControlServicio join cc in BD.ControlCambio on sc.fk_CC equals cc.Id_CC join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where (sc.FechaInicio <= dia_ && sc.FechaFinal >= dia_) && sa.Dueno == Sesion && (cc.Estado == "Autorizado" || cc.Estado == "EnEjecucion") select cc).ToList();
                 //Tomar los servicios para el nombre
-                List<ServiciosAplicaciones> servapp_nombres = (from sc in BD.ControlServicio join cc in BD.ControlCambio on sc.fk_CC equals cc.Id_CC join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where (sc.FechaInicio <= dia_ && sc.FechaFinal >= dia_) && sa.Dueno == Sesion && cc.Estado == "Autorizado" select sa).ToList();
+                List<ServiciosAplicaciones> servapp_nombres = (from sc in BD.ControlServicio join cc in BD.ControlCambio on sc.fk_CC equals cc.Id_CC join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where (sc.FechaInicio <= dia_ && sc.FechaFinal >= dia_) && sa.Dueno == Sesion && (cc.Estado == "Autorizado" || cc.Estado == "EnEjecucion") select sa).ToList();
                 if (servapp.Count > 0)
                 {
                     claves = General.generarListaClave(servapp);

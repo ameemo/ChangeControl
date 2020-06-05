@@ -167,6 +167,30 @@ namespace SistemaCC
                     noti.email = true;
                     General.Email(admin, noti.getSubject(3), noti.generate(3));
                 }
+                // Avisar a los usuarios tipo avio activos
+                List<Usuario> activos = (from u in BD.Usuario where u.Activo == true select u).ToList();
+                List<string> avisos = new List<string>();
+                foreach(var activo in activos)
+                {
+                    var roles = (from ur in BD.UsuarioRol where ur.fk_Us == activo.Id_U select ur).ToList();
+                    if(roles.Count == 0)
+                    {
+                        avisos.Add(activo.Email);
+                    }
+                }
+                if(avisos.Count > 0)
+                {
+                    fecha = fecha.AddDays(tiempo);
+                    var avisoServApp = (from cs in BD.ControlServicio where cs.FechaInicio == fecha select cs).ToList();
+                    Notificacion avisoNot = new Notificacion();
+                    avisoNot.email = true;
+                    avisoNot.servapp = avisoServApp;
+                    avisoNot.emailAdmin = admin;
+                    foreach (var aviso in avisos)
+                    {
+                        General.Email(aviso, avisoNot.getSubject(12), avisoNot.generate(12));
+                    }
+                }
                 Thread.Sleep(86400000);
             }
         }

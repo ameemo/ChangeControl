@@ -322,6 +322,80 @@ namespace SistemaCC.Controllers
         }
         public ActionResult CambiarContrasena()
         {
+            ViewData["Paso"] = "Paso1";
+            ViewData["ME5"] = "";
+            ViewData["ME14"] = "";
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CambiarContrasena(FormCollection collection)
+        {
+            if(collection["Paso1"] != null)
+            {
+                Usuario usuario = (from u in BD.Usuario where u.Id_U == Sesion select u).SingleOrDefault();
+                if(usuario.Contrasena == collection["contrasena_nueva"])
+                {
+                    ViewData["Paso"] = "Paso1";
+                    ViewData["ME5"] = Mensaje.getMError(5);
+                    ViewData["ME14"] = "";
+                    return View();
+                }
+                if(collection["contrasena_nueva"] != collection["contrasena_confirmar"])
+                {
+                    ViewData["Paso"] = "Paso1";
+                    ViewData["ME5"] = "";
+                    ViewData["ME14"] = Mensaje.getMError(14);
+                    return View();
+                }
+                // Enviamos el correo para el código
+                string admin = (from ur in BD.UsuarioRol where ur.fk_Rol == 3 select ur.Usuario.Email).SingleOrDefault();
+                Notificacion noti = new Notificacion("si2", "");
+                noti.emailAdmin = admin;
+                noti.email = true;
+                Email(usuario.Email, noti.getSubject(1), noti.generate(6));
+                // variables para retornar
+                ViewData["Paso"] = "Paso2";
+                ViewData["nueva"] = collection["contrasena_nueva"];
+                return View();
+            }
+            if(collection["Paso2"] != null)
+            {
+                if(collection["codigo"] == "si2")
+                {
+                    Usuario usuario = (from u in BD.Usuario where u.Id_U == Sesion select u).SingleOrDefault();
+                    usuario.Contrasena = collection["contrasena_nueva"];
+                    BD.SubmitChanges();
+                    //variables para retornar
+                    ViewData["MC3"] = Mensaje.getMConfirmacion(3);
+                    ViewData["MC4"] = Mensaje.getMConfirmacion(4);
+                    ViewData["Paso"] = "Exito";
+                    return View();
+                }
+                else
+                {
+                    // variables para retornar
+                    ViewData["Paso"] = "PasoE";
+                    ViewData["ME17"] = Mensaje.getMError(17);
+                    ViewData["nueva"] = collection["contrasena_nueva"];
+                    return View();
+                }
+            }
+            if(collection["PasoE"] != null)
+            {
+                // Reenviamos el correo para el código
+                Usuario usuario = (from u in BD.Usuario where u.Id_U == Sesion select u).SingleOrDefault();
+                string admin = (from ur in BD.UsuarioRol where ur.fk_Rol == 3 select ur.Usuario.Email).SingleOrDefault();
+                Notificacion noti = new Notificacion("si2", "");
+                noti.emailAdmin = admin;
+                noti.email = true;
+                Email(usuario.Email, noti.getSubject(1), noti.generate(6));
+                // variables para retornar
+                ViewData["Paso"] = "Paso2";
+                ViewData["nueva"] = collection["contrasena_nueva"];
+                return View();
+            }
             return View();
         }
         //Cambia el estado en el control de cambio

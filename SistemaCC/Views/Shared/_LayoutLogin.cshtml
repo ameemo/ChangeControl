@@ -14,8 +14,10 @@
     <link href="~/wwwroot/css/calendario.css" rel="stylesheet" />
 </head>
 <body>
-    <partial name="_CookieConsentPartial" />
-
+    <div id="over" class="over"></div>
+    <div id="spinner1" class="spinner-border text-info diseño-spinner" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
     <div>
         @RenderBody()
     </div>

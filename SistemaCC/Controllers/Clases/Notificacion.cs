@@ -15,6 +15,7 @@ namespace SistemaCC.Controllers.Clases
         public Boolean emergente;
         public List<Autorizaciones> motivos;
         public List<Notificaciones> noAutorizo;
+        public List<ControlServicio> servapp;
         public string emailAdmin;
         public string contrasena;
         private string codigo;
@@ -42,7 +43,8 @@ namespace SistemaCC.Controllers.Clases
                 "Control de cambio NO autorizado.",
                 "Control de cambio revisado.",
                 "Creacion de cuenta.",
-                "Control cambio EN EJECUCIÓN."
+                "Control cambio EN EJECUCIÓN.",
+                "AVISO: Servicios afectados."
             };
             // Saber la funcion que cumple o algun estado
             switch(funcion)
@@ -69,7 +71,7 @@ namespace SistemaCC.Controllers.Clases
             this.codigo = codigo;
             this.clave_cc = clave;
             //Inicia subject (asunto)
-            this.subject = new string[] { "Autorizacion pendiente." };
+            this.subject = new string[] { "Autorizacion pendiente.", "CAMBIO DE CONTRASEÑA pendiente." };
         }
         private string generateNAut_ejecucion() 
         {
@@ -147,7 +149,13 @@ namespace SistemaCC.Controllers.Clases
             string mensaje = "";
             if(this.email && this.codigo.Length > 0)
             {
-                mensaje = "El código para el control de cambio <b>" + this.clave_cc + "</b> es:<br/><font size=\"5\">" + this.codigo + "</font>";
+                if(this.clave_cc.Length > 0)
+                {
+                    mensaje = "El código para el control de cambio <b>" + this.clave_cc + "</b> es:<br/><font size=\"5\">" + this.codigo + "</font>";
+                } else
+                {
+                    mensaje = "El código para <b>cambiar su contraseña</b> es:<br/><font size=\"5\">" + this.codigo + "</font><br/>Si usted no solicitó o no estaba enterado de esta operación, favor de comunicarse con el administrador del sistema: " + this.emailAdmin;
+                }
             }
             return mensaje;
         }
@@ -218,6 +226,21 @@ namespace SistemaCC.Controllers.Clases
         {
             return this.subject[numero];
         }
+        private string generateAviso()
+        {
+            string mensaje = "";
+            if (this.email)
+            {
+                string tabla = "<table><thead><th>Acronimo</th><th>Nombre</th><th>Fecha-Inicio</th><th>Fecha-Final</th></thead><tbody>";
+                foreach (var a in servapp as IEnumerable<ControlServicio>)
+                {
+                    tabla += "<tr><td>" + a.ServiciosAplicaciones.Acronimo + "</td><td>" + a.ServiciosAplicaciones.Nombre + "</td><td>" + a.FechaInicio.ToString().Substring(0,10) + "</td><td>" + a.FechaFinal.ToString().Substring(0,10) + "</tr>";
+                }
+                tabla += "</tbody></table>";
+                mensaje = "Los servicios o aplicaciones a continuación, se podrían ver afectados en los intervalo de fechas de la siguiente tabla:<br/>" + tabla + "<br/>Si se necesita alguna aclaración o se tiene observaciones, favor de comunicarse con el administrador del sistema: " + this.emailAdmin;
+            }
+            return mensaje;
+        }
         public string generate(int numero)
         {
             string retornar = "";
@@ -255,6 +278,9 @@ namespace SistemaCC.Controllers.Clases
                     break;
                 case 11:
                     retornar = generateNEnEjecucion();
+                    break;
+                case 12:
+                    retornar = generateAviso();
                     break;
             }
             return retornar;

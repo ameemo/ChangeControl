@@ -80,10 +80,10 @@ div.seccion-inactiva {
     display: none !important;
 }
 /*Inactivo es una clase para cambiar el color del link de la lista ul usando como base lo que bootstrap ya tiene*/
-a.inactivo {
+a.inactivo, a.login-link {
     color: #9972cb !important;
 }
-a:hover.inactivo {
+a:hover.inactivo, a:hover.login-link {
     text-decoration: underline;
 }
 /*Estilo para crear campos dinamicos*/
@@ -246,6 +246,11 @@ div.campo-ver {
     grid-template-rows: 13% 25% 13% 25% 24% !important;
     height: 100%;
 }
+.campos_contrasena {
+    display: grid !important;
+    grid-template-rows: 13% 30% 13% 33% 20% !important;
+    height: 100%;
+}
 /*Estilo para las notificaciones*/
 span.bold {
     font-weight: bold;
@@ -262,6 +267,7 @@ span.bold {
 /*Estilo para autorizaciones*/
 a.submit-reenviar {
     color: white !important;
+    font-size: 18px;
 } 
 span.span-aut {
     font-size: 25px;
@@ -304,7 +310,7 @@ span.span-aut {
     font-size: 2rem;
     z-index: 99;
     position: fixed;
-    bottom: 35%;
+    bottom: 43%;
     left: 45%;
 }
 .over {
