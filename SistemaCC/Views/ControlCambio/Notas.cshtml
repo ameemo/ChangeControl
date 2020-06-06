@@ -1,0 +1,28 @@
+﻿@model SistemaCC.Models.Revisiones
+@{
+    ViewBag.Title = "Notas";
+    Layout = "./../Shared/_LayoutVacio.cshtml";
+}
+<div class="col-md-2 seccion-dark">
+    <h1>Notas</h1>
+</div>
+@if (Model.InfGeneral != "" && Model.InfGeneral != null)
+{
+<h3>Información general.</h3>
+<p class="nota_corregir">@Model.InfGeneral</p>
+}
+@if (Model.Actividades != "" && Model.Actividades != null)
+{
+<h3>Actividades.</h3>
+<p class="nota_corregir">@Model.Actividades</p>
+}
+@if (Model.Servicios != "" && Model.Servicios!= null)
+{
+<h3>Limitantes.</h3>
+<p class="nota_corregir">@Model.Servicios</p>
+}
+@if (Model.Riesgos != "" && Model.Riesgos != null)
+{
+<h3>Riesgos.</h3>
+<p class="nota_corregir">@Model.Riesgos</p>
+}

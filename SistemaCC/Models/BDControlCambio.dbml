@@ -29,6 +29,7 @@
       <Column Name="Tipo" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
       <Column Name="Fecha" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="Autorizado" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Motivo" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
       <Association Name="ControlCambio_Autorizaciones" Member="ControlCambio" ThisKey="fk_CC" OtherKey="Id_CC" Type="ControlCambio" IsForeignKey="true" />
       <Association Name="Usuario_Autorizaciones" Member="Usuario" ThisKey="fk_U" OtherKey="Id_U" Type="Usuario" IsForeignKey="true" />
     </Type>
@@ -38,11 +39,14 @@
       <Column Name="Id_CC" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Titulo" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="FechaEjecucion" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Introduccion" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
-      <Column Name="Objetivos" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="Introduccion" Type="System.String" DbType="VarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="Objetivos" Type="System.String" DbType="VarChar(500) NOT NULL" CanBeNull="false" />
       <Column Name="Tipo" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
       <Column Name="Estado" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
       <Column Name="Creador" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Conclusion" Type="System.String" DbType="VarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="Exito" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="FechaCierre" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="ControlCambio_ActividadesControl" Member="ActividadesControl" ThisKey="Id_CC" OtherKey="fk_CC" Type="ActividadesControl" />
       <Association Name="ControlCambio_Autorizaciones" Member="Autorizaciones" ThisKey="Id_CC" OtherKey="fk_CC" Type="Autorizaciones" />
       <Association Name="ControlCambio_ControlServicio" Member="ControlServicio" ThisKey="Id_CC" OtherKey="fk_CC" Type="ControlServicio" />
@@ -69,6 +73,7 @@
       <Column Name="Id_Do" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="DocPath" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
       <Column Name="fk_CC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TipoDoc" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
       <Association Name="ControlCambio_Documentos" Member="ControlCambio" ThisKey="fk_CC" OtherKey="Id_CC" Type="ControlCambio" IsForeignKey="true" />
     </Type>
   </Table>
@@ -85,10 +90,12 @@
   <Table Name="dbo.Notificaciones" Member="Notificaciones">
     <Type Name="Notificaciones">
       <Column Name="Id_No" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Contenido" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="Contenido" Type="System.String" DbType="VarChar(300)" CanBeNull="true" />
       <Column Name="FechaEnvio" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="fk_U" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="fk_CC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Activa" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Tipo" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
       <Association Name="ControlCambio_Notificaciones" Member="ControlCambio" ThisKey="fk_CC" OtherKey="Id_CC" Type="ControlCambio" IsForeignKey="true" />
       <Association Name="Usuario_Notificaciones" Member="Usuario" ThisKey="fk_U" OtherKey="Id_U" Type="Usuario" IsForeignKey="true" />
     </Type>
@@ -96,11 +103,11 @@
   <Table Name="dbo.Revisiones" Member="Revisiones">
     <Type Name="Revisiones">
       <Column Name="Id_Re" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="InfGeneral" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
-      <Column Name="Actividades" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
-      <Column Name="Riesgos" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
-      <Column Name="Servicios" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
-      <Column Name="fk_CC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="InfGeneral" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="Actividades" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="Riesgos" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="Servicios" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="fk_CC" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="ControlCambio_Revisiones" Member="ControlCambio" ThisKey="fk_CC" OtherKey="Id_CC" Type="ControlCambio" IsForeignKey="true" />
     </Type>
   </Table>
@@ -142,6 +149,7 @@
       <Column Name="NoExt" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
       <Column Name="Activo" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="ClaveUnica" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Contrasena" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="Usuario_Actividades" Member="Actividades" ThisKey="Id_U" OtherKey="Responsable" Type="Actividades" />
       <Association Name="Usuario_Autorizaciones" Member="Autorizaciones" ThisKey="Id_U" OtherKey="fk_U" Type="Autorizaciones" />
       <Association Name="Usuario_ControlCambio" Member="ControlCambio" ThisKey="Id_U" OtherKey="Creador" Type="ControlCambio" />

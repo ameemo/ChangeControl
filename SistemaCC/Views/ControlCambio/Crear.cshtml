@@ -5,7 +5,7 @@
 <div class="col-md-12 seccion">
     <h1>Nuevo control del cambio</h1>
 </div>
-@using (Html.BeginForm())
+@using (Html.BeginForm("Crear", "ControlCambio", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <div class="accordion" id="accordionFormulario">
@@ -26,7 +26,7 @@
                     </div>
                     <div class="campos">
                         <div class="campos_ultimos">
-                            @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control contador", type = "text", placeholder = "Titulo", maxLength = "150", title = "Sólo se admiten 150 caracteres como máximo, de ingresar más, se capturarán los primeros 150", onkeyup = "contar('0','contador', 'conteo-')", required = "required" } })
+                            @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control contador", type = "text", placeholder = "Titulo", maxLength = "150", title = "Sólo se admiten 150 caracteres como máximo, de ingresar más, se capturarán los primeros 150", onkeyup = "contar('0','contador', 'conteo-')", oninvalid = "load('none');  error_campos(1)", required = "required" } })
                         </div>
                         <div id="conteo-0" class="campos_ultimos conteo">
                             <div>Caracteres: 0/150</div>
@@ -38,7 +38,7 @@
                                 <label>Fecha de ejecuión:</label>
                             </div>
                             <div class="campos_ultimos">
-                                <input name="fechaEjecucion" class="form-control" type="date" required="required" />
+                                @Html.EditorFor(model => model.FechaEjecucion, new { htmlAttributes = new { @class = "form-control", type = "date", onchange = "cambiarFechasAct()", oninvalid = "load('none');  error_campos(1)", required = "required" } })
                             </div>
                         </div>
                         <div class="campos campos_dos_kai">
@@ -46,7 +46,7 @@
                                 <label>Tipo:</label>
                             </div>
                             <div class="campos_ultimos">
-                                <select name="tipo" class="form-control" required="required">
+                                <select id="tipo" name="tipo" class="form-control" onchange="validarFechaEjecucion()" oninvalid = "load('none');  error_campos(1)" required="required">
                                     <option value="">Seleccione...</option>
                                     <option value="Programado">Programado</option>
                                     <option value="Emergente">Emergente</option>
@@ -62,7 +62,7 @@
                     </div>
                     <div class="campos">
                         <div class="campos_ultimos">
-                            @Html.TextAreaFor(model => model.Objetivos, new { @class = "form-control contador", placeholder = "Ejem. 1.- Verbo (ar, er, ir) [complemento]", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500", rows = "4", onkeyup = "contar('1', 'contador', 'conteo-')", required = "required" })
+                            @Html.TextAreaFor(model => model.Objetivos, new { @class = "form-control contador", placeholder = "Ejem. 1.- Verbo (ar, er, ir) [complemento]", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500", rows = "4", onkeyup = "contar('1', 'contador', 'conteo-')", oninvalid = "load('none');  error_campos(1)", required = "required" })
                         </div>
                         <div id="conteo-1" class="campos_ultimos conteo">
                             <div>Caracteres: 0/500</div>
@@ -75,7 +75,7 @@
                     </div>
                     <div class="campos">
                         <div class="campos_ultimos">
-                            @Html.TextAreaFor(model => model.Introduccion, new { @class = "form-control contador", placeholder = "Redacta aquí...", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturararán los primeros 500", rows = "4", onkeyup = "contar('2', 'contador', 'conteo-')", required = "required" })
+                            @Html.TextAreaFor(model => model.Introduccion, new { @class = "form-control contador", placeholder = "Redacta aquí...", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturararán los primeros 500", rows = "4", onkeyup = "contar('2', 'contador', 'conteo-')", oninvalid = "load('none');  error_campos(1)", required = "required" })
                         </div>
                         <div id="conteo-2" class="campos_ultimos conteo">
                             <div>Caracteres: 0/500</div>
@@ -97,9 +97,9 @@
                     <div style="display: none">
                         <select id="usuarios2">
                             <option value="">Select...</option>
-                            @foreach (var usuario in ViewBag.usuarios)
+                            @foreach (var usuario in ViewBag.usuarios as IEnumerable<SistemaCC.Models.Usuario>)
                             {
-                                <option value="@usuario.Id_U">@usuario.Nombre</option>
+                                <option value="@usuario.Id_U">@usuario.Nombre @usuario.ApePaterno @usuario.ApeMaterno</option>
                             }
                         </select>
                     </div>
@@ -112,33 +112,33 @@
                             }
                         </select>
                     </div>
-                    <div class="campos campos_dos">
+                    <div id="prev_titulo_boton" class="campos campos_dos">
                         <div class="campos_ultimos seccion">
                             <label>Actividades previas del control de cambio</label>
                         </div>
                         <div class="campos_ultimos seccion_boton">
-                            <a id="actividad_agregar" class="btn btn-success" onclick="actividad_agregar('0'); return false"><span class="icon-plus-square"></span></a>
+                            <a id="actividad_agregar" class="btn btn-info" onclick="actividad_agregar('0'); validarFechaEjecucion(); return false"><span class="icon-plus-square"></span></a>
                         </div>
                     </div>
-                    <div id="actividades_contenedor" class=""></div>
+                    <div id="actividades_contenedor"></div>
                     <div class="campos campos_dos">
                         <div class="campos_ultimos seccion">
                             <label>Actividades del control de cambio</label>
                         </div>
                         <div class="campos_ultimos seccion_boton">
-                            <a id="actividad_cc_agregar" class="btn btn-success" onclick="actividad_cc_agregar('0'); return false"><span class="icon-plus-square"></span></a>
+                            <a id="actividad_cc_agregar" class="btn btn-info" onclick="actividad_cc_agregar('0'); validarFechaEjecucion(); return false"><span class="icon-plus-square"></span></a>
                         </div>
                     </div>
-                    <div id="actividades_cc_contenedor" class=""></div>
+                    <div id="actividades_cc_contenedor"></div>
                     <div class="campos campos_dos">
                         <div class="campos_ultimos seccion">
                             <label>Servicios afectados por el control de cambio</label>
                         </div>
                         <div class="campos_ultimos seccion_boton">
-                            <a id="servicio_agregar" class="btn btn-success" onclick="servicio_agregar('0'); return false"><span class="icon-plus-square"></span></a>
+                            <a id="servicio_agregar" class="btn btn-info" onclick="servicio_agregar('0'); validarFechaEjecucion(); return false"><span class="icon-plus-square"></span></a>
                         </div>
                     </div>
-                    <div id="servicio_contenedor" class=""></div>
+                    <div id="servicio_contenedor"></div>
                 </div>
             </div>
         </div>
@@ -157,19 +157,19 @@
                             <label>Riesgos del control de cambio</label>
                         </div>
                         <div class="campos_ultimos seccion_boton">
-                            <a id="riesgo_agregar" class="btn btn-success" onclick="riesgo_agregar('0'); return false"><span class="icon-plus-square"></span></a>
+                            <a id="riesgo_agregar" class="btn btn-info" onclick="riesgo_agregar('0'); return false"><span class="icon-plus-square"></span></a>
                         </div>
                     </div>
-                    <div id="riesgos_contenedor" class=""></div>
+                    <div id="riesgos_contenedor"></div>
                     <div class="campos campos_dos">
                         <div class="campos_ultimos seccion">
                             <label>Riesgos de no ejecutar el control de cambio</label>
                         </div>
                         <div class="campos_ultimos seccion_boton">
-                            <a id="riesgo_no_agregar" class="btn btn-success" onclick="riesgo_no_agregar('0'); return false"><span class="icon-plus-square"></span></a>
+                            <a id="riesgo_no_agregar" class="btn btn-info" onclick="riesgo_no_agregar('0'); return false"><span class="icon-plus-square"></span></a>
                         </div>
                     </div>
-                    <div id="riesgos_no_contenedor" class=""></div>
+                    <div id="riesgos_no_contenedor"></div>
                 </div>
             </div>
         </div>
@@ -186,21 +186,71 @@
                     <div class="campos campos_dos">
                         <div class="campos_ultimos seccion">
                             <label>Adjuntar archivos</label>
+                            <span class="text-danger">No se aceptan archivos mayores a 2Mb</span>
                         </div>
                         <div class="campos_ultimos seccion_boton">
                             <a id="adjunto_agregar" class="btn btn-info" onclick="adjunto_agregar('0'); return false"><span class="icon-file-plus"></span></a>
                         </div>
                     </div>
-                    <div id="adjuntos_contenedor" class=""></div>
+                    <div id="adjuntos_contenedor"></div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="campos campos_tres">
-        <div class="campos_ultimos"></div>
-        <div class="campos_submit">
-            <input class="btn btn-dark mt-2" type="submit" value="Crear" />
+    <div class="campos campos_dos mt-3">
+        <div class="campos campos_dos">
+            <div class="campos_ultimos"></div>
+            <div class="campos_submit">
+                <a href="~/Home/Index" class="btn btn-light">Cancelar</a>
+            </div>
+        </div>
+        <div class="campos campos_dos">
+            <div class="campos_submit">
+                <input class="btn btn-dark" type="submit" value="Crear" onclick="load('block')"/>
+            </div>
         </div>
     </div>
+}
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".fancybox").fancybox({
+                prevEffect: 'none',
+                nextEffect: 'none',
+                helpers: {
+                    title: {
+                        type: 'outside'
+                    },
+                    thumbs: {
+                        width: 50,
+                        height: 25
+                    }
+                }
+            });
+            document.getElementById('FechaEjecucion').setAttribute('min', revisarFecha(2))
+            load('none');
+        })
+        $(document).on("submit", "form", function (e) {
+            $('.contar-act-desc').val(function (i, text) {
+                return text.concat("&")
+            })
+            $('.contar-act-obs').val(function (i, text) {
+                return text.concat("&")
+            })
+            $('.contar-act_cc-desc').val(function (i, text) {
+                return text.concat("&")
+            })
+            $('.contar-act_cc-obs').val(function (i, text) {
+                return text.concat("&")
+            })
+            $('.contar-riesgo-desc').val(function (i, text) {
+                return text.concat("&")
+            })
+            $('.contar-riesgo_no-desc').val(function (i, text) {
+                return text.concat("&")
+            })
+        })
+    </script>
 }
 

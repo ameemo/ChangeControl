@@ -1,134 +1,352 @@
 ﻿@{
     ViewData["Title"] = "Inicio";
 }
-    <div class="row">
-        <ul class="nav nav-tabs">
+<div class="row">
+    @if (ViewData["MC"].ToString() != "")
+    {
+        <div class="alert alert-success mensaje" role="alert">
+            @ViewData["MC"]
+        </div>
+    }
+    @if (ViewData["ME"].ToString() != "")
+    {
+        <div class="alert alert-danger mensaje" role="alert">
+            @ViewData["ME"]
+        </div>
+    }
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a id="Link1" class="nav-link active" href="#" onclick="tabs('1','seccion-activa', 'active')">Tus CC</a>
+        </li>
+        <li class="nav-item">
+            <a id="Link2" class="nav-link inactivo" href="#" onclick="tabs('2','seccion-activa', 'active')">CC Ejecución</a>
+        </li>
+        @if(ViewData["RevisarRol"].ToString() == "Admin")
+        {
             <li class="nav-item">
-                <a id="Link1" class="nav-link active" href="#" onclick="tabs('1')">Tus CC</a>
+                <a id="Link3" class="nav-link inactivo" href="#" onclick="tabs('3','seccion-activa', 'active')">CC Revisión</a>
             </li>
-            <li class="nav-item">
-                <a id="Link2" class="nav-link inactivo" href="#" onclick="tabs('2')">CC Ejecución</a>
-            </li>
-            <li class="nav-item">
-                <a id="Link3" class="nav-link inactivo" href="#" onclick="tabs('3')">CC Revisión</a>
-            </li>
-        </ul>
-        <div id="Seccion1" class="col-md-12 seccion-activa">
-            <div class="col-md-12 seccion_contenedor">
-                <div class="seccion">
-                    <h1>Tus controles de cambio</h1>
-                </div>
-                <div class="seccion_boton">
-                    <a class="btn btn-success" href="~/ControlCambio/Crear"><span class="icon-plus-square"></span> Crear</a>
-                </div>
+        }
+    </ul>
+    <div id="Seccion1" class="col-md-12 seccion-activa">
+        <div class="col-md-12 seccion_contenedor">
+            <div class="seccion">
+                <h1>Tus controles de cambio CREADOS</h1>
             </div>
-            <table class="table table-hover">
+            <div class="seccion_boton">
+                <a class="btn btn-success" href="~/ControlCambio/Crear"><span class="icon-plus-square"></span> Crear</a>
+            </div>
+        </div>
+        @if (ViewBag.Creados_CC.Count > 0)
+        {
+            <table id="Creados_CC" class="table table-hover">
                 <thead class="thead-info">
                     <tr>
                         <th>Clave</th>
+                        <th>Titulo</th>
                         <th>Fecha-Ejecución</th>
                         <th>Estado</th>
-                        <th class="link"></th>
-                        <th class="link"></th>
-                        <th class="link"></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Valor 1</td>
-                        <td>Valor 2</td>
-                        <td>Valor 2</td>
-                        <td class="link texto">
-                            <a href="#">Revisar</a>
-                        </td>
-                        <td class="link">
-                            <a asp-controller="ControlCambio" asp-action="Ver"><span class="icon-eye"></span></a>
-                        </td>
-                        <td class="link">
-                            <a asp-controller="ControlCambio" asp-action="Editar"><span class="icon-edit"></span></a>
-                        </td>
-                    </tr>
+                    @foreach (var cc in ViewBag.Creados_CC)
+                    {
+                        <tr>
+                            <td>@ViewBag.Claves_ccc[ViewBag.Creados_CC.IndexOf(cc)]</td>
+                            <td>@cc.Titulo</td>
+                            <td>@cc.FechaEjecucion.ToString().Substring(0, 10)</td>
+                            <td>@cc.Estado</td>
+                            @if (cc.Estado == "EnEvaluacion")
+                            {
+                                <td class="link texto">
+                                    -
+                                </td>
+                                <td class="link">
+                                    <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
+                                </td>
+                                <td class="link">-</td>
+                            }
+                            else
+                            {
+                                <td class="link texto">
+                                    @Html.ActionLink("Enviar a revisar", "cambiarEstado", new { id = cc.Id_CC}, new { onclick="load('block')" })
+                                </td>
+                                <td class="link">
+                                    <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
+                                </td>
+                                <td class="link">
+                                    <a href="~/ControlCambio/Editar/@cc.Id_CC"><span class="icon-edit"></span></a>
+                                </td>
+                            }
+                        </tr>
+                    }
                 </tbody>
             </table>
-        </div>
-        <div id="Seccion2" class="col-md-12 seccion-inactiva">
-            <div class="col-md-12 seccion">
-                <h1>Controles de cambio en ejecución</h1>
+        }
+        @if (ViewBag.Creados_CC.Count == 0)
+        {
+            <h5 class="text-center">
+                <span class="badge badge-secondary">No hay controles de cambio</span>
+            </h5>
+        }
+        <div class="col-md-12 seccion_contenedor">
+            <div class="seccion">
+                <h1>Tus controles de cambio REVISADOS</h1>
             </div>
-            <table class="table table-hover">
+        </div>
+        @if (ViewBag.Revisados_CC.Count > 0)
+        {
+            <table id="Revisados_CC" class="table table-hover">
+                <thead class="thead-info">
+                    <tr>
+                        <th>Clave</th>
+                        <th>Titulo</th>
+                        <th>Fecha-Ejecución</th>
+                        <th>Estado</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cc in ViewBag.Revisados_CC)
+                    {
+                        <tr>
+                            <td>@ViewBag.Claves_rcc[ViewBag.Revisados_CC.IndexOf(cc)]</td>
+                            <td>@cc.Titulo</td>
+                            <td>@cc.FechaEjecucion.ToString().Substring(0, 10)</td>
+                            <td>@cc.Estado</td>
+                            @if (cc.Estado == "Aprobado")
+                            {
+                                <td class="link texto">
+                                    @Html.ActionLink("Enviar a autorizar", "cambiarEstado", new { id = cc.Id_CC })
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="link texto">
+                                    @Html.ActionLink("Corregir", "../ControlCambio/Corregir", new { id = cc.Id_CC })
+                                </td>
+                            }
+                            <td class="link">
+                                <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
+                            </td>
+                            @if (cc.Estado != "Aprobado")
+                            {
+                                <td class="link">-</td>
+                            }
+                            else
+                            {
+                                <td class="link">
+                                    <a href="~/ControlCambio/Editar/@cc.Id_CC"><span class="icon-edit"></span></a>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        @if (ViewBag.Revisados_CC.Count == 0)
+        {
+            <h5 class="text-center">
+                <span class="badge badge-secondary">No hay controles de cambio</span>
+            </h5>
+        }
+        <div class="col-md-12 seccion_contenedor">
+            <div class="seccion">
+                <h1>Tus controles de cambio PARA AUTORIZAR</h1>
+            </div>
+        </div>
+        @if (ViewBag.ParaAut_CC.Count > 0)
+        {
+            <table id="ParaAut_CC" class="table table-hover">
+                <thead class="thead-info">
+                    <tr>
+                        <th>Clave</th>
+                        <th>Titulo</th>
+                        <th>Fecha-Ejecución</th>
+                        <th>Estado</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cc in ViewBag.ParaAut_CC)
+                    {
+                        <tr>
+                            <td>@ViewBag.Claves_pacc[ViewBag.ParaAut_CC.IndexOf(cc)]</td>
+                            <td>@cc.Titulo</td>
+                            <td>@cc.FechaEjecucion.ToString().Substring(0, 10)</td>
+                            <td>@cc.Estado</td>
+                            <td class="link texto">
+                                @if (cc.Estado == "Autorizado")
+                                {
+                                    <span>-</span>
+                                }
+                                else
+                                {
+                                    <a class="fancybox fancybox.ajax" href="~/ControlCambio/Autorizaciones/@cc.Id_CC">Ver Autorizaciones</a>
+                                }
+                            </td>
+                            <td class="link">
+                                <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        @if (ViewBag.ParaAut_CC.Count == 0)
+        {
+            <h5 class="text-center">
+                <span class="badge badge-secondary">No hay controles de cambio</span>
+            </h5>
+        }
+    </div>
+    <div id="Seccion2" class="col-md-12 seccion-inactiva">
+        <div class="col-md-12 seccion">
+            <h1>Controles de cambio en ejecución</h1>
+        </div>
+        @if (ViewBag.Ejecucion_CC.Count > 0)
+        {
+            <table id="Ejecucion_CC" class="table table-hover">
                 <thead class="thead-info">
                     <tr>
                         <th scope="col">Clave</th>
+                        <th scope="col">Titulo</th>
                         <th scope="col">Creador</th>
                         <th scope="col">Estado</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
-                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Valor 1</td>
-                        <td>Valor 2</td>
-                        <td>Valor 2</td>
-                        <td class="link texto">
-                            <a class="fancybox fancybox.ajax" asp-controller="ControlCambio" asp-action="Cerrar">Cerrar</a>
-                        </td>
-                        <td class="link">
-                            <a asp-controller="ControlCambio" asp-action="Ver"><span class="icon-eye"></span></a>
-                        </td>
-                        <td class="link">
-                            <a asp-controller="ControlCambio" asp-action="Editar"><span class="icon-edit"></span></a>
-                        </td>
-                    </tr>
+                    @foreach (var cc in ViewBag.Ejecucion_CC as IEnumerable<SistemaCC.Models.ControlCambio>)
+                    {
+                        <tr>
+                            <td>@ViewBag.Claves_ecc[ViewBag.Ejecucion_CC.IndexOf(cc)]</td>
+                            <td>@cc.Titulo</td>
+                            <td>
+                                @cc.Usuario.Nombre @cc.Usuario.ApePaterno @cc.Usuario.ApeMaterno
+                            </td>
+                            <td>@cc.Estado</td>
+                            <td class="link texto">
+                                @Html.ActionLink("Enviar a cerrar", "../ControlCambio/Cerrar", new { id = cc.Id_CC }, new { @class = "fancybox fancybox.ajax" })
+                            </td>
+                            <td class="link">
+                                <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
-        </div>
+        }
+        @if (ViewBag.Ejecucion_CC.Count == 0)
+        {
+            <h5 class="text-center">
+                <span class="badge badge-secondary">No hay controles de cambio</span>
+            </h5>
+        }
+    </div>
+    @if (ViewData["RevisarRol"].ToString() == "Admin")
+    {
         <div id="Seccion3" class="col-md-12 seccion-inactiva">
             <div class="col-md-12 seccion">
                 <h1>Controles de cambio a revisar</h1>
             </div>
-            <table class="table table-hover">
-                <thead class="thead-info">
-                    <tr>
-                        <th scope="col">Clave</th>
-                        <th scope="col">Creador</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Valor 1</td>
-                        <td>Valor 2</td>
-                        <td class="link texto">
-                            <a href="#">Revisar</a>
-                        </td>
-                        <td class="link">
-                            <a asp-controller="ControlCambio" asp-action="Ver"><span class="icon-eye"></span></a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            @if (ViewBag.Revision_CC.Count > 0)
+            {
+                <table id="Revision_CC" class="table table-hover">
+                    <thead class="thead-info">
+                        <tr>
+                            <th scope="col">Clave</th>
+                            <th scope="col">Titulo</th>
+                            <th scope="col">Creador</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var cc in ViewBag.Revision_CC as IEnumerable<SistemaCC.Models.ControlCambio>)
+                        {
+                            <tr>
+                                <td>@ViewBag.Claves_enrcc[ViewBag.Revision_CC.IndexOf(cc)]</td>
+                                <td>@cc.Titulo</td>
+                                <td>@cc.Usuario.Nombre @cc.Usuario.ApePaterno</td>
+                                <td class="link texto">
+                                    <a href="~/ControlCambio/Revisar/@cc.Id_CC">Revisar</a>
+                                </td>
+                                <td class="link">
+                                    <a href="~/ControlCambio/Ver/@cc.Id_CC"><span class="icon-eye"></span></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            @if (ViewBag.Revision_CC.Count == 0)
+            {
+                <h5 class="text-center">
+                    <span class="badge badge-secondary">No hay controles de cambio para revisar</span>
+                </h5>
+            }
         </div>
-    </div>
+    }
+</div>
 @section Scripts
 {
-            <script>
-                $(document).ready(function () {
-                    $(".fancybox").fancybox({
-                        prevEffect: 'none',
-                        nextEffect: 'none',
-                        helpers: {
-                            title: {
-                                type: 'outside'
-                            },
-                            thumbs: {
-                                width: 50,
-                                height: 25
-                            }
-                        }
-                    });
-                });
-            </script>
-        }
+    <script>
+        $(document).ready(function () {
+            $(".fancybox").fancybox({
+                prevEffect: 'none',
+                nextEffect: 'none',
+                helpers: {
+                    title: {
+                        type: 'outside'
+                    },
+                    thumbs: {
+                        width: 50,
+                        height: 25
+                    }
+                },
+                tpl: {
+                    closeBtn: '<a title="Cerrar" class="fancybox-item fancybox-close" href="javascript:;"></a>'
+                }
+            });
+            $('#Creados_CC').DataTable({
+                "pagingType": "numbers",
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                }
+            });
+            $('#Revisados_CC').DataTable({
+                "pagingType": "numbers",
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                }
+            });
+            $('#ParaAut_CC').DataTable({
+                "pagingType": "numbers",
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                }
+            });
+            $('#Ejecucion_CC').DataTable({
+                "pagingType": "numbers",
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                }
+            });
+            $('#Revision_CC').DataTable({
+                "pagingType": "numbers",
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                }
+            });
+            load('none');
+        });
+    </script>
+}

@@ -10,28 +10,65 @@ namespace SistemaCC.Controllers
     public class ServAppController : Controller
     {
         BDControlCambioDataContext BD = new BDControlCambioDataContext();
+        static HomeController General = new HomeController();
+        Mensajes Mensaje = new Mensajes();
+        int Sesion = General.Sesion;
         // GET: ServApp
-        public ActionResult Index()
+        public ActionResult Index(string mensaje)
         {
+            // Notificaciones para navbar
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
+            var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).SingleOrDefault();
+            ViewData["NavRol"] = rol != null ? "Admin" : "Funcional";
+            ViewData["NavNombre"] = (from u in BD.Usuario where u.Id_U == Sesion select u.Nombre).SingleOrDefault();
+            ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
+            // Demas codigo
             var datos = (from a in BD.ServiciosAplicaciones select a);
             ViewBag.datos = datos;
+            //Seccion de mensajes para la vista
+            string MC = "";
+            string ME = "";
+            if (mensaje != null)
+            {
+                int numero = Convert.ToInt32(mensaje.Substring(1, mensaje.Length - 1));
+                if (mensaje.Substring(0, 1) == "C")
+                {
+                    MC = Mensaje.getMConfirmacion(numero);
+                }
+                else
+                {
+                    ME = Mensaje.getMError(numero);
+                }
+            }
+            ViewData["MC"] = MC;
+            ViewData["ME"] = ME;
             return View();
         }
 
         // GET: ServApp/Ver/5
         public ActionResult Ver(int id)
         {
+            ViewBag.Modelo = (from sa in BD.ServiciosAplicaciones where sa.Id_SA == id select sa).SingleOrDefault();
             return View();
         }
 
         // GET: ServApp/Crear
         public ActionResult Crear()
         {
+            // Notificaciones para navbar
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
+            var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).SingleOrDefault();
+            ViewData["NavRol"] = rol != null ? "Admin" : "Funcional";
+            ViewData["NavNombre"] = (from u in BD.Usuario where u.Id_U == Sesion select u.Nombre).SingleOrDefault();
+            ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
+            // Demas codigo
             var usuarios = (from a in BD.Usuario select a).ToList();
             List<Usuario> usuarios2 = new List<Usuario>();
             foreach (var usuario in usuarios)
             {
-                usuarios2.Add(new Usuario { Id_U = usuario.Id_U, Nombre = usuario.Nombre + usuario.ApePaterno + usuario.ApeMaterno });
+                usuarios2.Add(new Usuario { Id_U = usuario.Id_U, Nombre = usuario.Nombre + " " + usuario.ApePaterno + " " + usuario.ApeMaterno });
             }
             ViewData["usuarios"] = new SelectList(usuarios2, "Id_U", "Nombre");
             return View();
@@ -40,36 +77,67 @@ namespace SistemaCC.Controllers
         // POST: ServApp/Crear
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Crear(FormCollection collection)
+        public ActionResult Crear(ServiciosAplicaciones modelo, FormCollection collection)
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
+                ServiciosAplicaciones servapp = new ServiciosAplicaciones();
+                servapp.Nombre = modelo.Nombre;
+                servapp.Descripcion = modelo.Descripcion;
+                servapp.Acronimo = modelo.Acronimo;
+                servapp.Activo = true;
+                servapp.Dueno = modelo.Dueno;
+                BD.ServiciosAplicaciones.InsertOnSubmit(servapp);
+                BD.SubmitChanges();
+                return RedirectToAction("Index", new { mensaje = "C5" });
             }
             catch
             {
-                return View();
+                return RedirectToAction("Index", new { mensaje = "E1" });
             }
         }
 
         // GET: ServApp/Editar/5
         public ActionResult Editar(int id)
         {
-            return View();
+            // Notificaciones para navbar
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
+            var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).SingleOrDefault();
+            ViewData["NavRol"] = rol != null ? "Admin" : "Funcional";
+            ViewData["NavNombre"] = (from u in BD.Usuario where u.Id_U == Sesion select u.Nombre).SingleOrDefault();
+            ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
+            // Demas codigo
+            ServiciosAplicaciones model = (from sa in BD.ServiciosAplicaciones where sa.Id_SA == id select sa).SingleOrDefault();
+            //un servapp bloqueado no puede ser editado
+            if(model.Activo == false)
+            {
+                return RedirectToAction("./Index");
+            }
+            var usuarios = (from a in BD.Usuario select a).ToList();
+            List<Usuario> usuarios2 = new List<Usuario>();
+            foreach (var usuario in usuarios)
+            {
+                usuarios2.Add(new Usuario { Id_U = usuario.Id_U, Nombre = usuario.Nombre + " " + usuario.ApePaterno + " " + usuario.ApeMaterno });
+            }
+            ViewData["usuarios"] = new SelectList(usuarios2, "Id_U", "Nombre");
+            return View(model);
         }
 
         // POST: ServApp/Editar/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar(int id, FormCollection collection)
+        public ActionResult Editar(int id, ServiciosAplicaciones modelo, FormCollection collection)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
+                ServiciosAplicaciones servapp = (from sa in BD.ServiciosAplicaciones where sa.Id_SA == id select sa).SingleOrDefault();
+                servapp.Nombre = modelo.Nombre;
+                servapp.Descripcion = modelo.Descripcion;
+                servapp.Acronimo = modelo.Acronimo;
+                servapp.Dueno = modelo.Dueno;
+                BD.SubmitChanges();
+                return RedirectToAction("Index", new { mensaje = "C14" });
             }
             catch
             {
@@ -80,24 +148,18 @@ namespace SistemaCC.Controllers
         // GET: ServApp/Bloquear/5
         public ActionResult Bloquear(int id)
         {
-            return View();
+            ServiciosAplicaciones servapp = (from s in BD.ServiciosAplicaciones where s.Id_SA == id select s).SingleOrDefault();
+            servapp.Activo = false;
+            BD.SubmitChanges();
+            return RedirectToAction("Index", new { mensaje = "C6" });
         }
-
-        // POST: ServApp/Bloquear/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Bloquear(int id, FormCollection collection)
+        // GET: ServApp/Bloquear/5
+        public ActionResult Desbloquear(int id)
         {
-            try
-            {
-                // TODO: Add Bloquear logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            ServiciosAplicaciones servapp = (from s in BD.ServiciosAplicaciones where s.Id_SA == id select s).SingleOrDefault();
+            servapp.Activo = true;
+            BD.SubmitChanges();
+            return RedirectToAction("Index");
         }
     }
 }

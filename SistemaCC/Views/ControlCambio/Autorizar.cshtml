@@ -1,0 +1,230 @@
+﻿@{
+    ViewData["Title"] = "Autorizar";
+}
+<div class="col-md-12 seccion">
+    <h1>Autorización</h1>
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    if (ViewData["MA"].ToString() != "")
+    {
+        <div class="alert alert-warning mensaje" role="alert">
+            @ViewData["MA"]
+        </div>
+    }
+    if (ViewData["ME2"].ToString() != "")
+    {<div class="alert alert-danger mensaje" role="alert">
+            @ViewData["ME2"]
+        </div>
+    }
+    else
+    {
+<div class="campos campos_tres">
+    @if (ViewData["Paso"].ToString() == "1")
+    {
+        <div class="campos_ultimos">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion" />
+                <label class="custom-control-label" for="switch_aut">
+                    <span id="check_span" style="display:none">
+                        Si autorizo el control de cambio
+                    </span>
+                    <span id="uncheck_span" class="text-danger">
+                        No autorizo el control de cambio
+                    </span>
+                </label>
+            </div>
+            <div id="motivo" class="campos_ultimos">
+                <label>Motivo</label>
+                <textarea id="textarea_motivo" name="motivo" class="form-control contador" placeholder="¿Por qué no autorizo?" maxLength="500" title="Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500" oninvalid="load('none')" onkeyup="contar('0','contador', 'conteo-')" required></textarea>
+                <div id="conteo-0" class="campos_ultimos conteo">
+                    <div>Caracteres: 0/500</div>
+                </div>
+            </div>
+        </div>
+        <div class="campos campos_dos">
+            <div class="campos_submit">
+                <input class="btn btn-success" type="submit" value="Continuar" name="Paso1" onclick="load('block')"/>
+            </div>
+        </div>
+    }
+    @if (ViewData["Paso"].ToString() == "2")
+    {
+        if (ViewData["check"].ToString() == "True")
+        {
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion" checked disabled />
+                <label class="custom-control-label" for="switch_aut">
+                    <span id="check_span">
+                        Si autorizo el control de cambio
+                    </span>
+                </label>
+            </div>
+        }
+        else
+        {
+            <div class="campos_ultimos">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion" disabled />
+                    <label class="custom-control-label" for="switch_aut">
+                        <span id="uncheck_span" class="text-danger">
+                            No autorizo el control de cambio
+                        </span>
+                    </label>
+                </div>
+                <div id="motivo" class="campos_ultimos">
+                    <label>Motivo</label>
+                    <textarea id="textarea_motivo" name="motivo" class="form-control contador" placeholder="¿Por qué no autorizo?" maxLength="500" title="Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500" onkeyup="contar('0','contador', 'conteo-')" disabled>@ViewData["motivo"]</textarea>
+                    <div id="conteo-0" class="campos_ultimos conteo">
+                        <div>Caracteres: @ViewData["motivo"].ToString().Length/500</div>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="campos campos_dos">
+            <div class="campos_submit">
+                <input class="btn btn-success" type="submit" value="Continuar" disabled />
+            </div>
+            <div class="campos_ultimos">
+                <label>Código:</label>
+            </div>
+        </div>
+        <div class="campos campos_dos">
+            <div class="campos_ultimos">
+                <input class="form-control" type="text" placeholder="codigo" name="codigo" oninvalid="load('none')" />
+                <span class="text-danger">@ViewData["ME"]</span>
+            </div>
+            <div class="campos_submit">
+                <input class="btn btn-dark" type="submit" value="Validar" name="Paso2" onclick="load('block')"/>
+            </div>
+        </div>
+    }
+    @if (ViewData["Paso"].ToString() == "E")
+    {
+        if (ViewData["check"].ToString() == "True")
+        {
+            <div class="campos campos_dos">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion" checked disabled />
+                    <label class="custom-control-label" for="switch_aut">
+                        <span id="check_span">
+                            Si autorizo el control de cambio
+                        </span>
+                    </label>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="campos_ultimos">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="switch_aut" name="autorizacion" disabled />
+                    <label class="custom-control-label" for="switch_aut">
+                        <span id="uncheck_span" class="text-danger">
+                            No autorizo el control de cambio
+                        </span>
+                    </label>
+                </div>
+                <div id="motivo" class="campos_ultimos">
+                    <label>Motivo</label>
+                    <textarea id="textarea_motivo" name="motivo" class="form-control contador" placeholder="¿Por qué no autorizo?" maxLength="500" title="Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500" onkeyup="contar('0','contador', 'conteo-')" disabled>@ViewData["motivo"]</textarea>
+                    <div id="conteo-0" class="campos_ultimos conteo">
+                        <div>Caracteres: @ViewData["motivo"].ToString().Length/500</div>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="campos campos_dos">
+            <div class="campos_submit">
+                <input class="btn btn-success" type="submit" value="Continuar" disabled />
+            </div>
+            <div class="campos_ultimos">
+                <label>Código:</label>
+            </div>
+        </div>
+        <div class="campos campos_dos">
+            <div class="campos_ultimos">
+                <input class="form-control" type="text" placeholder="codigo" name="codigo" disabled />
+                <span class="text-danger">@ViewData["ME"]</span>
+            </div>
+            <div class="campos_submit">
+                <input class="btn btn-dark" type="submit" value="Validar" name="Paso2" disabled />
+            </div>
+        </div>
+        <div class="campos_ultimos"></div>
+        <div class="campos_ultimos text-center">
+            <label>Enviar nuevo código:</label>
+        </div>
+        <div class="campos_ultimos text-left">
+            <input id="PasoE" type="submit" name="PasoE" hidden />
+            <a class="btn btn-info submit-reenviar" onclick="load('block'); reenviarEmail()">
+                <span class="icon-refresh-cw"></span>
+            </a>
+        </div>
+    }
+</div>
+    }
+}
+@RenderPage("_SharedVer.cshtml")
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            var check = document.getElementById("switch_aut")
+            if (check !== null && check !== undefined) { check.addEventListener("change", ocultarSpan, false) }
+            $(".fancybox-thumb").fancybox({
+                prevEffect: 'none',
+                nextEffect: 'none',
+                helpers: {
+                    title: {
+                        type: 'outside'
+                    },
+                    thumbs: {
+                        width: 50,
+                        height: 50
+                    }
+                },
+                tpl : {
+                    closeBtn : '<a title="Cerrar" class="fancybox-item fancybox-close" href="javascript:;"></a>',
+                    next: '<a title="Siguiente" class="fancybox-nav fancybox-next"><span></span></a>',
+                    prev: '<a title="Anterior" class="fancybox-nav fancybox-prev"><span></span></a>'
+                }
+            });
+            $(".fancybox2").fancybox({
+                fitToView: false,
+                width: '100%',
+                height: '600',
+                autoSize: false,
+                closeClick: false,
+                openEffect: 'none',
+                closeEffect: 'none',
+                type: 'iframe',
+                tpl : {
+                    closeBtn : '<a title="Cerrar" class="fancybox-item fancybox-close" href="javascript:;"></a>'
+                }
+            });
+            $(".fancybox").fancybox({
+                prevEffect: 'none',
+                nextEffect: 'none',
+                helpers: {
+                    title: {
+                        type: 'outside'
+                    },
+                    thumbs: {
+                        width: 50,
+                        height: 25
+                    }
+                },
+                tpl : {
+                    closeBtn : '<a title="Cerrar" class="fancybox-item fancybox-close" href="javascript:;"></a>'
+                }
+            });
+            load('none')
+        });
+        $(document).on("submit", "form", function (e) {
+            $(switch_aut).removeAttr('disabled')
+            $(textarea_motivo).removeAttr('disabled')
+        })
+    </script>
+}

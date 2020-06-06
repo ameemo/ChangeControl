@@ -1,8 +1,74 @@
-﻿
+﻿@model SistemaCC.Models.ControlCambio
 @{
     ViewData["Title"] = "Bloquear";
     Layout = "./../Shared/_LayoutVacio.cshtml";
 }
-
-<h2>Bloquear</h2>
-
+@if (ViewData["Error"].ToString() != "")
+{
+    <div class="alert alert-danger mensaje" role="alert">
+        @ViewData["Error"]
+    </div>
+}
+else
+{
+    <div class="col-md-12 seccion-dark">
+        <h1>Cerrar control de cambio</h1>
+    </div>
+    using (Html.BeginForm("Cerrar", "ControlCambio", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="campos campos_dos">
+            <div class="campos">
+                <div class="campos_ultimos">
+                    <label>Conclusión:</label>
+                </div>
+                <div class="campos_ultimos">
+                    <div class="campos_ultimos">
+                        @Html.TextAreaFor(model => model.Conclusion, new { @class = "form-control contador", placeholder = "Conclusion", maxLength = "500", rows = "4", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500", oninvalid = "load('none')", onkeyup = "contar('0','contador', 'conteo-')", required = "required" })
+                    </div>
+                    <div id="conteo-0" class="campos_ultimos conteo">
+                        <div>Caracteres: 0/500</div>
+                    </div>
+                </div>
+            </div>
+            <div class="campos_ultimos">
+                <label>EL control de cambio se cierra de manera:</label>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="switch_success" name="exito" />
+                    <label class="custom-control-label" for="switch_success">
+                        <span id="check_span" style="display:none">
+                            Exitosa
+                        </span>
+                        <span id="uncheck_span" class="text-danger">
+                            Fallida
+                        </span>
+                    </label>
+                </div>
+                <label class="mt-2">Añadir evidencia de cierre:</label>
+                <div class="custom-file">
+                    <input type="file" id="evidencia" name="evidencia" class="custom-file-input" accept="application/PDF"  onchange="revisar_extension('1','e')" required />
+                    <label class="custom-file-label normal" for="customFile">
+                        <p>Adjuntar archivo tipo PDF</p>
+                    </label>
+                </div>
+                <span class="text-danger">No se aceptan archivos mayores a 2Mb</span>
+            </div>
+        </div>
+        <div class="campos campos_tres">
+            <div class="campos_ultimos"></div>
+            <div class="campos_submit">
+                <input type="submit" class="btn btn-dark" onclick="load('block')" />
+            </div>
+        </div>
+    }
+}
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            var check = document.getElementById("switch_success")
+            check.addEventListener("change", ocultarSpan, false)
+            load('none')
+        });
+    </script>
+}

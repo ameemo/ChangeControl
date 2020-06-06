@@ -1,0 +1,490 @@
+﻿@model SistemaCC.Models.ControlCambio
+@{
+    ViewBag.Title = "_SharedEditar";
+}
+@*@using (Html.BeginForm("Editar", "ControlCambio", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{*@
+    <form action="/ControlCambio/Editar/@Model.Id_CC" method="post">
+        @Html.AntiForgeryToken()
+        <div class="accordion" id="accordionFormulario">
+            <div class="card">
+                <div class="card-header" id="Titulo1">
+                    <h2 class="mb-0">
+                        <button class="btn btn-collapse" type="button" data-toggle="collapse" data-target="#Section1" aria-expanded="true" aria-controls="Section1">
+                            Información General
+                        </button>
+                    </h2>
+                </div>
+                <div id="Section1" class="collapse show" aria-labelledby="Titulo1" data-parent="#accordionFormulario">
+                    <div id="max_fila" class="card-body">
+                        <div class="campos campos_dos_kai">
+                            <div class="campos_ultimos">
+                                <label>Titulo:</label>
+                            </div>
+                        </div>
+                        <div class="campos">
+                            <div class="campos_ultimos">
+                                @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control contador", type = "text", placeholder = "Titulo", maxLength = "150", title = "Sólo se admiten 150 caracteres como máximo, de ingresar más, se capturarán los primeros 150", onkeyup = "contar('0','contador', 'conteo-')", oninvalid = "load('none'); error_campos(1)", required = "required" } })
+                            </div>
+                            <div id="conteo-0" class="campos_ultimos conteo">
+                                <div>Caracteres: @Model.Titulo.Length/150</div>
+                            </div>
+                        </div>
+                        <div class="campos campos_dos">
+                            <div class="campos campos_dos_kai">
+                                <div class="campos_ultimos">
+                                    <label>Fecha de ejecuión:</label>
+                                </div>
+                                <div class="campos_ultimos">
+                                    <input id="FechaEjecucion" name="FechaEjecucion" class="form-control" type="date" value="@Model.FechaEjecucion.ToString().Substring(6,4)-@Model.FechaEjecucion.ToString().Substring(3,2)-@Model.FechaEjecucion.ToString().Substring(0,2)" onchange="cambiarFechasAct()" oninvalid="load('none'); error_campos(1)" required="required" />
+                                </div>
+                            </div>
+                            <div class="campos campos_dos_kai">
+                                <div class="campos_ultimos">
+                                    <label>Tipo:</label>
+                                </div>
+                                <div class="campos_ultimos">
+                                    <select name="tipo" class="form-control" oninvalid="load('none'); error_campos(1)" required="required">
+                                        <option value="">Seleccione...</option>
+                                        @if (Model.Tipo == "Programado")
+                                        {
+                                            <option value="Programado" selected>Programado</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="Programado">Programado</option>
+                                        }
+                                        @if (Model.Tipo == "Emergente")
+                                        {
+                                            <option value="Emergente" selected>Emergente</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="Emergente">Emergente</option>
+                                        }
+                                        @if (Model.Tipo == "Estandar")
+                                        {
+                                            <option value="Estandar" selected>Estandar</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="Estandar">Estandar</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="campos campos_dos_kai">
+                            <div class="campos_ultimos">
+                                <label>Objetivo(s):</label>
+                            </div>
+                        </div>
+                        <div class="campos">
+                            <div class="campos_ultimos">
+                                @Html.TextAreaFor(model => model.Objetivos, new { @class = "form-control contador", placeholder = "Ejem. 1.- Verbo (ar, er, ir) [complemento]", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500", rows = "4", onkeyup = "contar('1', 'contador', 'conteo-')", oninvalid = "load('none');  error_campos(1)", required = "required" })
+                            </div>
+                            <div id="conteo-1" class="campos_ultimos conteo">
+                                <div>Caracteres: @Model.Objetivos.Length/500</div>
+                            </div>
+                        </div>
+                        <div class="campos campos_dos_kai">
+                            <div class="campos_ultimos">
+                                <label>Introducción:</label>
+                            </div>
+                        </div>
+                        <div class="campos">
+                            <div class="campos_ultimos">
+                                @Html.TextAreaFor(model => model.Introduccion, new { @class = "form-control contador", placeholder = "Redacta aquí...", maxLength = "500", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturararán los primeros 500", rows = "4", onkeyup = "contar('2', 'contador', 'conteo-')", oninvalid = "load('none'); error_campos(1)", required = "required" })
+                            </div>
+                            <div id="conteo-2" class="campos_ultimos conteo">
+                                <div>Caracteres: @Model.Introduccion.Length/500</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="Titulo2">
+                    <h2 class="mb-0">
+                        <button class="btn btn-collapse collapsed" type="button" data-toggle="collapse" data-target="#Seccion2" aria-expanded="false" aria-controls="Seccion2">
+                            Actividades y limitantes
+                        </button>
+                    </h2>
+                </div>
+                <div id="Seccion2" class="collapse" aria-labelledby="Titulo2" data-parent="#accordionFormulario">
+                    <div class="card-body">
+                        <div style="display: none">
+                            <select id="usuarios2">
+                                <option value="">Select...</option>
+                                @foreach (var usuario in ViewBag.usuarios as IEnumerable<SistemaCC.Models.Usuario>)
+                                {
+                                    <option value="@usuario.Id_U">@usuario.Nombre @usuario.ApePaterno @usuario.ApeMaterno</option>
+                                }
+                            </select>
+                        </div>
+                        <div style="display: none">
+                            <select id="servicios">
+                                <option value="">Select...</option>
+                                @foreach (var servapp in ViewBag.servicios as IEnumerable<SistemaCC.Models.ServiciosAplicaciones>)
+                                {
+                                    <option value="@servapp.Id_SA">@servapp.Nombre</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="campos campos_dos">
+                            <div class="campos_ultimos seccion">
+                                <label>Actividades previas del control de cambio</label>
+                            </div>
+                            <div class="campos_ultimos seccion_boton">
+                                <a id="actividad_agregar" class="btn btn-info" onclick="actividad_agregar('@ViewBag.Actividades_Prev.Count'); return false"><span class="icon-plus-square"></span></a>
+                            </div>
+                        </div>
+                        <div id="actividades_contenedor">
+                            @foreach (var act in ViewBag.Actividades_Prev as IEnumerable<SistemaCC.Models.ActividadesControl>)
+                            {
+                                <input id="act_prev_id_@ViewBag.Actividades_Prev.IndexOf(act)" type="text" value="@act.Id_CA" hidden />
+                                <div id="actividad@(ViewBag.Actividades_Prev.IndexOf(act)+1)" class="campos campos_dos">
+                                    <div class="campos campos_dos_kai">
+                                        <div name="actividad" class="campos campos_ultimos numeracion">
+                                            <div>A@(ViewBag.Actividades_Prev.IndexOf(act) + 1)</div>
+                                        </div>
+                                        <div class="campos campos_ultimos">
+                                            <textarea id="act_prev_desc_@ViewBag.Actividades_Prev.IndexOf(act)" name="actividades_prev_descripcion_actual" maxlength="150" placeholder="Descripción" pattern="[A-Za-z0-9 ,.;-_/*+´¨]+" onkeyup="contar('@ViewBag.Actividades_Prev.IndexOf(act)', 'contar-act-desc', 'conteo-act-desc-')" oninvalid="load('none');  error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_Prev.IndexOf(act),'prev')" required="required" class="form-control contar-act-desc">@act.Actividades.Descripcion</textarea>
+                                            <div id="conteo-act-desc-@ViewBag.Actividades_Prev.IndexOf(act)" class="campos_ultimos conteo-act-desc">
+                                                <div>Caracteres: @act.Actividades.Descripcion.Length/150</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="campos campos_tres">
+                                        <div class="campos campos_ultimos">
+                                            <textarea id="act_prev_obs_@ViewBag.Actividades_Prev.IndexOf(act)" name="actividades_prev_observaciones_actual" maxlength="150" placeholder="Observaciones" onkeyup="contar('@ViewBag.Actividades_Prev.IndexOf(act)', 'contar-act-obs', 'conteo-act-obs-')" oninvalid="load('none');  error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_Prev.IndexOf(act),'prev')" required="required" class="form-control contar-act-obs act_prev_actual">@act.Actividades.Observaciones</textarea>
+                                            <div id="conteo-act-obs-@ViewBag.Actividades_Prev.IndexOf(act)" class="campos_ultimos conteo-act-obs">
+                                                <div>Caracteres: @act.Actividades.Observaciones.Length/150</div>
+                                            </div>
+                                        </div>
+                                        <div class="campos campos_ultimos">
+                                            <input id="act_prev_fecha_@ViewBag.Actividades_Prev.IndexOf(act)" name="actividades_prev_fecha_actual" type="date" oninvalid="load('none');  error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_Prev.IndexOf(act),'prev')" required="required" class="form-control act_prev_actual" value="@act.Actividades.FechaRealizacion.ToString().Substring(6,4)-@act.Actividades.FechaRealizacion.ToString().Substring(3,2)-@act.Actividades.FechaRealizacion.ToString().Substring(0,2)">
+                                            <select id="act_prev_res_@ViewBag.Actividades_Prev.IndexOf(act)" name="actividades_prev_usuarios_actual" required="required" oninvalid="load('none');  error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_Prev.IndexOf(act),'prev')" class="form-control act_prev_actual">
+                                                <option value="">Select...</option>
+                                                @foreach (var usuario in ViewBag.usuarios as IEnumerable<SistemaCC.Models.Usuario>)
+                                                {
+                                                    if (usuario.Id_U == act.Actividades.Responsable)
+                                                    {
+                                                        <option value="@usuario.Id_U" selected>@usuario.Nombre @usuario.ApePaterno @usuario.ApeMaterno</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@usuario.Id_U">@usuario.Nombre @usuario.ApePaterno @usuario.ApeMaterno</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="campos campos_ultimos">
+                                            <div class="quitar">
+                                                <a onclick="setActEliminar(@ViewBag.Actividades_Prev.IndexOf(act),'prev')" class="btn btn-outline-danger cerrar">X</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="campos campos_dos">
+                            <div class="campos_ultimos seccion">
+                                <label>Actividades del control de cambio</label>
+                            </div>
+                            <div class="campos_ultimos seccion_boton">
+                                <a id="actividad_cc_agregar" class="btn btn-info" onclick="actividad_cc_agregar('@ViewBag.Actividades_CC.Count'); return false"><span class="icon-plus-square"></span></a>
+                            </div>
+                        </div>
+                        <div id="actividades_cc_contenedor">
+                            @foreach (var act in ViewBag.Actividades_CC as IEnumerable<SistemaCC.Models.ActividadesControl>)
+                            {
+                                <input id="act_cc_id_@ViewBag.Actividades_CC.IndexOf(act)" type="text" value="@act.Id_CA" hidden />
+                                <div id="actividad_cc@(ViewBag.Actividades_CC.IndexOf(act)+1)" class="campos campos_dos">
+                                    <div class="campos campos_dos_kai">
+                                        <div name="actividad_cc" class="campos campos_ultimos numeracion">
+                                            <div>A@(ViewBag.Actividades_CC.IndexOf(act) + 1)</div>
+                                        </div>
+                                        <div class="campos campos_ultimos">
+                                            <textarea id="act_cc_desc_@ViewBag.Actividades_CC.IndexOf(act)" name="actividades_cc_descripcion_actual" maxlength="150" placeholder="Descripción" pattern="[A-Za-z0-9 ,.;-_/*+´¨]+" onkeyup="contar('@ViewBag.Actividades_CC.IndexOf(act)', 'contar-act_cc-desc', 'conteo-act_cc-desc-')" oninvalid="load('none');  error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_CC.IndexOf(act),'cc')" required="required" class="form-control contar-act-desc">@act.Actividades.Descripcion</textarea>
+                                            <div id="conteo-act_cc-desc-@ViewBag.Actividades_CC.IndexOf(act)" class="campos_ultimos conteo-act_cc-desc">
+                                                <div>Caracteres: @act.Actividades.Descripcion.Length/150</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="campos campos_tres">
+                                        <div class="campos campos_ultimos">
+                                            <textarea id="act_cc_obs_@ViewBag.Actividades_CC.IndexOf(act)" name="actividades_cc_observaciones_actual" maxlength="150" placeholder="Observaciones" onkeyup="contar('@ViewBag.Actividades_CC.IndexOf(act)', 'contar-act_cc-obs', 'conteo-act_cc-obs-')" oninvalid="load('none');  error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_CC.IndexOf(act),'cc')" required="required" class="form-control contar-act-obs act_cc_actual">@act.Actividades.Observaciones</textarea>
+                                            <div id="conteo-act_cc-obs-@ViewBag.Actividades_CC.IndexOf(act)" class="campos_ultimos conteo-act_cc-obs">
+                                                <div>Caracteres: @act.Actividades.Observaciones.Length/150</div>
+                                            </div>
+                                        </div>
+                                        <div class="campos campos_ultimos">
+                                            <input id="act_cc_fecha_@ViewBag.Actividades_CC.IndexOf(act)" name="actividades_cc_fecha_actual" type="date" min="@Model.FechaEjecucion.ToString().Substring(6,4)-@Model.FechaEjecucion.ToString().Substring(3,2)-@Model.FechaEjecucion.ToString().Substring(0,2)" oninvalid="load('none');  error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_CC.IndexOf(act),'cc')" required="required" class="form-control act_cc_actual" value="@act.Actividades.FechaRealizacion.ToString().Substring(6,4)-@act.Actividades.FechaRealizacion.ToString().Substring(3,2)-@act.Actividades.FechaRealizacion.ToString().Substring(0,2)">
+                                            <select id="act_cc_res_@ViewBag.Actividades_CC.IndexOf(act)" name="actividades_cc_usuarios_actual" required="required" oninvalid="load('none');  error_campos(2)" onchange="setActEditar(@ViewBag.Actividades_CC.IndexOf(act),'cc')" class="form-control act_cc_actual">
+                                                <option value="">Select...</option>
+                                                @foreach (var usuario in ViewBag.usuarios as IEnumerable<SistemaCC.Models.Usuario>)
+                                                {
+                                                    if (usuario.Id_U == act.Actividades.Responsable)
+                                                    {
+                                                        <option value="@usuario.Id_U" selected>@usuario.Nombre @usuario.ApePaterno @usuario.ApeMaterno</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@usuario.Id_U">@usuario.Nombre @usuario.ApePaterno @usuario.ApeMaterno</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="campos campos_ultimos">
+                                            <div class="quitar">
+                                                <a onclick="setActEliminar(@ViewBag.Actividades_CC.IndexOf(act),'cc')" class="btn btn-outline-danger cerrar">X</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="campos campos_dos">
+                            <div class="campos_ultimos seccion">
+                                <label>Servicios afectados por el control de cambio</label>
+                            </div>
+                            <div class="campos_ultimos seccion_boton">
+                                <a id="servicio_agregar" class="btn btn-info" onclick="servicio_agregar('@ViewBag.ControlServicios.Count'); return false"><span class="icon-plus-square"></span></a>
+                            </div>
+                        </div>
+                        <div id="servicio_contenedor">
+                            @foreach (var ser in ViewBag.ControlServicios as IEnumerable<SistemaCC.Models.ControlServicio>)
+                            {
+                                <input id="ser_id_@ViewBag.ControlServicios.IndexOf(ser)" value="@ser.Id_CS" type="text" hidden />
+                                <div id="servicio@(ViewBag.ControlServicios.IndexOf(ser)+1)" class="campos campos_dos">
+                                    <div class="campos campos_dos_kai">
+                                        <div name="servicio" class="campos campos_ultimos numeracion">
+                                            <div>S@(ViewBag.ControlServicios.IndexOf(ser) + 1)</div>
+                                        </div>
+                                        <div class="campos campos_ultimos">
+                                            <select id="ser_ser_@ViewBag.ControlServicios.IndexOf(ser)" name="servicio_servicios_actual" required="required" oninvalid="load('none');  error_campos(2)" onchange="setSerEditar(@ViewBag.ControlServicios.IndexOf(ser))" class="form-control">
+                                                <option value="">Select...</option>
+                                                @foreach (var s in ViewBag.servicios as IEnumerable<SistemaCC.Models.ServiciosAplicaciones>)
+                                                {
+                                                    if (s.Id_SA == ser.fk_SA)
+                                                    {
+                                                        <option value="@ser.fk_SA" selected>@s.Nombre</option>
+                                                    }
+                                                    else
+                                                    {
+
+                                                        <option value="@ser.fk_SA">@s.Nombre</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="campos campos_tres">
+                                        <div class="campos campos_ultimos">
+                                            <input id="ser_inicio_@ViewBag.ControlServicios.IndexOf(ser)" name="servicio_inicio_actual" type="date" oninvalid="load('none');  error_campos(2)" onchange="setSerEditar(@ViewBag.ControlServicios.IndexOf(ser))" required="required" class="form-control" value="@ser.FechaInicio.ToString().Substring(6,4)-@ser.FechaInicio.ToString().Substring(3,2)-@ser.FechaInicio.ToString().Substring(0,2)">
+                                        </div>
+                                        <div class="campos campos_ultimos">
+                                            <input id="ser_final_@ViewBag.ControlServicios.IndexOf(ser)" name="servicio_temino_actual" type="date" min="@ser.FechaInicio.ToString().Substring(6,4)-@ser.FechaInicio.ToString().Substring(3,2)-@ser.FechaInicio.ToString().Substring(0,2)" oninvalid="load('none');  error_campos(2)" onchange="setSerEditar(@ViewBag.ControlServicios.IndexOf(ser))" required="required" class="form-control" value="@ser.FechaFinal.ToString().Substring(6,4)-@ser.FechaFinal.ToString().Substring(3,2)-@ser.FechaFinal.ToString().Substring(0,2)">
+                                        </div>
+                                        <div class="campos campos_ultimos">
+                                            <div class="quitar">
+                                                <a onclick="setSerEliminar(@ViewBag.ControlServicios.IndexOf(ser))" class="btn btn-outline-danger cerrar">X</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="Titulo3">
+                    <h2 class="mb-0">
+                        <button class="btn btn-collapse collapsed" type="button" data-toggle="collapse" data-target="#Seccion3" aria-expanded="false" aria-controls="Seccion3">
+                            Riesgos
+                        </button>
+                    </h2>
+                </div>
+                <div id="Seccion3" class="collapse" aria-labelledby="Titulo3" data-parent="#accordionFormulario">
+                    <div class="card-body">
+                        <div class="campos campos_dos">
+                            <div class="campos_ultimos seccion">
+                                <label>Riesgos del control de cambio</label>
+                            </div>
+                            <div class="campos_ultimos seccion_boton">
+                                <a id="riesgo_agregar" class="btn btn-info" onclick="riesgo_agregar('@ViewBag.Riesgos_CC.Count'); return false"><span class="icon-plus-square"></span></a>
+                            </div>
+                        </div>
+                        <div id="riesgos_contenedor">
+                            @foreach (var r in ViewBag.Riesgos_CC as IEnumerable<SistemaCC.Models.Riesgos>)
+                            {
+                                <input id="rie_cc_id_@ViewBag.Riesgos_CC.IndexOf(r)" type="text" value="@r.Id_Ri" hidden />
+                                <div id="riesgo@(ViewBag.Riesgos_CC.IndexOf(r)+1)" class="campos campos_dos">
+                                    <div class="campos campos_dos_kai">
+                                        <div name="riesgo" class="campos campos_ultimos numeracion">
+                                            <div>R@(ViewBag.Riesgos_CC.IndexOf(r) + 1)</div>
+                                        </div>
+                                        <div class="campos campos_ultimos">
+                                            <textarea id="rie_cc_desc_@ViewBag.Riesgos_CC.IndexOf(r)" name="riesgos_descripcion_actual" maxlength="150" placeholder="Descripción" onkeyup="contar('@ViewBag.Riesgos_CC.IndexOf(r)', 'contar-riesgo-desc', 'conteo-riesgo-desc-')" oninvalid="load('none');  error_campos(3)" onchange="setRieEditar(@ViewBag.Riesgos_CC.IndexOf(r),'cc')" required="required" class="form-control contar-riesgo-desc">@r.Descripcion</textarea>
+                                            <div id="conteo-riesgo-desc-@ViewBag.Riesgos_CC.IndexOf(r)" class="campos_ultimos conteo-riesgo-desc">
+                                                <div>Caracteres: @r.Descripcion.Length/150</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="campos campos_tres">
+                                        <div class="campos campos_ultimos"></div>
+                                        <div class="campos campos_ultimos"></div>
+                                        <div class="campos campos_ultimos">
+                                            <div class="quitar">
+                                                <a onclick="setRieEliminar(@ViewBag.Riesgos_CC.IndexOf(r),'cc')" class="btn btn-outline-danger cerrar">X</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="campos campos_dos">
+                            <div class="campos_ultimos seccion">
+                                <label>Riesgos de no ejecutar el control de cambio</label>
+                            </div>
+                            <div class="campos_ultimos seccion_boton">
+                                <a id="riesgo_no_agregar" class="btn btn-info" onclick="riesgo_no_agregar('@ViewBag.Riesgos_No.Count'); return false"><span class="icon-plus-square"></span></a>
+                            </div>
+                        </div>
+                        <div id="riesgos_no_contenedor">
+                            @foreach (var r in ViewBag.Riesgos_No as IEnumerable<SistemaCC.Models.Riesgos>)
+                            {
+                                <input id="rie_no_id_@ViewBag.Riesgos_No.IndexOf(r)" type="text" value="@r.Id_Ri" hidden />
+                                <div id="riesgo_no@(ViewBag.Riesgos_No.IndexOf(r)+1)" class="campos campos_dos">
+                                    <div class="campos campos_dos_kai">
+                                        <div name="riesgo_no" class="campos campos_ultimos numeracion">
+                                            <div>R@(ViewBag.Riesgos_No.IndexOf(r) + 1)</div>
+                                        </div>
+                                        <div class="campos campos_ultimos">
+                                            <textarea id="rie_no_desc_@ViewBag.Riesgos_No.IndexOf(r)" name="riesgos_descripcion_actual" maxlength="150" placeholder="Descripción" onkeyup="contar('@ViewBag.Riesgos_No.IndexOf(r)', 'contar-riesgo_no-desc', 'conteo-riesgo_no-desc-')" oninvalid="load('none');  error_campos(3)" onchange="setRieEditar(@ViewBag.Riesgos_No.IndexOf(r),'no')" required="required" class="form-control contar-riesgo_no-desc">@r.Descripcion</textarea>
+                                            <div id="conteo-riesgo_no-desc-@ViewBag.Riesgos_No.IndexOf(r)" class="campos_ultimos conteo-riesgo_no-desc">
+                                                <div>Caracteres: @r.Descripcion.Length/150</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="campos campos_tres">
+                                        <div class="campos campos_ultimos"></div>
+                                        <div class="campos campos_ultimos"></div>
+                                        <div class="campos campos_ultimos">
+                                            <div class="quitar">
+                                                <a onclick="setRieEliminar(@ViewBag.Riesgos_No.IndexOf(r),'no')" class="btn btn-outline-danger cerrar">X</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="Titulo4">
+                    <h2 class="mb-0">
+                        <button class="btn btn-collapse collapsed" type="button" data-toggle="collapse" data-target="#Seccion4" aria-expanded="false" aria-controls="Seccion4">
+                            Anexos
+                        </button>
+                    </h2>
+                </div>
+                <div id="Seccion4" class="collapse" aria-labelledby="Titulo4" data-parent="#accordionFormulario">
+                    <div class="card-body">
+                        <div class="campos campos_dos">
+                            <div class="campos_ultimos seccion">
+                                <label>Imagenes adjuntas</label>
+                            </div>
+                            <div class="campos_ultimos seccion">
+                                <label>Documentos adjuntos</label>
+                            </div>
+                        </div>
+                        <div id="adjuntos_contenedor_actual">
+                            <div class="campos campos_dos">
+                                <div class=campos_ultimos>
+                                    @foreach (var doc in ViewBag.Documentos_imagenes as IEnumerable<SistemaCC.Models.Documentos>)
+                                    {
+                                        <input id="doc_img_id_@ViewBag.Documentos_imagenes.IndexOf(doc)" type="text" value="@doc.Id_Do" hidden />
+                                        <div id="doc_img_@ViewBag.Documentos_imagenes.IndexOf(doc)" class="campos campos_dos_kai">
+                                            <div class="campos_ultimos numeracion">
+                                                IA@(ViewBag.Documentos_imagenes.IndexOf(doc) + 1)
+                                            </div>
+                                            <div class="campos campos_dos">
+                                                <a class="fancybox-thumb" rel="fancybox-thumb" href="~/Archivos/CC_@doc.fk_CC/Adjuntos/@doc.DocPath">
+                                                    <img src="~/Archivos/CC_@doc.fk_CC/Adjuntos/@doc.DocPath" width="100%" />
+                                                </a>
+                                                <div class="campos campos_ultimos">
+                                                    <div class="quitar">
+                                                        <a onclick="setDocEliminar(@ViewBag.Documentos_imagenes.IndexOf(doc),'img')" class="btn btn-outline-danger cerrar">X</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (ViewBag.Documentos_imagenes.Count == 0)
+                                    {
+                                        <h5 class="text-center">
+                                            <span class="badge badge-secondary">No contiene imagenes adjuntas</span>
+                                        </h5>
+                                    }
+                                </div>
+                                <div class=campos_ultimos>
+                                    @foreach (var doc in ViewBag.Documentos_pdf)
+                                    {
+                                        <input id="doc_doc_id_@ViewBag.Documentos_imagenes.IndexOf(doc)" type="text" value="@doc.Id_Do" hidden />
+                                        <div id="doc_doc_@ViewBag.Documentos_imagenes.IndexOf(doc)" class="campos campos_dos_kai">
+                                            <div class="campos_ultimos numeracion">
+                                                DA@(ViewBag.Documentos_pdf.IndexOf(doc) + 1)
+                                            </div>
+                                            <div class="campos campos_dos pt-2">
+                                                <a class="fancybox2 fancybox.iframe" href="~/Archivos/CC_@doc.fk_CC/Adjuntos/@doc.DocPath">
+                                                    @doc.DocPath
+                                                </a>
+                                                <div class="campos campos_ultimos">
+                                                    <div class="quitar">
+                                                        <a onclick="setDocEliminar(@ViewBag.Documentos_imagenes.IndexOf(doc),'doc')" class="btn btn-outline-danger cerrar">X</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (ViewBag.Documentos_pdf.Count == 0)
+                                    {
+                                        <h5 class="text-center">
+                                            <span class="badge badge-secondary">No contiene documentos adjuntos</span>
+                                        </h5>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="campos campos_dos">
+                            <div class="campos_ultimos seccion">
+                                <label>Adjuntar archivos</label>
+                            </div>
+                            <div class="campos_ultimos seccion_boton">
+                                <a id="adjunto_agregar" class="btn btn-info" onclick="adjunto_agregar('0'); return false"><span class="icon-file-plus"></span></a>
+                            </div>
+                        </div>
+                        <div id="adjuntos_contenedor"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="campos campos_dos mt-3">
+            <div class="campos campos_dos">
+                <div class="campos_ultimos"></div>
+                <div class="campos_submit">
+                    <a href="~/Home/Index" class="btn btn-light">Cancelar</a>
+                </div>
+            </div>
+            <div class="campos campos_dos">
+                <div class="campos_submit">
+                    <input class="btn btn-dark" type="submit" value="Modificar" onclick="load('block')"/>
+                </div>
+            </div>
+        </div>
+    </form>
+@*}*@

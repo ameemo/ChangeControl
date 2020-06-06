@@ -180,3 +180,4 @@ C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\SistemaCC.c
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\SistemaCC.csproj.CopyComplete
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\SistemaCC.dll
 C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\obj\Debug\SistemaCC.pdb
+C:\Users\ACER\source\repos\AmeDaf\ControlCambios\SistemaCC\bin\Archivos\CC_38\Adjuntos\Protocolo_v2.pdf

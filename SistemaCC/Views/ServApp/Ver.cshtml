@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Ver";
     Layout = "./../Shared/_LayoutVacio.cshtml";
 }
@@ -14,7 +13,7 @@
             </div>
             <div class="campos_ultimos">
                 <div class="campo-ver">
-                    EJEM
+                    @ViewBag.Modelo.Acronimo
                 </div>
             </div>
         </div>
@@ -24,7 +23,7 @@
             </div>
             <div class="campos_ultimos">
                 <div class="campo-ver">
-                    NOMBRE DEL DUEÑO
+                   @ViewBag.Modelo.Usuario.Nombre
                 </div>
             </div>
         </div>
@@ -35,7 +34,7 @@
         </div>
         <div class="campos_ultimos" style="padding-left: 7%">
             <div class="campo-ver">
-                Aqui va el nombre
+                @ViewBag.Modelo.Nombre
             </div>
         </div>
     </div>
@@ -44,21 +43,7 @@
     </div>
     <div class="campos_ultimos">
         <div class="campo-ver">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sodales justo libero, vitae lacinia leo rutrum in. Nullam sagittis tempor nulla a bibendum. Aliquam turpis lectus, molestie ac nulla et, fermentum ultrices magna. Praesent arcu ligula, vulputate et enim at, posuere accumsan est. Donec bibendum aliquet elit, id auctor libero varius eget. Phasellus id mi suscipit, ullamcorper nisl ac, vulputate nulla. Praesent semper bibendum sodales. Pellentesque laoreet nunc id mollis aliquet. Mauris ac tincidunt nulla. Pellentesque scelerisque cursus massa, a vulputate nulla pretium quis. Fusce euismod felis ac ultricies sollicitudin.
-
-            Phasellus placerat cursus faucibus. Donec accumsan leo ut dolor consectetur, sed cursus felis gravida. Integer laoreet elementum neque vel rhoncus. Vivamus vulputate nisl orci, vel sagittis nisi suscipit vitae. Vivamus placerat lorem eget placerat bibendum. Fusce sit amet leo ac tortor ullamcorper interdum a sit amet metus. Nam ultrices, enim a ultricies molestie, nisl enim aliquet ipsum, quis mollis mi velit pulvinar libero. Maecenas cursus luctus justo, in gravida tortor congue at. Quisque maximus vestibulum mauris et viverra. Sed venenatis lacus ut vestibulum sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel rutrum sapien. Proin in mattis tortor.
-
-            Ut mauris felis, tempus eget ante id, ultrices lacinia arcu. Cras facilisis feugiat eros, eget scelerisque turpis auctor nec. Nam pulvinar turpis leo, a pretium ante molestie at. Aliquam aliquet eget diam quis elementum. In ut massa sed justo vestibulum bibendum. Cras tincidunt consequat facilisis. In in aliquam diam.
-
-            Proin et dolor eu lectus suscipit sagittis. Proin interdum laoreet placerat. Curabitur laoreet ex tellus, a laoreet risus elementum et. Donec egestas urna non eros commodo maximus. Fusce lobortis est vitae leo tincidunt consectetur. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam et porta lectus.
-
-            Sed condimentum tortor justo, in placerat urna feugiat sed. Cras accumsan, odio at venenatis sagittis, massa libero tempor orci, a cursus elit ipsum ac est. Phasellus elementum consectetur est, ac ultrices massa facilisis eu. Integer sit amet nibh bibendum, aliquam libero eget, luctus purus. Proin quis semper purus, in lacinia tellus. Sed eu purus elementum lectus tempor facilisis. Vivamus pretium enim eget nisl pellentesque luctus. Maecenas auctor in risus et dapibus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nulla porta nunc et vehicula ullamcorper.
-
-            Etiam ut volutpat mauris. Vestibulum molestie molestie libero, non condimentum lacus maximus in. Sed sed nibh ex. Nullam et purus non elit molestie pretium. Aliquam sagittis volutpat urna. Cras id dignissim ipsum. Proin tellus sem, feugiat eu nisi at, iaculis tincidunt dui.
-
-            Aliquam cursus eget turpis eget varius. Praesent ut semper tortor, id ultricies tortor. Suspendisse nulla tortor, condimentum eu neque ut, faucibus mattis ipsum. Nulla facilisis laoreet risus elementum viverra. In nec faucibus nunc. Donec consectetur fringilla nunc, ut mattis lorem placerat vitae. Nam suscipit dolor vel dolor consequat, vitae gravida orci lacinia.
-
-            Maecenas eleifend arcu eget lorem molestie, quis elementum turpis cursus. Donec mauris lectus, commodo et sapien at, suscipit vulputate ex. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos.
+            @ViewBag.Modelo.Descripcion
         </div>
     </div>
 </div>

@@ -1,63 +1,81 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Ver";
     Layout = "./../Shared/_LayoutVacio.cshtml";
 }
-<div class="seccion-dark">
-    <h1>Información de usuario</h1>
-</div>
-<div id="principal">
-    <div class="campos campos_dos_kai">
-        <div class="campos_ultimos">
-            <label>Nombre completo:</label>
-        </div>
-        <div class="campos_ultimos">
-            <div class="campo-ver p-2">
-                AMERICA BERENICE MONSALVO FUENTES
-            </div>
-        </div>
+
+@if (ViewData["Error"].ToString() != "")
+{
+    <div class="alert alert-danger mensaje" role="alert">
+        @ViewData["Error"]
     </div>
-    <div class="campos campos_dos_kai">
-        <div class="campos_ultimos">
-            <label>Email:</label>
-        </div>
-        <div class="campos_ultimos">
-            <div class="campo-ver p-2">
-                amonsalvof@eutelsat.com
-            </div>
-        </div>
+}
+else
+{
+    <div class="seccion-dark">
+        <h1>Información de usuario</h1>
     </div>
-    <div class="campos campos_dos_kai">
-        <div class="campos_ultimos">
-            <label>Extensión:</label>
-        </div>
-        <div class="campos_ultimos">
-            <div class="campo-ver p-2">
-                222
+    <div id="principal">
+        <div class="campos campos_dos_kai">
+            <div class="campos_ultimos">
+                <label>Nombre completo:</label>
             </div>
-        </div>
-    </div>
-    <div class="campos campos_dos_kai">
-        <div class="campos_ultimos">
-            <label>Roles:</label>
-        </div>
-        <div class="campos campos_dos">
             <div class="campos_ultimos">
                 <div class="campo-ver p-2">
-                    Admin
+                    @ViewBag.Modelo.Nombre @ViewBag.Modelo.ApePaterno @ViewBag.Modelo.ApeMaterno
                 </div>
             </div>
         </div>
-    </div>
-    <div class="campos campos_dos_kai">
-        <div class="campos_ultimos"></div>
-        <div class="campos campos_dos">
+        <div class="campos campos_dos_kai">
+            <div class="campos_ultimos">
+                <label>Email:</label>
+            </div>
             <div class="campos_ultimos">
                 <div class="campo-ver p-2">
-                    Super Admin
+                    @ViewBag.Modelo.Email
                 </div>
             </div>
         </div>
+        <div class="campos campos_dos_kai">
+            <div class="campos_ultimos">
+                <label>Extensión:</label>
+            </div>
+            <div class="campos_ultimos">
+                @if (ViewBag.Modelo.NoExt != null)
+                {
+                    <div class="campo-ver p-2">
+                        @ViewBag.Modelo.NoExt
+                    </div>
+                }
+                else
+                {
+                    <h5>
+                        <span class="badge badge-secondary">No Extensión</span>
+                    </h5>
+                }
+            </div>
+        </div>
+        <div class="campos campos_dos_kai">
+            <div class="campos_ultimos">
+                <label>Roles:</label>
+            </div>
+        </div>
+        <div class="campos campos_dos_kai">
+            @foreach (var rol in ViewBag.Roles as IEnumerable<SistemaCC.Models.UsuarioRol>)
+            {
+                <div class="campos_ultimos"></div>
+                <div class="campos_ultimos campo-ver">
+                    @rol.Roles.Rol
+                </div>
+            }
+            @if (ViewBag.Roles.Count == 0)
+            {
+                <div class="campos_ultimos">
+                    <h5>
+                        <span class="badge badge-secondary">No tiene rol asignado</span>
+                    </h5>
+                </div>
+            }
+        </div>
     </div>
-</div>
+}
 

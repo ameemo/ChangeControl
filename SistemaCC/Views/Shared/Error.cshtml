@@ -1,12 +1,17 @@
-﻿@model ErrorViewModel
-@{
+﻿@{
     ViewData["Title"] = "Error";
 }
 
 <h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<h2 class="text-danger">Ha ocurrido un problema al procesar su peticióon, puede deberse a los siguientes factores:</h2>
+<ul class="text-danger">
+    <li>No se pudó realizar la conexión con la Base de Datos.</li>
+    <li>El servidor tardo en responder.</li>
+    <li>El tamaño del archivo supero los 2Mb (2048Kb)</li>
+</ul>
+@*<h2 class="text-danger">An error occurred while processing your request.</h2>*@
 
-@if (Model.ShowRequestId)
+@*@if (Model.ShowRequestId)
 {
     <p>
         <strong>Request ID:</strong> <code>@Model.RequestId</code>
@@ -19,4 +24,4 @@
 </p>
 <p>
     <strong>Development environment should not be enabled in deployed applications</strong>, as it can result in sensitive information from exceptions being displayed to end users. For local debugging, development environment can be enabled by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>, and restarting the application.
-</p>
+</p>*@

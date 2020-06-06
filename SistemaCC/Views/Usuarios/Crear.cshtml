@@ -1,74 +1,99 @@
 ﻿@model SistemaCC.Models.Usuario
 @{
-    ViewData["Title"] = "Crear";
-    Layout = "./../Shared/_LayoutVacio.cshtml";
+    ViewData["Title"] = "Crear usuario";
 }
-<div class="seccion-dark">
-    <h1>Crear</h1>
+<div class="seccion">
+    <h1>Crear usuario</h1>
 </div>
 @using (Html.BeginForm())
 {
-    <div id="principal">
-        <div class="campos campos_tres">
+    @Html.AntiForgeryToken()
+<div id="principal">
+    <div class="campos campos_tres">
+        <div class="campos_ultimos">
+            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control mayusculas", type = "text", placeholder = "Nombre", maxLength = "50", oninvalid="load('none')", required = "required" } })
+        </div>
+        <div class="campos_ultimos">
+            @Html.EditorFor(model => model.ApePaterno, new { htmlAttributes = new { @class = "form-control mayusculas", type = "text", placeholder = "Apellido paterno", maxLength = "50", oninvalid="load('none')", required = "required" } })
+        </div>
+        <div class="campos_ultimos">
+            @Html.EditorFor(model => model.ApeMaterno, new { htmlAttributes = new { @class = "form-control mayusculas", type = "text", placeholder = "Apellido materno", maxLength = "50", oninvalid="load('none')", required = "required" } })
+        </div>
+    </div>
+    <div class="campos campos_tres">
+        <div class="campos campos_dos">
             <div class="campos_ultimos">
-                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control mayusculas", type = "text", placeholder = "Nombre", maxLength = "50", required = "required" } })
+                <label>Extensión:</label>
             </div>
             <div class="campos_ultimos">
-                @Html.EditorFor(model => model.ApePaterno, new { htmlAttributes = new { @class = "form-control mayusculas", type = "text", placeholder = "Apellido paterno", maxLength = "50", required = "required" } })
-            </div>
-            <div class="campos_ultimos">
-                @Html.EditorFor(model => model.ApeMaterno, new { htmlAttributes = new { @class = "form-control mayusculas", type = "text", placeholder = "Apellido materno", maxLength = "50", required = "required" } })
+                @Html.EditorFor(model => model.NoExt, new { htmlAttributes = new { @class = "form-control", type = "text", placeholder = "# # #", maxlength = "3", pattern = "[0-9]{3}", title = "El formato son 3 números, no admite ótros símbolos. Ejem: 158, 298, 092", oninvalid="load('none')" } })
             </div>
         </div>
-        <div class="campos campos_tres">
-            <div class="campos campos_dos">
-                <div class="campos_ultimos">
-                    <label>Extensión:</label>
-                </div>
-                <div class="campos_ultimos">
-                    @Html.EditorFor(model => model.NoExt, new { htmlAttributes = new { @class = "form-control", type = "text", placeholder = "# # #", maxlength = "3", pattern = "[0-9]{3}", title = "El formato son 3 números, no admite ótros símbolos. Ejem: 158, 298, 092" } })
-                </div>
-            </div>
-            <div class="campos_ultimos" style="text-align: right">
-                <label>Email:</label>
-            </div>
-            <div class="campos_ultimos">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", placeholder = "nombre.apellido@eutelsat.com.mx", required = "required" } })
-            </div>
+        <div class="campos_ultimos" style="text-align: right">
+            <label>Email:</label>
         </div>
-        <div class="campos campos_tres">
-            <div class="campos_ultimos">
-                <label>Roles:</label>
-            </div>
+        <div class="campos_ultimos">
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", placeholder = "nombre.apellido@eutelsat.com.mx", oninvalid="load('none')", required = "required" } })
+            @*@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", placeholder = "nombre.apellido@eutelsat.com.mx", pattern = ".+@[e][u][t][e][l][s][a][t][.][c][o][m]", title = "El dominio admitido es: @eutelsat.com", required = "required" } })*@
+            <span class="text-danger">@ViewData["ME1"]</span>
         </div>
-        <div class="campos campos_tres">
-            <div class="campos_ultimos">
-                <label class="container">
-                    Otro
-                    <input name="rol" type="checkbox">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-            <div class="campos_ultimos">
-                <label class="container">
-                    Administrador
-                    <input name="rol" type="checkbox">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-            <div class="campos_ultimos">
-                <label class="container">
-                    Super
-                    <input name="rol" type="checkbox">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
+    </div>
+    <div class="campos campos_tres">
+        <div class="campos_ultimos">
+            <label>Roles:</label>
         </div>
-        <div class="campos campos_tres">
+    </div>
+    <div class="campos campos_tres">
+        <div class="campos_ultimos"></div>
+        @foreach (var rol in ViewBag.Roles)
+        {
+            <div class="campos_ultimos">
+                <input id="@ViewBag.Roles.IndexOf(rol)" name="rol" type="checkbox">
+                @rol.Rol
+                <input type="text" class="rol_input" value="@rol.Id_Rol" hidden />
+            </div>
+        }
+    </div>
+    <div id="warning" class="alert alert-warning mensaje" role="alert">
+        @ViewData["MA"]
+    </div>
+    <div class="campos campos_dos">
+        <div class="campos campos_dos">
             <div class="campos_ultimos"></div>
             <div class="campos_submit">
-                <input class="btn btn-dark" type="submit" value="Crear" />
+                <a href="Index" class="btn btn-light">Cancelar</a>
+            </div>
+        </div>
+        <div class="campos campos_dos">
+            <div class="campos_submit">
+                <input class="btn btn-dark" type="submit" value="Crear" onclick="load('block')"/>
             </div>
         </div>
     </div>
+</div>
+}
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            var check = document.getElementsByName("rol")
+            for (var i = 0; i < check.length; i++) {
+                check[i].addEventListener("change", setNombre, false)
+            }
+            $(".fancybox").fancybox({
+                prevEffect: 'none',
+                nextEffect: 'none',
+                helpers: {
+                    title: {
+                        type: 'outside'
+                    },
+                    thumbs: {
+                        width: 100,
+                        height: 25
+                    }
+                }
+            });
+            load('none')
+        });
+    </script>
 }

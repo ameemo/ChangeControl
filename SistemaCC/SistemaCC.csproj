@@ -134,8 +134,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\Clases\Dia.cs" />
+    <Compile Include="Controllers\Clases\Notificacion.cs" />
     <Compile Include="Controllers\ControlCambioController.cs" />
+    <Compile Include="Controllers\Clases\Evento.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Clases\Mensajes.cs" />
+    <Compile Include="Controllers\MonitoreoController.cs" />
     <Compile Include="Controllers\ServAppController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
@@ -149,6 +154,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Archivos\CC_40\Adjuntos\3_fondo_perfil.jpg" />
+    <Content Include="Archivos\CC_41\Adjuntos\4_bane_fondo.jpg" />
+    <Content Include="Archivos\CC_41\Adjuntos\5_kagura_bloqueo.png" />
+    <Content Include="Archivos\CC_42\Adjuntos\7_pasto.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -157,6 +166,7 @@
       <LastGenOutput>BDControlCambio.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="wwwroot\css\calendario.css" />
     <Content Include="wwwroot\css\fancybox\blank.gif" />
     <Content Include="wwwroot\css\fancybox\fancybox_buttons.png" />
     <Content Include="wwwroot\css\fancybox\fancybox_loading%402x.gif.gif" />
@@ -178,14 +188,82 @@
     <Content Include="wwwroot\icons\logo-home.png" />
     <Content Include="wwwroot\icons\Read Me.txt" />
     <Content Include="wwwroot\icons\style.css" />
-    <Content Include="wwwroot\images\banner1.svg" />
-    <Content Include="wwwroot\images\banner2.svg" />
-    <Content Include="wwwroot\images\banner3.svg" />
-    <Content Include="wwwroot\images\logo-ipn.jpg" />
-    <Content Include="wwwroot\images\logo-ipn.png" />
-    <Content Include="wwwroot\images\logo-sep.png" />
-    <Content Include="wwwroot\images\logotipo-sep.png" />
-    <Content Include="wwwroot\images\pleca-gob.png" />
+    <Content Include="wwwroot\js\DataTables\autoFill.bootstrap.js" />
+    <Content Include="wwwroot\js\DataTables\autoFill.bootstrap.min.js" />
+    <Content Include="wwwroot\js\DataTables\autoFill.bootstrap4.js" />
+    <Content Include="wwwroot\js\DataTables\autoFill.bootstrap4.min.js" />
+    <Content Include="wwwroot\js\DataTables\autoFill.foundation.js" />
+    <Content Include="wwwroot\js\DataTables\autoFill.foundation.min.js" />
+    <Content Include="wwwroot\js\DataTables\autoFill.jqueryui.js" />
+    <Content Include="wwwroot\js\DataTables\autoFill.jqueryui.min.js" />
+    <Content Include="wwwroot\js\DataTables\autoFill.semanticui.js" />
+    <Content Include="wwwroot\js\DataTables\autoFill.semanticui.min.js" />
+    <Content Include="wwwroot\js\DataTables\buttons.bootstrap.js" />
+    <Content Include="wwwroot\js\DataTables\buttons.bootstrap.min.js" />
+    <Content Include="wwwroot\js\DataTables\buttons.bootstrap4.js" />
+    <Content Include="wwwroot\js\DataTables\buttons.bootstrap4.min.js" />
+    <Content Include="wwwroot\js\DataTables\buttons.colVis.js" />
+    <Content Include="wwwroot\js\DataTables\buttons.colVis.min.js" />
+    <Content Include="wwwroot\js\DataTables\buttons.flash.js" />
+    <Content Include="wwwroot\js\DataTables\buttons.flash.min.js" />
+    <Content Include="wwwroot\js\DataTables\buttons.foundation.js" />
+    <Content Include="wwwroot\js\DataTables\buttons.foundation.min.js" />
+    <Content Include="wwwroot\js\DataTables\buttons.html5.js" />
+    <Content Include="wwwroot\js\DataTables\buttons.html5.min.js" />
+    <Content Include="wwwroot\js\DataTables\buttons.jqueryui.js" />
+    <Content Include="wwwroot\js\DataTables\buttons.jqueryui.min.js" />
+    <Content Include="wwwroot\js\DataTables\buttons.print.js" />
+    <Content Include="wwwroot\js\DataTables\buttons.print.min.js" />
+    <Content Include="wwwroot\js\DataTables\buttons.semanticui.js" />
+    <Content Include="wwwroot\js\DataTables\buttons.semanticui.min.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.autoFill.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.autoFill.min.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.bootstrap.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.bootstrap.min.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.bootstrap4.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.bootstrap4.min.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.buttons.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.buttons.min.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.colReorder.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.colReorder.min.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.fixedColumns.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.fixedColumns.min.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.fixedHeader.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.fixedHeader.min.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.foundation.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.foundation.min.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.jqueryui.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.jqueryui.min.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.keyTable.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.keyTable.min.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.material.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.material.min.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.responsive.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.responsive.min.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.rowGroup.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.rowGroup.min.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.rowReorder.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.rowReorder.min.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.scroller.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.scroller.min.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.select.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.select.min.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.semanticui.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.semanticui.min.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.uikit.js" />
+    <Content Include="wwwroot\js\DataTables\dataTables.uikit.min.js" />
+    <Content Include="wwwroot\js\DataTables\jquery.dataTables.js" />
+    <Content Include="wwwroot\js\DataTables\jquery.dataTables.min.js" />
+    <Content Include="wwwroot\js\DataTables\responsive.bootstrap.js" />
+    <Content Include="wwwroot\js\DataTables\responsive.bootstrap.min.js" />
+    <Content Include="wwwroot\js\DataTables\responsive.bootstrap4.js" />
+    <Content Include="wwwroot\js\DataTables\responsive.bootstrap4.min.js" />
+    <Content Include="wwwroot\js\DataTables\responsive.foundation.js" />
+    <Content Include="wwwroot\js\DataTables\responsive.foundation.min.js" />
+    <Content Include="wwwroot\js\DataTables\responsive.jqueryui.js" />
+    <Content Include="wwwroot\js\DataTables\responsive.jqueryui.min.js" />
+    <Content Include="wwwroot\js\DataTables\responsive.semanticui.js" />
+    <Content Include="wwwroot\js\DataTables\responsive.semanticui.min.js" />
     <Content Include="wwwroot\js\jquery.fancybox.js" />
     <Content Include="wwwroot\js\site.js" />
     <Content Include="wwwroot\js\site.min.js" />
@@ -194,9 +272,11 @@
     <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap-theme.min.css" />
     <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
     <Content Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css" />
+    <Content Include="wwwroot\lib\bootstrap\dist\css\datatables.min.css" />
     <Content Include="wwwroot\lib\bootstrap\dist\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
     <Content Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <Content Include="wwwroot\lib\bootstrap\dist\js\datatables.min.js" />
     <Content Include="wwwroot\lib\bootstrap\dist\js\npm.js" />
     <Content Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
     <Content Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
@@ -208,6 +288,12 @@
     <Content Include="wwwroot\lib\jquery\dist\jquery.js" />
     <Content Include="wwwroot\lib\jquery\dist\jquery.min.js" />
     <Content Include="wwwroot\lib\jquery\LICENSE.txt" />
+    <Content Include="Archivos\CC_38\Adjuntos\Protocolo_v2.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Archivos\CC_39\Adjuntos\Cronograma.pdf" />
+    <Content Include="Archivos\CC_41\Adjuntos\6_Cronograma.pdf" />
+    <Content Include="Archivos\reporte1.xlsx" />
     <None Include="Models\BDControlCambio.dbml.layout">
       <DependentUpon>BDControlCambio.dbml</DependentUpon>
     </None>
@@ -244,20 +330,17 @@
     <Content Include="wwwroot\lib\jquery-validation\LICENSE.md" />
     <Content Include="wwwroot\lib\jquery\.bower.json" />
     <Content Include="wwwroot\lib\jquery\dist\jquery.min.map" />
-    <Content Include="Views\ControlCambio\AnadirAdjuntos.cshtml" />
+    <Content Include="Views\ControlCambio\Autorizar.cshtml" />
     <Content Include="Views\ControlCambio\Cerrar.cshtml" />
     <Content Include="Views\ControlCambio\Crear.cshtml" />
     <Content Include="Views\ControlCambio\Editar.cshtml" />
-    <Content Include="Views\ControlCambio\Monitorear.cshtml" />
     <Content Include="Views\ControlCambio\Notificar.cshtml" />
     <Content Include="Views\ControlCambio\Revisar.cshtml" />
     <Content Include="Views\ControlCambio\Ver.cshtml" />
-    <Content Include="Views\ServApp\Bloquear.cshtml" />
     <Content Include="Views\ServApp\Crear.cshtml" />
     <Content Include="Views\ServApp\Editar.cshtml" />
     <Content Include="Views\ServApp\Index.cshtml" />
     <Content Include="Views\ServApp\Ver.cshtml" />
-    <Content Include="Views\Usuarios\Bloquear.cshtml" />
     <Content Include="Views\Usuarios\Crear.cshtml" />
     <Content Include="Views\Usuarios\Editar.cshtml" />
     <Content Include="Views\Usuarios\Index.cshtml" />
@@ -266,11 +349,25 @@
     <Content Include="Views\Shared\_LayoutVacio.cshtml" />
     <Content Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
     <Content Include="Views\Home\CambiarContrasena.cshtml" />
-    <Content Include="Views\Home\MenuInicio.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
+    <Content Include="wwwroot\lib\bootstrap\dist\css\datatables.min.css.map" />
+    <Content Include="wwwroot\lib\bootstrap\dist\js\datatables.min.js.map" />
+    <Content Include="Views\ControlCambio\Calendario.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
+    <Content Include="Views\Shared\_Navegador.cshtml" />
+    <Content Include="Views\ControlCambio\_SharedVer.cshtml" />
+    <Content Include="Views\ControlCambio\Corregir.cshtml" />
+    <Content Include="Views\ControlCambio\_SharedEditar.cshtml" />
+    <Content Include="Views\ControlCambio\Notas.cshtml" />
+    <Content Include="Views\Monitoreo\Index.cshtml" />
+    <Content Include="Views\Monitoreo\Crear.cshtml" />
+    <Content Include="Views\ControlCambio\Autorizaciones.cshtml" />
+    <Content Include="Views\ControlCambio\Repositorio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

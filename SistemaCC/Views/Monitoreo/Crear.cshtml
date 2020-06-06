@@ -1,0 +1,63 @@
+﻿@model SistemaCC.Models.Monitoreo
+@{
+    ViewBag.Title = "Crear";
+    Layout = "./../Shared/_LayoutVacio.cshtml";
+}
+@if (ViewData["E"].ToString() != "")
+{
+    <div class="alert alert-danger mensaje" role="alert">
+        @ViewData["Error"]
+    </div>
+}
+else
+{
+    <div class="col-md-12 seccion-dark">
+        @if (ViewData["Tipo"].ToString() == "Tiempo")
+        {
+            <h1>Nuevo tiempo limite</h1>
+        }
+        else
+        {
+            <h1>Nuevo cantidad limite de controles de cambio</h1>
+        }
+    </div>
+    @using (Html.BeginForm())
+    {
+        <div class="campos campos_dos">
+            <div class="campos campos_dos">
+                <div class="campos_ultimos"></div>
+                <div class="campos_ultimos">
+                    <div class="input-numero">
+                        <a class="menos cuadro" onclick="numero_menos(); return false" href="#">
+                            <span class="icon-minus"></span>
+                        </a>
+                        <input class="form-control" id="input_numero" name="cantidad" type="text" value="01" maxlength="2" pattern="[0]{0,1}[1]{0,1}[0-9]{1}" title="El valor debe estar entre 1 y 10" oninvalid="load('none')" required />
+                        <a class="mas cuadro" onclick="numero_mas();; return false" href="#">
+                            <span class="icon-plus"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="campos campos_dos">
+                <div class="campos_ultimos pt-2">
+                    @if (ViewData["Tipo"].ToString() == "Tiempo")
+                    {
+                        <label>días</label>
+                    }
+                    else
+                    {
+                        <label>controles de cambio</label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="campos campos_tres">
+            <div class="campos_ultimos"></div>
+            <div class="campos_ultimos">
+                <div class="text-center mt-4">
+                    <input class="btn btn-dark" type="submit" value="Crear" onclick="load('block')" />
+                </div>
+            </div>
+        </div>
+    }
+}

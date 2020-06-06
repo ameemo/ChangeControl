@@ -10,18 +10,6 @@ th.link{
     cursor: auto !important;
 }
 
-.sorting {
-    background-color: #117a8b !important;
-}
-
-.asc:after {
-    content: ' ↑';
-}
-
-.desc:after {
-    content: " ↓";
-}
-
 /*Estilo paa el encabezado de la tabla, acorde con Bootstrap*/
 .table .thead-info th {
     color: white !important;

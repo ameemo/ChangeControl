@@ -678,6 +678,8 @@ namespace SistemaCC.Models
 		
 		private bool _Autorizado;
 		
+		private string _Motivo;
+		
 		private EntityRef<ControlCambio> _ControlCambio;
 		
 		private EntityRef<Usuario> _Usuario;
@@ -698,6 +700,8 @@ namespace SistemaCC.Models
     partial void OnFechaChanged();
     partial void OnAutorizadoChanging(bool value);
     partial void OnAutorizadoChanged();
+    partial void OnMotivoChanging(string value);
+    partial void OnMotivoChanged();
     #endregion
 		
 		public Autorizaciones()
@@ -835,6 +839,26 @@ namespace SistemaCC.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Motivo", DbType="VarChar(500)")]
+		public string Motivo
+		{
+			get
+			{
+				return this._Motivo;
+			}
+			set
+			{
+				if ((this._Motivo != value))
+				{
+					this.OnMotivoChanging(value);
+					this.SendPropertyChanging();
+					this._Motivo = value;
+					this.SendPropertyChanged("Motivo");
+					this.OnMotivoChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ControlCambio_Autorizaciones", Storage="_ControlCambio", ThisKey="fk_CC", OtherKey="Id_CC", IsForeignKey=true)]
 		public ControlCambio ControlCambio
 		{
@@ -946,6 +970,12 @@ namespace SistemaCC.Models
 		
 		private System.Nullable<int> _Creador;
 		
+		private string _Conclusion;
+		
+		private bool _Exito;
+		
+		private System.Nullable<System.DateTime> _FechaCierre;
+		
 		private EntitySet<ActividadesControl> _ActividadesControl;
 		
 		private EntitySet<Autorizaciones> _Autorizaciones;
@@ -982,6 +1012,12 @@ namespace SistemaCC.Models
     partial void OnEstadoChanged();
     partial void OnCreadorChanging(System.Nullable<int> value);
     partial void OnCreadorChanged();
+    partial void OnConclusionChanging(string value);
+    partial void OnConclusionChanged();
+    partial void OnExitoChanging(bool value);
+    partial void OnExitoChanged();
+    partial void OnFechaCierreChanging(System.Nullable<System.DateTime> value);
+    partial void OnFechaCierreChanged();
     #endregion
 		
 		public ControlCambio()
@@ -1057,7 +1093,7 @@ namespace SistemaCC.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Introduccion", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Introduccion", DbType="VarChar(500) NOT NULL", CanBeNull=false)]
 		public string Introduccion
 		{
 			get
@@ -1077,7 +1113,7 @@ namespace SistemaCC.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Objetivos", DbType="VarChar(150)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Objetivos", DbType="VarChar(500) NOT NULL", CanBeNull=false)]
 		public string Objetivos
 		{
 			get
@@ -1157,6 +1193,66 @@ namespace SistemaCC.Models
 					this._Creador = value;
 					this.SendPropertyChanged("Creador");
 					this.OnCreadorChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Conclusion", DbType="VarChar(500) NOT NULL", CanBeNull=false)]
+		public string Conclusion
+		{
+			get
+			{
+				return this._Conclusion;
+			}
+			set
+			{
+				if ((this._Conclusion != value))
+				{
+					this.OnConclusionChanging(value);
+					this.SendPropertyChanging();
+					this._Conclusion = value;
+					this.SendPropertyChanged("Conclusion");
+					this.OnConclusionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Exito", DbType="Bit NOT NULL")]
+		public bool Exito
+		{
+			get
+			{
+				return this._Exito;
+			}
+			set
+			{
+				if ((this._Exito != value))
+				{
+					this.OnExitoChanging(value);
+					this.SendPropertyChanging();
+					this._Exito = value;
+					this.SendPropertyChanged("Exito");
+					this.OnExitoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FechaCierre", DbType="DateTime")]
+		public System.Nullable<System.DateTime> FechaCierre
+		{
+			get
+			{
+				return this._FechaCierre;
+			}
+			set
+			{
+				if ((this._FechaCierre != value))
+				{
+					this.OnFechaCierreChanging(value);
+					this.SendPropertyChanging();
+					this._FechaCierre = value;
+					this.SendPropertyChanged("FechaCierre");
+					this.OnFechaCierreChanged();
 				}
 			}
 		}
@@ -1643,6 +1739,8 @@ namespace SistemaCC.Models
 		
 		private System.Nullable<int> _fk_CC;
 		
+		private string _TipoDoc;
+		
 		private EntityRef<ControlCambio> _ControlCambio;
 		
     #region Definiciones de métodos de extensibilidad
@@ -1655,6 +1753,8 @@ namespace SistemaCC.Models
     partial void OnDocPathChanged();
     partial void Onfk_CCChanging(System.Nullable<int> value);
     partial void Onfk_CCChanged();
+    partial void OnTipoDocChanging(string value);
+    partial void OnTipoDocChanged();
     #endregion
 		
 		public Documentos()
@@ -1723,6 +1823,26 @@ namespace SistemaCC.Models
 					this._fk_CC = value;
 					this.SendPropertyChanged("fk_CC");
 					this.Onfk_CCChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TipoDoc", DbType="VarChar(10)")]
+		public string TipoDoc
+		{
+			get
+			{
+				return this._TipoDoc;
+			}
+			set
+			{
+				if ((this._TipoDoc != value))
+				{
+					this.OnTipoDocChanging(value);
+					this.SendPropertyChanging();
+					this._TipoDoc = value;
+					this.SendPropertyChanged("TipoDoc");
+					this.OnTipoDocChanged();
 				}
 			}
 		}
@@ -1997,6 +2117,10 @@ namespace SistemaCC.Models
 		
 		private System.Nullable<int> _fk_CC;
 		
+		private bool _Activa;
+		
+		private string _Tipo;
+		
 		private EntityRef<ControlCambio> _ControlCambio;
 		
 		private EntityRef<Usuario> _Usuario;
@@ -2015,6 +2139,10 @@ namespace SistemaCC.Models
     partial void Onfk_UChanged();
     partial void Onfk_CCChanging(System.Nullable<int> value);
     partial void Onfk_CCChanged();
+    partial void OnActivaChanging(bool value);
+    partial void OnActivaChanged();
+    partial void OnTipoChanging(string value);
+    partial void OnTipoChanged();
     #endregion
 		
 		public Notificaciones()
@@ -2044,7 +2172,7 @@ namespace SistemaCC.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Contenido", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Contenido", DbType="VarChar(300)")]
 		public string Contenido
 		{
 			get
@@ -2128,6 +2256,46 @@ namespace SistemaCC.Models
 					this._fk_CC = value;
 					this.SendPropertyChanged("fk_CC");
 					this.Onfk_CCChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Activa", DbType="Bit NOT NULL")]
+		public bool Activa
+		{
+			get
+			{
+				return this._Activa;
+			}
+			set
+			{
+				if ((this._Activa != value))
+				{
+					this.OnActivaChanging(value);
+					this.SendPropertyChanging();
+					this._Activa = value;
+					this.SendPropertyChanged("Activa");
+					this.OnActivaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tipo", DbType="VarChar(15) NOT NULL", CanBeNull=false)]
+		public string Tipo
+		{
+			get
+			{
+				return this._Tipo;
+			}
+			set
+			{
+				if ((this._Tipo != value))
+				{
+					this.OnTipoChanging(value);
+					this.SendPropertyChanging();
+					this._Tipo = value;
+					this.SendPropertyChanged("Tipo");
+					this.OnTipoChanged();
 				}
 			}
 		}
@@ -2237,7 +2405,7 @@ namespace SistemaCC.Models
 		
 		private string _Servicios;
 		
-		private System.Nullable<int> _fk_CC;
+		private int _fk_CC;
 		
 		private EntityRef<ControlCambio> _ControlCambio;
 		
@@ -2255,7 +2423,7 @@ namespace SistemaCC.Models
     partial void OnRiesgosChanged();
     partial void OnServiciosChanging(string value);
     partial void OnServiciosChanged();
-    partial void Onfk_CCChanging(System.Nullable<int> value);
+    partial void Onfk_CCChanging(int value);
     partial void Onfk_CCChanged();
     #endregion
 		
@@ -2285,7 +2453,7 @@ namespace SistemaCC.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InfGeneral", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InfGeneral", DbType="VarChar(150)")]
 		public string InfGeneral
 		{
 			get
@@ -2305,7 +2473,7 @@ namespace SistemaCC.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Actividades", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Actividades", DbType="VarChar(150)")]
 		public string Actividades
 		{
 			get
@@ -2325,7 +2493,7 @@ namespace SistemaCC.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Riesgos", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Riesgos", DbType="VarChar(150)")]
 		public string Riesgos
 		{
 			get
@@ -2345,7 +2513,7 @@ namespace SistemaCC.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Servicios", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Servicios", DbType="VarChar(150)")]
 		public string Servicios
 		{
 			get
@@ -2365,8 +2533,8 @@ namespace SistemaCC.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fk_CC", DbType="Int")]
-		public System.Nullable<int> fk_CC
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fk_CC", DbType="Int NOT NULL")]
+		public int fk_CC
 		{
 			get
 			{
@@ -2416,7 +2584,7 @@ namespace SistemaCC.Models
 					}
 					else
 					{
-						this._fk_CC = default(Nullable<int>);
+						this._fk_CC = default(int);
 					}
 					this.SendPropertyChanged("ControlCambio");
 				}
@@ -3006,6 +3174,8 @@ namespace SistemaCC.Models
 		
 		private string _ClaveUnica;
 		
+		private string _Contrasena;
+		
 		private EntitySet<Actividades> _Actividades;
 		
 		private EntitySet<Autorizaciones> _Autorizaciones;
@@ -3040,6 +3210,8 @@ namespace SistemaCC.Models
     partial void OnActivoChanged();
     partial void OnClaveUnicaChanging(string value);
     partial void OnClaveUnicaChanged();
+    partial void OnContrasenaChanging(string value);
+    partial void OnContrasenaChanged();
     #endregion
 		
 		public Usuario()
@@ -3210,6 +3382,26 @@ namespace SistemaCC.Models
 					this._ClaveUnica = value;
 					this.SendPropertyChanged("ClaveUnica");
 					this.OnClaveUnicaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Contrasena", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Contrasena
+		{
+			get
+			{
+				return this._Contrasena;
+			}
+			set
+			{
+				if ((this._Contrasena != value))
+				{
+					this.OnContrasenaChanging(value);
+					this.SendPropertyChanging();
+					this._Contrasena = value;
+					this.SendPropertyChanged("Contrasena");
+					this.OnContrasenaChanged();
 				}
 			}
 		}

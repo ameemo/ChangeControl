@@ -3,48 +3,23 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/svg" href="~/wwwroot/images/miniLogoSistema.svg" />
+    <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="~/wwwroot/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/wwwroot/lib/bootstrap/dist/css/bootstrap-theme.css" />
     <link rel="stylesheet" href="~/wwwroot/css/site.css" />
     <link rel="stylesheet" href="~/wwwroot/css/tabla.css" />
     <link rel="stylesheet" href="~/wwwroot/css/jquery.fancybox.css" />
     <link rel="stylesheet" href="~/wwwroot/icons/style.css" />
+    <link href="~/wwwroot/lib/bootstrap/dist/css/datatables.min.css" rel="stylesheet" />
+    <link href="~/wwwroot/css/calendario.css" rel="stylesheet" />
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="~/Home/Index">SistemaCC</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="~/Usuarios/Index">Usuarios</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="~/ServApp/Index">Servicios y aplicaciones</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-md-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="icon-bell"></span>
-                    </a>
-                    <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item link-dark fancybox fancybox.ajax" href="~/ControlCambio/Notificar?id=0">Notificacion</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="~/Home/Privacy"><span class="icon-calendar"></span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="~/ControlCambio/Notificar?id=0"><span class="icon-log-out"></span></a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <partial name="_CookieConsentPartial" />
-
+    <div id="over" class="over"></div>
+    <div id="spinner1" class="spinner-border text-info diseño-spinner" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    @Html.Partial("~/Views/Shared/_Navegador.cshtml")
     <div class="body-content">
         @RenderBody()
         <footer>
@@ -58,7 +33,7 @@
     <script src="~/wwwroot/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/wwwroot/js/site.js"></script>
     <script src="~/wwwroot/js/jquery.fancybox.js"></script>
-    <script src="~/wwwroot/js/tabla.js"></script>
+    <script src="~/wwwroot/lib/bootstrap/dist/js/datatables.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

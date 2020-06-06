@@ -1,0 +1,35 @@
+﻿.mes {
+    display: grid;
+    grid-template-columns: 14% 15% 15% 15% 15% 15% 14%;
+}
+.mes > .nombre, .numero-grid > .numero {
+    color: #949494;
+    text-align: center;
+    max-height: 26px;
+}
+.mes > .nombre {
+    font-size: medium;
+}
+.numero-grid > .numero, .notacion {
+    font-size: x-small;
+}
+.mes > .dia, .numero-grid > .numero {
+    border: 1px #cfcfcf solid;
+    margin-left:-1px -1px -1px;
+}
+.dia, .ndia {
+    height: 88px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.dia > .numero-grid {
+    display: grid;
+    grid-template-columns: 90% 10%;
+}
+.mes > .ndia {
+    border: 1px #cfcfcf solid;
+    border-collapse: collapse;
+}
+.dia > .contenedor{
+    font-size: small !important;
+}

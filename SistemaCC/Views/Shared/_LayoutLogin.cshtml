@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/wwwroot/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/wwwroot/lib/bootstrap/dist/css/bootstrap-theme.css" />
+    <link rel="stylesheet" href="~/wwwroot/css/site.css" />
+    <link rel="stylesheet" href="~/wwwroot/css/tabla.css" />
+    <link rel="stylesheet" href="~/wwwroot/css/jquery.fancybox.css" />
+    <link rel="stylesheet" href="~/wwwroot/icons/style.css" />
+    <link href="~/wwwroot/lib/bootstrap/dist/css/datatables.min.css" rel="stylesheet" />
+    <link href="~/wwwroot/css/calendario.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="over" class="over"></div>
+    <div id="spinner1" class="spinner-border text-info diseño-spinner" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div>
+        @RenderBody()
+    </div>
+    <script src="~/wwwroot/lib/jquery/dist/jquery.js"></script>
+    <script src="~/wwwroot/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/wwwroot/js/site.js"></script>
+    <script src="~/wwwroot/js/jquery.fancybox.js"></script>
+    <script src="~/wwwroot/js/tabla.js"></script>
+    <script src="~/wwwroot/lib/bootstrap/dist/js/datatables.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
