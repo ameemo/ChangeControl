@@ -182,13 +182,16 @@ namespace SistemaCC
                 {
                     fecha = fecha.AddDays(tiempo);
                     var avisoServApp = (from cs in BD.ControlServicio where cs.FechaInicio == fecha select cs).ToList();
-                    Notificacion avisoNot = new Notificacion();
-                    avisoNot.email = true;
-                    avisoNot.servapp = avisoServApp;
-                    avisoNot.emailAdmin = admin;
-                    foreach (var aviso in avisos)
-                    {
-                        General.Email(aviso, avisoNot.getSubject(12), avisoNot.generate(12));
+                    if (avisoServApp.Count > 0)
+                    { 
+                        Notificacion avisoNot = new Notificacion();
+                        avisoNot.email = true;
+                        avisoNot.servapp = avisoServApp;
+                        avisoNot.emailAdmin = admin;
+                        foreach (var aviso in avisos)
+                        {
+                            General.Email(aviso, avisoNot.getSubject(12), avisoNot.generate(12));
+                        }
                     }
                 }
                 Thread.Sleep(86400000);

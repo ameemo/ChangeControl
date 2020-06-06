@@ -158,7 +158,6 @@
     <Content Include="Archivos\CC_41\Adjuntos\4_bane_fondo.jpg" />
     <Content Include="Archivos\CC_41\Adjuntos\5_kagura_bloqueo.png" />
     <Content Include="Archivos\CC_42\Adjuntos\7_pasto.jpg" />
-    <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Models\BDControlCambio.dbml">
@@ -179,7 +178,6 @@
     <Content Include="wwwroot\css\site.css" />
     <Content Include="wwwroot\css\site.min.css" />
     <Content Include="wwwroot\css\tabla.css" />
-    <Content Include="wwwroot\favicon.ico" />
     <Content Include="wwwroot\icons\demo-files\demo.css" />
     <Content Include="wwwroot\icons\demo-files\demo.js" />
     <Content Include="wwwroot\icons\demo.html" />
