@@ -17,14 +17,20 @@
                             <label>Contraseña nueva:</label>
                         </div>
                         <div class="campos_ultimos">
-                            <input id="nueva" name="contrasena_nueva" class="form-control" type="password" placeholder="Contraseña nueva" minlength="12" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[.,-#$%¡?¿!&=])" title="La contraseña debe tener al menos una letra mayúscula, una letra minuscula, un número y algún caracter especial (.,-#$%¡?¿!&=)" oninvalid="load('none');" required />
+                            <input id="nueva" name="contrasena_nueva" class="form-control" type="password" placeholder="Contraseña nueva" minlength="12" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$!%*.?&])([A-Za-z\d$!%*?&.]|[^ ])+" title="La contraseña debe tener al menos una letra mayúscula, una letra minuscula, un número y algún caracter especial (.,-#$%¡?¿!&=)" oninvalid="load('none');" required />
+                            <div class="show-contrasena" onclick="showContrasena('nueva')">
+                                <span id="nueva-span" class="icon-eye"></span>
+                            </div>
                             <span class="text-danger">@ViewData["ME5"]</span>
                         </div>
                         <div class="campos_ultimos">
                             <label>Confirmar Contraseña:</label>
                         </div>
                         <div class="campos_ultimos">
-                            <input name="contrasena_confirmar" class="form-control" type="password" placeholder="Confirmar contraseña" oninvalid="load('none');" required />
+                            <input id="confirmar" name="contrasena_confirmar" class="form-control" type="password" placeholder="Confirmar contraseña" oninvalid="load('none');" required />
+                            <div class="show-contrasena" onclick="showContrasena('confirmar')">
+                                <span id="confirmar-span" class="icon-eye"></span>
+                            </div>
                             <span class="text-danger">@ViewData["ME14"]</span>
                         </div>
                         <div class="campos_ultimos text-center">

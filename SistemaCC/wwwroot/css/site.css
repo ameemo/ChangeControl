@@ -52,6 +52,12 @@ div.notificacion-link > a{
 div.notificacion-link > a:hover {
     text-decoration: underline;
 }
+.nombre-sistema {
+    margin-left: -0.8% !important;
+}
+#logo-sistema {
+    width: 5%;
+}
 /*Pie del sitio*/
 div .pie {
 text-align: center;
@@ -230,7 +236,7 @@ div.campo-ver {
 }
 /*Estilo para el login*/
 .login {
-    background-image: url('/Archivos/CC_41/Adjuntos/5_kagura_bloqueo.png');
+    background-image: url('../images/FondoSistema.png');
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
@@ -250,6 +256,16 @@ div.campo-ver {
     display: grid !important;
     grid-template-rows: 13% 30% 13% 33% 20% !important;
     height: 100%;
+}
+.show-contrasena {
+    margin-top: -10%;
+    width: 10%;
+    text-align: right;
+    padding-right: 5%;
+    cursor: pointer;
+    font-size: 18px;
+    color: #6c757d;
+    margin-left: 90%;
 }
 /*Estilo para las notificaciones*/
 span.bold {

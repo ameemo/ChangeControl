@@ -21,6 +21,13 @@ function load(mostrar) {
     document.getElementById('over').style.display = mostrar;
     document.getElementById('spinner1').style.display = mostrar;
 }
+function showContrasena(id) {
+    var contrasena = document.getElementById(id)
+    var span = document.getElementById(id + '-span')
+    $(span).addClass(contrasena.getAttribute('type') == 'password' ? 'icon-eye-off' : 'icon-eye')
+    $(span).removeClass(contrasena.getAttribute('type') == 'password' ? 'icon-eye' : 'icon-eye-off')
+    contrasena.setAttribute('type', contrasena.getAttribute('type') == 'password' ? 'text' : 'password')
+}
 // Funcion para contador de caracteres
 function contar(posicion, clase, conteo_id)
 {
