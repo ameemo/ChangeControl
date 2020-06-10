@@ -62,7 +62,7 @@ div.notificacion-link > a:hover {
 div .pie {
 text-align: center;
 }
-div.pie > a {
+div.pie > a, div.pie > span {
     color: #afafaf;
 }
 /*Extra estilo para el collapse tenga el color adecuado*/
@@ -424,4 +424,9 @@ a:active.page-link {
 .badge-pill {
     padding-left: 0;
     padding-right: 0;
+}
+@media (max-width: 959px) {
+    div.link-dark {
+        padding: 1%;
+    }
 }

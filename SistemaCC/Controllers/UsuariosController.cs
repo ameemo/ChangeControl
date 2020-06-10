@@ -61,8 +61,8 @@ namespace SistemaCC.Controllers
         {
             // Notificaciones para navbar
             List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
-            var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).SingleOrDefault();
-            ViewData["NavRol"] = rol != null ? "Admin" : "Funcional";
+            var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).ToList();
+            ViewData["NavRol"] = rol.Count > 0 ? "Admin" : "Funcional";
             ViewData["NavNombre"] = (from u in BD.Usuario where u.Id_U == Sesion select u.Nombre).SingleOrDefault();
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
@@ -99,8 +99,8 @@ namespace SistemaCC.Controllers
         {
             // Notificaciones para navbar
             List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
-            var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).SingleOrDefault();
-            ViewData["NavRol"] = rol != null ? "Admin" : "Funcional";
+            var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).ToList();
+            ViewData["NavRol"] = rol.Count > 0 ? "Admin" : "Funcional";
             ViewData["NavNombre"] = (from u in BD.Usuario where u.Id_U == Sesion select u.Nombre).SingleOrDefault();
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
@@ -122,8 +122,8 @@ namespace SistemaCC.Controllers
         {
             // Notificaciones para navbar
             List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
-            var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).SingleOrDefault();
-            ViewData["NavRol"] = rol != null ? "Admin" : "Funcional";
+            var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).ToList();
+            ViewData["NavRol"] = rol.Count > 0 ? "Admin" : "Funcional";
             ViewData["NavNombre"] = (from u in BD.Usuario where u.Id_U == Sesion select u.Nombre).SingleOrDefault();
             ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
             ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
@@ -151,8 +151,8 @@ namespace SistemaCC.Controllers
                 {
                     // Notificaciones para navbar
                     List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
-                    var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).SingleOrDefault();
-                    ViewData["NavRol"] = rol != null ? "Admin" : "Funcional";
+                    var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).ToList();
+                    ViewData["NavRol"] = rol.Count > 0 ? "Admin" : "Funcional";
                     ViewData["NavNombre"] = (from u in BD.Usuario where u.Id_U == Sesion select u.Nombre).SingleOrDefault();
                     ViewBag.Notificaciones_claves = General.generarListaClave(ccs);
                     ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
@@ -178,8 +178,11 @@ namespace SistemaCC.Controllers
                 Notificacion noti = new Notificacion();
                 noti.emailAdmin = (from ur in BD.UsuarioRol where ur.fk_Rol == 3 select ur.Usuario.Email).SingleOrDefault();
                 noti.contrasena = usuario.Contrasena;
-                noti.email = true;
-                General.Email(usuario.Email, noti.getSubject(10), noti.generate(10));
+                if(collection["rol_input"] != null)
+                {
+                    noti.email = true;
+                    General.Email(usuario.Email, noti.getSubject(10), noti.generate(10));
+                }
                 return RedirectToAction("Index", new { mensaje = res == 0 ? "C7" : "E" + res });
             }
             catch(Exception e)
@@ -322,7 +325,7 @@ namespace SistemaCC.Controllers
         // GET: Usuarios/Bloquear/5
         public ActionResult Bloquear(int id)
         {
-            var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).SingleOrDefault();
+            var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).ToList();
             if(rol == null)
             {
                 return RedirectToAction("./../Home/Index");
@@ -336,7 +339,7 @@ namespace SistemaCC.Controllers
         // GET: Usuarios/Bloquear/5
         public ActionResult Desbloquear(int id)
         {
-            var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).SingleOrDefault();
+            var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).ToList();
             if (rol == null)
             {
                 return RedirectToAction("./../Home/Index");

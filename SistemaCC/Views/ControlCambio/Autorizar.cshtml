@@ -13,6 +13,12 @@
             @ViewData["MA"]
         </div>
     }
+    if (ViewData["ME"].ToString() != "")
+    {
+        <div class="alert alert-danger mensaje" role="alert">
+            @ViewData["ME"]
+        </div>
+    }
     if (ViewData["ME2"].ToString() != "")
     {<div class="alert alert-danger mensaje" role="alert">
             @ViewData["ME2"]
@@ -93,7 +99,6 @@
         <div class="campos campos_dos">
             <div class="campos_ultimos">
                 <input class="form-control" type="text" placeholder="codigo" name="codigo" oninvalid="load('none')" />
-                <span class="text-danger">@ViewData["ME"]</span>
             </div>
             <div class="campos_submit">
                 <input class="btn btn-dark" type="submit" value="Validar" name="Paso2" onclick="load('block')"/>
@@ -140,28 +145,29 @@
                 <input class="btn btn-success" type="submit" value="Continuar" disabled />
             </div>
             <div class="campos_ultimos">
-                <label>Código:</label>
+                <label>Enviar nuevo código:</label>
             </div>
         </div>
         <div class="campos campos_dos">
             <div class="campos_ultimos">
-                <input class="form-control" type="text" placeholder="codigo" name="codigo" disabled />
-                <span class="text-danger">@ViewData["ME"]</span>
+                <button type="submit" name="PasoE" class="btn btn-info submit-reenviar" onclick="load('block'); reenviarEmail()">
+                    <span class="icon-refresh-cw"></span>
+                </button>
             </div>
-            <div class="campos_submit">
+            @*<div class="campos_submit">
                 <input class="btn btn-dark" type="submit" value="Validar" name="Paso2" disabled />
-            </div>
+            </div>*@
         </div>
-        <div class="campos_ultimos"></div>
+        @*<div class="campos_ultimos"></div>
         <div class="campos_ultimos text-center">
             <label>Enviar nuevo código:</label>
         </div>
         <div class="campos_ultimos text-left">
             <input id="PasoE" type="submit" name="PasoE" hidden />
-            <a class="btn btn-info submit-reenviar" onclick="load('block'); reenviarEmail()">
+            <button type="submit" name="PasoE" class="btn btn-info submit-reenviar" onclick="load('block'); reenviarEmail()">
                 <span class="icon-refresh-cw"></span>
-            </a>
-        </div>
+            </button>
+        </div>*@
     }
 </div>
     }

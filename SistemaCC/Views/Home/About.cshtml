@@ -1,7 +1,12 @@
 ﻿@{
-    ViewData["Title"] = "About";
+    ViewData["Title"] = "Acerca de nosotros";
 }
 <h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
-
-<p>Use this area to provide additional information.</p>
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            load('none');
+        });
+    </script>
+}

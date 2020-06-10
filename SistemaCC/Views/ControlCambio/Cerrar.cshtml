@@ -24,7 +24,7 @@ else
                 </div>
                 <div class="campos_ultimos">
                     <div class="campos_ultimos">
-                        @Html.TextAreaFor(model => model.Conclusion, new { @class = "form-control contador", placeholder = "Conclusion", maxLength = "500", rows = "4", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500", oninvalid = "load('none')", onkeyup = "contar('0','contador', 'conteo-')", required = "required" })
+                        @Html.TextAreaFor(model => model.Conclusion, new { @class = "form-control contador", placeholder = "¿Cumpliste los objetivos?", maxLength = "500", rows = "4", title = "Sólo se admiten 500 caracteres como máximo, de ingresar más, se capturarán los primeros 500", oninvalid = "load('none')", onkeyup = "contar('0','contador', 'conteo-')", required = "required" })
                     </div>
                     <div id="conteo-0" class="campos_ultimos conteo">
                         <div>Caracteres: 0/500</div>

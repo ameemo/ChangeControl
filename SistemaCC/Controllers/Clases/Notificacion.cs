@@ -64,6 +64,12 @@ namespace SistemaCC.Controllers.Clases
                 case 5:
                     this.funcion = "tiene actividades asignadas y un o varios servicios se ven afectados";
                     break;
+                case 6:
+                    this.funcion = "Para ejecutar.";
+                    break;
+                case 7:
+                    this.funcion = "Para cerrar.";
+                    break;
             }
         }
         public Notificacion(string codigo, string clave)
@@ -164,11 +170,11 @@ namespace SistemaCC.Controllers.Clases
             string mensaje = "";
             if (email)
             {
-                mensaje = "Para ejecutar.<br/>El control de cambio con la clave <b>" + this.clave_cc + "</b> y fecha de ejecución de <b>" + this.fecha_ejecucion_cc + "</b> require su autorización para ser ejecutado.</br>Para ello dar click en <a href =\"" + this.dominio + "ControlCambio/Ver/" + this.id_cc + "\">" + this.clave_cc + "</a>.";
+                mensaje = this.funcion + ".<br/>El control de cambio con la clave <b>" + this.clave_cc + "</b> y fecha de ejecución de <b>" + this.fecha_ejecucion_cc + "</b> require su autorización.</br>Para ello dar click en <a href =\"" + this.dominio + "ControlCambio/Autorizar/" + this.id_cc + "\">" + this.clave_cc + "</a>.";
             }
             else
             {
-                mensaje = "Para ejecutar.&El control de cambio con la clave anterior y con fecha de ejecución de&requiere de su autorización.";
+                mensaje = this.funcion + ".&El control de cambio con la clave anterior y con fecha de ejecución de&requiere de su autorización.";
             }
             return mensaje;
         }

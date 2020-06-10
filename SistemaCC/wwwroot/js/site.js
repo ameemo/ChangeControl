@@ -545,13 +545,15 @@ function validarFechaEjecucion() {
             }
         }
         var max = new Date()
-        var mes = max.getMonth() < 9 ? '0' + (max.getMonth() + 1) : (max.getMonth() + 1)
-        fecha.setAttribute('min', max.getFullYear() + '-' + mes + '-' + max.getDate())
-        cambiarFechasE('min',  max.getFullYear() + '-' + mes + '-' + max.getDate(), false)
+        var mes = max.getMonth() < 8 ? '0' + (max.getMonth() + 1) : (max.getMonth() + 1)
+        var dia = max.getDate() < 9 ? '0' + mas.getDate() : mas.getDate()
+        fecha.setAttribute('min', max.getFullYear() + '-' + mes + '-' + dia)
+        cambiarFechasE('min',  max.getFullYear() + '-' + mes + '-' + dia, false)
         max.setDate(max.getDate() + 1)
         mes = max.getMonth() < 9 ? '0' + (max.getMonth() + 1) : (max.getMonth() + 1)
-        fecha.setAttribute('max', max.getFullYear() + '-' + mes + '-' + max.getDate())
-        cambiarFechasE('max',  max.getFullYear() + '-' + mes + '-' + max.getDate(), false)
+        dia = max.getDate() < 9 ? '0' + mas.getDate() : mas.getDate()
+        fecha.setAttribute('max', max.getFullYear() + '-' + mes + '-' + dia)
+        cambiarFechasE('max',  max.getFullYear() + '-' + mes + '-' + dia, false)
     }
     else {
         prev.style.display = 'grid';

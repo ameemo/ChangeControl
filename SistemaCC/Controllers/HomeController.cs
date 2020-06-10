@@ -84,7 +84,7 @@ namespace SistemaCC.Controllers
             int error = 0;
             try
             {
-                Notificacion notificacion = new Notificacion(cc.Id_CC, 0);
+                Notificacion notificacion = new Notificacion(cc.Id_CC, tipo == "Ejecutar" ? 6: 7);
                 notificacion.clave_cc = generarClave(cc);
                 notificacion.fecha_ejecucion_cc = cc.FechaEjecucion.ToString().Substring(0, 10);
                 // Creo la autorización para despues editarla
@@ -194,37 +194,40 @@ namespace SistemaCC.Controllers
             var actividades = (from ac in BD.ActividadesControl join a in BD.Actividades on ac.fk_Ac equals a.Id_Ac where ac.fk_CC == cc.Id_CC group a by a.Responsable).ToList();
             var servapp = (from sc in BD.ControlServicio join sa in BD.ServiciosAplicaciones on sc.fk_SA equals sa.Id_SA where sc.fk_CC == cc.Id_CC group sa by sa.Dueno).ToList();
             // si el único involucrado es el dueño se manda la notificacion sólo al super admin, si no hay serv ni act se notifica al super
-            switch(actividades.Count + servapp.Count)
+            if (!emergente)
             {
-                case 0:
-                    Usuario super = (from u in BD.UsuarioRol where u.fk_Rol == 2 select u.Usuario).SingleOrDefault();
-                    generarNotiicacionAutSA(super, cc, tipo == 1 ? "Ejecutar" : "Termino");
-                    break;
-                case 1:
-                    if(actividades.Count != 0)
-                    {
-                        if(actividades[0].Key == cc.Usuario.Id_U)
+                switch (actividades.Count + servapp.Count)
+                {
+                    case 0:
+                        Usuario super = (from u in BD.UsuarioRol where u.fk_Rol == 2 select u.Usuario).SingleOrDefault();
+                        generarNotiicacionAutSA(super, cc, tipo == 1 ? "Ejecutar" : "Termino");
+                        break;
+                    case 1:
+                        if (actividades.Count != 0)
                         {
-                            Usuario super3 = (from u in BD.UsuarioRol where u.fk_Rol == 2 select u.Usuario).SingleOrDefault();
-                            generarNotiicacionAutSA(super3, cc, tipo == 1 ? "Ejecutar" : "Termino");
+                            if (actividades[0].Key == cc.Usuario.Id_U)
+                            {
+                                Usuario super3 = (from u in BD.UsuarioRol where u.fk_Rol == 2 select u.Usuario).SingleOrDefault();
+                                generarNotiicacionAutSA(super3, cc, tipo == 1 ? "Ejecutar" : "Termino");
+                            }
                         }
-                    }
-                    else
-                    {
-                        if(servapp[0].Key == cc.Usuario.Id_U)
+                        else
                         {
-                            Usuario super3 = (from u in BD.UsuarioRol where u.fk_Rol == 2 select u.Usuario).SingleOrDefault();
-                            generarNotiicacionAutSA(super3, cc, tipo == 1 ? "Ejecutar" : "Termino");
+                            if (servapp[0].Key == cc.Usuario.Id_U)
+                            {
+                                Usuario super3 = (from u in BD.UsuarioRol where u.fk_Rol == 2 select u.Usuario).SingleOrDefault();
+                                generarNotiicacionAutSA(super3, cc, tipo == 1 ? "Ejecutar" : "Termino");
+                            }
                         }
-                    }
-                    break;
-                case 2:
-                    if((actividades[0].Key == servapp[0].Key) && actividades[0].Key == cc.Usuario.Id_U)
-                    {
-                        Usuario super2 = (from u in BD.UsuarioRol where u.fk_Rol == 2 select u.Usuario).SingleOrDefault();
-                        generarNotiicacionAutSA(super2, cc, tipo == 1 ? "Ejecutar" : "Termino");
-                    }
-                    break;
+                        break;
+                    case 2:
+                        if ((actividades[0].Key == servapp[0].Key) && actividades[0].Key == cc.Usuario.Id_U)
+                        {
+                            Usuario super2 = (from u in BD.UsuarioRol where u.fk_Rol == 2 select u.Usuario).SingleOrDefault();
+                            generarNotiicacionAutSA(super2, cc, tipo == 1 ? "Ejecutar" : "Termino");
+                        }
+                        break;
+                }
             }
             // revisar si se repiden usuario en actividades y servapp
             List<int?> ambos = new List<int?>();
@@ -259,12 +262,16 @@ namespace SistemaCC.Controllers
         {
             // Notificaciones para navbar
             List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
-            var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).SingleOrDefault();
-            ViewData["NavRol"] = rol != null ? "Admin" : "Funcional";
+            var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).ToList();
+            ViewData["NavRol"] = rol.Count > 0 ? "Admin" : "Funcional";
             string revisarrol = "Funcional";
-            if (rol != null)
+            if (rol.Count > 0 && rol.Count < 2)
             {
-                revisarrol = rol.fk_Rol == 3 ? "Admin" : "Super";
+                revisarrol = rol[0].fk_Rol == 3 ? "Admin" : "Super";
+            }
+            else
+            {
+                revisarrol = "Admin";
             }
             ViewData["RevisarRol"] = revisarrol;
             ViewData["NavNombre"] = (from u in BD.Usuario where u.Id_U == Sesion select u.Nombre).SingleOrDefault();
@@ -302,8 +309,23 @@ namespace SistemaCC.Controllers
         }
         public ActionResult About()
         {
-            ViewData["Message"] = "Your application description page 90.";
-
+            // Notificaciones para navbar
+            List<ControlCambio> ccs = (from n in BD.Notificaciones join cc in BD.ControlCambio on n.fk_CC equals cc.Id_CC where n.fk_U == Sesion && n.Activa == true select cc).ToList();
+            var rol = (from ur in BD.UsuarioRol where ur.fk_Us == Sesion && (ur.fk_Rol == 2 || ur.fk_Rol == 3) select ur).ToList();
+            ViewData["NavRol"] = rol.Count > 0 ? "Admin" : "Funcional";
+            string revisarrol = "Funcional";
+            if (rol.Count > 0 && rol.Count < 2)
+            {
+                revisarrol = rol[0].fk_Rol == 3 ? "Admin" : "Super";
+            }
+            else
+            {
+                revisarrol = "Admin";
+            }
+            ViewData["RevisarRol"] = revisarrol;
+            ViewData["NavNombre"] = (from u in BD.Usuario where u.Id_U == Sesion select u.Nombre).SingleOrDefault();
+            ViewBag.Notificaciones_claves = generarListaClave(ccs);
+            ViewBag.Notificaciones = (from n in BD.Notificaciones where n.fk_U == Sesion && n.Activa select n).ToList();
             return View();
         }
         public ActionResult Contact()
