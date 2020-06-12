@@ -22,15 +22,21 @@
     @Html.Partial("~/Views/Shared/_Navegador.cshtml")
     <div class="body-content">
         @RenderBody()
-        <footer>
-            <hr />
-            <div class="campos campos_tres pie">
-                <a href="~/Home/About">Acerca de nosotros</a>
-                <a href="~/Archivos/ManualUsuario.pdf" target="_blank">¿Necesitas ayuda?</a>
-                <span>TT-2019-A071</span>
-            </div>
-        </footer>
     </div>
+    <footer>
+        <hr />
+        <div class="campos campos_tres pie">
+            <div class="text-center">
+                <a class="pie-link" href="~/Home/About">Acerca de nosotros</a>
+            </div>
+            <div class="text-center">
+                <a class="pie-link" href="~/Archivos/ManualUsuario.pdf" target="_blank">¿Necesitas ayuda?</a>
+            </div>
+            <div class="text-center">
+                <span class="pie-span">TT-2019-A071</span>
+            </div>
+        </div>
+    </footer>
     <script src="~/wwwroot/lib/jquery/dist/jquery.js"></script>
     <script src="~/wwwroot/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/wwwroot/js/site.js"></script>

@@ -5,7 +5,9 @@ for details on configuring this project to bundle and minify static web assets. 
 .body-content {
     padding-left: 5%;
     padding-right: 5%;
-    padding-top: 3%
+    padding-top: 3%;
+    /*padding-bottom: 3%;*/
+    min-height: 75vh;
 }
 /*Seccion es para lo titulos, botones de crear y el div que une a ambos*/
 div.seccion {
@@ -60,9 +62,9 @@ div.notificacion-link > a:hover {
 }
 /*Pie del sitio*/
 div .pie {
-text-align: center;
+    padding: 1rem;
 }
-div.pie > a, div.pie > span {
+a.pie-link, span.pie-span {
     color: #afafaf;
 }
 /*Extra estilo para el collapse tenga el color adecuado*/
@@ -86,10 +88,10 @@ div.seccion-inactiva {
     display: none !important;
 }
 /*Inactivo es una clase para cambiar el color del link de la lista ul usando como base lo que bootstrap ya tiene*/
-a.inactivo, a.login-link {
+a.inactivo, a.login-link, a.nosotros-link, a.ver-documentos{
     color: #9972cb !important;
 }
-a:hover.inactivo, a:hover.login-link {
+a:hover.inactivo, a:hover.login-link, a:hover.nosotros-link {
     text-decoration: underline;
 }
 /*Estilo para crear campos dinamicos*/
@@ -364,6 +366,10 @@ span.span-aut {
 .not-contenedor::-webkit-scrollbar-track {
     border-radius: 10px;
 }
+/*Nosotros*/
+.nosotros-link {
+    font-size: large;
+}
 /*Estilo extra*/
 a.cerrar {
     color: #dc3545 !important;
@@ -391,9 +397,6 @@ label.normal::after{
 }
 .dropdown-menu, .dropdown-item {
     padding: 0 !important;
-}
-.body-content {
-    padding-bottom: 3% !important;
 }
 .custom-control-input:checked ~ .custom-control-label::before {
     border-color: #28a745 !important;
